@@ -3,6 +3,7 @@
 const express = require('express');
 const logger = require('./logger');
 const ngrok = require('ngrok');
+const http = require('http');
 const httpProxy = require('http-proxy');
 const config = require('../universal/config');
 
@@ -10,6 +11,7 @@ const frontend = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 
 const app = express();
+const server = new http.Server(app);
 
 targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const proxy = httpProxy.createProxyServer({
@@ -20,8 +22,15 @@ const proxy = httpProxy.createProxyServer({
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 app.use('/api', (req, res) => {
-  console.log("proxy to api");
   proxy.web(req, res, {target: targetUrl});
+});
+
+app.use('/ws', (req, res) => {
+  proxy.web(req, res, {target: targetUrl + '/ws'});
+});
+
+server.on('upgrade', (req, socket, head) => {
+  proxy.ws(req, socket, head);
 });
 
 // Initialize frontend middleware that will serve your JS app
@@ -34,7 +43,7 @@ app.use(frontend(webpackConfig));
 const port = process.env.PORT || 3000;
 
 // Start your app.
-app.listen(port, (err) => {
+server.listen(port, (err) => {
   if (err) {
     return logger.error(err);
   }

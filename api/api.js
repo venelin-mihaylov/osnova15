@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
+import Test from '../universal/model/Test';
 
 const app = express();
 

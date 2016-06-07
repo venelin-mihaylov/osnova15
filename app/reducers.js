@@ -17,7 +17,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 // Initial routing state
 const routeInitialState = fromJS({
-  locationBeforeTransitions: null,
+  locationBeforeTransitions: null
 });
 
 /**
@@ -28,7 +28,7 @@ function routeReducer(state = routeInitialState, action) {
     /* istanbul ignore next */
     case LOCATION_CHANGE:
       return state.merge({
-        locationBeforeTransitions: action.payload,
+        locationBeforeTransitions: action.payload
       });
     default:
       return state;
@@ -41,6 +41,6 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
-    ...asyncReducers,
+    ...asyncReducers
   });
 }
