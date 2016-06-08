@@ -1,10 +1,11 @@
 import express from 'express';
+import expressPromise from 'express-promise';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
-import Test from '../universal/model/Test';
+import TournamentRouter from './router/TournamentRouter';
 
 const app = express();
 
@@ -18,9 +19,13 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 
+app.use(expressPromise());
+
 app.use('/hello', function (req, res) {
   res.send("Hello world");
 });
+
+app.use("/tournament", TournamentRouter);
 
 if (!config.apiPort) {
   console.error('==>     ERROR: No PORT environment variable has been specified');

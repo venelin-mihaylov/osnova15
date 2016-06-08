@@ -4,6 +4,11 @@
     "react",
     "stage-0"
   ],
+  "plugins": [
+    "transform-runtime",
+    "transform-decorators-legacy",
+    "transform-react-display-name"
+  ],
   "env": {
     "production": {
       "only": [
