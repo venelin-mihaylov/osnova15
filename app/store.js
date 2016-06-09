@@ -1,12 +1,11 @@
 /**
  * Create the store with asynchronously loaded reducers
  */
-
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
-import createReducer from './reducers';
+import thunk from "redux-thunk";
+import rootReducer from './reducers/index';
 
 const sagaMiddleware = createSagaMiddleware();
 const devtools = window.devToolsExtension || (() => noop => noop);
@@ -16,6 +15,7 @@ export default function configureStore(initialState = {}, history) {
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
+    thunk,
     sagaMiddleware,
     routerMiddleware(history),
   ];
@@ -26,22 +26,19 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   const store = createStore(
-    createReducer(),
-    fromJS(initialState),
+    rootReducer,
+    initialState,
     compose(...enhancers)
   );
 
   // Create hook for async sagas
   store.runSaga = sagaMiddleware.run;
 
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
   if (module.hot) {
-    System.import('./reducers').then((reducerModule) => {
-      const createReducers = reducerModule.default;
-      const nextReducers = createReducers(store.asyncReducers);
-
-      store.replaceReducer(nextReducers);
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('reducers', () => {
+      const nextReducer = require('reducers');
+      store.replaceReducer(nextReducer);
     });
   }
 

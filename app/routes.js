@@ -35,35 +35,14 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       }
-    },    {
-      path: '/tournament',
-      name: 'tournamentListContainer',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/TournamentListContainer/reducer'),
-          System.import('containers/TournamentListContainer/sagas'),
-          System.import('containers/TournamentListContainer'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('tournamentListContainer', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
     }, {
       path: '*',
-
       name: 'notfound',
       getComponent(nextState, cb) {
         System.import('containers/NotFoundPage')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
-    },
+      }
+    }
   ];
 }

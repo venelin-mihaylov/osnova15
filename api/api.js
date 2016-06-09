@@ -5,9 +5,11 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
-import TournamentRouter from './router/TournamentRouter';
+import CRUDRouter from './router/CRUDRouter';
+import CRUDService from './service/CRUDService';
 import {Model} from 'objection';
 import Knex from 'knex';
+import TournamentModel from "../universal/model/TournamentModel";
 
 const app = express();
 
@@ -40,7 +42,7 @@ app.use('/hello', function (req, res) {
   res.send("Hello world");
 });
 
-app.use("/tournament", TournamentRouter);
+app.use("/tournament", CRUDRouter(new CRUDService(TournamentModel)));
 
 if (!config.apiPort) {
   console.error('==>     ERROR: No PORT environment variable has been specified');

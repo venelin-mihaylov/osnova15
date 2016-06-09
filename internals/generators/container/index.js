@@ -38,14 +38,19 @@ module.exports = {
     // Generate index.js and index.test.js
     const actions = [{
       type: 'add',
+      path: '../../app/containers/{{properCase name}}/{{properCase name}}.js',
+      templateFile: './container/container.js.hbs',
+      abortOnFail: true
+    }, {
+      type: 'add',
       path: '../../app/containers/{{properCase name}}/index.js',
       templateFile: './container/index.js.hbs',
-      abortOnFail: true,
+      abortOnFail: true
     }, {
       type: 'add',
       path: '../../app/containers/{{properCase name}}/tests/index.test.js',
       templateFile: './container/test.js.hbs',
-      abortOnFail: true,
+      abortOnFail: true
     }];
 
     // If they want a CSS file, add styles.css
