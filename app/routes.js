@@ -36,6 +36,28 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       }
     }, {
+      path: '/login',
+      name: 'login',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/LoginPage/sagas'),
+          System.import('containers/LoginPage/LoginPage')
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      }
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
