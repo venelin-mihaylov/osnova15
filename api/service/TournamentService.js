@@ -1,8 +1,10 @@
 import TournamentModel from "../../universal/model/TournamentModel";
+import {autobind} from "core-decorators";
 
+
+@autobind
 export default class TournamentService {
 
-  dbTable = 'tournament';
   model = null;
 
   constructor() {
@@ -10,11 +12,11 @@ export default class TournamentService {
   }
 
   list() {
-    return "Hello world";
+    return this.model.query();
   }
 
   create(data) {
-    return Tournament.query().insert(data);
+    return this.model.query().insert(data);
   }
 
   read(req, res, next) {

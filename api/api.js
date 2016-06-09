@@ -6,6 +6,8 @@ import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
 import TournamentRouter from './router/TournamentRouter';
+import {Model} from 'objection';
+import Knex from 'knex';
 
 const app = express();
 
@@ -18,8 +20,21 @@ app.use(session({
   cookie: {maxAge: 60000}
 }));
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
 app.use(expressPromise());
+
+// Initialize knex connection.
+var knex = Knex({client: 'pg', connection: {
+  host: 'localhost',
+  user: 'tcs',
+  password: 'tcs',
+  database: 'tcs'
+}});
+
+// Give the connection to objection.
+Model.knex(knex);
 
 app.use('/hello', function (req, res) {
   res.send("Hello world");
