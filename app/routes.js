@@ -49,8 +49,7 @@ export default function createRoutes(store) {
           renderRoute(component);
         });
 
-        importModules.then(([sagas, component]) => {
-          injectSagas(sagas.default);
+        importModules.then(([component]) => {
           renderRoute(component);
         });
 
