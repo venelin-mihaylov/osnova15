@@ -1,7 +1,5 @@
 "use strict";
 import React from "react";
-import {autobind} from "core-decorators";
-import UserAction from "actions/UserAction";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import MaterialField from "components/MaterialField";

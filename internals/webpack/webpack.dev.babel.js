@@ -51,8 +51,17 @@ module.exports = require('./webpack.base.babel')({
 
   // Tell babel that we want to hot-reload
   babelQuery: {
-    presets: ['react-hmre'],
-    cacheDirectory: "/tmp/babel-cache"
+    presets: [
+      'react-hmre',
+      'es2015',
+      'stage-0'
+    ],
+    cacheDirectory: "/tmp/babel-cache",
+    plugins: [
+      "transform-runtime",
+      "transform-decorators-legacy",
+      "transform-react-display-name"
+    ]
   },
 
   // Emit a source map for easier debugging

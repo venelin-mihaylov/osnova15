@@ -2,8 +2,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
-import UserAction from "actions/UserAction";
-import LoginForm from "components/LoginForm";
+import LoginForm from '../components/LoginForm';
 
 //TODO: Cleanup
 
@@ -23,7 +22,6 @@ export default class LoginPage extends React.Component {
           onSubmit={model => dispatch(Object.assign({type: 'LOGIN_REQUESTED' }, model))}
           {...rest}
         />
-      </div>
-    );
+      </div>);
   }
 }
