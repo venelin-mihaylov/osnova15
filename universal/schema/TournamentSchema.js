@@ -1,4 +1,4 @@
-const TournamentJsonSchema = {
+const TournamentSchema = {
   type: 'object',
   required: ['name'],
 
@@ -13,4 +13,4 @@ const TournamentJsonSchema = {
     }
   }
 };
-export default TournamentJsonSchema;
+export default TournamentSchema;

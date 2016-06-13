@@ -1,15 +1,18 @@
 import express from 'express';
 import expressPromise from 'express-promise';
 import session from 'express-session';
+import passport from 'passport';
 import bodyParser from 'body-parser';
 import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
-import CRUDRouter from './router/CRUDRouter';
 import CRUDService from './service/CRUDService';
 import {Model} from 'objection';
-import Knex from 'knex';
 import TournamentModel from "../universal/model/TournamentModel";
+import configureAuthRouter from './router/configureAuthRouter';
+import configureCRUDRouter from './router/configureCRUDRouter';
+import configurePassport from './config/passport/configurePassport';
+import knex from './config/knex';
 
 const app = express();
 
@@ -18,8 +21,12 @@ const server = new http.Server(app);
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
+  name: 'sessionId',
   saveUninitialized: false,
-  cookie: {maxAge: 60000}
+  cookie: {
+    httpOnly: true,
+    maxAge: 60000
+  }
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -27,22 +34,16 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(expressPromise());
 
-// Initialize knex connection.
-var knex = Knex({client: 'pg', connection: {
-  host: 'localhost',
-  user: 'tcs',
-  password: 'tcs',
-  database: 'tcs'
-}});
-
 // Give the connection to objection.
 Model.knex(knex);
 
-app.use('/hello', function (req, res) {
-  res.send("Hello world");
-});
+configurePassport(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use("/tournament", CRUDRouter(new CRUDService(TournamentModel)));
+app.use('/auth', configureAuthRouter(passport));
+app.use('/tournament', configureCRUDRouter(new CRUDService(TournamentModel)));
+
 
 if (!config.apiPort) {
   console.error('==>     ERROR: No PORT environment variable has been specified');

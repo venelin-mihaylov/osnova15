@@ -1,5 +1,6 @@
-var express = require('express');
-export default function CRUDRouter(service) {
+"use strict";
+import express from 'express';
+export default function configureCRUDRouter(service) {
   var router = express.Router();
   router.get('/', function(req, res) {
     res.json(service.list(req));

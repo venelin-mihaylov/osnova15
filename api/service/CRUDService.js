@@ -1,3 +1,4 @@
+"use strict";
 import {autobind} from "core-decorators";
 
 @autobind
