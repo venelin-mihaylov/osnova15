@@ -3,15 +3,16 @@
  */
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
+import createSagaMiddleware, {END} from 'redux-saga';
 import thunk from "redux-thunk";
 import rootReducer from './reducers/index';
 import rootSaga from './sagas/rootSaga';
 
-const sagaMiddleware = createSagaMiddleware();
-const devtools = window.devToolsExtension || (() => noop => noop);
-
 export default function configureStore(initialState = {}, history) {
+
+  const sagaMiddleware = createSagaMiddleware();
+  const devtools = window.devToolsExtension || (() => noop => noop);
+
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
@@ -32,8 +33,7 @@ export default function configureStore(initialState = {}, history) {
     compose(...enhancers)
   );
 
-  // Create hook for async sagas
-  store.runSaga = sagaMiddleware.run;
+
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
@@ -45,6 +45,9 @@ export default function configureStore(initialState = {}, history) {
 
   // Initialize it with no other reducers
   store.asyncReducers = {};
+  // Create hook for async sagas
+  store.runSaga = sagaMiddleware.run;
   store.runSaga(rootSaga);
+  store.close = () => store.dispatch(END)
   return store;
 }

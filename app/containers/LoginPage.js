@@ -2,7 +2,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
-import LoginForm from '../components/LoginForm';
+import ActionType from 'constants/ActionType';
+import LoginForm from 'components/LoginForm';
 
 //TODO: Cleanup
 
@@ -19,7 +20,7 @@ export default class LoginPage extends React.Component {
       <div>
         <h1>Login</h1>
         <LoginForm
-          onSubmit={model => dispatch(Object.assign({type: 'LOGIN_REQUESTED' }, model))}
+          onSubmit={model => dispatch(Object.assign({type: ActionType.LOGIN_USER_REQUESTED}, model))}
           {...rest}
         />
       </div>);
