@@ -1,9 +1,11 @@
 import { fork, put, take, call } from 'redux-saga/effects';
 import {takeEvery} from 'redux-saga';
 import ActionType from 'constants/ActionType';
+import CRUDActionType from 'constants/CRUDActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
 
+//<editor-fold desc="user login">
 function* doUserLogin(action) {
   try {
     const {email, password} = action;
@@ -21,7 +23,12 @@ function* doUserLogin(action) {
     yield put({ type: ActionType.LOGIN_USER_ERROR });
   }
 }
+function* watchUserLogin() {
+  yield* takeEvery(ActionType.LOGIN_USER_REQUESTED, doUserLogin);
+}
+//</editor-fold>
 
+//<editor-fold desc="user logout">
 function* doUserLogout(action) {
   try {
     const response = yield call(axios, {
@@ -34,17 +41,26 @@ function* doUserLogout(action) {
     yield put({ type: ActionType.LOGOUT_USER_ERROR });
   }
 }
-
-function* watchUserLogin() {
-  yield* takeEvery(ActionType.LOGIN_USER_REQUESTED, doUserLogin);
-}
 function* watchUserLogout() {
   yield* takeEvery(ActionType.LOGOUT_USER_REQUESTED, doUserLogout);
+}
+//</editor-fold>
+
+// CRUD Saga
+
+function doTournamentList(action) {
+  
+
+}
+
+function watchTournamentList() {
+  yield* takeEvery(ActionType.TOURNAMENT_LIST_REQUESTED, doTournamentList);
 }
 
 export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
     fork(watchUserLogout)
+
   ];
 }

@@ -41,4 +41,14 @@ export default class CRUDActionType {
     }
     return ret;
   }
+
+  /**
+   *
+   * @param string entity
+   * @param string action
+   * @returns {*}
+     */
+  static prefix(entity, action) {
+    return entity.toUpperCase() + action;
+  }
 };

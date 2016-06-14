@@ -21,14 +21,14 @@ export default class CRUDTableContainer extends React.Component {
   }
 
   onAddClick() {
-    this.props.dispatch(push(`/${this.action.dbTable}/add`));
+    this.props.dispatch(push(`/${this.entity}/add`));
   }
 
   onEditClick() {
     let record = this.getFirstSelectedRecord();
     if (!record) return;
 
-    this.props.dispatch(push(`/${this.action.dbTable}/edit/${record.id}`));
+    this.props.dispatch(push(`/${this.entity}/edit/${record.id}`));
   }
 
   onDeleteClick() {

@@ -22,7 +22,7 @@ export default class CRUDService {
     return this.model.query().findById(id);
   }
 
-  update(id, data, options = {}) {
+  update(id, data) {
     return this.model.updateAndFetchById(id, data);
   }
 
