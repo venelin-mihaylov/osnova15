@@ -13,7 +13,9 @@ const localStrategy = new LocalStrategy({
 
       if (!users.length || users.length > 1) return done(err, false, {error: "Wrong username or password"});
       if(password == users[0].password) {
-        return done(null, users[0]);
+        return done(null, {
+          email: users[0].email
+        });
       } else {
         return done(null, false, {error: "Wrong username or password2"});
       }

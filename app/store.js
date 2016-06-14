@@ -6,7 +6,7 @@ import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware, {END} from 'redux-saga';
 import thunk from "redux-thunk";
 import rootReducer from './reducers/index';
-import rootSaga from './sagas/rootSaga';
+import rootSaga from './sagas';
 
 export default function configureStore(initialState = {}, history) {
 
@@ -40,6 +40,11 @@ export default function configureStore(initialState = {}, history) {
     module.hot.accept('reducers', () => {
       const nextReducer = require('reducers');
       store.replaceReducer(nextReducer);
+    });
+
+    module.hot.accept('sagas', () => {
+      const rootSaga = require('sagas');
+      store.runSaga(rootSaga);
     });
   }
 

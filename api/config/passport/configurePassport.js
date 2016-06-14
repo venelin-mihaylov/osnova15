@@ -1,5 +1,6 @@
 import localStrategy from './localStrategy';
 export default function configurePassport(passport) {
+
   passport.serializeUser(function(user, done) {
     done(null, JSON.stringify(user));
   });

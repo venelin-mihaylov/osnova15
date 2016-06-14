@@ -5,7 +5,8 @@ export default function user(state = {
   error: '',
   loading: false,
   authenticated: false,
-  fieldErrors: {}
+  fieldErrors: {},
+  user: {}
 }, action = {}) {
   switch (action.type) {
     case ActionType.LOGIN_USER_START:
@@ -17,7 +18,8 @@ export default function user(state = {
       return Object.assign({}, state, {
         loading: false,
         authenticated: true,
-        error: ''
+        error: '',
+        user: action.user
       });
     case ActionType.LOGIN_USER_ERROR:
       return Object.assign({}, state, {
@@ -50,7 +52,8 @@ export default function user(state = {
     case ActionType.LOGOUT_USER_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
-        authenticated: false
+        authenticated: false,
+        user: action.user
       });
     case ActionType.LOGOUT_USER_ERROR:
       return Object.assign({}, state, {

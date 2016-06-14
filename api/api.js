@@ -14,10 +14,17 @@ import configureCRUDRouter from './router/configureCRUDRouter';
 import configurePassport from './config/passport/configurePassport';
 import knex from './config/knex';
 
-const app = express();
+// Give the connection to objection.
+Model.knex(knex);
 
+const app = express();
 const server = new http.Server(app);
 
+//<editor-fold desc="Express">
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,
@@ -28,23 +35,22 @@ app.use(session({
     maxAge: 60000
   }
 }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
 app.use(expressPromise());
+//</editor-fold>
 
-// Give the connection to objection.
-Model.knex(knex);
-
+//<editor-fold desc="Passport.js">
 configurePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+//</editor-fold>
 
+//<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport));
 app.use('/tournament', configureCRUDRouter(new CRUDService(TournamentModel)));
+//</editor-fold>
 
 
+//<editor-fold desc="Bind to port">
 if (!config.apiPort) {
   console.error('==>     ERROR: No PORT environment variable has been specified');
   process.exit();
@@ -57,7 +63,9 @@ const runnable = app.listen(config.apiPort, (err) => {
   console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
   console.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
 });
+//</editor-fold>
 
+//<editor-fold desc="Socket.IO">
 const io = new SocketIo(server);
 const bufferSize = 100;
 const messageBuffer = new Array(bufferSize);
@@ -84,3 +92,4 @@ io.on('connection', (socket) => {
   });
 });
 io.listen(runnable);
+//</editor-fold>
