@@ -1,5 +1,5 @@
 "use strict";
-import FKActionType from "utils/FKActionType";
+import FKActionType from "../constants/FKActionType";
 export default function createFKReducer(object) {
   return function (state = {
     loading: false,

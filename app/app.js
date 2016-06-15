@@ -19,6 +19,8 @@ import {applyRouterMiddleware, Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import useScroll from 'react-router-scroll';
 import configureStore from './store';
+import injectTapEventPlugin from "react-tap-event-plugin";
+import {Icon} from 'react-fa'; // unused import to get font-awesome, hack :(
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/lib/sanitize.css';
@@ -33,23 +35,20 @@ const store = configureStore(initialState, browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
 // Set up the router, wrapping all Routes in the App component
-import App from 'containers/App';
 import createRoutes from './routes';
-const rootRoute = {
-  component: App,
-  childRoutes: createRoutes(store),
-};
-
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme";
+
+// required for material-ui to work
+injectTapEventPlugin();
 
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
       <Router
         history={history}
-        routes={rootRoute}
+        routes={createRoutes(store)}
         render={
         // Scroll to top when going to a new page, imitating default browser
         // behaviour

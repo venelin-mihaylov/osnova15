@@ -1,5 +1,5 @@
-import CRUDActionType from "utils/CRUDActionType";
-import ForeignKeyActionType from "utils/FKActionType";
+import CRUDActionType from "constants/CRUDActionType";
+import ForeignKeyActionType from "constants/FKActionType";
 
 const ActionType = Object.assign({
     TOGGLE_LOGIN_MODE: 'TOGGLE_LOGIN_MODE',

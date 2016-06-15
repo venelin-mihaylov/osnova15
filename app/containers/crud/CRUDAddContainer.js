@@ -2,8 +2,7 @@
 import React from "react";
 import {autobind} from "core-decorators";
 import {actions} from "react-redux-form";
-import {formModel} from "util/Util";
-
+import {formModel} from "utils/Util";
 
 @autobind
 class CRUDAddContainer extends React.Component {
@@ -11,11 +10,11 @@ class CRUDAddContainer extends React.Component {
   action = null;
 
   componentWillMount() {
-    this.props.dispatch(actions.reset(formModel(this.action.dbTable)));
+    this.props.dispatch(actions.reset(formModel('tournasment')));
   }
 
   onSubmit(record) {
-    this.props.dispatch(this.action.createRecord(record));
+    this.props.dispatch();
   }
 
 }

@@ -49,6 +49,8 @@ export default class CRUDActionType {
    * @returns {*}
      */
   static prefix(entity, action) {
-    return entity.toUpperCase() + action;
+    return entity.toUpperCase() + '_' + action;
   }
+
+  static entityActionType = entity => actionType => CRUDActionType.prefix(entity, actionType);
 };

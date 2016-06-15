@@ -22,6 +22,7 @@ class TournamentTable extends React.Component {
     onEditClick: React.PropTypes.func,
     onDeleteClick: React.PropTypes.func,
     onLimitChange: React.PropTypes.func,
+    onRefresh: React.PropTypes.func,
     limit: React.PropTypes.number,
     toolbarTitle: React.PropTypes.string.isRequired,
     data: React.PropTypes.array,
@@ -39,6 +40,7 @@ class TournamentTable extends React.Component {
           onEditClick={this.props.onEditClick}
           onDeleteClick={this.props.onDeleteClick}
           onLimitChange={this.props.onLimitChange}
+          onRefresh={this.props.onRefresh}
           title={this.props.toolbarTitle}
           limit={this.props.limit}
         />

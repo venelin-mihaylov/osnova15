@@ -29,7 +29,7 @@ function* watchUserLogin() {
 //</editor-fold>
 
 //<editor-fold desc="user logout">
-function* doUserLogout(action) {
+function* doUserLogout() {
   try {
     yield call(axios, {
       url: '/api/auth/logout',
@@ -48,23 +48,23 @@ function* watchUserLogout() {
 
 // CRUD Saga
 
-function doTournamentList(action) {
+function* doTournamentList(action) {
+  console.log("do tournament list");
   try {
     const response = yield call(axios, {
       url: '/api/tournament',
       method: 'get',
       params: {
-        limit: action.limit,
-        offset: action.offset
+        page: action.page
       }
     });
-    yield put({type: ActionType.TOURNAMENT_LIST_SUCCESS, records: response.records});
+    yield put({type: ActionType.TOURNAMENT_LIST_SUCCESS, records: response.data});
   } catch(err) {
     yield put({ type: ActionType.TOURNAMENT_LIST_ERROR, error: err});
   }
 }
 
-function watchTournamentList() {
+function* watchTournamentList() {
   yield* takeEvery(ActionType.TOURNAMENT_LIST_REQUESTED, doTournamentList);
 }
 

@@ -27,33 +27,46 @@ class TableToolbar extends React.Component {
   };
 
   render() {
+
+    const {
+      title,
+      onAddClick,
+      onEditClick,
+      onDeleteClick,
+      limit,
+      onLimitChange,
+      onRefresh
+
+    } = this.props;
+
     return (
       <Toolbar>
         <ToolbarGroup firstChild={true} float="left">
           <RaisedButton
             label="add"
             primary={true}
-            onClick={this.props.onAddClick}
+            onClick={onAddClick}
             icon={<FontIcon className="fa fa-plus"/>}
           />
           <RaisedButton
             label="edit"
             primary={true}
-            onClick={this.props.onEditClick}
+            onClick={onEditClick}
             icon={<FontIcon className="fa fa-pencil"/>}
           />
           <RaisedButton
             label="delete"
             secondary={true}
-            onClick={this.props.onDeleteClick}
+            onClick={onDeleteClick}
             icon={<FontIcon className="fa fa-trash"/>}
           />
         </ToolbarGroup>
         <ToolbarGroup float="right">
-          <ToolbarTitle text={this.props.title}/>
+          <ToolbarTitle text={title}/>
+          <FontIcon className="fa fa-refresh fa-3x" onClick={onRefresh} style={{marginRight: 20}}/>
           <ListLimitMenu
-            onLimitChange={this.props.onLimitChange}
-            limit={this.props.limit}
+            onLimitChange={onLimitChange}
+            limit={limit}
           />
         </ToolbarGroup>
       </Toolbar>

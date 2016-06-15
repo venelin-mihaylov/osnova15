@@ -4,7 +4,7 @@ import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
 import {Form} from "react-redux-form";
 import MaterialField from "components/MaterialField";
-import {formModel, formModelField} from "util/Util";
+import {formModel, formModelField} from "utils/Util";
 
 
 export default class TournamentForm extends React.Component {

@@ -5,8 +5,6 @@ import {autobind} from "core-decorators";
 @autobind
 class CRUDEditContainer extends React.Component {
 
-  action = null;
-
   static propTypes = {
     params: React.PropTypes.shape({
       id: React.PropTypes.string.isRequired

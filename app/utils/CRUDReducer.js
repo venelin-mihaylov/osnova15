@@ -1,5 +1,5 @@
 "use strict";
-import CRUDActionType from "utils/CRUDActionType";
+import CRUDActionType from "constants/CRUDActionType";
 
 export default function createCRUDReducer(object) {
   return function (state = {
