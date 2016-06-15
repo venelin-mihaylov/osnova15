@@ -10,12 +10,13 @@ export default function createCRUDReducer(object) {
     loading: false, // are we loading from the server?
     saving: false, // are we saving to the server?
     record: null, //  currently edited record
-    deleteId: null // id to delete / deleted id
+    deleteId: null, // id to delete / deleted id
 
     listError: false, // list error
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
     listFilters: null, // list filters
+    listPage: 1, // list page
     listLimit: 100, // list limit
   }, action = {}) {
     let addPrefix = type => `${object.toUpperCase()}_${type}`;
@@ -37,7 +38,7 @@ export default function createCRUDReducer(object) {
       case addPrefix(CRUDActionType.LIST_ERROR):
         return Object.assign({}, state, {
           loading: false,
-          listError: action.error
+          listError: action.error,
           listRecords: []
         });
       case addPrefix(CRUDActionType.READ_START):
@@ -103,7 +104,11 @@ export default function createCRUDReducer(object) {
         });
       case addPrefix(CRUDActionType.LIST_SET_LIMIT):
         return Object.assign({}, state, {
-          limit: action.limit
+          listLimit: action.limit
+        });
+      case addPrefix(CRUDActionType.LIST_SET_PAGE):
+        return Object.assign({}, state, {
+          listPage: action.page
         });
       default:
         return state;

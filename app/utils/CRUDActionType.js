@@ -20,6 +20,7 @@ export default class CRUDActionType {
   static DELETE_ERROR = 'DELETE_ERROR';
 
   static LIST_SET_LIMIT = 'LIST_SET_LIMIT';
+  static LIST_SET_PAGE = 'LIST_SET_PAGE';
 
   static create(object) {
     var ret = {};

@@ -31,7 +31,7 @@ function* watchUserLogin() {
 //<editor-fold desc="user logout">
 function* doUserLogout(action) {
   try {
-    const response = yield call(axios, {
+    yield call(axios, {
       url: '/api/auth/logout',
       method: 'post'
     });
@@ -49,8 +49,19 @@ function* watchUserLogout() {
 // CRUD Saga
 
 function doTournamentList(action) {
-  
-
+  try {
+    const response = yield call(axios, {
+      url: '/api/tournament',
+      method: 'get',
+      params: {
+        limit: action.limit,
+        offset: action.offset
+      }
+    });
+    yield put({type: ActionType.TOURNAMENT_LIST_SUCCESS, records: response.records});
+  } catch(err) {
+    yield put({ type: ActionType.TOURNAMENT_LIST_ERROR, error: err});
+  }
 }
 
 function watchTournamentList() {
@@ -60,7 +71,7 @@ function watchTournamentList() {
 export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
-    fork(watchUserLogout)
-
+    fork(watchUserLogout),
+    fork(watchTournamentList)
   ];
 }
