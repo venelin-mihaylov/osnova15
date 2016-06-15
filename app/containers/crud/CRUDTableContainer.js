@@ -6,24 +6,9 @@ import {push} from "react-router-redux";
 @autobind
 export default class CRUDTableContainer extends React.Component {
 
-  state = {
-    selection: []
-  };
+  
 
-  withFirstSelectedRecord(cb) {
-    let record = this.getFirstSelectedRecord();
-    if (!record) return;
-
-    return cb(record);
-  }
-
-  getFirstSelectedRecord() {
-    if (!this.state.selection.length) return null;
-
-    let idx = this.state.selection[0];
-    let data = this.data.records.value();
-    return data[idx];
-  }
+  
 
   onAddClick() {
   }
@@ -43,7 +28,5 @@ export default class CRUDTableContainer extends React.Component {
     this.props.dispatch(this.action.setListLimit(limit));
   }
 
-  onRowSelection(selection) {
-    this.state.selection = selection;
-  }
+  
 }
