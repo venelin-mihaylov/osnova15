@@ -9,17 +9,17 @@ import {formModel, formModelField} from "utils/Util";
 
 export default class TournamentForm extends React.Component {
 
-  dbTable = 'tournament';
-
   render() {
     const {
-      onSubmit
+      onSubmit,
+      onReset,
+      entity
     } = this.props;
 
     return (
       <div>
-        <Form onSubmit={onSubmit} model={formModel(this.dbTable)}>
-          <MaterialField model={formModelField(this.dbTable, 'name')}>
+        <Form onSubmit={onSubmit} model={formModel(entity)}>
+          <MaterialField model={formModelField(entity, 'name')}>
             <TextField
               required
               hintText="name"
@@ -35,7 +35,7 @@ export default class TournamentForm extends React.Component {
           />
           <RaisedButton label="Reset"
                         secondary={true}
-                        onClick={(event) => {}}
+                        onClick={onReset}
                         style={{margin: 5}}
           />
         </Form>

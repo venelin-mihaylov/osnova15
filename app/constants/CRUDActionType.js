@@ -1,7 +1,7 @@
 "use strict";
 export default class CRUDActionType {
 
-  static CREATE_REQUESTED = 'CREATED_REQUESTED';
+  static CREATE_REQUESTED = 'CREATE_REQUESTED';
   static CREATE_START = 'CREATE_START';
   static CREATE_SUCCESS = 'CREATE_SUCCESS';
   static CREATE_ERROR = 'CREATE_ERROR';

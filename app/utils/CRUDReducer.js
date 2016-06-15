@@ -22,7 +22,7 @@ export default function createCRUDReducer(object) {
     let addPrefix = type => `${object.toUpperCase()}_${type}`;
 
     switch (action.type) {
-      case addPrefix(CRUDActionType.LIST_START):
+      case addPrefix(CRUDActionType.LIST_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           listLoading: true,
@@ -41,7 +41,7 @@ export default function createCRUDReducer(object) {
           listError: action.error,
           listRecords: []
         });
-      case addPrefix(CRUDActionType.READ_START):
+      case addPrefix(CRUDActionType.READ_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           loading: true,
@@ -63,7 +63,7 @@ export default function createCRUDReducer(object) {
           globalError: action.globalError,
           record: null
         });
-      case addPrefix(CRUDActionType.UPDATE_START):
+      case addPrefix(CRUDActionType.UPDATE_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           saving: true
@@ -82,7 +82,7 @@ export default function createCRUDReducer(object) {
           globalError: action.globalError,
           fieldErrors: action.fieldErrors
         });
-      case addPrefix(CRUDActionType.DELETE_START):
+      case addPrefix(CRUDActionType.DELETE_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           saving: true,

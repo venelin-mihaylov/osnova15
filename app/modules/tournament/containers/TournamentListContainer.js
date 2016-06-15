@@ -40,7 +40,7 @@ class TournamentListContainer extends React.Component {
     return <TournamentTable
       onAddClick={() => (dispatch(push(`/${this.entity}/add`)))}
       onEditClick={() => this.withFirstSelectedRecord(record => dispatch(push(`/${this.entity}/edit/${record.id}`)))}
-      onDeleteClick={() => this.withFirstSelectedRecord(record => dispatch({type: entityActionType(CRUDActionType.DELETE_REQUESTED), id: record.id}))}
+      onDeleteClick={record => this.withFirstSelectedRecord(record => dispatch({type: entityActionType(CRUDActionType.DELETE_REQUESTED), id: record.id}))}
       onLimitChange={(event, limit) => dispatch({type: entityActionType(CRUDActionType.LIST_SET_LIMIT), limit: limit })}
       onRefresh={() => dispatch({type: entityActionType(CRUDActionType.LIST_REQUESTED)})}
       data={listRecords}

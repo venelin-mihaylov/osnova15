@@ -10,7 +10,7 @@ class CRUDAddContainer extends React.Component {
   action = null;
 
   componentWillMount() {
-    this.props.dispatch(actions.reset(formModel('tournasment')));
+    this.props.dispatch(actions.reset(formModel('tournament')));
   }
 
   onSubmit(record) {
