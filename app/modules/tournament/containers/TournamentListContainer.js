@@ -4,34 +4,25 @@ import {autobind} from "core-decorators";
 import {connect} from "react-redux";
 import {push} from 'react-router-redux';
 import TournamentTable from "modules/tournament/components/TournamentTable";
-import CRUDActionType from 'constants/CRUDActionType';
 import HasSelectionHOC from 'hoc/HasSelectionHOC';
+import ListContainerHOC from 'hoc/ListContainerHOC';
 
 @connect(state => ({redux: state.tournament}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-class TournamentListContainer extends React.Component {
-
-  entity = 'tournament';
-
-  componentWillMount() {
-    this.props.dispatch({type: CRUDActionType.prefix(this.entity, CRUDActionType.LIST_REQUESTED)})
-  }
+@ListContainerHOC('tournament')
+export default class TournamentListContainer extends React.Component {
 
   render() {
     const {
-      dispatch,
-      withFirstSelection,
-      onRowSelection,
       redux: {
         listRecords,
         listLoading,
         listError,
-        listPage,
         listLimit
-      }
+      },
+      ...rest
     } = this.props;
-    const prefix = CRUDActionType.prefixActionType(this.entity);
 
     if(listLoading) {
       return <p>Loading ...</p>;
@@ -41,14 +32,8 @@ class TournamentListContainer extends React.Component {
     }
 
     return <TournamentTable
-      onAddClick={() => (dispatch(push(`/${this.entity}/add`)))}
-      onEditClick={record => withFirstSelection(record => dispatch(push(`/${this.entity}/edit/${record.id}`)))}
-      onDeleteClick={record => withFirstSelection(record => dispatch({type: prefix(CRUDActionType.DELETE_REQUESTED), id: record.id}))}
-      onLimitChange={(event, limit) => dispatch({type: prefix(CRUDActionType.LIST_SET_LIMIT), limit: limit })}
-      onRefresh={() => dispatch({type: prefix(CRUDActionType.LIST_REQUESTED)})}
       data={listRecords}
       toolbarTitle="Tournaments"
-      onRowSelection={onRowSelection}
       limit={listLimit}
       columns={[{
         name: 'name',
@@ -57,7 +42,7 @@ class TournamentListContainer extends React.Component {
         name: 'startDate',
         label: 'Стартиращ на'
       }]}
+      {...rest}
     />;
   }
 }
-export default TournamentListContainer;

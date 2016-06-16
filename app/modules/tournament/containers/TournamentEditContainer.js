@@ -26,13 +26,14 @@ class TournamentEditContainer extends CRUDEditContainer {
     let c = this.check();
     if (c) return c;
 
+    const act = CRUDActionType.act(this.entity);
     const {
       dispatch,
       ...rest
     } = this.props;
 
     return <TournamentEdit
-      onSubmit={record => dispatch({type: this.prefix(CRUDActionType.UPDATE_REQUESTED), record})}
+      onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
       entity={this.entity}
       {...rest}
     />;

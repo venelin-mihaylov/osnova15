@@ -48,4 +48,9 @@ export default class CRUDActionType {
   }
 
   static prefixActionType = entity => actionType => CRUDActionType.prefix(entity, actionType);
+  static act = entity => (actionType, rest = {}) => {
+    return Object.assign({
+      type: CRUDActionType.prefix(entity, actionType)
+    }, rest)
+  }
 };

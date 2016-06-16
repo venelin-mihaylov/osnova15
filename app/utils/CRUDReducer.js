@@ -60,7 +60,7 @@ export default function createCRUDReducer(object) {
         return Object.assign({}, state, {
           params: action.params,
           loading: false,
-          globalError: action.globalError,
+          globalError: action.globalError || "Error occurred",
           record: null
         });
       case addPrefix(CRUDActionType.UPDATE_REQUESTED):
@@ -79,7 +79,7 @@ export default function createCRUDReducer(object) {
           params: action.params,
           saving: false,
           record: action.record,
-          globalError: action.globalError,
+          globalError: action.globalError || "Error occurred",
           fieldErrors: action.fieldErrors
         });
       case addPrefix(CRUDActionType.DELETE_REQUESTED):
@@ -99,7 +99,7 @@ export default function createCRUDReducer(object) {
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
-          globalError: action.globalError,
+          globalError: action.globalError || "Error occurred",
           deleteId: action.id
         });
       case addPrefix(CRUDActionType.LIST_SET_LIMIT):
