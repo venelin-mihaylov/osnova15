@@ -48,6 +48,23 @@ function* watchUserLogout() {
 
 // CRUD Saga
 
+function* doTournamentRead(action) {
+  try {
+    const response = yield call(axios, {
+      url: `/api/tournament/${action.id}`,
+      method: 'get'
+    });
+    yield put({type: ActionType.TOURNAMENT_READ_SUCCESS, record: response.data});
+  } catch(err) {
+    yield put({ type: ActionType.TOURNAMENT_READ_ERROR, error: err});
+  }
+}
+
+function* watchTournamentRead() {
+  yield* takeEvery(ActionType.TOURNAMENT_READ_REQUESTED, doTournamentRead);
+}
+
+
 function* doTournamentDelete(action) {
   try {
     yield call(axios, {
@@ -55,7 +72,7 @@ function* doTournamentDelete(action) {
       method: 'delete'
     });
     yield put({type: ActionType.TOURNAMENT_DELETE_SUCCESS});
-    yield put(push('/tournament'));
+    yield put({type: ActionType.TOURNAMENT_LIST_REQUESTED});
   } catch(err) {
     yield put({ type: ActionType.TOURNAMENT_DELETE_ERROR, error: err});
   }
@@ -109,6 +126,8 @@ export default function* rootSaga() {
     fork(watchUserLogout),
     fork(watchTournamentList),
     fork(watchTournamentAdd),
-    fork(watchTournamentDelete)
+    fork(watchTournamentDelete),
+    fork(watchTournamentRead),
+
   ];
 }

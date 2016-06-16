@@ -11,14 +11,6 @@ class CRUDEditContainer extends React.Component {
     })
   };
 
-  onSubmit(record) {
-    this.props.dispatch(this.action.updateRecord(this.props.params.id, record));
-  }
-
-  componentWillMount() {
-    this.props.dispatch(this.action.readRecord(this.props.params.id));
-  }
-
   check() {
     if (this.props.redux.loading) {
       return <p>Loading...</p>;

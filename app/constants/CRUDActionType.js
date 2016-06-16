@@ -2,29 +2,24 @@
 export default class CRUDActionType {
 
   static CREATE_REQUESTED = 'CREATE_REQUESTED';
-  static CREATE_START = 'CREATE_START';
   static CREATE_SUCCESS = 'CREATE_SUCCESS';
   static CREATE_ERROR = 'CREATE_ERROR';
 
   static READ_REQUESTED = 'READ_REQUESTED';
-  static READ_START = 'READ_START';
   static READ_SUCCESS = 'READ_SUCCESS';
   static READ_ERROR = 'READ_ERROR';
 
   static RESET = 'RESET';
 
   static UPDATE_REQUESTED = 'UPDATE_REQUESTED';
-  static UPDATE_START = 'UPDATE_START';
   static UPDATE_SUCCESS = 'UPDATE_SUCCESS';
   static UPDATE_ERROR = 'UPDATE_ERROR';
 
   static DELETE_REQUESTED = 'DELETE_REQUESTED';
-  static DELETE_START = 'DELETE_START';
   static DELETE_SUCCESS = 'DELETE_SUCCESS';
   static DELETE_ERROR = 'DELETE_ERROR';
 
   static LIST_REQUESTED = 'LIST_REQUESTED';
-  static LIST_START = 'LIST_START';
   static LIST_SUCCESS = 'LIST_SUCCESS';
   static LIST_ERROR = 'LIST_ERROR';
 
@@ -52,5 +47,5 @@ export default class CRUDActionType {
     return entity.toUpperCase() + '_' + action;
   }
 
-  static entityActionType = entity => actionType => CRUDActionType.prefix(entity, actionType);
+  static prefixActionType = entity => actionType => CRUDActionType.prefix(entity, actionType);
 };

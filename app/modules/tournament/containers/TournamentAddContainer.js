@@ -18,7 +18,7 @@ class TournamentAddContainer extends CRUDAddContainer {
       ...rest
     } = this.props;
 
-    var entityActionType = CRUDActionType.entityActionType(this.entity);
+    var entityActionType = CRUDActionType.prefixActionType(this.entity);
 
     return (<TournamentAdd
       onSubmit={model => dispatch({
