@@ -1,5 +1,10 @@
 "use strict";
 import express from 'express';
+/**
+ *
+ * @param CRUDService service
+ * @returns {*}
+ */
 export default function configureCRUDRouter(service) {
   var router = express.Router();
   router.get('/', function(req, res) {
@@ -12,7 +17,7 @@ export default function configureCRUDRouter(service) {
     res.json(service.create(req.body));
   });
   router.post('/:id', function(req, res) {
-    res.json(service.update(req.params.id, data));
+    res.json(service.update(req.params.id, req.body));
   });
   router.delete('/:id', function(req, res) {
     res.json(service.delete(req.params.id));

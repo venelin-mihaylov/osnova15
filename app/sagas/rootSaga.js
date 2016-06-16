@@ -4,6 +4,9 @@ import ActionType from 'constants/ActionType';
 import CRUDActionType from 'constants/CRUDActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
+import {actions} from "react-redux-form";
+import {formModel} from "utils/Util";
+
 
 //<editor-fold desc="user login">
 function* doUserLogin(action) {
@@ -55,6 +58,8 @@ function* doTournamentRead(action) {
       method: 'get'
     });
     yield put({type: ActionType.TOURNAMENT_READ_SUCCESS, record: response.data});
+    yield put(actions.load(formModel('tournament'), response.data));
+
   } catch(err) {
     yield put({ type: ActionType.TOURNAMENT_READ_ERROR, error: err});
   }
@@ -120,6 +125,24 @@ function* watchTournamentList() {
   yield* takeEvery(ActionType.TOURNAMENT_LIST_REQUESTED, doTournamentList);
 }
 
+function* doTournamentUpdate(action) {
+  try {
+    const response = yield call(axios, {
+      url: `/api/tournament/${action.id}`,
+      method: 'post',
+      data: action.record
+    });
+    yield put({type: ActionType.TOURNAMENT_UPDATE_SUCCESS, record: response.data});
+  } catch(err) {
+    yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, error: err});
+  }
+}
+
+function* watchTournamentUpdate() {
+  yield* takeEvery(ActionType.TOURNAMENT_UPDATE_REQUESTED, doTournamentUpdate);
+}
+
+
 export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
@@ -128,6 +151,7 @@ export default function* rootSaga() {
     fork(watchTournamentAdd),
     fork(watchTournamentDelete),
     fork(watchTournamentRead),
+    fork(watchTournamentUpdate),
 
   ];
 }

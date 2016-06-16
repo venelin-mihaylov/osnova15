@@ -23,7 +23,7 @@ export default class CRUDService {
   }
 
   update(id, data) {
-    return this.model.updateAndFetchById(id, data);
+    return this.model.query().updateAndFetchById(id, data);
   }
 
   delete(id) {
