@@ -132,8 +132,13 @@ function* doTournamentUpdate(action) {
     });
     yield put({type: ActionType.TOURNAMENT_UPDATE_SUCCESS, record: response.data});
   } catch(err) {
-    console.log(err);
-    yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, error: err});
+    const {globalError, fieldErrors} = err.data;
+    yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, globalError, fieldErrors});
+    if(fieldErrors) {
+      // doesn't work ...
+      //yield put(actions.setError(formModel('tournament'), fieldErrors));
+    }
+
   }
 }
 

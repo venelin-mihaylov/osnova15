@@ -39,12 +39,12 @@ export default function configureStore(initialState = {}, history) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('reducers', () => {
       const nextReducer = require('reducers');
-      store.replaceReducer(nextReducer);
+      store.replaceReducer(nextReducer.default);
     });
 
     module.hot.accept('sagas', () => {
       const rootSaga = require('sagas');
-      store.runSaga(rootSaga);
+      store.runSaga(rootSaga.default);
     });
   }
 

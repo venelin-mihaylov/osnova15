@@ -6,7 +6,10 @@ import TournamentAdd from "modules/tournament/components/TournamentAdd";
 import CRUDAddContainer from "containers/crud/CRUDAddContainer";
 import CRUDActionType from 'constants/CRUDActionType';
 
-@connect(state => ({redux: state.tournament}))
+@connect(state => ({
+  redux: state.tournament,
+  form: state.tournamentForm
+}))
 @autobind
 class TournamentAddContainer extends CRUDAddContainer {
 

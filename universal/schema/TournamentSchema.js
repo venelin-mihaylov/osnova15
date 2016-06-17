@@ -4,7 +4,7 @@ const TournamentSchema = {
 
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', maxLength: 255},
+    name: {type: 'string', minLength: 10, maxLength: 255},
     description: {type: 'string', maxLength: 255},
 
     notes: {

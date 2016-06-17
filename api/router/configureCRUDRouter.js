@@ -28,8 +28,6 @@ export default function configureCRUDRouter(service) {
     try {
       res.json(await service.update(req.params.id, req.body));
     } catch(err) {
-      console.log(err.constructor.name);
-      console.log();
       if(err instanceof ValidationError) {
         res.status(422).json({
           globalError: 'Invalid data',

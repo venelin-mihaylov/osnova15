@@ -5,6 +5,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import {Form} from "react-redux-form";
 import MaterialField from "components/MaterialField";
 import {formModel, formModelField} from "utils/Util";
+import {MUIErrorText} from "utils/Util";
 
 
 export default class TournamentForm extends React.Component {
@@ -19,7 +20,8 @@ export default class TournamentForm extends React.Component {
         fieldErrors,
         saving,
         loading
-      }
+      },
+      form
     } = this.props;
 
     return (
@@ -33,6 +35,7 @@ export default class TournamentForm extends React.Component {
               required
               hintText="name"
               floatingLabelText="name"
+              errorText={MUIErrorText(form, entity, 'name')}
             />
           </MaterialField>
 

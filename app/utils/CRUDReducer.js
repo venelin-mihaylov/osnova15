@@ -66,7 +66,9 @@ export default function createCRUDReducer(object) {
       case addPrefix(CRUDActionType.UPDATE_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
-          saving: true
+          saving: true,
+          globalError: null,
+          fieldErrors: null
         });
       case addPrefix(CRUDActionType.UPDATE_SUCCESS):
         return Object.assign({}, state, {
