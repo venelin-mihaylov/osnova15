@@ -13,6 +13,7 @@ import configureAuthRouter from './router/configureAuthRouter';
 import configureCRUDRouter from './router/configureCRUDRouter';
 import configurePassport from './config/passport/configurePassport';
 import knex from './config/knex';
+import expressValidator from 'express-validator';
 
 // Give the connection to objection.
 Model.knex(knex);
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
+app.use(expressValidator());
 app.use(session({
   secret: 'react and redux rule!!!!',
   resave: false,

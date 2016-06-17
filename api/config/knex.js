@@ -1,11 +1,4 @@
 import Knex from 'knex';
-export const knex = Knex({
-  client: 'pg',
-  connection: {
-    host: 'localhost',
-    user: 'tcs',
-    password: 'tcs',
-    database: 'tcs'
-  }
-});
+import db from './db';
+export const knex = Knex(db);
 export default knex;

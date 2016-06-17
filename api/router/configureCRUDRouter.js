@@ -1,8 +1,10 @@
 "use strict";
 import express from 'express';
+import {ValidationError} from 'objection';
+import {renderValidationErrors} from '../utils/utils';
+
 /**
- *
- * @param CRUDService service
+ * @param {CRUDService} service
  * @returns {*}
  */
 export default function configureCRUDRouter(service) {
@@ -11,15 +13,37 @@ export default function configureCRUDRouter(service) {
     res.json(service.list(req));
   });
   router.get('/:id', function(req, res) {
+    req.checkParams('id').isInt();
+    if(renderValidationErrors(req.validationErrors(), res)) return;
+
     res.json(service.read(req.params.id));
   });
   router.put('/', function(req, res) {
     res.json(service.create(req.body));
   });
-  router.post('/:id', function(req, res) {
-    res.json(service.update(req.params.id, req.body));
+  router.post('/:id', async function(req, res) {
+    req.checkParams('id').isInt();
+    if(renderValidationErrors(req.validationErrors(), res)) return;
+
+    try {
+      res.json(await service.update(req.params.id, req.body));
+    } catch(err) {
+      console.log(err.constructor.name);
+      console.log();
+      if(err instanceof ValidationError) {
+        res.status(422).json({
+          globalError: 'Invalid data',
+          fieldErrors: err.data
+        });
+      } else {
+        res.status(500).json(err.data);
+      }
+    }
   });
   router.delete('/:id', function(req, res) {
+    req.checkParams('id').isInt();
+    if(renderValidationErrors(req.validationErrors(), res)) return;
+
     res.json(service.delete(req.params.id));
   });
   return router;

@@ -22,6 +22,7 @@ class TableToolbar extends React.Component {
     onEditClick: React.PropTypes.func,
     onDeleteClick: React.PropTypes.func,
     onLimitChange: React.PropTypes.func,
+    onRefresh: React.PropTypes.func,
     limit: React.PropTypes.number,
     title: React.PropTypes.string
   };

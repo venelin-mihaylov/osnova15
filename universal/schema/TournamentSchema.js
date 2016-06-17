@@ -1,12 +1,14 @@
 const TournamentSchema = {
   type: 'object',
-  required: ['name'],
+  required: ['name', 'description'],
 
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', minLength: 1, maxLength: 255},
+    name: {type: 'string', maxLength: 255},
+    description: {type: 'string', maxLength: 255},
+
     notes: {
-      type: 'object',
+      type: ['object', 'null'],
       properties: {
         note: {type: 'string', minLength: 1}
       }

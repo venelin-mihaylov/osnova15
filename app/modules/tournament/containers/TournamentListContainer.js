@@ -2,7 +2,6 @@
 import React from "react";
 import {autobind} from "core-decorators";
 import {connect} from "react-redux";
-import {push} from 'react-router-redux';
 import TournamentTable from "modules/tournament/components/TournamentTable";
 import HasSelectionHOC from 'hoc/HasSelectionHOC';
 import ListContainerHOC from 'hoc/ListContainerHOC';

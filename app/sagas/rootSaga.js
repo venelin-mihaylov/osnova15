@@ -88,8 +88,6 @@ function* watchTournamentDelete() {
 }
 
 function* doTournamentAdd(action) {
-  console.log("do tournament add");
-  console.log(action);
   try {
     const response = yield call(axios, {
       url: '/api/tournament',
@@ -128,12 +126,13 @@ function* watchTournamentList() {
 function* doTournamentUpdate(action) {
   try {
     const response = yield call(axios, {
-      url: `/api/tournament/${action.id}`,
+      url: `/api/tournament/${action.record.id}`,
       method: 'post',
       data: action.record
     });
     yield put({type: ActionType.TOURNAMENT_UPDATE_SUCCESS, record: response.data});
   } catch(err) {
+    console.log(err);
     yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, error: err});
   }
 }

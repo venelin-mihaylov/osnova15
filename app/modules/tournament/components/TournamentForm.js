@@ -13,11 +13,20 @@ export default class TournamentForm extends React.Component {
     const {
       onSubmit,
       onReset,
-      entity
+      entity,
+      redux: {
+        globalError,
+        fieldErrors,
+        saving,
+        loading
+      }
     } = this.props;
 
     return (
       <div>
+        {loading && <p>Loading...</p>}
+        {saving && <p>Saving ...</p>}
+        {globalError && <p>global error:{globalError}</p>}
         <Form onSubmit={onSubmit} model={formModel(entity)}>
           <MaterialField model={formModelField(entity, 'name')}>
             <TextField

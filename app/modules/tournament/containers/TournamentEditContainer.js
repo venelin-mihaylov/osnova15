@@ -6,7 +6,6 @@ import TournamentEdit from "modules/tournament/components/TournamentEdit";
 import CRUDEditContainer from "containers/crud/CRUDEditContainer";
 import CRUDActionType from 'constants/CRUDActionType';
 
-
 @connect(state => ({redux: state.tournament}))
 @autobind
 class TournamentEditContainer extends CRUDEditContainer {
@@ -23,9 +22,6 @@ class TournamentEditContainer extends CRUDEditContainer {
   }
 
   render() {
-    let c = this.check();
-    if (c) return c;
-
     const act = CRUDActionType.act(this.entity);
     const {
       dispatch,

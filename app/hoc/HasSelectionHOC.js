@@ -30,7 +30,6 @@ export default function HasSelectionHOC(dataProp = 'data') {
 
         let idx = this.state.selection[0];
         const data = _get(this.props, this.constructor.dataProp);
-        console.log(data);
         return data[idx];
       }
 

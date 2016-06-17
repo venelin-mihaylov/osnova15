@@ -1,5 +1,6 @@
 "use strict";
 import {autobind} from "core-decorators";
+import {ValidationError} from 'objection';
 
 @autobind
 export default class CRUDService {
