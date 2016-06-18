@@ -5,7 +5,7 @@ import CRUDActionType from 'constants/CRUDActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
 import {actions} from "react-redux-form";
-import {formModel} from "utils/Util";
+import {formModel, formModelField} from "utils/Util";
 
 
 //<editor-fold desc="user login">
@@ -132,13 +132,12 @@ function* doTournamentUpdate(action) {
     });
     yield put({type: ActionType.TOURNAMENT_UPDATE_SUCCESS, record: response.data});
   } catch(err) {
-    const {globalError, fieldErrors} = err.data;
+    const {globalError, fieldErrors = {}} = err.data;
     yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, globalError, fieldErrors});
-    if(fieldErrors) {
-      // doesn't work ...
-      //yield put(actions.setError(formModel('tournament'), fieldErrors));
+    for(var k in fieldErrors) {
+      if(!fieldErrors.hasOwnProperty(k)) continue;
+      yield put(actions.setErrors(formModelField('tournament', k), fieldErrors[k].message));
     }
-
   }
 }
 

@@ -34,6 +34,7 @@ class TournamentEditContainer extends CRUDEditContainer {
     return <TournamentEdit
       onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
       entity={this.entity}
+      dispatch={dispatch}
       {...rest}
     />;
   }

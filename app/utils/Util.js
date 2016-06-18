@@ -3,11 +3,11 @@ import React from "react";
 import {Errors} from "react-redux-form";
 import _get from "lodash.get";
 
-export function formModel(dbTable) {
-  return `${dbTable}Model`;
+export function formModel(entity) {
+  return `${entity}Model`;
 }
-export function formModelField(dbTable, field) {
-  return formModel(dbTable) + '.' + field;
+export function formModelField(entity, field) {
+  return formModel(entity) + '.' + field;
 }
 
 export const defaultErrorMessages = {

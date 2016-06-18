@@ -1,6 +1,6 @@
 const TournamentSchema = {
   type: 'object',
-  required: ['name', 'description'],
+  required: ['name'],
 
   properties: {
     id: {type: 'integer'},
