@@ -6,6 +6,7 @@ import {Form, actions} from "react-redux-form";
 import MaterialField from "components/MaterialField";
 import {formModel, formModelField} from "utils/Util";
 import {MUIErrorText} from "utils/Util";
+import DefaultFormButtons from 'components/DefaultFormButtons';
 
 const TournamentForm = props => {
   const {
@@ -44,19 +45,8 @@ const TournamentForm = props => {
             errorText={MUIErrorText(form, entity, 'name')}
           />
         </MaterialField>
-
-        <br/>
-        <RaisedButton label="Submit"
-                      primary={true}
-                      type="submit"
-                      style={{margin: 5}}
-        />
-        <RaisedButton label="Reset"
-                      secondary={true}
-                      onClick={onReset}
-                      style={{margin: 5}}
-
-        />
+        
+        <DefaultFormButtons onReset={onReset}/>
 
         <RaisedButton label="errors"
                       secondary={true}
