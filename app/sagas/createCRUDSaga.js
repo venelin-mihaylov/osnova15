@@ -119,7 +119,7 @@ export default function createCRUDSaga(entity) {
     yield* takeEvery(type(CRUDActionType.UPDATE_REQUESTED), update);
   }
 
-  return function* crudSaga() {
+  return function* CRUDSaga() {
     yield [
       fork(watchList),
       fork(watchRead),

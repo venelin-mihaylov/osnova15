@@ -1,11 +1,9 @@
 import { fork, put, take, call } from 'redux-saga/effects';
 import {takeEvery} from 'redux-saga';
 import ActionType from 'constants/ActionType';
-import CRUDActionType from 'constants/CRUDActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
-import {actions} from "react-redux-form";
-import {formModel, formModelField} from "utils/Util";
+import {createCRUDSaga} from './createCRUDSaga';
 
 
 //<editor-fold desc="user login">
@@ -54,11 +52,6 @@ export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
     fork(watchUserLogout),
-    fork(watchTournamentList),
-    fork(watchTournamentAdd),
-    fork(watchTournamentDelete),
-    fork(watchTournamentRead),
-    fork(watchTournamentUpdate),
-
+    fork(createCRUDSaga('tournament'))
   ];
 }
