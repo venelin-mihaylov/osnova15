@@ -12,12 +12,12 @@ export default class TournamentForm extends React.Component {
 
   render() {
     const {
+      dispatch,
       onSubmit,
       onReset,
       entity,
       redux: {
         globalError,
-        fieldErrors,
         saving,
         loading
       },
@@ -29,7 +29,16 @@ export default class TournamentForm extends React.Component {
         {loading && <p>Loading...</p>}
         {saving && <p>Saving ...</p>}
         {globalError && <p>global error:{globalError}</p>}
-        <Form onSubmit={onSubmit} model={formModel(entity)}>
+        <Form
+          onSubmit={onSubmit}
+          model={formModel(entity)}
+          validators={{
+            name: {
+              length: v => v && v.length > 10
+            }
+          }}
+
+        >
           <MaterialField model={formModelField(entity, 'name')}>
             <TextField
               required
@@ -48,6 +57,25 @@ export default class TournamentForm extends React.Component {
           <RaisedButton label="Reset"
                         secondary={true}
                         onClick={onReset}
+                        style={{margin: 5}}
+
+          />
+
+
+          <RaisedButton label="errors"
+                        secondary={true}
+                        onClick={() => {
+                          dispatch(actions.setErrors(formModelField('tournament', 'name'), 'too many errors'));
+                        }}
+                        style={{margin: 5}}
+          />
+
+          <RaisedButton label="clear errors"
+                        secondary={true}
+                        onClick={() => {
+                          dispatch(actions.setErrors(formModelField('tournament', 'name'), false));
+                          dispatch(actions.setValidity(formModelField('tournament', 'name'), true));
+                        }}
                         style={{margin: 5}}
           />
         </Form>
