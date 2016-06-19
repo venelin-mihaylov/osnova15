@@ -131,6 +131,7 @@ function* doTournamentUpdate(action) {
       data: action.record
     });
     yield put({type: ActionType.TOURNAMENT_UPDATE_SUCCESS, record: response.data});
+    yield put(push('/tournament'));
   } catch(err) {
     const {globalError, fieldErrors = {}} = err.data;
     yield put({ type: ActionType.TOURNAMENT_UPDATE_ERROR, globalError, fieldErrors});

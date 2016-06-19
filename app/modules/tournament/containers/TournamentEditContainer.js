@@ -5,6 +5,7 @@ import {autobind} from "core-decorators";
 import TournamentEdit from "modules/tournament/components/TournamentEdit";
 import CRUDEditContainer from "containers/crud/CRUDEditContainer";
 import CRUDActionType from 'constants/CRUDActionType';
+import resetFormRecord from 'actions/resetFormRecord';
 
 @connect(state => ({
   redux: state.tournament,
@@ -25,7 +26,8 @@ class TournamentEditContainer extends CRUDEditContainer {
   }
 
   render() {
-    const act = CRUDActionType.act(this.entity);
+    const entity = this.entity;
+    const act = CRUDActionType.act(entity);
     const {
       dispatch,
       ...rest
@@ -33,7 +35,8 @@ class TournamentEditContainer extends CRUDEditContainer {
 
     return <TournamentEdit
       onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
-      entity={this.entity}
+      onReset={() => dispatch(resetFormRecord(entity))}
+      entity={entity}
       dispatch={dispatch}
       {...rest}
     />;
