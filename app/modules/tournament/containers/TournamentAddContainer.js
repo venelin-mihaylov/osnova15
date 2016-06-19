@@ -20,14 +20,10 @@ class TournamentAddContainer extends CRUDAddContainer {
       dispatch,
       ...rest
     } = this.props;
-
-    var entityActionType = CRUDActionType.prefixActionType(this.entity);
+    const act = CRUDActionType.act(this.entity);
 
     return (<TournamentAdd
-      onSubmit={model => dispatch({
-        type: entityActionType(CRUDActionType.CREATE_REQUESTED),
-        model
-       })}
+      onSubmit={record => dispatch(act(CRUDActionType.CREATE_REQUESTED, record))}
       onReset={() => {}}
       entity={this.entity}
       {...rest}

@@ -12,7 +12,7 @@ export default function ListContainerHOC(entity) {
       static displayName = `ListContainerHOC(${getDisplayName(Component)})`;
 
       componentWillMount() {
-        this.props.dispatch({type: CRUDActionType.prefix(this.constructor.entity, CRUDActionType.LIST_REQUESTED)})
+        this.props.dispatch({type: CRUDActionType.prefixType(this.constructor.entity, CRUDActionType.LIST_REQUESTED)})
       }
 
       render() {

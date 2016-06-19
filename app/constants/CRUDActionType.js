@@ -43,14 +43,13 @@ export default class CRUDActionType {
    * @param string action
    * @returns {*}
      */
-  static prefix(entity, action) {
+  static prefixType(entity, action) {
     return entity.toUpperCase() + '_' + action;
   }
 
-  static prefixActionType = entity => actionType => CRUDActionType.prefix(entity, actionType);
   static act = entity => (actionType, rest = {}) => {
     return Object.assign({
-      type: CRUDActionType.prefix(entity, actionType)
+      type: CRUDActionType.prefixType(entity, actionType)
     }, rest)
   }
 };

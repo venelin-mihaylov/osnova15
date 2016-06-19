@@ -18,11 +18,11 @@ class TournamentEditContainer extends CRUDEditContainer {
 
   constructor() {
     super();
-    this.prefix = CRUDActionType.prefixActionType(this.entity);
+    this.act = CRUDActionType.act(this.entity);
   }
 
   componentWillMount() {
-    this.props.dispatch({type: this.prefix(CRUDActionType.READ_REQUESTED), id: this.props.params.id});
+    this.props.dispatch(this.act(CRUDActionType.READ_REQUESTED, { id: this.props.params.id}));
   }
 
   render() {
