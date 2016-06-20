@@ -3,7 +3,7 @@ import {takeEvery} from 'redux-saga';
 import ActionType from 'constants/ActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
-import {createCRUDSaga} from './createCRUDSaga';
+import createCRUDSaga from './createCRUDSaga';
 
 
 //<editor-fold desc="user login">
