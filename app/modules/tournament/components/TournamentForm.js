@@ -5,8 +5,8 @@ import {Form, actions} from "react-redux-form";
 import {formModel, formModelField} from "utils/Util";
 import DefaultFormButtons from 'components/DefaultFormButtons';
 import Loading from 'components/Loading';
-import Saving from 'components/Saving';
 import GlobalError from 'components/GlobalError';
+import Saving from 'components/Saving';
 import OsnovaTextField from 'components/OsnovaTextField';
 
 const TournamentForm = ({
@@ -22,8 +22,8 @@ const TournamentForm = ({
   form
 }) => (
   <div>
-    <Loading {...{loading}} />
     <Saving {...{saving}} />
+    <Loading {...{loading}} />
     <GlobalError {...{globalError}}/>
     <Form
       {...{onSubmit}}

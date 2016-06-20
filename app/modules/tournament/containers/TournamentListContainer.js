@@ -23,14 +23,8 @@ export default class TournamentListContainer extends React.Component {
       ...rest
     } = this.props;
 
-    if(listLoading) {
-      return <p>Loading ...</p>;
-    }
-    if(listError) {
-      return <p>Error: {listError}</p>;
-    }
-
     return <TournamentTable
+      {...{listLoading, listError}}
       data={listRecords}
       toolbarTitle="Tournaments"
       limit={listLimit}
