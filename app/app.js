@@ -40,6 +40,9 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme";
 
+// add css for react-datagrid
+require('react-datagrid/index.css');
+
 // required for material-ui to work
 injectTapEventPlugin();
 

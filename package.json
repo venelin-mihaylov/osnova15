@@ -116,6 +116,7 @@
     "pg": "^5.0.0",
     "piping": "^1.0.0-rc.2",
     "react": "^15.0.1",
+    "react-datagrid": "git+https://github.com/zippyui/react-datagrid.git#v3",
     "react-dom": "^15.0.1",
     "react-fa": "^4.1.2",
     "react-pure-render": "^1.0.2",

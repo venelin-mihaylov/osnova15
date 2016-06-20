@@ -13,7 +13,8 @@ export default function HasSelectionHOC(dataProp = 'data') {
       static displayName = `HasSelectionHOC(${getDisplayName(Component)})`;
 
       state = {
-        selection: []
+        selectedId: null,
+        selectedRecord: null
       };
 
       @autobind
@@ -26,16 +27,18 @@ export default function HasSelectionHOC(dataProp = 'data') {
 
       @autobind
       getFirstSelection() {
-        if (!this.state.selection.length) return null;
+        if (!this.state.selectedId) return null;
 
-        let idx = this.state.selection[0];
+        let idx = this.state.selectedId[0];
         const data = _get(this.props, this.constructor.dataProp);
         return data[idx];
       }
 
       @autobind
-      onRowSelection(selection) {
-        this.state.selection = selection;
+      onRowSelection(id, record) {
+        console.log(id);
+        this.state.selectedId = id;
+        this.state.selectedRecord = record;
       }
 
       render() {
@@ -44,7 +47,7 @@ export default function HasSelectionHOC(dataProp = 'data') {
           onRowSelection={this.onRowSelection}
           getFirstSelection={this.getFirstSelection}
           withFirstSelection={this.withFirstSelection}
-          test="hello world"
+          {...this.state}
         />
       }
     }

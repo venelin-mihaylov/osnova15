@@ -5,7 +5,7 @@ import {autobind} from "core-decorators";
 import TournamentEdit from "modules/tournament/components/TournamentEdit";
 import CRUDEditContainer from "containers/crud/CRUDEditContainer";
 import CRUDActionType from 'constants/CRUDActionType';
-import resetFormRecord from 'actions/resetFormRecord';
+import {resetFormRecord} from 'actions/resetFormRecord';
 
 @connect(state => ({
   redux: state.tournament,

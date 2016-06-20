@@ -10,6 +10,9 @@ import TableBody from "material-ui/Table/TableBody";
 import TableToolbar from "components/TableToolbar";
 import Loading from 'components/Loading';
 import GlobalError from 'components/GlobalError';
+import DataGrid from 'react-datagrid';
+
+var selectedId = null;
 
 const TournamentTable = ({
   onAddClick,
@@ -24,10 +27,9 @@ const TournamentTable = ({
   data,
   listLoading,
   listError
-}) => (
-  <div>
-    <Loading loading={listLoading}/>
-    <GlobalError globalError={listError}/>
+}, state) => {
+
+  return <div>
     <TableToolbar
       onAddClick={onAddClick}
       onEditClick={onEditClick}
@@ -37,49 +39,74 @@ const TournamentTable = ({
       title={toolbarTitle}
       limit={limit}
     />
-    <Table
-      height="500px"
-      fixedHeader={true}
-      fixedFooter={true}
-      selectable={true}
-      multiSelectable={false}
-      stripedRows={true}
-      onRowSelection={onRowSelection}
-    >
-      <TableHeader adjustForCheckbox={true}>
-        <TableRow>
-          {columns.map((column, index) => (
-            <TableHeaderColumn key={column.name}>{column.label}</TableHeaderColumn>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody
-        displayRowCheckbox={true}
-        deselectOnClickaway={false}
-        showRowHover={true}
-        stripedRows={true}
-      >
-        {data.map((row, index) => (
-          <TableRow key={row.id} selected={row.selected}>
-                    {columns.map((column, index) => (
-                      <TableRowColumn key={column.name}>{row[column.name]}</TableRowColumn>
-                    ))}
-          </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter adjustForCheckbox={true}>
-        <TableRow>
-          {columns.map((column, index) => (
-            <TableRowColumn key={column.name}>{column.label}</TableRowColumn>
-          ))}
-        </TableRow>
-      </TableFooter>
-    </Table>
+    <DataGrid
+      idProperty="id"
+      columns={columns}
+      dataSource={data}
+      zebraRows={true}
+      style={{height: 500}}
+      selected={state.selectedId}
+      onSelectionChange={onRowSelection}
+    />
   </div>
-);
+};
+
+
+// <div>
+//   <Loading loading={listLoading}/>
+//   <GlobalError globalError={listError}/>
+//   <TableToolbar
+//     onAddClick={onAddClick}
+//     onEditClick={onEditClick}
+//     onDeleteClick={onDeleteClick}
+//     onLimitChange={onLimitChange}
+//     onRefresh={onRefresh}
+//     title={toolbarTitle}
+//     limit={limit}
+//   />
+//   <Table
+//     height="500px"
+//     fixedHeader={true}
+//     fixedFooter={true}
+//     selectable={true}
+//     multiSelectable={false}
+//     stripedRows={true}
+//     onRowSelection={onRowSelection}
+//   >
+//     <TableHeader adjustForCheckbox={true}>
+//       <TableRow>
+//         {columns.map((column, index) => (
+//           <TableHeaderColumn key={column.name}>{column.label}</TableHeaderColumn>
+//         ))}
+//       </TableRow>
+//     </TableHeader>
+//     <TableBody
+//       displayRowCheckbox={true}
+//       deselectOnClickaway={false}
+//       showRowHover={true}
+//       stripedRows={true}
+//     >
+//       {data.map((row, index) => (
+//         <TableRow key={row.id} selected={row.selected}>
+//                   {columns.map((column, index) => (
+//                     <TableRowColumn key={column.name}>{row[column.name]}</TableRowColumn>
+//                   ))}
+//         </TableRow>
+//       ))}
+//     </TableBody>
+//     <TableFooter adjustForCheckbox={true}>
+//       <TableRow>
+//         {columns.map((column, index) => (
+//           <TableRowColumn key={column.name}>{column.label}</TableRowColumn>
+//         ))}
+//       </TableRow>
+//     </TableFooter>
+//   </Table>
+// </div>
 
 TournamentTable.defaultProps = {
-  onRowSelection: () => {},
+  onRowSelection: () => {
+  },
   data: []
 };
 

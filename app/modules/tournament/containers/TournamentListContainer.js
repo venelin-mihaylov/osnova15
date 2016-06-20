@@ -18,7 +18,8 @@ export default class TournamentListContainer extends React.Component {
         listRecords,
         listLoading,
         listError,
-        listLimit
+        listLimit,
+        listSelectedId
       },
       ...rest
     } = this.props;

@@ -1,7 +1,7 @@
 import {actions} from "react-redux-form";
 import {formModel} from "utils/Util";
 
-export default function resetFormRecord(entity) {
+export function resetFormRecord(entity) {
   return (dispatch, getState) => {
     const state = getState();
     const record = state[entity]['record'];
