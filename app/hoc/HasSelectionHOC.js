@@ -1,7 +1,6 @@
 import React from 'react';
 import {autobind} from 'core-decorators';
 import {getDisplayName} from 'recompose';
-import _get from 'lodash.get';
 
 export default function HasSelectionHOC(dataProp = 'data') {
 
@@ -27,18 +26,16 @@ export default function HasSelectionHOC(dataProp = 'data') {
 
       @autobind
       getFirstSelection() {
-        if (!this.state.selectedId) return null;
-
-        let idx = this.state.selectedId[0];
-        const data = _get(this.props, this.constructor.dataProp);
-        return data[idx];
+        if (!this.state.selectedId) return null
+        return this.state.selectedRecord
       }
 
       @autobind
       onRowSelection(id, record) {
-        console.log(id);
-        this.state.selectedId = id;
-        this.state.selectedRecord = record;
+        this.setState({
+          selectedId: id,
+          selectedRecord: record
+        });
       }
 
       render() {
@@ -47,6 +44,7 @@ export default function HasSelectionHOC(dataProp = 'data') {
           onRowSelection={this.onRowSelection}
           getFirstSelection={this.getFirstSelection}
           withFirstSelection={this.withFirstSelection}
+          selectedId={this.state.selectedId}
           {...this.state}
         />
       }

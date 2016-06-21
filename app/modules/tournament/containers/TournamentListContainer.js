@@ -18,23 +18,25 @@ export default class TournamentListContainer extends React.Component {
         listRecords,
         listLoading,
         listError,
-        listLimit,
-        listSelectedId
+        listLimit
       },
       ...rest
     } = this.props;
 
     return <TournamentTable
       {...{listLoading, listError}}
-      data={listRecords}
+      dataSource={listRecords}
       toolbarTitle="Tournaments"
       limit={listLimit}
       columns={[{
+        name: 'id',
+        title: 'ИД'
+      }, {
         name: 'name',
-        label: 'Име'
+        title: 'Име'
       }, {
         name: 'startDate',
-        label: 'Стартиращ на'
+        title: 'Стартиращ на'
       }]}
       {...rest}
     />;
