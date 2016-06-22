@@ -8,7 +8,6 @@ export default function HasSelectionHOC(dataProp = 'data') {
     return class HasSelectionHOC extends React.Component {
 
       static dataProp = dataProp;
-
       static displayName = `HasSelectionHOC(${getDisplayName(Component)})`;
 
       state = {
@@ -32,9 +31,11 @@ export default function HasSelectionHOC(dataProp = 'data') {
 
       @autobind
       onRowSelection(id, record) {
+        const isNew = this.state.selectedId != id;
+
         this.setState({
-          selectedId: id,
-          selectedRecord: record
+          selectedId: isNew ? id : null,
+          selectedRecord: isNew ? record : null
         });
       }
 

@@ -2,43 +2,21 @@
 import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
-import TournamentEdit from "modules/tournament/components/TournamentEdit";
-import CRUDEditContainer from "containers/crud/CRUDEditContainer";
-import CRUDActionType from 'constants/CRUDActionType';
-import {resetFormRecord} from 'actions/resetFormRecord';
+import EntityEdit from "components/EntityEdit";
+import TournamentForm from "modules/tournament/components/TournamentForm";
+import EditContainerHOC from 'hoc/EditContainerHOC';
 
 @connect(state => ({
   redux: state.tournament,
   form: state.tournamentForm
 }))
 @autobind
-class TournamentEditContainer extends CRUDEditContainer {
-
-  entity = 'tournament';
-
-  constructor() {
-    super();
-    this.act = CRUDActionType.act(this.entity);
-  }
-
-  componentWillMount() {
-    this.props.dispatch(this.act(CRUDActionType.READ_REQUESTED, { id: this.props.params.id}));
-  }
-
+@EditContainerHOC('tournament')
+class TournamentEditContainer extends React.Component {
   render() {
-    const entity = this.entity;
-    const act = CRUDActionType.act(entity);
-    const {
-      dispatch,
-      ...rest
-    } = this.props;
-
-    return <TournamentEdit
-      onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
-      onReset={() => dispatch(resetFormRecord(entity))}
-      entity={entity}
-      dispatch={dispatch}
-      {...rest}
+    return <EntityEdit
+      FormComponent={TournamentForm}
+      {...this.props}
     />;
   }
 }

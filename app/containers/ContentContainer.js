@@ -1,6 +1,5 @@
 "use strict";
 import React from "react";
-import Paper from "material-ui/Paper";
 
 
 /*
@@ -10,9 +9,7 @@ import Paper from "material-ui/Paper";
  */
 const ContentContainer = props => (
   <div>
-    <Paper style={{paddingBottom: 20}}>
-      {props.children}
-    </Paper>
+   {props.children}
   </div>
 );
 export default ContentContainer;

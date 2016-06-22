@@ -60,7 +60,7 @@ export default function createCRUDSaga(entity) {
       const response = yield call(axios, {
         url: `/api/${entity}`,
         method: 'put',
-        data: action.model
+        data: action.record
       });
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}));
       yield put(push(`/${entity}`));

@@ -42,3 +42,12 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
     messages={messages}
   />
 }
+
+/**
+ *
+ * @param {string} string
+ * @returns {string}
+ */
+export function ucfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

@@ -2,31 +2,22 @@
 import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
-import TournamentAdd from "modules/tournament/components/TournamentAdd";
-import CRUDAddContainer from "containers/crud/CRUDAddContainer";
-import CRUDActionType from 'constants/CRUDActionType';
+import EntityAdd from "components/EntityAdd";
+import TournamentForm from "modules/tournament/components/TournamentForm";
+import AddContainerHOC from 'hoc/AddContainerHOC';
 
 @connect(state => ({
   redux: state.tournament,
   form: state.tournamentForm
 }))
 @autobind
-class TournamentAddContainer extends CRUDAddContainer {
-
-  entity = 'tournament';
+@AddContainerHOC('tournament')
+class TournamentAddContainer extends React.Component {
 
   render() {
-    const {
-      dispatch,
-      ...rest
-    } = this.props;
-    const act = CRUDActionType.act(this.entity);
-
-    return (<TournamentAdd
-      onSubmit={record => dispatch(act(CRUDActionType.CREATE_REQUESTED, record))}
-      onReset={() => {}}
-      entity={this.entity}
-      {...rest}
+    return (<EntityAdd
+      FormComponent={TournamentForm}
+      {...this.props}
     />)
   }
 }

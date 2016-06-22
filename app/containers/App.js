@@ -12,9 +12,7 @@ export default class App extends React.Component {
         <AppLeftNav/>
         <div style={{marginLeft: 300}}>
           <AppTopBar/>
-          <Paper>
-            {this.props.children}
-          </Paper>
+          {this.props.children}
         </div>
       </div>
     );

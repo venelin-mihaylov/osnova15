@@ -32,6 +32,7 @@ export default function ListContainerHOC(entity) {
           onLimitChange={(e, limit) => dispatch(act(CRUDActionType.LIST_SET_LIMIT, {limit: limit}))}
           onRowSelection={onRowSelection}
           entity={entity}
+          act={act}
           {...this.props}
         />
       }
