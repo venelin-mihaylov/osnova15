@@ -1,56 +1,44 @@
 "use strict";
 import React from "react";
-import reactMixin from "react-mixin";
 import {autobind} from "core-decorators";
 import {connect} from "react-redux";
-import MatchTable from "MatchTable.js";
-import CRUDAction2 from "actions/base/CRUDAction2";
-import CRUDTableContainer from "modules/common/containers/CRUDTableContainer";
-import {DefaultSession as RethinkSession, r, DefaultMixin, QueryRequest} from "react-rethinkdb";
+import MatchTable from "modules/tournament/components/MatchTable";
+import HasSelectionHOC from 'hoc/HasSelectionHOC';
+import ListContainerHOC from 'hoc/ListContainerHOC';
 
-@connect(state => ({redux: state.match}))
-@reactMixin.decorate(DefaultMixin)
+@connect(state => ({redux: state.tournament}))
 @autobind
-class MatchListContainer extends CRUDTableContainer {
-
-  action = new CRUDAction2({dbTable: 'match', rethinkSession: RethinkSession});
-
-  observe(props) {
-    return {
-      records: new QueryRequest({
-        query: r.table("match").orderBy({index: 'name'}).eqJoin("tournamentID", r.table("tournament")).limit(props.redux.limit),
-        changes: true,
-        initial: []
-      })
-    }
-  }
+@HasSelectionHOC('redux.listRecords')
+@ListContainerHOC('tournament')
+export default class MatchListContainer extends React.Component {
 
   render() {
     const {
       redux: {
-        limit
+        listRecords,
+        listLoading,
+        listError,
+        listLimit
       },
       ...rest
     } = this.props;
 
     return <MatchTable
-      onAddClick={this.onAddClick}
-      onEditClick={this.onEditClick}
-      onDeleteClick={this.onDeleteClick}
-      onLimitChange={this.onLimitChange}
-      data={this.data.records.value()}
-      toolbarTitle="Matches"
-      onSelectionChange={this.onSelectionChange}
-      limit={limit}
+      {...{listLoading, listError}}
+      dataSource={listRecords}
+      toolbarTitle="Matchs"
+      limit={listLimit}
       columns={[{
-        name: 'name',
-        label: 'Name'
+        name: 'id',
+        title: 'ИД'
       }, {
-        name: 'tournamentID',
-        label: 'TournamentID'
+        name: 'name',
+        title: 'Име'
+      }, {
+        name: 'startDate',
+        title: 'Стартиращ на'
       }]}
       {...rest}
     />;
   }
 }
-export default MatchListContainer;

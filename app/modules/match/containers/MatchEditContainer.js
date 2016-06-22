@@ -2,33 +2,21 @@
 import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
-import CRUDAction2 from "actions/base/CRUDAction2";
-import MatchEdit from "MatchEdit.js";
-import CRUDEditContainer from "modules/common/containers/CRUDEditContainer";
-import {DefaultSession as RethinkSession} from "react-rethinkdb";
+import EntityEdit from "components/EntityEdit";
+import MatchForm from "modules/tournament/components/MatchForm";
+import EditContainerHOC from 'hoc/EditContainerHOC';
 
-@connect(state => ({redux: state.match}))
+@connect(state => ({
+  redux: state.tournament,
+  form: state.tournamentForm
+}))
 @autobind
-class MatchEditContainer extends CRUDEditContainer {
-
-  action = new CRUDAction2({dbTable: 'match', rethinkSession: RethinkSession});
-
+@EditContainerHOC('tournament')
+class MatchEditContainer extends React.Component {
   render() {
-    let c = this.check();
-    if (c) return c;
-
-    const {
-      params: {
-        id
-      },
-      dispatch,
-      ...rest
-    } = this.props;
-
-    return <MatchEdit
-      onSubmit={this.onSubmit}
-      dispatch={dispatch}
-      {...rest}
+    return <EntityEdit
+      FormComponent={MatchForm}
+      {...this.props}
     />;
   }
 }

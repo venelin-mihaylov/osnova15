@@ -1,61 +1,59 @@
 "use strict";
 import React from "react";
-import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
-import MaterialField from "components/MaterialField";
 import {Form, actions} from "react-redux-form";
-import FKSelect from "modules/common/components/FKSelect";
-import {r} from "react-rethinkdb";
-import {formModel, formModelField} from "util/Util";
+import {formModel, formModelField} from "utils/Util";
+import DefaultFormButtons from 'components/DefaultFormButtons';
+import Loading from 'components/Loading';
+import GlobalError from 'components/GlobalError';
+import Saving from 'components/Saving';
+import OsnovaTextField from 'components/OsnovaTextField';
 
-export default class MatchForm extends React.Component {
+const MatchForm = ({
+  dispatch,
+  onSubmit,
+  onReset,
+  entity,
+  redux: {
+    globalError,
+    saving,
+    loading
+  },
+  form
+}) => (
+  <div>
+    <Saving {...{saving}} />
+    <Loading {...{loading}} />
+    <GlobalError {...{globalError}}/>
+    <Form
+      {...{onSubmit}}
+      model={formModel(entity)}
+      validators={{
+        name: {
+          length: v => v && v.length > 10
+        }
+      }}
+    >
+      <OsnovaTextField {...{form, entity}} field="name"/>
+      <DefaultFormButtons {...{onReset}}/>
 
-  dbTable = 'match';
+      <RaisedButton label="errors"
+                    secondary={true}
+                    onClick={() => {
+                      dispatch(actions.setErrors(formModelField('tournament', 'name'), 'too many errors'));
+                    }}
+                    style={{margin: 5}}
+      />
 
-  render() {
-    const {
-      dispatch,
-      onSubmit
-    } = this.props;
-
-    const model = formModel(this.dbTable);
-
-    return (
-      <Form onSubmit={onSubmit} model={model}>
-        <div>
-          <MaterialField model={formModelField(this.dbTable, 'name')}>
-            <TextField
-              required
-              hintText="name"
-              floatingLabelText="name"
-            />
-          </MaterialField>
-          <MaterialField model={formModelField(this.dbTable, 'tournamentID')}>
-            <FKSelect
-              dbTable="tournament"
-              FKname="FKtournament"
-              floatingLabelText="Tournament"
-              hintText="Tournament"
-              labelField="name"
-              queryListRecords={(dbTable) => { return r.table(dbTable)}}
-              renderRecords={records => {
-                return !records ? [] : records.map(r => ({text: r.name, value: r.name}))
-              }}
-            />
-          </MaterialField>
-          <RaisedButton label="Submit"
-                        type="submit"
-                        primary={true}
-                        style={{margin: 5}}
-          />
-          <RaisedButton label="Reset"
-                        secondary={true}
-                        onClick={() => dispatch(actions.reset(model))}
-                        style={{margin: 5}}
-          />
-
-        </div>
-      </Form>
-    )
-  }
-}
+      <RaisedButton label="clear errors"
+                    secondary={true}
+                    onClick={() => {
+                      dispatch(actions.setErrors(formModelField('tournament', 'name'), false));
+                      dispatch(actions.setValidity(formModelField('tournament', 'name'), true));
+                    }}
+                    style={{margin: 5}}
+      />
+    </Form>
+  </div>
+);
+export default MatchForm;
