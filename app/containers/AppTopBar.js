@@ -19,7 +19,7 @@ const AppTopBar = props => {
                     <FlatButton label="Logout" onClick={() => dispatch({type: ActionType.LOGOUT_USER_REQUESTED})}/> :
                     <FlatButton label="Login" onClick={() => dispatch(push('/login'))}/>
                   }
-                  onLeftIconButtonTouchTap={(event) => console.log(event)}
+                  onLeftIconButtonTouchTap={() => dispatch({type: ActionType.TOGGLE_LEFT_NAV})}
     />);
 };
 

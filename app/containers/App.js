@@ -3,16 +3,28 @@
 import React from "react";
 import AppTopBar from "./AppTopBar";
 import AppLeftNav from "./AppLeftNav";
-import Paper from "material-ui/Paper";
+import {connect} from "react-redux";
 
+@connect(state => ({
+  nav: state.nav
+}))
 export default class App extends React.Component {
   render() {
+    const {
+      nav: {
+        leftNavOpen
+      },
+      children
+    } = this.props;
+
     return (
       <div>
-        <AppLeftNav/>
-        <div style={{marginLeft: 300}}>
+        <AppLeftNav
+          open={leftNavOpen}
+        />
+        <div style={{marginLeft: leftNavOpen ? '270' : 0}}>
           <AppTopBar/>
-          {this.props.children}
+          {children}
         </div>
       </div>
     );

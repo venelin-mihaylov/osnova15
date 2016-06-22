@@ -2,6 +2,7 @@
 import React from "react";
 import TableToolbar from "components/TableToolbar";
 import DataGrid from 'react-datagrid';
+import GlobalError from 'components/GlobalError';
 
 const MatchTable = ({
   onAddClick,
@@ -22,6 +23,7 @@ const MatchTable = ({
       {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit}}
       title={toolbarTitle}
     />
+    <GlobalError globalError={listError}/>
     <DataGrid
       idProperty="id"
       zebraRows={false}

@@ -47,7 +47,7 @@ export default function createCRUDReducer(object) {
         });
       case addPrefix(CRUDActionType.LIST_ERROR):
         return Object.assign({}, state, {
-          loading: false,
+          listLoading: false,
           listError: action.globalError,
           listRecords: []
         });

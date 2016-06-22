@@ -2,6 +2,7 @@
 import React from "react";
 import TableToolbar from "components/TableToolbar";
 import DataGrid from 'react-datagrid';
+import GlobalError from 'components/GlobalError';
 
 const TournamentTable = ({
   onAddClick,
@@ -17,11 +18,12 @@ const TournamentTable = ({
   ...rest
 }) => {
 
-  return <div>
+  return (<div>
     <TableToolbar
       {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit}}
       title={toolbarTitle}
     />
+    <GlobalError globalError={listError}/>
     <DataGrid
       idProperty="id"
       zebraRows={false}
@@ -30,7 +32,7 @@ const TournamentTable = ({
       loading={listLoading}
       {...rest}
     />
-  </div>
+  </div>)
 };
 
 TournamentTable.propTypes = {

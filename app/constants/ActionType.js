@@ -2,6 +2,7 @@ import CRUDActionType from "constants/CRUDActionType";
 import ForeignKeyActionType from "constants/FKActionType";
 
 const ActionType = Object.assign({
+    TOGGLE_LEFT_NAV: 'TOGGLE_LEFT_NAV',
     TOGGLE_LOGIN_MODE: 'TOGGLE_LOGIN_MODE',
 
     LOGIN_USER_REQUESTED: 'LOGIN_USER_REQUESTED',
