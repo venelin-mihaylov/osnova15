@@ -55,6 +55,19 @@ export default function createCRUDSaga(entity) {
     yield* takeEvery(type(CRUDActionType.DELETE_REQUESTED), doDelete);
   }
 
+  function formatError(err) {
+    console.log(err);
+    if(err.status == 500) {
+      return {
+        globalError: 'Internal server error'
+      }
+    } else if(err.status == 422) { // validation
+      return err.data
+    } else {
+      return err.data
+    }
+  }
+
   function* create(action) {
     try {
       const response = yield call(axios, {
@@ -65,9 +78,10 @@ export default function createCRUDSaga(entity) {
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}));
       yield put(push(`/${entity}`));
     } catch(err) {
-      yield put(act(CRUDActionType.CREATE_ERROR, {error: err}));
+      yield put(act(CRUDActionType.CREATE_ERROR, formatError(err)));
     }
   }
+
   function* watchCreate() {
     yield* takeEvery(type(CRUDActionType.CREATE_REQUESTED), create);
   }
@@ -83,7 +97,7 @@ export default function createCRUDSaga(entity) {
       });
       yield put(act(CRUDActionType.LIST_SUCCESS, {records: response.data}));
     } catch(err) {
-      yield put(act(CRUDActionType.LIST_SUCCESS, {error: err}));
+      yield put(act(CRUDActionType.LIST_ERROR, formatError(err)));
     }
   }
 
@@ -106,7 +120,7 @@ export default function createCRUDSaga(entity) {
       yield put(act(CRUDActionType.UPDATE_SUCCESS, {record: response.data}));
       yield put(push(`/${entity}`));
     } catch(err) {
-      const {globalError, fieldErrors = {}} = err.data;
+      const {globalError, fieldErrors = {}} = formatError(err);
       yield put(act(CRUDActionType.UPDATE_ERROR, {globalError, fieldErrors}));
       for(var k in fieldErrors) {
         if(!fieldErrors.hasOwnProperty(k)) continue;

@@ -13,6 +13,7 @@ const TournamentForm = ({
   dispatch,
   onSubmit,
   onReset,
+  onCancel,
   entity,
   redux: {
     globalError,
@@ -35,7 +36,7 @@ const TournamentForm = ({
       }}
     >
       <OsnovaTextField {...{form, entity}} field="name"/>
-      <DefaultFormButtons {...{onReset}}/>
+      <DefaultFormButtons {...{onReset, onCancel}}/>
 
       <RaisedButton label="errors"
                     secondary={true}

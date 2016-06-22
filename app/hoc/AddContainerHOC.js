@@ -4,6 +4,7 @@ import CRUDActionType from 'constants/CRUDActionType';
 import {formModel} from "utils/Util";
 import {actions} from "react-redux-form";
 import {resetFormRecord} from 'actions/resetFormRecord';
+import {push} from 'react-router-redux';
 
 export default function AddContainerHOC(entity) {
 
@@ -27,8 +28,8 @@ export default function AddContainerHOC(entity) {
         return <Component
           onSubmit={record => dispatch(act(CRUDActionType.CREATE_REQUESTED, {record}))}
           onReset={() => dispatch(resetFormRecord(entity))}
-          entity={entity}
-          act={act}
+          onCancel={() => dispatch(push(`/${entity}`))}
+          {...{act, entity}}
           {...this.props}
         />
       }

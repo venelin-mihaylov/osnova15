@@ -14,11 +14,18 @@ const DefaultFormButtons = props => (
                   style={{margin: 5}}
 
     />
+    <RaisedButton label="Cancel"
+                  secondary={true}
+                  onClick={props.onCancel}
+                  style={{margin: 5}}
+
+    />
   </div>
 );
 
 DefaultFormButtons.propTypes = {
-  onReset: React.PropTypes.func.isRequired
+  onReset: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func.isRequired
 };
 
 export default DefaultFormButtons;

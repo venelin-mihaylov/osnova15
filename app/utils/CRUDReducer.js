@@ -17,11 +17,21 @@ export default function createCRUDReducer(object) {
     listRecords: [], // list record
     listFilters: null, // list filters
     listPage: 1, // list page
-    listLimit: 100, // list limit
+    listLimit: 100 // list limit
   }, action = {}) {
     let addPrefix = type => `${object.toUpperCase()}_${type}`;
 
     switch (action.type) {
+      case addPrefix(CRUDActionType.CREATE_REQUESTED):
+        return Object.assign({}, state, {
+          saving: true
+        });
+      case addPrefix(CRUDActionType.CREATE_ERROR):
+        return Object.assign({}, state, {
+          saving: false,
+          globalError: action.globalError,
+          fieldErrors: action.fieldErrors
+        });
       case addPrefix(CRUDActionType.LIST_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
@@ -38,7 +48,7 @@ export default function createCRUDReducer(object) {
       case addPrefix(CRUDActionType.LIST_ERROR):
         return Object.assign({}, state, {
           loading: false,
-          listError: action.error,
+          listError: action.globalError,
           listRecords: []
         });
       case addPrefix(CRUDActionType.READ_REQUESTED):

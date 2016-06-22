@@ -3,7 +3,7 @@ import {Model} from "objection";
 import MatchSchema from "../schema/MatchSchema";
 
 
-export default class MatchModel extends OsnovaModel {
+export default class Match extends OsnovaModel {
   static tableName = 'matches';
   static jsonSchema = MatchSchema;
 
