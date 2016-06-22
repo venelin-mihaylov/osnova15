@@ -3,15 +3,15 @@ import React from "react";
 import {connect} from "react-redux";
 import {autobind} from "core-decorators";
 import EntityAdd from "components/EntityAdd";
-import MatchForm from "modules/tournament/components/MatchForm";
+import MatchForm from "modules/match/components/MatchForm";
 import AddContainerHOC from 'hoc/AddContainerHOC';
 
 @connect(state => ({
-  redux: state.tournament,
-  form: state.tournamentForm
+  redux: state.match,
+  form: state.matchForm
 }))
 @autobind
-@AddContainerHOC('tournament')
+@AddContainerHOC('match')
 class MatchAddContainer extends React.Component {
 
   render() {

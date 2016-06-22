@@ -2,14 +2,14 @@
 import React from "react";
 import {autobind} from "core-decorators";
 import {connect} from "react-redux";
-import MatchTable from "modules/tournament/components/MatchTable";
+import MatchTable from "modules/match/components/MatchTable";
 import HasSelectionHOC from 'hoc/HasSelectionHOC';
 import ListContainerHOC from 'hoc/ListContainerHOC';
 
-@connect(state => ({redux: state.tournament}))
+@connect(state => ({redux: state.match}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC('tournament')
+@ListContainerHOC('match')
 export default class MatchListContainer extends React.Component {
 
   render() {
@@ -26,7 +26,7 @@ export default class MatchListContainer extends React.Component {
     return <MatchTable
       {...{listLoading, listError}}
       dataSource={listRecords}
-      toolbarTitle="Matchs"
+      toolbarTitle="Matches"
       limit={listLimit}
       columns={[{
         name: 'id',

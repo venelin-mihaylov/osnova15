@@ -40,7 +40,7 @@ const MatchForm = ({
       <RaisedButton label="errors"
                     secondary={true}
                     onClick={() => {
-                      dispatch(actions.setErrors(formModelField('tournament', 'name'), 'too many errors'));
+                      dispatch(actions.setErrors(formModelField('match', 'name'), 'too many errors'));
                     }}
                     style={{margin: 5}}
       />
@@ -48,8 +48,8 @@ const MatchForm = ({
       <RaisedButton label="clear errors"
                     secondary={true}
                     onClick={() => {
-                      dispatch(actions.setErrors(formModelField('tournament', 'name'), false));
-                      dispatch(actions.setValidity(formModelField('tournament', 'name'), true));
+                      dispatch(actions.setErrors(formModelField('match', 'name'), false));
+                      dispatch(actions.setValidity(formModelField('match', 'name'), true));
                     }}
                     style={{margin: 5}}
       />

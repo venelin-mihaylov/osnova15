@@ -7,8 +7,10 @@ import http from 'http';
 import SocketIo from 'socket.io';
 import config from '../universal/config';
 import CRUDService from './service/CRUDService';
+import MatchService from './service/MatchService';
 import {Model} from 'objection';
 import TournamentModel from "../universal/model/TournamentModel";
+import MatchModel from "../universal/model/MatchModel";
 import configureAuthRouter from './router/configureAuthRouter';
 import configureCRUDRouter from './router/configureCRUDRouter';
 import configurePassport from './config/passport/configurePassport';
@@ -49,6 +51,7 @@ app.use(passport.session());
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport));
 app.use('/tournament', configureCRUDRouter(new CRUDService(TournamentModel)));
+app.use('/match', configureCRUDRouter(new MatchService(MatchModel)));
 //</editor-fold>
 
 

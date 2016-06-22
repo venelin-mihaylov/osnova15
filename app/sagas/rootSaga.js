@@ -47,11 +47,11 @@ function* watchUserLogout() {
 }
 //</editor-fold>
 
-
 export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
     fork(watchUserLogout),
-    fork(createCRUDSaga('tournament'))
+    fork(createCRUDSaga('tournament')),
+    fork(createCRUDSaga('match'))
   ];
 }
