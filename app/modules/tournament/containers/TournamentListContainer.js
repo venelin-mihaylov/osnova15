@@ -2,7 +2,7 @@
 import React from "react";
 import {autobind} from "core-decorators";
 import {connect} from "react-redux";
-import TournamentTable from "modules/tournament/components/TournamentTable";
+import TournamentList from "modules/tournament/components/TournamentList";
 import HasSelectionHOC from 'hoc/HasSelectionHOC';
 import ListContainerHOC from 'hoc/ListContainerHOC';
 
@@ -23,7 +23,7 @@ export default class TournamentListContainer extends React.Component {
       ...rest
     } = this.props;
 
-    return <TournamentTable
+    return <TournamentList
       {...{listLoading, listError}}
       dataSource={listRecords}
       toolbarTitle="Tournaments"

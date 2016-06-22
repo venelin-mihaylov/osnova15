@@ -4,7 +4,7 @@ import TableToolbar from "components/TableToolbar";
 import DataGrid from 'react-datagrid';
 import GlobalError from 'components/GlobalError';
 
-const TournamentTable = ({
+const MatchList = ({
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -18,7 +18,7 @@ const TournamentTable = ({
   ...rest
 }) => {
 
-  return (<div>
+  return <div>
     <TableToolbar
       {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit}}
       title={toolbarTitle}
@@ -32,12 +32,12 @@ const TournamentTable = ({
       loading={listLoading}
       {...rest}
     />
-  </div>)
+  </div>
 };
 
-TournamentTable.propTypes = {
+MatchList.propTypes = {
   toolbarTitle: React.PropTypes.string.isRequired,
 };
 
-export default TournamentTable;
+export default MatchList;
 

@@ -2,7 +2,7 @@
 import React from "react";
 import {autobind} from "core-decorators";
 import {connect} from "react-redux";
-import MatchTable from "modules/match/components/MatchTable";
+import MatchList from "modules/match/components/MatchList";
 import HasSelectionHOC from 'hoc/HasSelectionHOC';
 import ListContainerHOC from 'hoc/ListContainerHOC';
 
@@ -23,7 +23,7 @@ export default class MatchListContainer extends React.Component {
       ...rest
     } = this.props;
 
-    return <MatchTable
+    return <MatchList
       {...{listLoading, listError}}
       dataSource={listRecords}
       toolbarTitle="Matches"
