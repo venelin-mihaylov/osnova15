@@ -32,8 +32,8 @@ export default function EditContainerHOC(entity) {
         return <Component
           onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
           onReset={() => dispatch(resetFormRecord(entity))}
-          entity={entity}
-          act={act}
+          {...{entity}}
+          {...{act}}
           {...this.props}
         />
       }
