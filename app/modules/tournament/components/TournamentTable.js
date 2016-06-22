@@ -33,6 +33,7 @@ const TournamentTable = ({
       zebraRows={false}
       style={{height: 500}}
       selected={selectedId}
+      loading={listLoading}
       onSelectionChange={onRowSelection}
       {...rest}
     />
