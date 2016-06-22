@@ -14,6 +14,7 @@ class TableToolbar extends React.Component {
     onEditClick: () => {},
     onDeleteClick: () => {},
     onLimitChange: () => {},
+    limit: 100,
     title: "List"
   };
 

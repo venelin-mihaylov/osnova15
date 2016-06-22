@@ -31,7 +31,7 @@ class CompetitorListContainer extends CRUDTableContainer {
       onLimitChange={this.onLimitChange}
       data={this.data.records.value()}
       toolbarTitle="Competitors"
-      onRowSelection={this.onRowSelection}
+      onSelectionChange={this.onSelectionChange}
       limit={this.props.redux.limit}
       columns={[{
         name: 'firstName',

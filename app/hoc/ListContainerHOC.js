@@ -21,18 +21,15 @@ export default function ListContainerHOC(entity) {
         const {
           dispatch,
           withFirstSelection,
-          onRowSelection,
         } = this.props;
 
         return <Component
+          {...{act, entity}}
           onAddClick={() => dispatch(push(`/${entity}/add`))}
           onEditClick={() => withFirstSelection(r => dispatch(push(`/${entity}/edit/${r.id}`)))}
           onDeleteClick={() => withFirstSelection(r => dispatch(act(CRUDActionType.DELETE_REQUESTED, {id: r.id})))}
           onRefresh={() => dispatch(act(CRUDActionType.LIST_REQUESTED))}
           onLimitChange={(e, limit) => dispatch(act(CRUDActionType.LIST_SET_LIMIT, {limit: limit}))}
-          onRowSelection={onRowSelection}
-          entity={entity}
-          act={act}
           {...this.props}
         />
       }

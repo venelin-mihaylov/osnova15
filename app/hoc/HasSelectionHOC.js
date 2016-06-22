@@ -30,7 +30,7 @@ export default function HasSelectionHOC(dataProp = 'data') {
       }
 
       @autobind
-      onRowSelection(id, record) {
+      onSelectionChange(id, record) {
         const isNew = this.state.selectedId != id;
 
         this.setState({
@@ -42,11 +42,10 @@ export default function HasSelectionHOC(dataProp = 'data') {
       render() {
         return <Component
           {...this.props}
-          onRowSelection={this.onRowSelection}
+          onSelectionChange={this.onSelectionChange}
           getFirstSelection={this.getFirstSelection}
           withFirstSelection={this.withFirstSelection}
           selectedId={this.state.selectedId}
-          {...this.state}
         />
       }
     }

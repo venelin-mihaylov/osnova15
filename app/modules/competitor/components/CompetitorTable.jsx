@@ -12,12 +12,12 @@ import TableToolbar from "components/TableToolbar";
 class CompetitorTable extends React.Component {
 
   static defaultProps = {
-    onRowSelection: () => {},
+    onSelectionChange: () => {},
     data: []
   };
 
   static propTypes = {
-    onRowSelection: React.PropTypes.func,
+    onSelectionChange: React.PropTypes.func,
     onAddClick: React.PropTypes.func,
     onEditClick: React.PropTypes.func,
     onDeleteClick: React.PropTypes.func,
@@ -49,7 +49,7 @@ class CompetitorTable extends React.Component {
           selectable={true}
           multiSelectable={false}
           stripedRows={true}
-          onRowSelection={this.props.onRowSelection}
+          onSelectionChange={this.props.onSelectionChange}
         >
           <TableHeader adjustForCheckbox={true}>
             <TableRow>

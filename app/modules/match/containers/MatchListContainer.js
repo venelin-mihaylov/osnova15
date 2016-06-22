@@ -40,7 +40,7 @@ class MatchListContainer extends CRUDTableContainer {
       onLimitChange={this.onLimitChange}
       data={this.data.records.value()}
       toolbarTitle="Matches"
-      onRowSelection={this.onRowSelection}
+      onSelectionChange={this.onSelectionChange}
       limit={limit}
       columns={[{
         name: 'name',
