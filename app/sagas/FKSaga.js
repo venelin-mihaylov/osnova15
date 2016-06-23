@@ -28,10 +28,7 @@ export default function FKSaga(entity) {
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
-        method: 'get',
-        params: {
-          page: action.page
-        }
+        method: 'get'
       });
       yield put(act(FKActionType.FK_LIST_SUCCESS, {records: response.data}));
     } catch(err) {

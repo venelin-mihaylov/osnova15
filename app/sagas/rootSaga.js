@@ -3,7 +3,7 @@ import {takeEvery} from 'redux-saga';
 import ActionType from 'constants/ActionType';
 import {push} from 'react-router-redux';
 import axios from 'axios';
-import createCRUDSaga from './createCRUDSaga';
+import CRUDSaga from './CRUDSaga';
 
 
 //<editor-fold desc="user login">
@@ -51,7 +51,7 @@ export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
     fork(watchUserLogout),
-    fork(createCRUDSaga('tournament')),
-    fork(createCRUDSaga('match'))
+    fork(CRUDSaga('tournament')),
+    fork(CRUDSaga('match'))
   ];
 }
