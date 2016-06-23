@@ -87,6 +87,7 @@ export default class FKSelect extends React.Component {
         records,
         renderedRecords
       },
+      renderRecords = (rs=[]) => rs.map(r => ({text: r.name, value: r.name})),
       model,
       onChange,
       ...rest
@@ -100,7 +101,7 @@ export default class FKSelect extends React.Component {
           filter={AutoComplete.noFilter}
           searchText={valueLabel}
           dataSource={renderedRecords}
-          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
+          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED, {renderRecords}))}
           onNewRequest={(X, idx) => onChange(records[idx].id)}
           {...rest}
         />

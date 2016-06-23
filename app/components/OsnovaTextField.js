@@ -4,13 +4,13 @@ import {MUIErrorText} from "utils/Util"
 import MaterialField from "components/MaterialField"
 import TextField from "material-ui/TextField"
 
-const OsnovaTextField = ({form, entity, field}) => (
+const OsnovaTextField = ({form, entity, field, ...rest}) => (
   <MaterialField model={formModelField(entity, field)}>
     <TextField
-      required
       hintText="name"
       floatingLabelText="name"
       errorText={MUIErrorText(form, entity, field)}
+      {...rest}
     />
   </MaterialField>
 )

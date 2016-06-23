@@ -8,11 +8,6 @@ export default function FKSaga(entity, variation) {
   const act = FKActionType.act(entity, variation)
   const type = type => FKActionType.prefixType(entity, variation, type)
 
-  function renderRecords(records) {
-    if (!records) return [];
-    return records.map(r => ({text: r.name, value: r.name}))
-  }
-
   /**
    *
    * @param {object} action
@@ -43,7 +38,12 @@ export default function FKSaga(entity, variation) {
     }
   }
 
-  function* list() {
+  /**
+   *
+   * @param {object} action
+   * @param {function} action.renderRecords
+   */
+  function* list(action) {
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
@@ -51,7 +51,7 @@ export default function FKSaga(entity, variation) {
       })
       yield put(act(FKActionType.FK_LIST_SUCCESS, {
         records: response.data,
-        renderedRecords: renderRecords(response.data)
+        renderedRecords: action.renderRecords(response.data)
       }))
     } catch(err) {
       yield put(act(FKActionType.FK_LIST_ERROR, formatServerError(err)))

@@ -35,7 +35,7 @@ const MatchForm = ({
         }
       }}
     >
-      <OsnovaTextField {...{form, entity}} field="name"/>
+      <OsnovaTextField {...{form, entity}} field="name" required/>
 
       <MaterialField model={formModelField(entity, 'tournament_id')}>
         <FKSelect
