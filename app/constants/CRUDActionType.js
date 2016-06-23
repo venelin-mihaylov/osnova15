@@ -39,8 +39,8 @@ export default class CRUDActionType {
 
   /**
    *
-   * @param string entity
-   * @param string action
+   * @param {string} entity
+   * @param {string} action
    * @returns {*}
      */
   static prefixType(entity, action) {

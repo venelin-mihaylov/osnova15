@@ -8,6 +8,7 @@ import Loading from 'components/Loading';
 import GlobalError from 'components/GlobalError';
 import Saving from 'components/Saving';
 import OsnovaTextField from 'components/OsnovaTextField';
+import FKSelect from 'components/FKSelect';
 
 const MatchForm = ({
   dispatch,
@@ -35,24 +36,20 @@ const MatchForm = ({
       }}
     >
       <OsnovaTextField {...{form, entity}} field="name"/>
+
+      <MaterialField model={formModelField(entity, 'tournament_id')}>
+        <FKSelect
+          dbTable="tournament"
+          FKname="FKtournament"
+          floatingLabelText="Tournament"
+          hintText="Tournament"
+          labelField="name"
+          entity={entity}
+        />
+      </MaterialField>
+
       <DefaultFormButtons {...{onReset}}/>
 
-      <RaisedButton label="errors"
-                    secondary={true}
-                    onClick={() => {
-                      dispatch(actions.setErrors(formModelField('match', 'name'), 'too many errors'));
-                    }}
-                    style={{margin: 5}}
-      />
-
-      <RaisedButton label="clear errors"
-                    secondary={true}
-                    onClick={() => {
-                      dispatch(actions.setErrors(formModelField('match', 'name'), false));
-                      dispatch(actions.setValidity(formModelField('match', 'name'), true));
-                    }}
-                    style={{margin: 5}}
-      />
     </Form>
   </div>
 );

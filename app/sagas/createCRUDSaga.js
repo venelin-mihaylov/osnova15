@@ -25,12 +25,8 @@ export default function createCRUDSaga(entity) {
       yield put(actions.load(formModel(entity), response.data));
 
     } catch(err) {
-      yield put(act(CRUDActionType.READ_SUCCESS, {error: err}));
+      yield put(act(CRUDActionType.READ_ERROR, {error: err}));
     }
-  }
-
-  function* watchRead() {
-    yield* takeEvery(type(CRUDActionType.READ_REQUESTED), read);
   }
 
   /**
@@ -51,23 +47,6 @@ export default function createCRUDSaga(entity) {
     }
   }
 
-  function* watchDelete() {
-    yield* takeEvery(type(CRUDActionType.DELETE_REQUESTED), doDelete);
-  }
-
-  function formatError(err) {
-    console.log(err);
-    if(err.status == 500) {
-      return {
-        globalError: 'Internal server error'
-      }
-    } else if(err.status == 422) { // validation
-      return err.data
-    } else {
-      return err.data
-    }
-  }
-
   function* create(action) {
     try {
       const response = yield call(axios, {
@@ -78,12 +57,8 @@ export default function createCRUDSaga(entity) {
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}));
       yield put(push(`/${entity}`));
     } catch(err) {
-      yield put(act(CRUDActionType.CREATE_ERROR, formatError(err)));
+      yield put(act(CRUDActionType.CREATE_ERROR, {error: err}));
     }
-  }
-
-  function* watchCreate() {
-    yield* takeEvery(type(CRUDActionType.CREATE_REQUESTED), create);
   }
 
   function* list(action) {
@@ -97,12 +72,8 @@ export default function createCRUDSaga(entity) {
       });
       yield put(act(CRUDActionType.LIST_SUCCESS, {records: response.data}));
     } catch(err) {
-      yield put(act(CRUDActionType.LIST_ERROR, formatError(err)));
+      yield put(act(CRUDActionType.LIST_SUCCESS, {error: err}));
     }
-  }
-
-  function* watchList() {
-    yield* takeEvery(type(CRUDActionType.LIST_REQUESTED), list);
   }
 
   /**
@@ -120,7 +91,7 @@ export default function createCRUDSaga(entity) {
       yield put(act(CRUDActionType.UPDATE_SUCCESS, {record: response.data}));
       yield put(push(`/${entity}`));
     } catch(err) {
-      const {globalError, fieldErrors = {}} = formatError(err);
+      const {globalError, fieldErrors = {}} = err.data;
       yield put(act(CRUDActionType.UPDATE_ERROR, {globalError, fieldErrors}));
       for(var k in fieldErrors) {
         if(!fieldErrors.hasOwnProperty(k)) continue;
@@ -129,17 +100,13 @@ export default function createCRUDSaga(entity) {
     }
   }
 
-  function* watchUpdate() {
-    yield* takeEvery(type(CRUDActionType.UPDATE_REQUESTED), update);
-  }
-
   return function* CRUDSaga() {
     yield [
-      fork(watchList),
-      fork(watchRead),
-      fork(watchCreate),
-      fork(watchUpdate),
-      fork(watchDelete)
-    ]
+      fork(function* () {yield* takeEvery(type(CRUDActionType.READ_REQUESTED), read)}),
+      fork(function* () {yield* takeEvery(type(CRUDActionType.LIST_REQUESTED), list)}),
+      fork(function* () {yield* takeEvery(type(CRUDActionType.CREATE_REQUESTED), create)}),
+      fork(function* () {yield* takeEvery(type(CRUDActionType.UPDATE_REQUESTED), update)}),
+      fork(function* () {yield* takeEvery(type(CRUDActionType.DELETE_REQUESTED), doDelete)})
+    ];
   }
 }

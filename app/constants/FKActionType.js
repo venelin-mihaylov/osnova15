@@ -1,15 +1,15 @@
 "use strict";
 export default class FKActionType {
 
-  static FOREIGN_KEY_LIST_START = 'FOREIGN_KEY_LIST_START';
-  static FOREIGN_KEY_LIST_SUCCESS = 'FOREIGN_KEY_LIST_SUCCESS';
-  static FOREIGN_KEY_LIST_ERROR = 'FOREIGN_KEY_LIST_ERROR';
+  static FK_LIST_REQUESTED = 'FK_LIST_REQUESTED';
+  static FK_LIST_SUCCESS = 'FK_LIST_SUCCESS';
+  static FK_LIST_ERROR = 'FK_LIST_ERROR';
 
-  static FOREIGN_KEY_READ_START = 'FOREIGN_KEY_READ_START';
-  static FOREIGN_KEY_READ_SUCCESS = 'FOREIGN_KEY_READ_SUCCESS';
-  static FOREIGN_KEY_READ_ERROR = 'FOREIGN_KEY_READ_ERROR';
+  static FK_READ_REQUESTED = 'FK_READ_REQUESTED';
+  static FK_READ_SUCCESS = 'FK_READ_SUCCESS';
+  static FK_READ_ERROR = 'FK_READ_ERROR';
 
-  static FOREIGN_KEY_RESET = 'FOREIGN_KEY_RESET';
+  static FK_RESET = 'FK_RESET';
 
   static create(object) {
     var ret = {};
@@ -20,5 +20,21 @@ export default class FKActionType {
       }
     }
     return ret;
+  }
+
+  /**
+   *
+   * @param {string} entity
+   * @param {string} action
+   * @returns {*}
+   */
+  static prefixType(entity, action) {
+    return entity.toUpperCase() + '_' + action;
+  }
+
+  static act = entity => (actionType, rest = {}) => {
+    return Object.assign({
+      type: FKActionType.prefixType(entity, actionType)
+    }, rest)
   }
 };
