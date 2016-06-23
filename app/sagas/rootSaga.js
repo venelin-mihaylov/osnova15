@@ -1,15 +1,15 @@
-import { fork, put, take, call } from 'redux-saga/effects';
-import {takeEvery} from 'redux-saga';
-import ActionType from 'constants/ActionType';
-import {push} from 'react-router-redux';
-import axios from 'axios';
-import CRUDSaga from './CRUDSaga';
+import { fork, put, take, call } from 'redux-saga/effects'
+import {takeEvery} from 'redux-saga'
+import ActionType from 'constants/ActionType'
+import {push} from 'react-router-redux'
+import axios from 'axios'
+import CRUDSaga from './CRUDSaga'
 
 
 //<editor-fold desc="user login">
 function* doUserLogin(action) {
   try {
-    const {email, password} = action;
+    const {email, password} = action
     const response = yield call(axios, {
       url: '/api/auth/login',
       method: 'post',
@@ -17,15 +17,15 @@ function* doUserLogin(action) {
         email: email,
         password: password
       }
-    });
-    yield put({ type: ActionType.LOGIN_USER_SUCCESS, response});
+    })
+    yield put({ type: ActionType.LOGIN_USER_SUCCESS, response})
     yield put(push('/'))
   } catch(err) {
-    yield put({ type: ActionType.LOGIN_USER_ERROR });
+    yield put({ type: ActionType.LOGIN_USER_ERROR })
   }
 }
 function* watchUserLogin() {
-  yield* takeEvery(ActionType.LOGIN_USER_REQUESTED, doUserLogin);
+  yield* takeEvery(ActionType.LOGIN_USER_REQUESTED, doUserLogin)
 }
 //</editor-fold>
 
@@ -35,15 +35,15 @@ function* doUserLogout() {
     yield call(axios, {
       url: '/api/auth/logout',
       method: 'post'
-    });
-    yield put({ type: ActionType.LOGOUT_USER_SUCCESS});
+    })
+    yield put({ type: ActionType.LOGOUT_USER_SUCCESS})
     yield put(push('/'))
   } catch(err) {
-    yield put({ type: ActionType.LOGOUT_USER_ERROR });
+    yield put({ type: ActionType.LOGOUT_USER_ERROR })
   }
 }
 function* watchUserLogout() {
-  yield* takeEvery(ActionType.LOGOUT_USER_REQUESTED, doUserLogout);
+  yield* takeEvery(ActionType.LOGOUT_USER_REQUESTED, doUserLogout)
 }
 //</editor-fold>
 
@@ -53,5 +53,5 @@ export default function* rootSaga() {
     fork(watchUserLogout),
     fork(CRUDSaga('tournament')),
     fork(CRUDSaga('match'))
-  ];
+  ]
 }

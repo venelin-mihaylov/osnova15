@@ -1,11 +1,11 @@
-"use strict";
-import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import Toolbar from "material-ui/Toolbar/Toolbar";
-import ToolbarGroup from "material-ui/Toolbar/ToolbarGroup";
-import ToolbarTitle from "material-ui/Toolbar/ToolbarTitle";
-import ListLimitMenu from "components/ListLimitMenu";
-import FontIcon from "material-ui/FontIcon";
+"use strict"
+import React from "react"
+import RaisedButton from "material-ui/RaisedButton"
+import Toolbar from "material-ui/Toolbar/Toolbar"
+import ToolbarGroup from "material-ui/Toolbar/ToolbarGroup"
+import ToolbarTitle from "material-ui/Toolbar/ToolbarTitle"
+import ListLimitMenu from "components/ListLimitMenu"
+import FontIcon from "material-ui/FontIcon"
 
 class TableToolbar extends React.Component {
 
@@ -16,7 +16,7 @@ class TableToolbar extends React.Component {
     onLimitChange: () => {},
     limit: 100,
     title: "List"
-  };
+  }
 
   static propTypes = {
     onAddClick: React.PropTypes.func,
@@ -26,7 +26,7 @@ class TableToolbar extends React.Component {
     onRefresh: React.PropTypes.func,
     limit: React.PropTypes.number,
     title: React.PropTypes.string
-  };
+  }
 
   render() {
 
@@ -39,7 +39,7 @@ class TableToolbar extends React.Component {
       onLimitChange,
       onRefresh
 
-    } = this.props;
+    } = this.props
 
     return (
       <Toolbar>
@@ -76,4 +76,4 @@ class TableToolbar extends React.Component {
   }
 }
 
-export default TableToolbar;
+export default TableToolbar

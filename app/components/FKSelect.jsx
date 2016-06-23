@@ -1,10 +1,10 @@
-import React from "react";
-import {connect} from "react-redux";
-import {autobind} from "core-decorators";
-import AutoComplete from "material-ui/AutoComplete";
-import IconButton from "material-ui/IconButton";
-import {actions} from "react-redux-form";
-import FKActionType from 'constants/FKActionType';
+import React from "react"
+import {connect} from "react-redux"
+import {autobind} from "core-decorators"
+import AutoComplete from "material-ui/AutoComplete"
+import IconButton from "material-ui/IconButton"
+import {actions} from "react-redux-form"
+import FKActionType from 'constants/FKActionType'
 
 @connect((state, ownProps) => {
   return {
@@ -25,7 +25,7 @@ export default class FKSelect extends React.Component {
     redux: {
       records: []
     }
-  };
+  }
 
   /**
    * @param props.dbTable
@@ -34,8 +34,8 @@ export default class FKSelect extends React.Component {
    * @param props.labelField
    */
   constructor(props) {
-    super(props);
-    this.act = FKActionType.act(this.props.entity);
+    super(props)
+    this.act = FKActionType.act(this.props.entity)
   }
 
   static propTypes = {
@@ -55,16 +55,16 @@ export default class FKSelect extends React.Component {
      * value
      */
     modelValue: React.PropTypes.string,
-  };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.modelValue != this.props.modelValue) {
-      this.props.dispatch(act(FKActionType.FK_READ_REQUESTED, {id: this.props.modelValue}));
+      this.props.dispatch(act(FKActionType.FK_READ_REQUESTED, {id: this.props.modelValue}))
     }
   }
 
   componentWillmount() {
-    this.props.dispatch(this.action.reset());
+    this.props.dispatch(this.action.reset())
   }
 
   render() {
@@ -79,8 +79,8 @@ export default class FKSelect extends React.Component {
       entity,
       onChange,
       ...rest
-    } = this.props;
-    const act = FKActionType.act(entity);
+    } = this.props
+    const act = FKActionType.act(entity)
 
     return (
       <div>
@@ -95,6 +95,6 @@ export default class FKSelect extends React.Component {
         />
         <IconButton iconClassName="fa fa-eraser" onClick={() => dispatch(actions.change(model, null))}/>
       </div>
-    );
+    )
   }
 }

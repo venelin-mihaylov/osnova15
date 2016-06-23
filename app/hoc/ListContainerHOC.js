@@ -1,27 +1,27 @@
-import React from 'react';
-import {getDisplayName} from 'recompose';
-import {push} from 'react-router-redux';
-import CRUDActionType from 'constants/CRUDActionType';
+import React from 'react'
+import {getDisplayName} from 'recompose'
+import {push} from 'react-router-redux'
+import CRUDActionType from 'constants/CRUDActionType'
 
 export default function ListContainerHOC(entity) {
 
   return function ListContainerHOC(Component) {
     return class ListContainerHOC extends React.Component {
 
-      static entity = entity;
-      static displayName = `ListContainerHOC(${getDisplayName(Component)})`;
+      static entity = entity
+      static displayName = `ListContainerHOC(${getDisplayName(Component)})`
 
       componentWillMount() {
         this.props.dispatch({type: CRUDActionType.prefixType(this.constructor.entity, CRUDActionType.LIST_REQUESTED)})
       }
 
       render() {
-        const entity = this.constructor.entity;
-        const act = CRUDActionType.act(entity);
+        const entity = this.constructor.entity
+        const act = CRUDActionType.act(entity)
         const {
           dispatch,
           withFirstSelection,
-        } = this.props;
+        } = this.props
 
         return <Component
           {...{act, entity}}
@@ -35,4 +35,4 @@ export default function ListContainerHOC(entity) {
       }
     }
   }
-};
+}

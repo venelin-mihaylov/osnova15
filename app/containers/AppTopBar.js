@@ -1,10 +1,10 @@
-"use strict";
-import React from "react";
-import AppBar from "material-ui/AppBar";
-import FlatButton from "material-ui/FlatButton";
-import {connect} from "react-redux";
-import {push} from "react-router-redux";
-import ActionType from 'constants/ActionType';
+"use strict"
+import React from "react"
+import AppBar from "material-ui/AppBar"
+import FlatButton from "material-ui/FlatButton"
+import {connect} from "react-redux"
+import {push} from "react-router-redux"
+import ActionType from 'constants/ActionType'
 
 const AppTopBar = props => {
   const {
@@ -12,7 +12,7 @@ const AppTopBar = props => {
     user: {
       authenticated
     }
-  } = props;
+  } = props
 
   return (<AppBar title="TCS"
                   iconElementRight={authenticated ?
@@ -20,16 +20,16 @@ const AppTopBar = props => {
                     <FlatButton label="Login" onClick={() => dispatch(push('/login'))}/>
                   }
                   onLeftIconButtonTouchTap={() => dispatch({type: ActionType.TOGGLE_LEFT_NAV})}
-    />);
-};
+    />)
+}
 
 AppTopBar.propTypes = {
   user: React.PropTypes.object,
   dispatch: React.PropTypes.func
-};
+}
 
 export default connect((state) => {
   return {
     user: state.user
   }
-})(AppTopBar);
+})(AppTopBar)

@@ -1,9 +1,9 @@
 /* @flow */
-"use strict";
-import React from "react";
-import AppTopBar from "./AppTopBar";
-import AppLeftNav from "./AppLeftNav";
-import {connect} from "react-redux";
+"use strict"
+import React from "react"
+import AppTopBar from "./AppTopBar"
+import AppLeftNav from "./AppLeftNav"
+import {connect} from "react-redux"
 
 @connect(state => ({
   nav: state.nav
@@ -15,7 +15,7 @@ export default class App extends React.Component {
         leftNavOpen
       },
       children
-    } = this.props;
+    } = this.props
 
     return (
       <div>
@@ -27,6 +27,6 @@ export default class App extends React.Component {
           {children}
         </div>
       </div>
-    );
+    )
   }
 }

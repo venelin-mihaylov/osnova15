@@ -1,8 +1,8 @@
-"use strict";
-import React from "react";
-import TableToolbar from "components/TableToolbar";
-import DataGrid from 'react-datagrid';
-import GlobalError from 'components/GlobalError';
+"use strict"
+import React from "react"
+import TableToolbar from "components/TableToolbar"
+import DataGrid from 'react-datagrid'
+import GlobalError from 'components/GlobalError'
 
 const MatchList = ({
   onAddClick,
@@ -33,11 +33,11 @@ const MatchList = ({
       {...rest}
     />
   </div>
-};
+}
 
 MatchList.propTypes = {
   toolbarTitle: React.PropTypes.string.isRequired,
-};
+}
 
-export default MatchList;
+export default MatchList
 

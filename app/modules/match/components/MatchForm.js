@@ -1,14 +1,13 @@
-"use strict";
-import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import {Form, actions} from "react-redux-form";
-import {formModel, formModelField} from "utils/Util";
-import DefaultFormButtons from 'components/DefaultFormButtons';
-import Loading from 'components/Loading';
-import GlobalError from 'components/GlobalError';
-import Saving from 'components/Saving';
-import OsnovaTextField from 'components/OsnovaTextField';
-import FKSelect from 'components/FKSelect';
+"use strict"
+import React from "react"
+import {Form, actions} from "react-redux-form"
+import {formModel, formModelField} from "utils/Util"
+import DefaultFormButtons from 'components/DefaultFormButtons'
+import Loading from 'components/Loading'
+import GlobalError from 'components/GlobalError'
+import Saving from 'components/Saving'
+import OsnovaTextField from 'components/OsnovaTextField'
+import FKSelect from 'components/FKSelect'
 
 const MatchForm = ({
   dispatch,
@@ -52,5 +51,5 @@ const MatchForm = ({
 
     </Form>
   </div>
-);
-export default MatchForm;
+)
+export default MatchForm

@@ -6,5 +6,5 @@ export const db = {
     password: 'tcs',
     database: 'tcs'
   }
-};
-export default db;
+}
+export default db

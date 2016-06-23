@@ -1,10 +1,10 @@
-"use strict";
-import React from "react";
-import {autobind} from "core-decorators";
-import {connect} from "react-redux";
-import MatchList from "modules/match/components/MatchList";
-import HasSelectionHOC from 'hoc/HasSelectionHOC';
-import ListContainerHOC from 'hoc/ListContainerHOC';
+"use strict"
+import React from "react"
+import {autobind} from "core-decorators"
+import {connect} from "react-redux"
+import MatchList from "modules/match/components/MatchList"
+import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import ListContainerHOC from 'hoc/ListContainerHOC'
 
 @connect(state => ({redux: state.match}))
 @autobind
@@ -21,7 +21,7 @@ export default class MatchListContainer extends React.Component {
         listLimit
       },
       ...rest
-    } = this.props;
+    } = this.props
 
     return <MatchList
       {...{listLoading, listError}}
@@ -39,6 +39,6 @@ export default class MatchListContainer extends React.Component {
         title: 'Състезание'
       }]}
       {...rest}
-    />;
+    />
   }
 }

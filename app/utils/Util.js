@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import React from "react"
 import {Errors} from "react-redux-form"
 import _get from "lodash.get"
@@ -13,7 +13,7 @@ export function formModelField(entity, field) {
 export const defaultErrorMessages = {
   length: "Field is too short.",
   required: "Field is required."
-};
+}
 
 /**
  *
@@ -25,11 +25,11 @@ export const defaultErrorMessages = {
  * @constructor
  */
 export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMessages) {
-  const fieldErrors = _get(form, `fields.${fieldName}.errors`);
+  const fieldErrors = _get(form, `fields.${fieldName}.errors`)
   if (!fieldErrors) {
     return null
   }
-  let error = false;
+  let error = false
   for (let k in fieldErrors) {
     if(!fieldErrors.hasOwnProperty(k)) continue
     error = error || fieldErrors[k]

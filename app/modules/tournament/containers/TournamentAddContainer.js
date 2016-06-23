@@ -1,10 +1,10 @@
-"use strict";
-import React from "react";
-import {connect} from "react-redux";
-import {autobind} from "core-decorators";
-import EntityAdd from "components/EntityAdd";
-import TournamentForm from "modules/tournament/components/TournamentForm";
-import AddContainerHOC from 'hoc/AddContainerHOC';
+"use strict"
+import React from "react"
+import {connect} from "react-redux"
+import {autobind} from "core-decorators"
+import EntityAdd from "components/EntityAdd"
+import TournamentForm from "modules/tournament/components/TournamentForm"
+import AddContainerHOC from 'hoc/AddContainerHOC'
 
 @connect(state => ({
   redux: state.tournament,
@@ -21,5 +21,5 @@ class TournamentAddContainer extends React.Component {
     />)
   }
 }
-export default TournamentAddContainer;
+export default TournamentAddContainer
 

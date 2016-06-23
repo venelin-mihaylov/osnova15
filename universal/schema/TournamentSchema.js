@@ -14,5 +14,5 @@ const TournamentSchema = {
       }
     }
   }
-};
-export default TournamentSchema;
+}
+export default TournamentSchema

@@ -1,5 +1,5 @@
-import React from 'react';
-import RaisedButton from "material-ui/RaisedButton";
+import React from 'react'
+import RaisedButton from "material-ui/RaisedButton"
 
 const DefaultFormButtons = props => (
   <div>
@@ -21,11 +21,11 @@ const DefaultFormButtons = props => (
 
     />
   </div>
-);
+)
 
 DefaultFormButtons.propTypes = {
   onReset: React.PropTypes.func.isRequired,
   onCancel: React.PropTypes.func.isRequired
-};
+}
 
-export default DefaultFormButtons;
+export default DefaultFormButtons

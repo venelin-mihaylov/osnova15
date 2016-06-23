@@ -1,5 +1,5 @@
-"use strict";
-import React from "react";
+"use strict"
+import React from "react"
 
 
 /*
@@ -11,5 +11,5 @@ const ContentContainer = props => (
   <div>
    {props.children}
   </div>
-);
-export default ContentContainer;
+)
+export default ContentContainer

@@ -1,9 +1,9 @@
-"use strict";
-import React from "react";
-import {connect} from "react-redux";
-import {autobind} from "core-decorators";
-import ActionType from 'constants/ActionType';
-import LoginForm from 'components/LoginForm';
+"use strict"
+import React from "react"
+import {connect} from "react-redux"
+import {autobind} from "core-decorators"
+import ActionType from 'constants/ActionType'
+import LoginForm from 'components/LoginForm'
 
 //TODO: Cleanup
 
@@ -15,7 +15,7 @@ export default class LoginPage extends React.Component {
     const {
       dispatch,
       ...rest
-    } = this.props;
+    } = this.props
     return (
       <div>
         <h1>Login</h1>
@@ -23,6 +23,6 @@ export default class LoginPage extends React.Component {
           onSubmit={model => dispatch(Object.assign({type: ActionType.LOGIN_USER_REQUESTED}, model))}
           {...rest}
         />
-      </div>);
+      </div>)
   }
 }

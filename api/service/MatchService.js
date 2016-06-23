@@ -1,4 +1,4 @@
-import CRUDService from './CRUDService';
+import CRUDService from './CRUDService'
 
 export default class MatchService extends CRUDService {
   list() {

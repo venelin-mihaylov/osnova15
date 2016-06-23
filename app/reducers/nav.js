@@ -1,5 +1,5 @@
-"use strict";
-import ActionType from "constants/ActionType";
+"use strict"
+import ActionType from "constants/ActionType"
 
 export default function nav(state = {
   leftNavOpen: true
@@ -8,8 +8,8 @@ export default function nav(state = {
     case ActionType.TOGGLE_LEFT_NAV:
       return Object.assign({}, state, {
         leftNavOpen: !state.leftNavOpen
-      });
+      })
     default:
-      return state;
+      return state
   }
 }

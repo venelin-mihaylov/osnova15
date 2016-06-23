@@ -1,34 +1,34 @@
-"use strict";
-import {autobind} from "core-decorators";
-import {ValidationError} from 'objection';
+"use strict"
+import {autobind} from "core-decorators"
+import {ValidationError} from 'objection'
 
 @autobind
 export default class CRUDService {
 
-  model = null;
+  model = null
 
   constructor(model) {
-    this.model = model;
+    this.model = model
   }
 
   list() {
-    return this.model.query();
+    return this.model.query()
   }
 
   create(data) {
-    return this.model.query().insert(data);
+    return this.model.query().insert(data)
   }
 
   read(id) {
-    return this.model.query().findById(id);
+    return this.model.query().findById(id)
   }
 
   update(id, data) {
-    return this.model.query().updateAndFetchById(id, data);
+    return this.model.query().updateAndFetchById(id, data)
   }
 
   delete(id) {
-    return this.model.query().deleteById(id);
+    return this.model.query().deleteById(id)
   }
 
 }

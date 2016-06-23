@@ -4,8 +4,8 @@ if (process.env.NODE_ENV !== 'production') {
     hook: true,
     ignore: /(\/\.|~$|\.json$)/i
   })) {
-    return;
+    return
   }
 }
-require('../server.babel'); // babel registration (runtime transpilation for node)
-require('../api/api');
+require('../server.babel') // babel registration (runtime transpilation for node)
+require('../api/api')

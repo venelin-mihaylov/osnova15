@@ -1,10 +1,10 @@
-"use strict";
-import React from "react";
-import {connect} from "react-redux";
-import {autobind} from "core-decorators";
-import EntityAdd from "components/EntityAdd";
-import MatchForm from "modules/match/components/MatchForm";
-import AddContainerHOC from 'hoc/AddContainerHOC';
+"use strict"
+import React from "react"
+import {connect} from "react-redux"
+import {autobind} from "core-decorators"
+import EntityAdd from "components/EntityAdd"
+import MatchForm from "modules/match/components/MatchForm"
+import AddContainerHOC from 'hoc/AddContainerHOC'
 
 @connect(state => ({
   redux: state.match,
@@ -21,5 +21,5 @@ class MatchAddContainer extends React.Component {
     />)
   }
 }
-export default MatchAddContainer;
+export default MatchAddContainer
 

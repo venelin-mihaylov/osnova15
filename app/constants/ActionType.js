@@ -1,5 +1,5 @@
-import CRUDActionType from "constants/CRUDActionType";
-import ForeignKeyActionType from "constants/FKActionType";
+import CRUDActionType from "constants/CRUDActionType"
+import ForeignKeyActionType from "constants/FKActionType"
 
 const ActionType = Object.assign({
     TOGGLE_LEFT_NAV: 'TOGGLE_LEFT_NAV',
@@ -31,5 +31,5 @@ const ActionType = Object.assign({
   CRUDActionType.create('competitor'),
   CRUDActionType.create('match'),
   ForeignKeyActionType.create('tournament')
-);
-export default ActionType;
+)
+export default ActionType

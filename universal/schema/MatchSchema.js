@@ -6,5 +6,5 @@ const MatchSchema = {
     name: {type: 'string', minLength: 10, maxLength: 255},
     tournament_id: {type: 'integer'}
   }
-};
-export default MatchSchema;
+}
+export default MatchSchema

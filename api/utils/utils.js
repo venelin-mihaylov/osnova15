@@ -8,7 +8,7 @@ export function renderValidationErrors(validationErrors, res) {
     res.status(422).json({
       globalError: 'Invalid parameter',
       fieldErrors: validationErrors
-    });
+    })
   }
-  return !!validationErrors;
+  return !!validationErrors
 }

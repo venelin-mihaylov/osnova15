@@ -1,8 +1,8 @@
-"use strict";
-import React from "react";
-import TableToolbar from "components/TableToolbar";
-import DataGrid from 'react-datagrid';
-import GlobalError from 'components/GlobalError';
+"use strict"
+import React from "react"
+import TableToolbar from "components/TableToolbar"
+import DataGrid from 'react-datagrid'
+import GlobalError from 'components/GlobalError'
 
 const TournamentList = ({
   onAddClick,
@@ -33,11 +33,11 @@ const TournamentList = ({
       {...rest}
     />
   </div>)
-};
+}
 
 TournamentList.propTypes = {
   toolbarTitle: React.PropTypes.string.isRequired,
-};
+}
 
-export default TournamentList;
+export default TournamentList
 

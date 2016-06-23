@@ -1,8 +1,8 @@
-"use strict";
-import React from "react";
-import Drawer from "material-ui/Drawer";
-import MenuItem from "material-ui/MenuItem";
-import {IndexLink, Link} from "react-router";
+"use strict"
+import React from "react"
+import Drawer from "material-ui/Drawer"
+import MenuItem from "material-ui/MenuItem"
+import {IndexLink, Link} from "react-router"
 
 
 const AppLeftNav = (props) => {
@@ -13,6 +13,6 @@ const AppLeftNav = (props) => {
       <MenuItem><Link to="/competitor" activeStyle={{ color: 'red'}}>Competitors</Link></MenuItem>
       <MenuItem><Link to="/match" activeStyle={{ color: 'red'}}>Matches</Link></MenuItem>
     </Drawer>
-  );
-};
-export default AppLeftNav;
+  )
+}
+export default AppLeftNav

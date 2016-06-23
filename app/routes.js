@@ -1,17 +1,17 @@
-import React from "react";
-import {Route, IndexRoute} from "react-router";
-import App from "containers/App";
-import TournamentListContainer from "modules/tournament/containers/TournamentListContainer";
-import TournamentAddContainer from "modules/tournament/containers/TournamentAddContainer";
-import TournamentEditContainer from "modules/tournament/containers/TournamentEditContainer";
+import React from "react"
+import {Route, IndexRoute} from "react-router"
+import App from "containers/App"
+import TournamentListContainer from "modules/tournament/containers/TournamentListContainer"
+import TournamentAddContainer from "modules/tournament/containers/TournamentAddContainer"
+import TournamentEditContainer from "modules/tournament/containers/TournamentEditContainer"
 
-import MatchListContainer from "modules/match/containers/MatchListContainer";
-import MatchAddContainer from "modules/match/containers/MatchAddContainer";
-import MatchEditContainer from "modules/match/containers/MatchEditContainer";
+import MatchListContainer from "modules/match/containers/MatchListContainer"
+import MatchAddContainer from "modules/match/containers/MatchAddContainer"
+import MatchEditContainer from "modules/match/containers/MatchEditContainer"
 
-import HomePage from "containers/HomePage";
-import LoginPage from "containers/LoginPage";
-import ContentContainer from "containers/ContentContainer";
+import HomePage from "containers/HomePage"
+import LoginPage from "containers/LoginPage"
+import ContentContainer from "containers/ContentContainer"
 
 /*
  * @param {Redux Store}
@@ -20,25 +20,25 @@ import ContentContainer from "containers/ContentContainer";
  */
 export default (store) => {
   const requireAuth = (nextState, replace, callback) => {
-    const {user: {authenticated}} = store.getState();
+    const {user: {authenticated}} = store.getState()
     if (!authenticated) {
       replace({
         pathname: '/login',
         state: {nextPathname: nextState.location.pathname}
-      });
+      })
     }
-    callback();
-  };
+    callback()
+  }
 
   const redirectAuth = (nextState, replace, callback) => {
-    const {user: {authenticated}} = store.getState();
+    const {user: {authenticated}} = store.getState()
     if (authenticated) {
       replace({
         pathname: '/'
-      });
+      })
     }
-    callback();
-  };
+    callback()
+  }
 
   return (
     <Route path="/" component={App}>
@@ -55,5 +55,5 @@ export default (store) => {
         <Route path="edit/:id" component={MatchEditContainer}/>
       </Route>
     </Route>
-  );
-};
+  )
+}

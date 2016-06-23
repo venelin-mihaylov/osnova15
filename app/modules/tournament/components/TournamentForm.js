@@ -1,13 +1,13 @@
-"use strict";
-import React from "react";
-import RaisedButton from "material-ui/RaisedButton";
-import {Form, actions} from "react-redux-form";
-import {formModel, formModelField} from "utils/Util";
-import DefaultFormButtons from 'components/DefaultFormButtons';
-import Loading from 'components/Loading';
-import GlobalError from 'components/GlobalError';
-import Saving from 'components/Saving';
-import OsnovaTextField from 'components/OsnovaTextField';
+"use strict"
+import React from "react"
+import RaisedButton from "material-ui/RaisedButton"
+import {Form, actions} from "react-redux-form"
+import {formModel, formModelField} from "utils/Util"
+import DefaultFormButtons from 'components/DefaultFormButtons'
+import Loading from 'components/Loading'
+import GlobalError from 'components/GlobalError'
+import Saving from 'components/Saving'
+import OsnovaTextField from 'components/OsnovaTextField'
 
 const TournamentForm = ({
   dispatch,
@@ -41,7 +41,7 @@ const TournamentForm = ({
       <RaisedButton label="errors"
                     secondary={true}
                     onClick={() => {
-                      dispatch(actions.setErrors(formModelField('tournament', 'name'), 'too many errors'));
+                      dispatch(actions.setErrors(formModelField('tournament', 'name'), 'too many errors'))
                     }}
                     style={{margin: 5}}
       />
@@ -49,12 +49,12 @@ const TournamentForm = ({
       <RaisedButton label="clear errors"
                     secondary={true}
                     onClick={() => {
-                      dispatch(actions.setErrors(formModelField('tournament', 'name'), false));
-                      dispatch(actions.setValidity(formModelField('tournament', 'name'), true));
+                      dispatch(actions.setErrors(formModelField('tournament', 'name'), false))
+                      dispatch(actions.setValidity(formModelField('tournament', 'name'), true))
                     }}
                     style={{margin: 5}}
       />
     </Form>
   </div>
-);
-export default TournamentForm;
+)
+export default TournamentForm

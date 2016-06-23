@@ -1,6 +1,6 @@
-"use strict";
-import UserModel from '../../../universal/model/UserModel';
-var LocalStrategy = require('passport-local').Strategy;
+"use strict"
+import UserModel from '../../../universal/model/UserModel'
+var LocalStrategy = require('passport-local').Strategy
 
 const localStrategy = new LocalStrategy({
   usernameField: 'email',
@@ -11,17 +11,17 @@ const localStrategy = new LocalStrategy({
     .where('email', '=', email)
     .then(function (users) {
 
-      if (!users.length || users.length > 1) return done(err, false, {error: "Wrong username or password"});
+      if (!users.length || users.length > 1) return done(err, false, {error: "Wrong username or password"})
       if(password == users[0].password) {
         return done(null, {
           email: users[0].email
-        });
+        })
       } else {
-        return done(null, false, {error: "Wrong username or password2"});
+        return done(null, false, {error: "Wrong username or password2"})
       }
     }).catch(err => {
-      return done(err, false, {error: "Server error occurred"});
-    });
-});
+      return done(err, false, {error: "Server error occurred"})
+    })
+})
 
-export default localStrategy;
+export default localStrategy
