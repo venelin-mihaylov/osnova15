@@ -12,8 +12,8 @@ export default class Match extends OsnovaModel {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '/Tournament',
       join: {
-        from: 'Match.tournament_id',
-        to: 'Tournament.id'
+        from: 'matches.tournament_id',
+        to: 'tournament.id'
       }
     }
   }

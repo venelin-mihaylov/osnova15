@@ -52,7 +52,9 @@ export function formatServerError(err) {
   } else if(err.status == 422) { // validation
     return err.data
   } else { // default
-    return err.data
+    return {
+      globalError: 'General server error'
+    }
   }
 }
 

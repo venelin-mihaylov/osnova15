@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
-  FKtournament: createFKReducer('tournament'),
+  FKtournament: createFKReducer('tournament', '1'),
 
   match: createCRUDReducer('match'),
   matchModel: modelReducer('matchModel', {}),

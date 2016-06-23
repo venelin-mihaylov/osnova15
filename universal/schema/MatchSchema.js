@@ -1,6 +1,6 @@
 const MatchSchema = {
   type: 'object',
-  required: ['name', 'tournamentID'],
+  required: ['name', 'tournament_id'],
   properties: {
     id: {type: 'integer'},
     name: {type: 'string', minLength: 10, maxLength: 255},

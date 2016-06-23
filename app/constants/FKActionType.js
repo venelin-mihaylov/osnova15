@@ -25,16 +25,17 @@ export default class FKActionType {
   /**
    *
    * @param {string} entity
+   * @param {string} variation
    * @param {string} action
    * @returns {*}
    */
-  static prefixType(entity, action) {
-    return entity.toUpperCase() + '_' + action
+  static prefixType(entity, variation, action) {
+    return entity.toUpperCase() + '_' + variation.toUpperCase() + '_' + action
   }
 
-  static act = entity => (actionType, rest = {}) => {
+  static act = (entity, variation) => (actionType, rest = {}) => {
     return Object.assign({
-      type: FKActionType.prefixType(entity, actionType)
+      type: FKActionType.prefixType(entity, variation, actionType)
     }, rest)
   }
 }

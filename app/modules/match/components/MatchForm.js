@@ -8,6 +8,7 @@ import GlobalError from 'components/GlobalError'
 import Saving from 'components/Saving'
 import OsnovaTextField from 'components/OsnovaTextField'
 import FKSelect from 'components/FKSelect'
+import MaterialField from "components/MaterialField"
 
 const MatchForm = ({
   dispatch,
@@ -38,12 +39,12 @@ const MatchForm = ({
 
       <MaterialField model={formModelField(entity, 'tournament_id')}>
         <FKSelect
-          dbTable="tournament"
+          entity="tournament"
+          variation="1"
           FKname="FKtournament"
           floatingLabelText="Tournament"
           hintText="Tournament"
           labelField="name"
-          entity={entity}
         />
       </MaterialField>
 

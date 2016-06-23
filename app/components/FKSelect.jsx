@@ -28,21 +28,25 @@ export default class FKSelect extends React.Component {
   }
 
   /**
-   * @param props.dbTable
+   * @param props.entity
    * @param props.FKName
    * @param props.initialValue
    * @param props.labelField
    */
   constructor(props) {
     super(props)
-    this.act = FKActionType.act(this.props.entity)
+    this.act = FKActionType.act(this.props.entity, this.props.variation)
   }
 
   static propTypes = {
     /**
      * DB table
      */
-    dbTable: React.PropTypes.string.isRequired,
+    entity: React.PropTypes.string.isRequired,
+    /**
+     * variation
+     */
+    variation: React.PropTypes.string.isRequired,
     /**
      * The name of the foreign key in the redux store
      */
@@ -59,28 +63,28 @@ export default class FKSelect extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.modelValue != this.props.modelValue) {
-      this.props.dispatch(act(FKActionType.FK_READ_REQUESTED, {id: this.props.modelValue}))
+      this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {id: this.props.modelValue}))
     }
   }
 
   componentWillmount() {
-    this.props.dispatch(this.action.reset())
+    this.props.dispatch(this.act(FKActionType.FK_RESET))
   }
 
   render() {
-
+    const act = this.act
     const {
       dispatch,
       redux: {
         valueLabel,
-        records
+        records,
+        renderedRecords
       },
       model,
-      entity,
       onChange,
       ...rest
     } = this.props
-    const act = FKActionType.act(entity)
+
 
     return (
       <div>
@@ -88,8 +92,8 @@ export default class FKSelect extends React.Component {
           openOnFocus={true}
           filter={AutoComplete.noFilter}
           searchText={valueLabel}
-          dataSource={records}
-          onUpdateInput={dispatch(act(FKActionType.FK_LIST_REQUESTED))}
+          dataSource={renderedRecords}
+          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
           onNewRequest={(X, idx) => onChange(records[idx].id)}
           {...rest}
         />

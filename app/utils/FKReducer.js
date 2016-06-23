@@ -1,55 +1,54 @@
 "use strict"
 import FKActionType from "../constants/FKActionType"
-export default function createFKReducer(object) {
+export default function createFKReducer(entity, variation) {
   return function (state = {
     loading: false,
-    err: null,
+    globalError: null,
     records: [],
     renderedRecords: [],
     valueRecord: null,
     valueLabel: null
   }, action = {}) {
-    object = object.toUpperCase()
-    let addPrefix = type => `${object}_${type}`
+    const type = type => FKActionType.prefixType(entity, variation, type)
 
     switch (action.type) {
-      case addPrefix(FKActionType.FK_LIST_REQUESTED):
+      case type(FKActionType.FK_LIST_REQUESTED):
         return Object.assign({}, state, {
           loading: true
         })
-      case addPrefix(FKActionType.FK_LIST_SUCCESS):
+      case type(FKActionType.FK_LIST_SUCCESS):
         return Object.assign({}, state, {
           loading: false,
           records: action.records,
           renderedRecords: action.renderedRecords
         })
-      case addPrefix(FKActionType.FK_LIST_ERROR):
+      case type(FKActionType.FK_LIST_ERROR):
         return Object.assign({}, state, {
           loading: false,
           records: [],
           renderedRecords: [],
-          globalError: action.err
+          globalError: action.globalError
         })
-      case addPrefix(FKActionType.FK_READ_REQUESTED):
+      case type(FKActionType.FK_READ_REQUESTED):
         return Object.assign({}, state, {
           loading: true,
           valueRecord: null,
           valueLabel: null
         })
-      case addPrefix(FKActionType.FK_READ_SUCCESS):
+      case type(FKActionType.FK_READ_SUCCESS):
         return Object.assign({}, state, {
           loading: false,
           valueRecord: action.valueRecord,
           valueLabel: action.valueLabel
         })
-      case addPrefix(FKActionType.FK_READ_ERROR):
+      case type(FKActionType.FK_READ_ERROR):
         return Object.assign({}, state, {
           loading: false,
           valueRecord: null,
           valueLabel: null,
           globalError: action.globalError
         })
-      case addPrefix(FKActionType.FK_RESET):
+      case type(FKActionType.FK_RESET):
         return Object.assign({}, state, {
           loading: false,
           valueRecord: null,

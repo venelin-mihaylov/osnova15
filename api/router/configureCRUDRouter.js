@@ -19,7 +19,18 @@ export default function configureCRUDRouter(service) {
     res.json(service.read(req.params.id))
   })
   router.put('/', function(req, res) {
-    res.json(service.create(req.body))
+    try {
+      res.json(service.create(req.body))
+    } catch(err) {
+      if(err instanceof ValidationError) {
+        res.status(422).json({
+          globalError: 'Invalid data',
+          fieldErrors: err.data
+        })
+      } else {
+        res.status(500).json(err.data)
+      }
+    }
   })
   router.post('/:id', async function(req, res) {
     req.checkParams('id').isInt()

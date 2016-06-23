@@ -2,10 +2,16 @@ import FKActionType from 'constants/FKActionType'
 import { fork, put, take, call } from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
+import {formatServerError} from 'utils/Util'
 
-export default function FKSaga(entity) {
-  const act = FKActionType.act(entity)
-  const type = type => FKActionType.prefixType(entity, type)
+export default function FKSaga(entity, variation) {
+  const act = FKActionType.act(entity, variation)
+  const type = type => FKActionType.prefixType(entity, variation, type)
+
+  function renderRecords(records) {
+    if (!records) return [];
+    return records.map(r => ({text: r.name, value: r.name}))
+  }
 
   /**
    *
@@ -20,19 +26,23 @@ export default function FKSaga(entity) {
       })
       yield put(act(FKActionType.FK_READ_SUCCESS, {record: response.data}))
     } catch(err) {
-      yield put(act(FKActionType.FK_READ_ERROR, {error: err}))
+      yield put(act(FKActionType.FK_READ_ERROR, formatServerError(err)))
     }
   }
 
-  function* list(action) {
+  function* list() {
+    console.log('list fk')
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
         method: 'get'
       })
-      yield put(act(FKActionType.FK_LIST_SUCCESS, {records: response.data}))
+      yield put(act(FKActionType.FK_LIST_SUCCESS, {
+        records: response.data,
+        renderedRecords: renderRecords(response.data)
+      }))
     } catch(err) {
-      yield put(act(FKActionType.FK_LIST_SUCCESS, {error: err}))
+      yield put(act(FKActionType.FK_LIST_ERROR, formatServerError(err)))
     }
   }
 
