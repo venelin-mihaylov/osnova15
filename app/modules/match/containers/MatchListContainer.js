@@ -35,8 +35,8 @@ export default class MatchListContainer extends React.Component {
         name: 'name',
         title: 'Име'
       }, {
-        name: 'startDate',
-        title: 'Стартиращ на'
+        name: 'tournament_id__name',
+        title: 'Състезание'
       }]}
       {...rest}
     />;
