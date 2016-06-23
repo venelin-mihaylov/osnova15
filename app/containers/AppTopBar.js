@@ -14,13 +14,14 @@ const AppTopBar = props => {
     }
   } = props
 
-  return (<AppBar title="TCS"
-                  iconElementRight={authenticated ?
-                    <FlatButton label="Logout" onClick={() => dispatch({type: ActionType.LOGOUT_USER_REQUESTED})}/> :
-                    <FlatButton label="Login" onClick={() => dispatch(push('/login'))}/>
-                  }
-                  onLeftIconButtonTouchTap={() => dispatch({type: ActionType.TOGGLE_LEFT_NAV})}
-    />)
+  return (<AppBar
+    title="TCS"
+    iconElementRight={authenticated ?
+      <FlatButton label="Logout" onClick={() => dispatch({type: ActionType.LOGOUT_USER_REQUESTED})}/> :
+      <FlatButton label="Login" onClick={() => dispatch(push('/login'))}/>
+    }
+    onLeftIconButtonTouchTap={() => dispatch({type: ActionType.TOGGLE_LEFT_NAV})}
+  />)
 }
 
 AppTopBar.propTypes = {
