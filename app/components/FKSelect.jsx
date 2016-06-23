@@ -59,11 +59,18 @@ export default class FKSelect extends React.Component {
      * value
      */
     modelValue: React.PropTypes.string,
+    /**
+     * labelField
+     */
+    labelField: React.PropTypes.string.isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.modelValue != this.props.modelValue) {
-      this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {id: this.props.modelValue}))
+      this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {
+        id: nextProps.modelValue,
+        labelField: this.props.labelField
+      }))
     }
   }
 

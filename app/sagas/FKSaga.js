@@ -15,23 +15,35 @@ export default function FKSaga(entity, variation) {
 
   /**
    *
-   * @param {action} action
+   * @param {object} action
+   * @param {integer} action.id
+   * @param {string} action.labelField
    * @param {int} action.id
    */
   function* read(action) {
+    if(!action.id) {
+      yield put(act(FKActionType.FK_READ_SUCCESS, {
+        valueRecord: null,
+        valueLabel: null
+      }))
+      return
+    }
+
     try {
       const response = yield call(axios, {
         url: `/api/${entity}/${action.id}`,
         method: 'get'
       })
-      yield put(act(FKActionType.FK_READ_SUCCESS, {record: response.data}))
+      yield put(act(FKActionType.FK_READ_SUCCESS, {
+        valueRecord: response.data,
+        valueLabel: response.data[action.labelField]
+      }))
     } catch(err) {
       yield put(act(FKActionType.FK_READ_ERROR, formatServerError(err)))
     }
   }
 
   function* list() {
-    console.log('list fk')
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
