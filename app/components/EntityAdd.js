@@ -1,14 +1,10 @@
 import React from "react"
 import {ucfirst} from 'utils/Util'
+import EntityForm from 'components/EntityForm'
 
-const EntityAdd = props => {
-  const {
-    FormComponent,
-  } = props
-
-  return (<div>
+const EntityAdd = props => (<div>
     <h1>Add {ucfirst(props.entity)}</h1>
-    <div><FormComponent {...props}/></div>
-  </div>)
-}
+    <div><EntityForm {...props}/></div>
+  </div>
+);
 export default EntityAdd

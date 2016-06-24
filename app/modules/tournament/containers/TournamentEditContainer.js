@@ -3,7 +3,7 @@ import React from "react"
 import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityEdit from "components/EntityEdit"
-import TournamentForm from "modules/tournament/components/TournamentForm"
+import TournamentFormFields from "modules/tournament/components/TournamentFormFields"
 import EditContainerHOC from 'hoc/EditContainerHOC'
 
 @connect(state => ({
@@ -14,10 +14,10 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
 @EditContainerHOC('tournament')
 class TournamentEditContainer extends React.Component {
   render() {
-    return <EntityEdit
-      FormComponent={TournamentForm}
+    return (<EntityEdit
+      FormFieldsComponent={TournamentFormFields}
       {...this.props}
-    />
+    />)
   }
 }
 export default TournamentEditContainer

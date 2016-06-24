@@ -4,7 +4,7 @@ import TableToolbar from "components/TableToolbar"
 import DataGrid from 'react-datagrid'
 import GlobalError from 'components/GlobalError'
 
-const MatchList = ({
+const EntityList = ({
   onAddClick,
   onEditClick,
   onDeleteClick,
@@ -18,10 +18,9 @@ const MatchList = ({
   ...rest
 }) => {
 
-  return <div>
+  return (<div>
     <TableToolbar
-      {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit}}
-      title={toolbarTitle}
+      {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit, toolbarTitle}}
     />
     <GlobalError globalError={listError}/>
     <DataGrid
@@ -32,12 +31,12 @@ const MatchList = ({
       loading={listLoading}
       {...rest}
     />
-  </div>
+  </div>)
 }
 
-MatchList.propTypes = {
+EntityList.propTypes = {
   toolbarTitle: React.PropTypes.string.isRequired,
 }
 
-export default MatchList
+export default EntityList
 

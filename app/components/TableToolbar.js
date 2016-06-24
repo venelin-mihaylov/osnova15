@@ -15,7 +15,7 @@ class TableToolbar extends React.Component {
     onDeleteClick: () => {},
     onLimitChange: () => {},
     limit: 100,
-    title: "List"
+    toolbarTitle: "List"
   }
 
   static propTypes = {
@@ -25,13 +25,13 @@ class TableToolbar extends React.Component {
     onLimitChange: React.PropTypes.func,
     onRefresh: React.PropTypes.func,
     limit: React.PropTypes.number,
-    title: React.PropTypes.string
+    toolbarTitle: React.PropTypes.string
   }
 
   render() {
 
     const {
-      title,
+      toolbarTitle,
       onAddClick,
       onEditClick,
       onDeleteClick,
@@ -64,7 +64,7 @@ class TableToolbar extends React.Component {
           />
         </ToolbarGroup>
         <ToolbarGroup float="right">
-          <ToolbarTitle text={title}/>
+          <ToolbarTitle text={toolbarTitle}/>
           <FontIcon className="fa fa-refresh fa-3x" onClick={onRefresh} style={{marginRight: 20}}/>
           <ListLimitMenu
             onLimitChange={onLimitChange}
