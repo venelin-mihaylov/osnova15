@@ -11,6 +11,7 @@ import MatchService from './service/MatchService'
 import {Model} from 'objection'
 import Tournament from "../universal/model/Tournament"
 import Match from "../universal/model/Match"
+import Competitor from "../universal/model/Competitor"
 import configureAuthRouter from './router/configureAuthRouter'
 import configureCRUDRouter from './router/configureCRUDRouter'
 import configurePassport from './config/passport/configurePassport'
@@ -52,6 +53,7 @@ app.use(passport.session())
 app.use('/auth', configureAuthRouter(passport))
 app.use('/tournament', configureCRUDRouter(new CRUDService(Tournament)))
 app.use('/match', configureCRUDRouter(new MatchService(Match)))
+app.use('/competitor', configureCRUDRouter(new CRUDService(Competitor)))
 //</editor-fold>
 
 
