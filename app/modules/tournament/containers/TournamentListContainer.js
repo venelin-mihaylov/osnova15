@@ -11,23 +11,9 @@ import ListContainerHOC from 'hoc/ListContainerHOC'
 @HasSelectionHOC('redux.listRecords')
 @ListContainerHOC('tournament')
 export default class TournamentListContainer extends React.Component {
-
   render() {
-    const {
-      redux: {
-        listRecords,
-        listLoading,
-        listError,
-        listLimit
-      },
-      ...rest
-    } = this.props
-
     return <EntityList
-      {...{listLoading, listError}}
-      dataSource={listRecords}
       toolbarTitle="Tournaments"
-      limit={listLimit}
       columns={[{
         name: 'id',
         title: 'ИД'
@@ -38,7 +24,7 @@ export default class TournamentListContainer extends React.Component {
         name: 'startDate',
         title: 'Стартиращ на'
       }]}
-      {...rest}
+      {...this.props}
     />
   }
 }

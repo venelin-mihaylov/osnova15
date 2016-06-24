@@ -11,21 +11,26 @@ const EntityList = ({
   onLimitChange,
   onRefresh,
   toolbarTitle,
-  limit,
-  listLoading,
-  listError,
   selectedId,
+  redux: {
+    listRecords,
+    listLoading,
+    listError,
+    listLimit
+  },
   ...rest
 }) => {
 
   return (<div>
     <TableToolbar
-      {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, limit, toolbarTitle}}
+      {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      limit={listLimit}
     />
     <GlobalError globalError={listError}/>
     <DataGrid
       idProperty="id"
       zebraRows={false}
+      dataSource={listRecords}
       style={{height: 500}}
       selected={selectedId}
       loading={listLoading}
