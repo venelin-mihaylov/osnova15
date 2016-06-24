@@ -41,18 +41,18 @@ export default (store) => {
   }
 
   return (
-    <Route path="/" component={App}>
+    <Route name="Home" path="/" component={App}>
       <IndexRoute component={HomePage}/>
       <Route path="login" component={LoginPage}/>
-      <Route path="tournament" component={ContentContainer}>
+      <Route name="Tournaments" path="tournament" component={ContentContainer}>
         <IndexRoute component={TournamentListContainer}/>
-        <Route path="add" component={TournamentAddContainer}/>
-        <Route path="edit/:id" component={TournamentEditContainer}/>
+        <Route name="Add tournament" path="add" component={TournamentAddContainer}/>
+        <Route name="Edit tournament" staticName={true} path="edit/:id" component={TournamentEditContainer}/>
       </Route>
-      <Route path="match" component={ContentContainer}>
+      <Route name="Matches" path="match" component={ContentContainer}>
         <IndexRoute component={MatchListContainer}/>
-        <Route path="add" component={MatchAddContainer}/>
-        <Route path="edit/:id" component={MatchEditContainer}/>
+        <Route name="Add match" path="add" component={MatchAddContainer}/>
+        <Route name="Edit match" staticName={true} path="edit/:id" component={MatchEditContainer}/>
       </Route>
     </Route>
   )
