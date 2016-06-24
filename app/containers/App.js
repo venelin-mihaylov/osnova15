@@ -24,7 +24,7 @@ export default class App extends React.Component {
           open={leftNavOpen}
         />
         <AppTopBar/>
-        <div style={{marginLeft: leftNavOpen ? '270' : 0}}>
+        <div style={{marginLeft: leftNavOpen ? '270' : 10}}>
           {children}
         </div>
       </div>

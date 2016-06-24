@@ -93,7 +93,6 @@ export default class FKSelect extends React.Component {
       ...rest
     } = this.props
 
-
     return (
       <div>
         <AutoComplete
