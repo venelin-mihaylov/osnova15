@@ -14,6 +14,7 @@ const MatchForm = ({
   dispatch,
   onSubmit,
   onReset,
+  onCancel,
   entity,
   redux: {
     globalError,
@@ -48,7 +49,7 @@ const MatchForm = ({
         />
       </MaterialField>
 
-      <DefaultFormButtons {...{onReset}}/>
+      <DefaultFormButtons {...{onReset, onCancel}}/>
 
     </Form>
   </div>

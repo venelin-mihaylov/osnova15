@@ -54,11 +54,11 @@ export default class FKSelect extends React.Component {
     /**
      * Function to render the server data to a UI friendly format
      */
-    renderRecords: React.PropTypes.func.isRequired,
+    renderRecords: React.PropTypes.func,
     /**
      * value
      */
-    modelValue: React.PropTypes.string,
+    modelValue: React.PropTypes.number,
     /**
      * labelField
      */
