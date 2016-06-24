@@ -3,7 +3,7 @@ import React from "react"
 import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityEdit from "components/EntityEdit"
-import MatchForm from "modules/match/components/MatchForm"
+import MatchFormFields from "modules/match/components/MatchFormFields"
 import EditContainerHOC from 'hoc/EditContainerHOC'
 
 @connect(state => ({
@@ -14,10 +14,10 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
 @EditContainerHOC('match')
 class MatchEditContainer extends React.Component {
   render() {
-    return <EntityEdit
-      FormComponent={MatchForm}
+    return (<EntityEdit
+      FormFieldsComponent={MatchFormFields}
       {...this.props}
-    />
+    />)
   }
 }
 export default MatchEditContainer

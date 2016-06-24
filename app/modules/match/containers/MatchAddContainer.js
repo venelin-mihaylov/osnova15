@@ -3,7 +3,7 @@ import React from "react"
 import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityAdd from "components/EntityAdd"
-import MatchForm from "modules/match/components/MatchForm"
+import MatchFormFields from "modules/match/components/MatchFormFields"
 import AddContainerHOC from 'hoc/AddContainerHOC'
 
 @connect(state => ({
@@ -16,7 +16,7 @@ class MatchAddContainer extends React.Component {
 
   render() {
     return (<EntityAdd
-      FormComponent={MatchForm}
+      FormFieldsComponent={MatchFormFields}
       {...this.props}
     />)
   }

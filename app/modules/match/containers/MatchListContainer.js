@@ -2,7 +2,7 @@
 import React from "react"
 import {autobind} from "core-decorators"
 import {connect} from "react-redux"
-import EntityList from 'components/EntityList'
+import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import ListContainerHOC from 'hoc/ListContainerHOC'
 
@@ -11,23 +11,9 @@ import ListContainerHOC from 'hoc/ListContainerHOC'
 @HasSelectionHOC('redux.listRecords')
 @ListContainerHOC('match')
 export default class MatchListContainer extends React.Component {
-
   render() {
-    const {
-      redux: {
-        listRecords,
-        listLoading,
-        listError,
-        listLimit
-      },
-      ...rest
-    } = this.props
-
     return <EntityList
-      {...{listLoading, listError}}
-      dataSource={listRecords}
-      toolbarTitle="Matches"
-      limit={listLimit}
+      toolbarTitle="Tournaments"
       columns={[{
         name: 'id',
         title: 'ИД'
@@ -38,7 +24,7 @@ export default class MatchListContainer extends React.Component {
         name: 'tournament_id__name',
         title: 'Състезание'
       }]}
-      {...rest}
+      {...this.props}
     />
   }
 }
