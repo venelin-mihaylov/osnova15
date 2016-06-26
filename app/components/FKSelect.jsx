@@ -94,12 +94,14 @@ export default class FKSelect extends React.Component {
       renderRecords = (rs=[]) => rs.map(r => ({text: r.name, value: r.name})),
       model,
       onChange,
+      iconButtons = [],
       ...rest
     } = this.props
 
     return (
-      <div>
+      <span>
         <AutoComplete
+          style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
           searchText={valueLabel}
@@ -113,7 +115,8 @@ export default class FKSelect extends React.Component {
           dispatch(act(FKActionType.FK_CLEAR_SELECTION))
           model && dispatch(actions.change(model, null))
         }}/>
-      </div>
+        {iconButtons.length ? iconButtons : null}
+      </span>
     )
   }
 }

@@ -14,6 +14,8 @@ create table competitor(
   email varchar(255)
 );
 insert into competitor("firstName", "lastName", email) values('Venelin', 'Mihaylov', 'venelin@enforcer.bg');
+insert into competitor("firstName", "lastName", email) values('Ivelin', 'Dobrev', 'ivelin@enforcer.bg');
+insert into competitor("firstName", "lastName", email) values('Georgi', 'Ivanov', 'georgi@enforcer.bg');
 
 drop table competitor_match CASCADE;
 create table competitor_match(

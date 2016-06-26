@@ -11,6 +11,8 @@ import TextField from "material-ui/TextField"
 import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper'
+import IconButton from "material-ui/IconButton"
+import {push} from 'react-router-redux'
 
 export const MatchFormFields = ({
   dispatch,
@@ -40,6 +42,7 @@ export const MatchFormFields = ({
         labelField="name"
         errorText={MUIErrorText(form, entity, 'tournament_id')}
       />
+      <br/>
     </MaterialField>
 
     <RaisedButton label="Add note" style={{margin: 5}} onClick={() => {
@@ -75,7 +78,11 @@ export const MatchFormFields = ({
         dispatch(actions.push(formModelField(entity, 'competitor_match[]'), record))
         dispatch(actions.change(formModelField(''), null))
       }}
+      iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {
+        dispatch(push('/competitor/add'))
+      }}/>]}
     />
+    <br/>
 
     <If condition={competitor_match.length}>
       <br/>

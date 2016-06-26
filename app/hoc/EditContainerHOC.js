@@ -2,7 +2,7 @@ import React from 'react'
 import {getDisplayName} from 'recompose'
 import CRUDActionType from 'constants/CRUDActionType'
 import {resetFormRecord} from 'actions/resetFormRecord'
-import {push} from 'react-router-redux'
+import {goBack} from 'react-router-redux'
 
 export default function EditContainerHOC(entity) {
 
@@ -31,7 +31,7 @@ export default function EditContainerHOC(entity) {
         return <Component
           onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
           onReset={() => dispatch(resetFormRecord(entity))}
-          onCancel={() => dispatch(push(`/${entity}`))}
+          onCancel={() => dispatch(goBack())}
           {...{act, entity}}
           {...this.props}
         />
