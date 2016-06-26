@@ -10,15 +10,15 @@ import {renderValidationErrors} from '../utils/utils'
 export default function configureCRUDRouter(service) {
   var router = express.Router()
 
-  router.get('/', function (req, res) {
-    res.json(service.list(req))
+  router.get('/', async function (req, res) {
+    res.json(await service.list(req))
   })
 
-  router.get('/:id', function (req, res) {
+  router.get('/:id', async function (req, res) {
     req.checkParams('id').isInt()
     if (renderValidationErrors(req.validationErrors(), res)) return
 
-    res.json(service.read(req.params.id))
+    res.json(await service.read(req.params.id))
   })
 
   router.put('/', async function (req, res) {
