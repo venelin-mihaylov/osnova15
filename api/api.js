@@ -1,5 +1,4 @@
 import express from 'express'
-import expressPromise from 'express-promise'
 import session from 'express-session'
 import passport from 'passport'
 import bodyParser from 'body-parser'
@@ -40,7 +39,6 @@ app.use(session({
     maxAge: 60000
   }
 }))
-app.use(expressPromise())
 //</editor-fold>
 
 //<editor-fold desc="Passport.js">
