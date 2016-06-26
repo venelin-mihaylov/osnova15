@@ -8,7 +8,8 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
 
 @connect(state => ({
   redux: state.match,
-  form: state.matchForm
+  form: state.matchForm,
+  model: state.matchModel
 }))
 @autobind
 @EditContainerHOC('match')

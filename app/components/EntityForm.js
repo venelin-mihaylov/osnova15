@@ -19,6 +19,7 @@ const EntityForm = ({
     loading
   },
   form,
+  model,
   FormFieldsComponent
 }) => (
   <div>
@@ -26,7 +27,7 @@ const EntityForm = ({
     <Loading {...{loading}} />
     <GlobalError {...{globalError}}/>
     <Form {...{onSubmit}} model={formModel(entity)}>
-      <FormFieldsComponent {...{form, entity}}/>
+      <FormFieldsComponent {...{form, model, entity, dispatch}}/>
       <DefaultFormButtons {...{onReset, onCancel}}/>
     </Form>
   </div>

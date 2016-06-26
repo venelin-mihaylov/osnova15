@@ -7,8 +7,6 @@ import TextField from "material-ui/TextField"
 const OsnovaTextField = ({form, entity, field, ...rest}) => (
   <MaterialField model={formModelField(entity, field)}>
     <TextField
-      hintText="name"
-      floatingLabelText="name"
       errorText={MUIErrorText(form, entity, field)}
       {...rest}
     />

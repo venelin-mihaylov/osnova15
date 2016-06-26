@@ -22,16 +22,18 @@ create table competitor_matches(
   match_id INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+drop table tournament CASCADE;
+create table tournament (id serial PRIMARY KEY, name varchar(255), description varchar(2048), notes jsonb);
+insert into tournament (name) values('tournament 1');
+
 drop table matches CASCADE;
 create table matches (
   id serial PRIMARY KEY,
   name varchar(255),
   description varchar(2048),
   tournament_id integer,
+  notes jsonb,
   foreign key (tournament_id) references tournament(id) ON DELETE CASCADE ON UPDATE CASCADE
   );
+insert into matches(name, tournament_id, notes) values('match1', 1, '[{"text": "note1"}, {"text": "note2"}]');
 
-
-drop table tournament CASCADE;
-create table tournament (id serial PRIMARY KEY, name varchar(255), description varchar(2048), notes jsonb);
-insert into tournament (name) values('tournament 1');
