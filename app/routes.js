@@ -9,6 +9,11 @@ import MatchListContainer from "modules/match/containers/MatchListContainer"
 import MatchAddContainer from "modules/match/containers/MatchAddContainer"
 import MatchEditContainer from "modules/match/containers/MatchEditContainer"
 
+import CompetitorListContainer from "modules/competitor/containers/CompetitorListContainer"
+import CompetitorAddContainer from "modules/competitor/containers/CompetitorAddContainer"
+import CompetitorEditContainer from "modules/competitor/containers/CompetitorEditContainer"
+
+
 import HomePage from "containers/HomePage"
 import LoginPage from "containers/LoginPage"
 import ContentContainer from "containers/ContentContainer"
@@ -54,6 +59,13 @@ export default (store) => {
         <Route name="Add match" path="add" component={MatchAddContainer}/>
         <Route name="Edit match" staticName={true} path="edit/:id" component={MatchEditContainer}/>
       </Route>
+
+      <Route name="Competitors" path="competitor" component={ContentContainer}>
+        <IndexRoute component={CompetitorListContainer}/>
+        <Route name="Add competitor" path="add" component={CompetitorAddContainer}/>
+        <Route name="Edit competitor" staticName={true} path="edit/:id" component={CompetitorEditContainer}/>
+      </Route>
+
     </Route>
   )
 }

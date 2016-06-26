@@ -8,15 +8,17 @@ import {actions, track} from 'react-redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import _get from 'utils/get'
 import TextField from "material-ui/TextField"
+import {MUIErrorText} from "utils/Util"
 
 export const MatchFormFields = ({
   dispatch,
   form,
   entity,
   model: {
-    notes
+    notes = []
   }
 }) => (
+
   <div>
     <OsnovaTextField
       {...{form, entity}}
@@ -30,15 +32,16 @@ export const MatchFormFields = ({
         entity="tournament"
         variation="1"
         FKname="FKtournament"
-        floatingLabelText="Match"
-        hintText="Match"
+        floatingLabelText="Tournament"
+        hintText="Tournament"
         labelField="name"
+        errorText={MUIErrorText(form, entity, 'tournament_id')}
       />
     </MaterialField>
 
     <RaisedButton label="Add note" onClick={() => {
       dispatch(actions.push(formModelField(entity, 'notes[]'), {
-        text: 'alabala'
+        text: ''
       }))
     }}/>
     <RaisedButton label="Remove note" onClick={() => {
@@ -48,8 +51,8 @@ export const MatchFormFields = ({
       <MaterialField model={formModelField(entity, `notes[${i}].text`)}>
         <TextField
           required
-          hintText={`note ${i}`}
-          floatingLabelText={`note ${i}`}
+          hintText={`note ${i+1}`}
+          floatingLabelText={`note ${i+1}`}
         />
         <br/>
       </MaterialField>

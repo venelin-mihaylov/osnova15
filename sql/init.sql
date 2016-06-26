@@ -9,11 +9,11 @@ insert into users (email, password) values('v@v.com', '123asd');
 drop table competitor CASCADE;
 create table competitor(
   id serial PRIMARY KEY,
-  firstName varchar(255),
-  lastName varchar(255),
+  "firstName" varchar(255),
+  "lastName" varchar(255),
   email varchar(255)
 );
-insert into competitor(firstName, lastName, email) values('Venelin', 'Mihaylov', 'venelin@enforcer.bg');
+insert into competitor("firstName", "lastName", email) values('Venelin', 'Mihaylov', 'venelin@enforcer.bg');
 
 drop table competitor_matches CASCADE;
 create table competitor_matches(
