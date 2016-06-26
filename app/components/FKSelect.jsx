@@ -63,6 +63,10 @@ export default class FKSelect extends React.Component {
      * labelField
      */
     labelField: React.PropTypes.string.isRequired,
+    /**
+     * onChange(id, record)
+     */
+    onChange: React.PropTypes.func.isRequired,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,10 +105,14 @@ export default class FKSelect extends React.Component {
           searchText={valueLabel}
           dataSource={renderedRecords}
           onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED, {renderRecords}))}
-          onNewRequest={(X, idx) => onChange(records[idx].id)}
+          onFocus={() => dispatch(act(FKActionType.FK_LIST_REQUESTED, {renderRecords}))}
+          onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
-        <IconButton iconClassName="fa fa-eraser" onClick={() => dispatch(actions.change(model, null))}/>
+        <IconButton iconClassName="fa fa-eraser" onClick={() => {
+          dispatch(act(FKActionType.FK_CLEAR_SELECTION))
+          model && dispatch(actions.change(model, null))
+        }}/>
       </div>
     )
   }

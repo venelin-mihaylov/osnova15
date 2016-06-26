@@ -25,6 +25,8 @@ const rootReducer = combineReducers({
 
   FKtournament: createFKReducer('tournament', '1'),
 
+  FKcompetitor1: createFKReducer('competitor', '1'),
+
   match: createCRUDReducer('match'),
   matchModel: modelReducer('matchModel'),
   matchForm: formReducer('matchModel'),

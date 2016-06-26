@@ -15,8 +15,8 @@ create table competitor(
 );
 insert into competitor("firstName", "lastName", email) values('Venelin', 'Mihaylov', 'venelin@enforcer.bg');
 
-drop table competitor_matches CASCADE;
-create table competitor_matches(
+drop table competitor_match CASCADE;
+create table competitor_match(
   id serial PRIMARY KEY,
   competitor_id INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
   match_id INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE

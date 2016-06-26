@@ -55,6 +55,7 @@ export default function* rootSaga() {
     fork(CRUDSaga('tournament')),
     fork(CRUDSaga('match')),
     fork(CRUDSaga('competitor')),
-    fork(FKSaga('tournament', '1'))
+    fork(FKSaga('tournament', '1')),
+    fork(FKSaga('competitor', '1'))
   ]
 }

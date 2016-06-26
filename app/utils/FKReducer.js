@@ -56,6 +56,13 @@ export default function createFKReducer(entity, variation) {
           records: [],
           renderedRecords: []
         })
+      case type(FKActionType.FK_CLEAR_SELECTION):
+        return Object.assign({}, state, {
+          valueRecord: null,
+          valueLabel: null,
+          records: [],
+          renderedRecords: []
+        })
       default:
         return state
     }

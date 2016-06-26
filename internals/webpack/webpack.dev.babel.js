@@ -60,7 +60,8 @@ module.exports = require('./webpack.base.babel')({
     plugins: [
       "transform-runtime",
       "transform-decorators-legacy",
-      "transform-react-display-name"
+      "transform-react-display-name",
+      "jsx-control-statements"
     ]
   },
 

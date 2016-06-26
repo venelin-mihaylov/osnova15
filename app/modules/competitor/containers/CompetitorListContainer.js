@@ -13,7 +13,7 @@ import ListContainerHOC from 'hoc/ListContainerHOC'
 export default class CompetitorListContainer extends React.Component {
   render() {
     return <EntityList
-      toolbarTitle="Tournaments"
+      toolbarTitle="Competitors"
       columns={[{
         name: 'id',
         title: 'ИД'
