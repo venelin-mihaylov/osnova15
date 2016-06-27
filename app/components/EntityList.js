@@ -12,6 +12,7 @@ const EntityList = ({
   onRefresh,
   toolbarTitle,
   selectedId,
+  toolbarProps = {},
   redux: {
     listRecords,
     listLoading,
@@ -24,6 +25,7 @@ const EntityList = ({
   return (<div>
     <TableToolbar
       {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      {...toolbarProps}
       limit={listLimit}
     />
     <GlobalError globalError={listError}/>

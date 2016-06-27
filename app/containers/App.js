@@ -5,6 +5,7 @@ import AppTopBar from "./AppTopBar"
 import AppLeftNav from "./AppLeftNav"
 import {connect} from "react-redux"
 import Breadcrumbs from 'react-breadcrumbs'
+import ActionType from 'constants/ActionType'
 
 
 @connect(state => ({
@@ -13,8 +14,10 @@ import Breadcrumbs from 'react-breadcrumbs'
 export default class App extends React.Component {
   render() {
     const {
+      dispatch,
       nav: {
-        leftNavOpen
+        leftNavOpen,
+        activeMatchId
       },
       children
     } = this.props
@@ -24,6 +27,8 @@ export default class App extends React.Component {
         <AppLeftNav
           containerStyle={{top: 64}}
           open={leftNavOpen}
+          {...{activeMatchId}}
+          onLeaveMatch={() => dispatch({type: ActionType.EXIT_MATCH})}
         />
         <AppTopBar/>
         <div style={{marginLeft: leftNavOpen ? '270' : 10}}>

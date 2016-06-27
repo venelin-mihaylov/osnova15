@@ -37,8 +37,8 @@ class TableToolbar extends React.Component {
       onDeleteClick,
       limit,
       onLimitChange,
-      onRefresh
-
+      onRefresh,
+      appendButtons = []
     } = this.props
 
     return (
@@ -62,6 +62,7 @@ class TableToolbar extends React.Component {
             onClick={onDeleteClick}
             icon={<FontIcon className="fa fa-trash"/>}
           />
+          {appendButtons.length && appendButtons}
         </ToolbarGroup>
         <ToolbarGroup float="right">
           <ToolbarTitle text={toolbarTitle}/>
