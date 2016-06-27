@@ -27,10 +27,21 @@ export function renderError(err, req, res, next) {
 }
 
 export function throwOnError(errors = []) {
-  if([] === errors) return
+  if(false === errors) return
+
   const formatted = errors.reduce((acc, cur) => acc[cur.param] = {
       message: cur.msg,
       value: cur.value
     }, {})
   throw new ValidationError(formatted)
+}
+
+export function logSql(fn) {
+  return function(...args) {
+    const ret = fn.call(this, ...args)
+    if(typeof ret.toSql == 'function') {
+      console.log(ret.toSql())
+    }
+    return ret
+  }
 }

@@ -54,8 +54,7 @@ app.use(passport.session())
 app.use('/auth', configureAuthRouter(passport))
 app.use('/tournament', configureCRUDRouter(new CRUDService(Tournament)))
 app.use('/competitor', configureCRUDRouter(new CRUDService(Competitor)))
-const matchController = new MatchController(new MatchService(Match))
-matchController.register(app)
+new MatchController(new MatchService(Match)).register(app)
 //</editor-fold>
 app.use(renderError)
 

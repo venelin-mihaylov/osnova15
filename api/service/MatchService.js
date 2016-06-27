@@ -1,8 +1,13 @@
 import CRUDService from './CRUDService'
 import * as web from 'express-decorators';
+import {autobind, decorate } from 'core-decorators';
+import {QueryBuilder} from 'knex'
+import {logSql} from '../utils/utils'
 
-@web.controller('/match')
+@autobind
 export default class MatchService extends CRUDService {
+
+  @decorate(logSql)
   read(id) {
     return this.model.query()
       .select('matches.*')
@@ -41,9 +46,10 @@ export default class MatchService extends CRUDService {
 
   }
 
+  @decorate(logSql)
   list() {
     return this.model.query()
-      .select('mathes.*', 'tournament.name as tournamentId__name')
+      .select('matches.*', 'tournament.name as tournamentId__name')
       .join('tournament', 'matches.tournamentId', 'tournament.id')
   }
 }
