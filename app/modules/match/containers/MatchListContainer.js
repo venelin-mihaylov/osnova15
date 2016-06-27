@@ -21,7 +21,7 @@ export default class MatchListContainer extends React.Component {
         name: 'name',
         title: 'Име'
       }, {
-        name: 'tournament_id__name',
+        name: 'tournamentId__name',
         title: 'Състезание'
       }]}
       {...this.props}

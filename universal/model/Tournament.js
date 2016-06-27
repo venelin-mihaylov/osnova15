@@ -7,12 +7,12 @@ export default class Tournament extends OsnovaModel {
   static jsonSchema = TournamentSchema
 
   static relationMappings = {
-    matches: {
+    match: {
       relation: Model.HasManyRelation,
       modelClass: __dirname + '/Match',
       join: {
         from: 'tournament.id',
-        to: 'matches.tournament_id'
+        to: 'matches.tournamentId'
       }
     }
   }

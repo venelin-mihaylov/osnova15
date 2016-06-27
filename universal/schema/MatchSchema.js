@@ -1,10 +1,10 @@
 const MatchSchema = {
   type: 'object',
-  required: ['name', 'tournament_id'],
+  required: ['name', 'tournamentId'],
   properties: {
     id: {type: 'integer'},
     name: {type: 'string', minLength: 10, maxLength: 255},
-    tournament_id: {type: 'integer'},
+    tournamentId: {type: 'integer'},
     notes: {
       type: ['array', 'object', 'null'],
       required: ['text'],

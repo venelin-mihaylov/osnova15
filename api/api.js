@@ -12,10 +12,13 @@ import Tournament from "../universal/model/Tournament"
 import Match from "../universal/model/Match"
 import Competitor from "../universal/model/Competitor"
 import configureAuthRouter from './router/configureAuthRouter'
-import configureCRUDRouter from './router/configureCRUDRouter'
+import {configureCRUDRouter} from './router/configureCRUDRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
 import expressValidator from 'express-validator'
+import MatchController from './router/MatchController'
+import {renderError} from './utils/utils'
+
 
 // Give the connection to objection.
 Model.knex(knex)
@@ -50,10 +53,11 @@ app.use(passport.session())
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
 app.use('/tournament', configureCRUDRouter(new CRUDService(Tournament)))
-app.use('/match', configureCRUDRouter(new MatchService(Match)))
 app.use('/competitor', configureCRUDRouter(new CRUDService(Competitor)))
+const matchController = new MatchController(new MatchService(Match))
+matchController.register(app)
 //</editor-fold>
-
+app.use(renderError)
 
 //<editor-fold desc="Bind to port">
 if (!config.apiPort) {

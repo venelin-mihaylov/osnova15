@@ -20,8 +20,8 @@ insert into competitor("firstName", "lastName", email) values('Georgi', 'Ivanov'
 drop table competitor_match CASCADE;
 create table competitor_match(
   id serial PRIMARY KEY,
-  competitor_id INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  match_id INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE
+  "competitorId" INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 drop table tournament CASCADE;
@@ -33,9 +33,8 @@ create table matches (
   id serial PRIMARY KEY,
   name varchar(255),
   description varchar(2048),
-  tournament_id integer,
-  notes jsonb,
-  foreign key (tournament_id) references tournament(id) ON DELETE CASCADE ON UPDATE CASCADE
+  "tournamentId" integer references tournament(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  notes jsonb
   );
-insert into matches(name, tournament_id, notes) values('match1', 1, '[{"text": "note1"}, {"text": "note2"}]');
+insert into matches(name, "tournamentId", notes) values('match1', 1, '[{"text": "note1"}, {"text": "note2"}]');
 
