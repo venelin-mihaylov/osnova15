@@ -28,9 +28,12 @@ export default class App extends React.Component {
           containerStyle={{top: 64}}
           open={leftNavOpen}
           {...{activeMatchId}}
+
+        />
+        <AppTopBar
+          {...{activeMatchId}}
           onLeaveMatch={() => dispatch({type: ActionType.EXIT_MATCH})}
         />
-        <AppTopBar/>
         <div style={{marginLeft: leftNavOpen ? '270px' : 10}}>
           <Breadcrumbs
             routes={this.props.routes}

@@ -1,15 +1,17 @@
 "use strict"
 import React from "react"
 import AppBar from "material-ui/AppBar"
-import FlatButton from "material-ui/FlatButton"
 import {connect} from "react-redux"
 import {push} from "react-router-redux"
 import ActionType from 'constants/ActionType'
 import RaisedButton from 'material-ui/RaisedButton'
 import {ToolbarGroup} from 'material-ui/Toolbar'
+import FontIcon from 'material-ui/FontIcon'
 
 const AppTopBar = ({
   dispatch,
+  onLeaveMatch,
+  activeMatchId,
   user: {
     authenticated
   }
@@ -19,11 +21,25 @@ const AppTopBar = ({
     iconElementRight={
       <div>
         <ToolbarGroup firstChild={true}>
-          Leave match
-          <RaisedButton label="Test"/>
+          {activeMatchId && <RaisedButton label={`Match: ${activeMatchId}`}
+                                          labelPosition="before"
+                                          icon={<FontIcon className="fa fa-eject"/>}
+                                          onClick={onLeaveMatch}/>
+          }
           {authenticated ?
-            <RaisedButton label="Logout" onClick={() => dispatch({type: ActionType.LOGOUT_USER_REQUESTED})}/> :
-            <RaisedButton label="Login" onClick={() => dispatch(push('/login'))}/>
+            <RaisedButton
+              label="Logout"
+              labelPosition="before"
+              icon={<FontIcon className="fa fa-sign-out"/>}
+              onClick={() => dispatch({type: ActionType.LOGOUT_USER_REQUESTED})}
+            />
+            :
+            <RaisedButton
+              label="Login"
+              labelPosition="before"
+              onClick={() => dispatch(push('/login'))}
+              icon={<FontIcon className="fa fa-sign-in"/>}
+            />
           }
         </ToolbarGroup>
 

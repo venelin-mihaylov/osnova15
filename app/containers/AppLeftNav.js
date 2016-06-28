@@ -26,9 +26,6 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
       </If>
       <If condition={activeMatchId}>
         <MenuItem>
-          <RaisedButton label="Leave match" onClick={onLeaveMatch} />
-        </MenuItem>
-        <MenuItem>
           <Link to={`/match/${activeMatchId}/competitors`} {...{activeStyle}}>Match Competitors</Link>
         </MenuItem>
       </If>
