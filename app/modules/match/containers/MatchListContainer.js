@@ -24,6 +24,7 @@ export default class MatchListContainer extends React.Component {
       toolbarTitle="Matches"
       toolbarProps={{
         appendButtons: [<RaisedButton
+          key="enterMatch"
           label="Enter Match"
           primary={true}
           onClick={() => withFirstSelection(r => {

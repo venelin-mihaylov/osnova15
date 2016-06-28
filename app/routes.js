@@ -48,7 +48,7 @@ export default (store) => {
   return (
     <Route name="Home" path="/" component={App}>
       <IndexRoute component={HomePage}/>
-      <Route path="login" component={LoginPage}/>
+      <Route name="Login" path="login" component={LoginPage}/>
       <Route name="Tournaments" path="tournament" component={ContentContainer}>
         <IndexRoute component={TournamentListContainer}/>
         <Route name="Add tournament" path="add" component={TournamentAddContainer}/>
