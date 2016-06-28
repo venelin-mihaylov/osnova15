@@ -24,7 +24,7 @@ const EntityList = ({
 
   return (<div>
     <TableToolbar
-      {...{onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      {...{selectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
       limit={listLimit}
     />

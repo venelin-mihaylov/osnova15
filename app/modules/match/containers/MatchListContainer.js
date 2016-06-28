@@ -9,7 +9,10 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
 import ActionType from 'constants/ActionType'
 
-@connect(state => ({redux: state.match}))
+@connect(state => ({
+  redux: state.match,
+  nav: state.nav
+}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
 @ListContainerHOC('match')
@@ -17,22 +20,33 @@ export default class MatchListContainer extends React.Component {
   render() {
     const {
       dispatch,
-      withFirstSelection
+      withFirstSelection,
+      selectedId,
+      nav: {
+        activeMatchId
+      }
     } = this.props
 
     return <EntityList
       toolbarTitle="Matches"
       toolbarProps={{
-        appendButtons: [<RaisedButton
+        appendButtons: (activeMatchId ?
+          [<RaisedButton
+            key="exitMatch"
+            label="Leave Match"
+            primary={true}
+            onClick={() => dispatch({type: ActionType.EXIT_MATCH})}
+            icon={<FontIcon className="fa fa-upload"/>}
+          />]
+          :
+          [<RaisedButton
           key="enterMatch"
           label="Enter Match"
           primary={true}
-          onClick={() => withFirstSelection(r => {
-            console.log(r)
-            dispatch({type: ActionType.ENTER_MATCH, matchId: r.id})
-          })}
-          icon={<FontIcon className="fa fa-pencil"/>}
-        />]
+          disabled={!selectedId}
+          onClick={() => withFirstSelection(r => dispatch({type: ActionType.ENTER_MATCH, matchId: r.id}))}
+          icon={<FontIcon className="fa fa-download"/>}
+          />])
       }}
       columns={[{
         name: 'id',

@@ -3,7 +3,7 @@ import React from "react"
 import Drawer from "material-ui/Drawer"
 import MenuItem from "material-ui/MenuItem"
 import {IndexLink, Link} from "react-router"
-import RaisedButton from 'material-ui/RaisedButton'
+
 
 const activeStyle = {color: 'red'}
 
@@ -26,7 +26,7 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
       </If>
       <If condition={activeMatchId}>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/competitors`} {...{activeStyle}}>Match Competitors</Link>
+          <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Match Competitors</Link>
         </MenuItem>
       </If>
     </Drawer>

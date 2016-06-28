@@ -9,6 +9,10 @@ import {modelReducer, formReducer} from "react-redux-form"
 
 // Combine reducers with routeReducer which keeps track of
 // router state
+// list 1:N for a particular 1
+// reset form
+// save 1:N for a particular 1
+// error
 
 const rootReducer = combineReducers({
   nav,

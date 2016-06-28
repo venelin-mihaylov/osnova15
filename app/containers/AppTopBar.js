@@ -23,7 +23,7 @@ const AppTopBar = ({
         <ToolbarGroup firstChild={true}>
           {activeMatchId && <RaisedButton label={`Match: ${activeMatchId}`}
                                           labelPosition="before"
-                                          icon={<FontIcon className="fa fa-eject"/>}
+                                          icon={<FontIcon className="fa fa-upload"/>}
                                           onClick={onLeaveMatch}/>
           }
           {authenticated ?

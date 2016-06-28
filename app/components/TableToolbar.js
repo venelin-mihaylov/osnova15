@@ -37,6 +37,7 @@ class TableToolbar extends React.Component {
       onDeleteClick,
       limit,
       onLimitChange,
+      selectedId,
       onRefresh,
       appendButtons = []
     } = this.props
@@ -54,12 +55,14 @@ class TableToolbar extends React.Component {
             label="edit"
             primary={true}
             onClick={onEditClick}
+            disabled={!selectedId}
             icon={<FontIcon className="fa fa-pencil"/>}
           />
           <RaisedButton
             label="delete"
             secondary={true}
             onClick={onDeleteClick}
+            disabled={!selectedId}
             icon={<FontIcon className="fa fa-trash"/>}
           />
           {appendButtons.length && appendButtons}
