@@ -13,6 +13,7 @@ import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper'
 import IconButton from "material-ui/IconButton"
 import {push} from 'react-router-redux'
+import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 
 export const MatchFormFields = ({
   dispatch,
@@ -32,7 +33,7 @@ export const MatchFormFields = ({
       hintText="name"
       floatingLabelText="name"
     />
-    <MaterialField model={formModelField(entity, 'tournament_id')}>
+    <MaterialField model={formModelField(entity, 'tournamentId')}>
       <FKSelect
         entity="tournament"
         variation="1"
@@ -40,7 +41,7 @@ export const MatchFormFields = ({
         floatingLabelText="Tournament"
         hintText="Tournament"
         labelField="name"
-        errorText={MUIErrorText(form, entity, 'tournament_id')}
+        errorText={MUIErrorText(form, entity, 'tournamentId')}
       />
       <br/>
     </MaterialField>
@@ -85,14 +86,16 @@ export const MatchFormFields = ({
     <br/>
 
     <If condition={competitor_match.length}>
-      <br/>
-      <Paper style={{padding: '10px', width: '300px', height: '300px'}}>
+
+
+
+
       {competitor_match.map((n, i) => (
        <Chip onRequestDelete={() => dispatch(actions.remove(formModelField(entity, 'competitor_match[]'), i))}>
          competitor: {n.lastName}
        </Chip>
       ))}
-      </Paper>
+
       <br/>
     </If>
 

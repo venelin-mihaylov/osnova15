@@ -39,3 +39,4 @@ create table competitor_match(
   "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 insert into competitor_match ("competitorId", "matchId") values(1,1);
+insert into competitor_match ("competitorId", "matchId") values(2,1);

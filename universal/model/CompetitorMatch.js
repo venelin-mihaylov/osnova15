@@ -11,8 +11,16 @@ export default class CompetitorMatch extends OsnovaModel {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '/Match',
       join: {
-        from: 'competitor_match.id',
+        from: 'competitor_match.matchId',
         to: 'matches.id'
+      }
+    },
+    competitor: {
+      relation: Model.BelongsToOneRelation,
+      modelClass: __dirname + '/Competitor',
+      join: {
+        from: 'competitor_match.competitorId',
+        to: 'competitor.id'
       }
     }
   }

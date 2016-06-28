@@ -16,7 +16,7 @@ export default class CRUDService {
   }
 
   create(data) {
-    return this.model.query().insert(data)
+    return this.model.query().insertWithRelated(data)
   }
 
   read(id) {

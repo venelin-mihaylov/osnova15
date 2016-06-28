@@ -16,7 +16,6 @@ import {configureCRUDRouter} from './router/configureCRUDRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
 import expressValidator from 'express-validator'
-import MatchController from './router/MatchController'
 import {renderError} from './utils/utils'
 
 
@@ -54,7 +53,7 @@ app.use(passport.session())
 app.use('/auth', configureAuthRouter(passport))
 app.use('/tournament', configureCRUDRouter(new CRUDService(Tournament)))
 app.use('/competitor', configureCRUDRouter(new CRUDService(Competitor)))
-new MatchController(new MatchService(Match)).register(app)
+new MatchService(Match).register(app)
 //</editor-fold>
 app.use(renderError)
 

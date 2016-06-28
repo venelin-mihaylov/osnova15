@@ -21,6 +21,7 @@ export function renderError(err, req, res, next) {
       fieldErrors: err.data
     })
   } else {
+    console.log(err)
     res.status(500).json(err.message)
   }
 }
@@ -38,7 +39,7 @@ export function throwOnError(errors = []) {
 export function logSql(fn) {
   return function(...args) {
     const ret = fn.call(this, ...args)
-    if(typeof ret.toSql == 'function') {
+    if(ret && typeof ret.toSql == 'function') {
       console.log(ret.toSql())
     }
     return ret
