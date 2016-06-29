@@ -1,6 +1,5 @@
 import {takeEvery} from 'redux-saga'
 import { fork, put, take, call } from 'redux-saga/effects'
-import ActionType from 'constants/ActionType'
 import ItoNActionType from 'constants/ItoNActionType'
 import axios from 'axios'
 import {formatServerError} from 'utils/Util'
