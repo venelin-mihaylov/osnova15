@@ -1,6 +1,6 @@
 import CRUDActionType from "constants/CRUDActionType"
 import ForeignKeyActionType from "constants/FKActionType"
-import OneToManyActionTyype from 'constants/OneToManyActionType'
+import ItoNActionType from 'constants/ItoNActionType'
 
 const ActionType = Object.assign({
     TOGGLE_LEFT_NAV: 'TOGGLE_LEFT_NAV',
@@ -18,22 +18,13 @@ const ActionType = Object.assign({
     SIGNUP_USER_SUCCESS: 'SIGNUP_USER_SUCCESS',
     SIGNUP_USER_ERROR: 'SIGNUP_USER_ERROR',
 
-
     LOGOUT_USER_REQUESTED: 'LOGOUT_USER_REQUESTED',
     LOGOUT_USER_START: 'LOGOUT_USER_START',
     LOGOUT_USER_SUCCESS: 'LOGOUT_USER_SUCCESS',
     LOGOUT_USER_ERROR: 'LOGOUT_USER_ERROR',
 
-    MATCH_COMPETITOR_LIST_REQUESTED: 'MATCH_COMPETITOR_LIST_REQUESTED',
-    MATCH_COMPETITOR_LIST_SUCCESS: 'MATCH_COMPETITOR_LIST_SUCCESS',
-    MATCH_COMPETITOR_LIST_ERROR: 'MATCH_COMPETITOR_LIST_ERROR',
-
-    MATCH_COMPETITOR_UPDATE_REQUESTED: 'MATCH_COMPETITOR_UPDATE_REQUESTED',
-    MATCH_COMPETITOR_UPDATE_SUCCESS: 'MATCH_COMPETITOR_UPDATE_SUCCESS',
-    MATCH_COMPETITOR_UPDATE_ERROR: 'MATCH_COMPETITOR_UPDATE_ERROR',
-
   },
-  OneToManyActionType.create('match', 'tournament'),
+  ItoNActionType.create('match', 'tournament'),
   CRUDActionType.create('tournament'),
   CRUDActionType.create('competitor'),
   CRUDActionType.create('match'),

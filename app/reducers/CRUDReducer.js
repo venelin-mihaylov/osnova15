@@ -1,8 +1,10 @@
 "use strict"
-import CRUDActionType from "constants/CRUDActionType"
+import CRUDActionType from "../constants/CRUDActionType"
 
-export default function createCRUDReducer(object) {
-  return function (state = {
+export default function CRUDReducer(entity) {
+  let addPrefix = type => `${entity.toUpperCase()}_${type}`
+
+  return function CRUD(state = {
     params: null, // params passed by the action, i.e. "{view:basic}", or "{view:extended}"
     message: null, // message to the user, i.e. record loaded/saved successfully, (not an error)
     globalError: null, // general (field unspecific) error, say "bad input", "db error", etc.
@@ -19,7 +21,6 @@ export default function createCRUDReducer(object) {
     listPage: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {
-    let addPrefix = type => `${object.toUpperCase()}_${type}`
 
     switch (action.type) {
       case addPrefix(CRUDActionType.CREATE_REQUESTED):

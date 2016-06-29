@@ -1,6 +1,6 @@
 "use strict"
 import FKActionType from "../constants/FKActionType"
-export default function createFKReducer(entity, variation) {
+export default function FKReducer(entity, variation) {
   return function (state = {
     loading: false,
     globalError: null,

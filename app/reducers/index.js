@@ -1,10 +1,11 @@
 "use strict"
 import {combineReducers} from "redux"
 import {routerReducer as routing} from "react-router-redux"
-import createCRUDReducer from "utils/CRUDReducer"
-import createFKReducer from "utils/FKReducer.js"
-import user from "reducers/user"
-import nav from "reducers/nav"
+import CRUDReducer from "./CRUDReducer"
+import FKReducer from "./FKReducer"
+import ItoNReducer from './ItoNReducer'
+import user from "./user"
+import nav from "./nav"
 import {modelReducer, formReducer} from "react-redux-form"
 
 // Combine reducers with routeReducer which keeps track of
@@ -19,19 +20,22 @@ const rootReducer = combineReducers({
   routing,
   user,
 
-  competitor: createCRUDReducer('competitor'),
+  competitor: CRUDReducer('competitor'),
   competitorModel: modelReducer('competitorModel', {}),
   competitorForm: formReducer('competitorModel', {}),
 
-  tournament: createCRUDReducer('tournament'),
+  tournament: CRUDReducer('tournament'),
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
-  FKtournament: createFKReducer('tournament', '1'),
+  FKtournament: FKReducer('tournament', '1'),
+  FKcompetitor1: FKReducer('competitor', '1'),
 
-  FKcompetitor1: createFKReducer('competitor', '1'),
+  ItoNMatchCompetitor: ItoNReducer('match', 'competitor'),
+  matchCompetitorModel: modelReducer('matchCompetitorModel'),
+  matchCompetitorForm: formReducer('matchCompetitorModel'),
 
-  match: createCRUDReducer('match'),
+  match: CRUDReducer('match'),
   matchModel: modelReducer('matchModel'),
   matchForm: formReducer('matchModel'),
 

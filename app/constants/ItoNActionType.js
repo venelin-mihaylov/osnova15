@@ -1,14 +1,13 @@
 "use strict"
-export default class OneToManhyActionType {
+export default class ItoNActionType {
 
-  static ONE_TO_MANY_LIST_REQUESTED = 'ONE_TO_MANY_LIST_REQUESTED'
-  static ONE_TO_MANY_LIST_SUCCESS = 'ONE_TO_MANY_LIST_SUCCESS'
-  static ONE_TO_MANY_LIST_ERROR = 'ONE_TO_MANY_LIST_ERROR'
+  static I_TO_N_LIST_REQUESTED = 'I_TO_N_LIST_REQUESTED'
+  static I_TO_N_LIST_SUCCESS = 'I_TO_N_LIST_SUCCESS'
+  static I_TO_N_LIST_ERROR = 'I_TO_N_LIST_ERROR'
 
-  static ONE_TO_MANY_UPDATE_REQUESTED = 'ONE_TO_MANY_UPDATE_REQUESTED'
-  static ONE_TO_MANY_UPDATE_SUCCESS = 'ONE_TO_MANY_UPDATE_SUCCESS'
-  static ONE_TO_MANY_UPDATE_ERROR = 'ONE_TO_MANY_UPDATE_ERROR'
-
+  static I_TO_N_UPDATE_REQUESTED = 'I_TO_N_UPDATE_REQUESTED'
+  static I_TO_N_UPDATE_SUCCESS = 'I_TO_N_UPDATE_SUCCESS'
+  static I_TO_N_UPDATE_ERROR = 'I_TO_N_UPDATE_ERROR'
 
   /**
    *
@@ -19,7 +18,7 @@ export default class OneToManhyActionType {
   static create(entity, relation) {
     let ret = {}
     for (let action in this) {
-      if (typeof action === "string") {
+      if (typeof action === "string" && this.prototype.hasOwnProperty(action)) {
         let g = `${entity.toUpperCase()}_${relation.toUpperCase()}_${action}`
         ret[g] = g
       }
@@ -40,7 +39,7 @@ export default class OneToManhyActionType {
 
   static act = (entity, relation) => (actionType, rest = {}) => {
     return Object.assign({
-      type: OneToManhyActionType.prefixType(entity, relation, actionType)
+      type: ItoNActionType.prefixType(entity, relation, actionType)
     }, rest)
   }
 }
