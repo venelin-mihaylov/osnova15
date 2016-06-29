@@ -11,8 +11,8 @@ import {Model} from 'objection'
 import Tournament from "../universal/model/Tournament"
 import Match from "../universal/model/Match"
 import Competitor from "../universal/model/Competitor"
+import CompetitorMatch from "../universal/model/CompetitorMatch"
 import configureAuthRouter from './router/configureAuthRouter'
-import {configureCRUDRouter} from './router/configureCRUDRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
 import expressValidator from 'express-validator'
@@ -51,8 +51,9 @@ app.use(passport.session())
 
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
-app.use('/tournament', configureCRUDRouter(new CRUDService(Tournament)))
-app.use('/competitor', configureCRUDRouter(new CRUDService(Competitor)))
+CRUDService.CRUDServiceFactory(Tournament).register(app)
+CRUDService.CRUDServiceFactory(Competitor).register(app)
+CRUDService.CRUDServiceFactory(CompetitorMatch).register(app)
 new MatchService(Match).register(app)
 //</editor-fold>
 app.use(renderError)
