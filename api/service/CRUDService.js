@@ -48,14 +48,21 @@ export default class CRUDService {
     res.json(await this.delete(req.params.id, req.body.data))
   }
 
-  list(params) {
-    const filter = JSON.parse(params.filter) || {}
-    let qb = this.model.query()
+  /**
+   *
+   * @param {QueryBuilder} qb
+     */
+  filter(qb, filter) {
     for(let field in filter) {
       if(!filter.hasOwnProperty(field)) continue
       qb.andWhere(field, '=', filter[field])
     }
     return qb
+  }
+
+  list(params) {
+    const filter = JSON.parse(params.filter) || {}
+    return this.filter(this.model.query(), filter)
   }
 
   create(data) {

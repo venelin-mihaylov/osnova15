@@ -8,7 +8,7 @@ import TournamentEditContainer from "modules/tournament/containers/TournamentEdi
 import MatchListContainer from "modules/match/containers/MatchListContainer"
 import MatchAddContainer from "modules/match/containers/MatchAddContainer"
 import MatchEditContainer from "modules/match/containers/MatchEditContainer"
-import MatchCompetitorEditContainer from 'modules/match/containers/MatchCompetitorEditContainer.js'
+import MatchCompetitorListContainer from 'modules/match/containers/MatchCompetitorListContainer.js'
 
 import CompetitorListContainer from "modules/competitor/containers/CompetitorListContainer"
 import CompetitorAddContainer from "modules/competitor/containers/CompetitorAddContainer"
@@ -61,7 +61,7 @@ export default (store) => {
         <IndexRoute component={MatchListContainer}/>
         <Route name="Add match" path="add" component={MatchAddContainer}/>
         <Route name="Edit match" staticName={true} path="edit/:id" component={MatchEditContainer}/>
-        <Route name="Edit match competitors" path=":parentId/competitor" component={MatchCompetitorEditContainer}/>
+        <Route name="Edit match competitors" path=":parentId/competitor" component={MatchCompetitorListContainer}/>
       </Route>
 
       <Route name="Competitors" path="competitor" component={ContentContainer}>

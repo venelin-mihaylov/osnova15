@@ -17,7 +17,7 @@ export default function CRUDReducer(entity) {
     listError: false, // list error
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
-    listFilters: null, // list filters
+    listFilter: null, // list filters
     listPage: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {
@@ -38,7 +38,9 @@ export default function CRUDReducer(entity) {
           params: action.params,
           listLoading: true,
           listRecords: [],
-          listError: null
+          listError: null,
+          listPage: action.page,
+          listFilter: action.filter
         })
       case addPrefix(CRUDActionType.LIST_SUCCESS):
         return Object.assign({}, state, {

@@ -61,13 +61,14 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* list(action) {
+  function* list({page, filter}) {
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
         method: 'get',
         params: {
-          page: action.page
+          page: page,
+          filter: filter
         }
       })
       yield put(act(CRUDActionType.LIST_SUCCESS, {records: response.data}))

@@ -2,14 +2,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import ItoNActionType from 'constants/ItoNActionType'
-import MatchCompetitorEdit from 'modules/match/components/MatchCompetitorEdit'
+import MatchCompetitorList from 'modules/match/components/MatchCompetitorList'
 
 @connect(state => ({
   redux: state.ItoNMatchCompetitor,
   nav: state.nav
 }))
 @autobind
-export default class MatchCompetitorEditContainer extends React.Component {
+export default class MatchCompetitorListContainer extends React.Component {
 
   constructor() {
     super()
@@ -23,7 +23,7 @@ export default class MatchCompetitorEditContainer extends React.Component {
   }
 
   render() {
-    return <MatchCompetitorEdit
+    return <MatchCompetitorList
     />
   }
 
