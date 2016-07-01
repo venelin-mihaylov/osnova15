@@ -27,6 +27,10 @@ export default function CRUDReducer(entity) {
         return Object.assign({}, state, {
           saving: true
         })
+      case addPrefix(CRUDActionType.CREATE_SUCCESS):
+        return Object.assign({}, state, {
+          saving: false
+      })
       case addPrefix(CRUDActionType.CREATE_ERROR):
         return Object.assign({}, state, {
           saving: false,

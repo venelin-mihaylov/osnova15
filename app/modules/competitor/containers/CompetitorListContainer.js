@@ -9,7 +9,7 @@ import ListContainerHOC from 'hoc/ListContainerHOC'
 @connect(state => ({redux: state.competitor}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC('competitor')
+@ListContainerHOC({entity: 'competitor'})
 export default class CompetitorListContainer extends React.Component {
   render() {
     return <EntityList

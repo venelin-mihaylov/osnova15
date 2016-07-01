@@ -15,7 +15,6 @@ export default class CRUDService {
 
   @web.get('/')
   async webList(req, res) {
-    console.log(req.query)
     res.json(await this.list(req.query))
   }
 
@@ -29,7 +28,8 @@ export default class CRUDService {
 
   @web.put('/')
   async webCreate(req, res) {
-    res.json(await this.list(req))
+    console.log(req.body)
+    res.json(await this.create(req.body))
   }
 
   @web.post('/:id')
@@ -37,7 +37,7 @@ export default class CRUDService {
     req.checkParams('id').isInt()
     throwOnError(req.validationErrors())
 
-    res.json(await this.update(req.params.id, req.body.data))
+    res.json(await this.update(req.params.id, req.body))
   }
 
   @web.delete('/:id')
@@ -45,7 +45,7 @@ export default class CRUDService {
     req.checkParams('id').isInt()
     throwOnError(req.validationErrors())
 
-    res.json(await this.delete(req.params.id, req.body.data))
+    res.json(await this.delete(req.params.id, req.body))
   }
 
   /**
@@ -73,7 +73,8 @@ export default class CRUDService {
   }
 
   create(data) {
-    return this.model.query().insertWithRelated(data)
+    console.log(data)
+    return this.model.query().insert(data)
   }
 
   read(id) {
@@ -88,7 +89,7 @@ export default class CRUDService {
     return this.model.query().deleteById(id)
   }
 
-  static CRUDServiceFactory(model) {
+  static factory(model) {
     @web.controller('/' + model.tableName)
     class CRUDServiceBound extends CRUDService {}
     return new CRUDServiceBound(model)

@@ -55,19 +55,19 @@ export default (store) => {
       <Route name="Tournaments" path="tournament" component={ContentContainer}>
         <IndexRoute component={TournamentListContainer}/>
         <Route name="Add tournament" path="add" component={TournamentAddContainer}/>
-        <Route name="Edit tournament" staticName={true} path="edit/:id" component={TournamentEditContainer}/>
+        <Route name="Edit tournament" staticName={true} path=":id/edit" component={TournamentEditContainer}/>
       </Route>
       <Route name="Matches" path="match" component={ContentContainer}>
         <IndexRoute component={MatchListContainer}/>
         <Route name="Add match" path="add" component={MatchAddContainer}/>
-        <Route name="Edit match" staticName={true} path="edit/:id" component={MatchEditContainer}/>
+        <Route name="Edit match" staticName={true} path=":id/edit" component={MatchEditContainer}/>
         <Route name="List match competitors" path=":matchId/competitor" component={MatchCompetitorListContainer}/>
       </Route>
 
       <Route name="Competitors" path="competitor" component={ContentContainer}>
         <IndexRoute component={CompetitorListContainer}/>
         <Route name="Add competitor" path="add" component={CompetitorAddContainer}/>
-        <Route name="Edit competitor" staticName={true} path="edit/:id" component={CompetitorEditContainer}/>
+        <Route name="Edit competitor" staticName={true} path=":id/edit" component={CompetitorEditContainer}/>
       </Route>
 
     </Route>

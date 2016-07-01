@@ -73,6 +73,9 @@ export function ucfirst(string) {
  */
 export function camelCaseToUnderscore(string) {
   return string.split(/([A-Z])/).reduce((acc, cur) => acc + (cur.toUpperCase() == cur ? '_' + cur.toLowerCase() : cur), '')
+}
 
-
+export function log(o) {
+  console.log(o)
+  return o;
 }

@@ -51,9 +51,9 @@ app.use(passport.session())
 
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
-CRUDService.CRUDServiceFactory(Tournament).register(app)
-CRUDService.CRUDServiceFactory(Competitor).register(app)
-CRUDService.CRUDServiceFactory(MatchCompetitor).register(app)
+CRUDService.factory(Tournament).register(app)
+CRUDService.factory(Competitor).register(app)
+CRUDService.factory(MatchCompetitor).register(app)
 new MatchService(Match).register(app)
 //</editor-fold>
 app.use(renderError)

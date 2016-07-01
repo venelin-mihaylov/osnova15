@@ -15,7 +15,7 @@ import ActionType from 'constants/ActionType'
 }))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC('match')
+@ListContainerHOC({entity: 'match'})
 export default class MatchListContainer extends React.Component {
   render() {
     const {

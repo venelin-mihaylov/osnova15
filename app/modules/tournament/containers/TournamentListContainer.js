@@ -9,7 +9,7 @@ import ListContainerHOC from 'hoc/ListContainerHOC'
 @connect(state => ({redux: state.tournament}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC('tournament')
+@ListContainerHOC({entity: 'tournament'})
 export default class TournamentListContainer extends React.Component {
   render() {
     return <EntityList

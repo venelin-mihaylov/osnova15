@@ -12,7 +12,9 @@ import EntityList from 'components/EntityList'
 }))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC('matchCompetitor')
+@ListContainerHOC({
+  entity: 'matchCompetitor'
+})
 export default class MatchCompetitorListContainer extends React.Component {
 
   componentWillMount() {
@@ -30,11 +32,11 @@ export default class MatchCompetitorListContainer extends React.Component {
         name: 'id',
         title: 'ИД'
       }, {
-        name: 'name',
-        title: 'Име'
+        name: 'competitorId',
+        title: 'Състезател ИД'
       }, {
-        name: 'startDate',
-        title: 'Стартиращ на'
+        name: 'competitor',
+        title: 'Състезател'
       }]}
       {...this.props}
     />
