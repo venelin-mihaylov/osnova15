@@ -5,6 +5,7 @@ import CRUDActionType from 'constants/CRUDActionType'
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import ListContainerHOC from 'hoc/ListContainerHOC'
 import EntityList from 'components/EntityList'
+import {toUri} from 'utils/Util'
 
 @connect(state => ({
   redux: state.matchCompetitor,
@@ -13,7 +14,8 @@ import EntityList from 'components/EntityList'
 @autobind
 @HasSelectionHOC('redux.listRecords')
 @ListContainerHOC({
-  entity: 'matchCompetitor'
+  entity: 'matchCompetitor',
+  calcCRUDUri: (props, {action, id}) => toUri(['match', props.params.matchId, 'competitor', id, action])
 })
 export default class MatchCompetitorListContainer extends React.Component {
 

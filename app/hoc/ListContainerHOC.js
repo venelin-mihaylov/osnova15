@@ -3,17 +3,17 @@ import {getDisplayName} from 'recompose'
 import {push} from 'react-router-redux'
 import CRUDActionType from 'constants/CRUDActionType'
 import {autobind} from 'core-decorators'
-import {log} from 'utils/Util'
+import {log, toUri} from 'utils/Util'
 
 
 
-export default function ListContainerHOC({entity, basePath = entity}) {
+export default function ListContainerHOC({entity, calcCRUDUri}) {
 
   return function ListContainerHOC(Component) {
     return class ListContainerHOC extends React.Component {
 
       static entity = entity
-      static basePath = basePath
+      static calcCRUDUri = calcCRUDUri
       static displayName = `ListContainerHOC(${getDisplayName(Component)})`
 
       componentWillMount() {
@@ -21,12 +21,13 @@ export default function ListContainerHOC({entity, basePath = entity}) {
       }
 
       @autobind
-      actionPath({action, id = ''}) {
-        const basePath = this.constructor.basePath
-        if(typeof basePath == 'function') {
-          return basePath(this.props, {action, id});
+      uri({action, id = ''}) {
+        const cb = this.constructor.calcCRUDUri
+        const entity = this.constructor.entity
+        if(typeof cb == 'function') {
+          return cb(this.props, {action, id, entity});
         } else {
-          return `/${basePath}/${id}/${action}`.replace('//', '/')
+          return toUri([entity, id, action])
         }
       }
 
@@ -37,8 +38,8 @@ export default function ListContainerHOC({entity, basePath = entity}) {
         const {
           dispatch,
           withFirstSelection,
-          onAddClick = () => dispatch(push(this.actionPath({action: 'add'}))),
-          onEditClick = () => withFirstSelection(r => dispatch(push(this.actionPath({action: 'edit', id: r.id})))),
+          onAddClick = () => dispatch(push(this.uri({action: 'add'}))),
+          onEditClick = () => withFirstSelection(r => dispatch(push(this.uri({action: 'edit', id: r.id})))),
           onDeleteClick = () => withFirstSelection(r => dispatch(act(CRUDActionType.DELETE_REQUESTED, {id: r.id}))),
           onRefresh = () => dispatch(act(CRUDActionType.LIST_REQUESTED)),
           onLimitChange = (e, limit) => dispatch(act(CRUDActionType.LIST_SET_LIMIT, {limit: limit})),

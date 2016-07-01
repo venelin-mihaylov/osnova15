@@ -79,3 +79,10 @@ export function log(o) {
   console.log(o)
   return o;
 }
+
+export function toUri(arr) {
+  if(!arr || !arr.length) {
+    return '';
+  }
+  return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
+}
