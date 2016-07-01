@@ -51,8 +51,14 @@ export default class CRUDService {
   /**
    *
    * @param {QueryBuilder} qb
-     */
+   * @param {object|string} filter
+   */
   filter(qb, filter) {
+    if(!filter) return qb
+
+    if(typeof filter === 'string')
+      filter = JSON.parse(filter)
+
     for(let field in filter) {
       if(!filter.hasOwnProperty(field)) continue
       qb.andWhere(field, '=', filter[field])
@@ -60,8 +66,9 @@ export default class CRUDService {
     return qb
   }
 
-  list(params) {
-    const filter = JSON.parse(params.filter) || {}
+  list({
+    filter
+  }) {
     return this.filter(this.model.query(), filter)
   }
 

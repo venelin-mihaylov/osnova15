@@ -7,7 +7,6 @@ import {formatServerError} from 'utils/Util'
 export default function ItoNSaga(entity, relation) {
   const act = ItoNActionType.act(entity, relation)
   const type = type => ItoNActionType.prefixType(entity, relation, type)
-  console.log(type(ItoNActionType.I_TO_N_LIST_REQUESTED))
 
   /**
    *

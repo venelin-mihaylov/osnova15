@@ -16,12 +16,12 @@ export default class Match extends OsnovaModel {
         to: 'tournament.id'
       }
     },
-    competitor_match: {
+    match_competitor: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '/CompetitorMatch',
+      modelClass: __dirname + '/MatchCompetitor',
       join: {
         from: 'matches.id',
-        to: 'competitor_match.matchId'
+        to: 'match_competitor.matchId'
       }
     }
   }

@@ -4,7 +4,6 @@ import ActionType from 'constants/ActionType'
 import {push} from 'react-router-redux'
 import axios from 'axios'
 import CRUDSaga from './CRUDSaga'
-import ItoNSaga from './ItoNSaga'
 import FKSaga from './FKSaga'
 
 //<editor-fold desc="user login">
@@ -55,8 +54,8 @@ export default function* rootSaga() {
     fork(CRUDSaga('tournament')),
     fork(CRUDSaga('match')),
     fork(CRUDSaga('competitor')),
+    fork(CRUDSaga('matchCompetitor')),
     fork(FKSaga('tournament', '1')),
     fork(FKSaga('competitor', '1')),
-    fork(ItoNSaga('match', 'competitor'))
   ]
 }

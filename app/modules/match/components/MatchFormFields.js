@@ -21,7 +21,7 @@ export const MatchFormFields = ({
   entity,
   model: {
     notes = [],
-    competitor_match = []
+    match_competitor = []
   }
 }) => (
 
@@ -74,9 +74,9 @@ export const MatchFormFields = ({
       labelField="lastName"
       renderRecords={(rs = []) => rs.map(r => ({text: r.lastName, value: r.lastName}))}
       onChange={(id, record) => {
-        if (competitor_match.find(r => r.id === record.id)) return
+        if (match_competitor.find(r => r.id === record.id)) return
 
-        dispatch(actions.push(formModelField(entity, 'competitor_match[]'), record))
+        dispatch(actions.push(formModelField(entity, 'match_competitor[]'), record))
         dispatch(actions.change(formModelField(''), null))
       }}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {
@@ -85,13 +85,13 @@ export const MatchFormFields = ({
     />
     <br/>
 
-    <If condition={competitor_match.length}>
+    <If condition={match_competitor.length}>
 
 
 
 
-      {competitor_match.map((n, i) => (
-       <Chip onRequestDelete={() => dispatch(actions.remove(formModelField(entity, 'competitor_match[]'), i))}>
+      {match_competitor.map((n, i) => (
+       <Chip onRequestDelete={() => dispatch(actions.remove(formModelField(entity, 'match_competitor[]'), i))}>
          competitor: {n.lastName}
        </Chip>
       ))}
@@ -102,4 +102,4 @@ export const MatchFormFields = ({
   </div>
 )
 export default MatchFormFields
-/*{dispatch(actions.remove(formModelField(entity, 'competitor_match[]'), competitor_match ? competitor_match.length-1 : 0))}*/
+/*{dispatch(actions.remove(formModelField(entity, 'match_competitor[]'), match_competitor ? match_competitor.length-1 : 0))}*/

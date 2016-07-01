@@ -5,11 +5,12 @@ import axios from 'axios'
 import {actions} from "react-redux-form"
 import {formModel, formModelField} from "utils/Util"
 import {push} from 'react-router-redux'
-import {formatServerError} from 'utils/Util'
+import {formatServerError, camelCaseToUnderscore} from 'utils/Util'
 
 export default function CRUDSaga(entity) {
   const act = CRUDActionType.act(entity)
   const type = type => CRUDActionType.prefixType(entity, type)
+  const endpoint = camelCaseToUnderscore(entity)
 
   /**
    *
@@ -19,7 +20,7 @@ export default function CRUDSaga(entity) {
   function* read(action) {
     try {
       const response = yield call(axios, {
-        url: `/api/${entity}/${action.id}`,
+        url: `/api/${endpoint}/${action.id}`,
         method: 'get'
       })
       yield put(act(CRUDActionType.READ_SUCCESS, {record: response.data}))
@@ -29,15 +30,10 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  /**
-   *
-   * @param {object} action
-   * @param {int} action.id
-   */
-  function* doDelete(action) {
+  function* doDelete({id}) {
     try {
       yield call(axios, {
-        url: `/api/${entity}/${action.id}`,
+        url: `/api/${endpoint}/${id}`,
         method: 'delete'
       })
       yield put(act(CRUDActionType.DELETE_SUCCESS))
@@ -47,12 +43,12 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* create(action) {
+  function* create({record}) {
     try {
       const response = yield call(axios, {
-        url: `/api/${entity}`,
+        url: `/api/${endpoint}`,
         method: 'put',
-        data: action.record
+        data: record
       })
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}))
       yield put(push(`/${entity}`))
@@ -64,7 +60,7 @@ export default function CRUDSaga(entity) {
   function* list({page, filter}) {
     try {
       const response = yield call(axios, {
-        url: `/api/${entity}`,
+        url: `/api/${endpoint}`,
         method: 'get',
         params: {
           page: page,
@@ -82,12 +78,12 @@ export default function CRUDSaga(entity) {
    * @param action
    * @param {object} action.record
    */
-  function* update(action) {
+  function* update({record}) {
     try {
       const response = yield call(axios, {
-        url: `/api/${entity}/${action.record.id}`,
+        url: `/api/${endpoint}/${record.id}`,
         method: 'post',
-        data: action.record
+        data: record
       })
       yield put(act(CRUDActionType.UPDATE_SUCCESS, {record: response.data}))
       yield put(push(`/${entity}`))

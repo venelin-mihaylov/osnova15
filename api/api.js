@@ -11,7 +11,7 @@ import {Model} from 'objection'
 import Tournament from "../universal/model/Tournament"
 import Match from "../universal/model/Match"
 import Competitor from "../universal/model/Competitor"
-import CompetitorMatch from "../universal/model/CompetitorMatch"
+import MatchCompetitor from "../universal/model/MatchCompetitor"
 import configureAuthRouter from './router/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
@@ -53,7 +53,7 @@ app.use(passport.session())
 app.use('/auth', configureAuthRouter(passport))
 CRUDService.CRUDServiceFactory(Tournament).register(app)
 CRUDService.CRUDServiceFactory(Competitor).register(app)
-CRUDService.CRUDServiceFactory(CompetitorMatch).register(app)
+CRUDService.CRUDServiceFactory(MatchCompetitor).register(app)
 new MatchService(Match).register(app)
 //</editor-fold>
 app.use(renderError)

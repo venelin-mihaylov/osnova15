@@ -66,3 +66,13 @@ export function formatServerError(err) {
 export function ucfirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+/**
+ *
+ * @param {string} string
+ */
+export function camelCaseToUnderscore(string) {
+  return string.split(/([A-Z])/).reduce((acc, cur) => acc + (cur.toUpperCase() == cur ? '_' + cur.toLowerCase() : cur), '')
+
+
+}

@@ -3,7 +3,6 @@ import {combineReducers} from "redux"
 import {routerReducer as routing} from "react-router-redux"
 import CRUDReducer from "./CRUDReducer"
 import FKReducer from "./FKReducer"
-import ItoNReducer from './ItoNReducer'
 import user from "./user"
 import nav from "./nav"
 import {modelReducer, formReducer} from "react-redux-form"
@@ -31,7 +30,7 @@ const rootReducer = combineReducers({
   FKtournament: FKReducer('tournament', '1'),
   FKcompetitor1: FKReducer('competitor', '1'),
 
-  ItoNMatchCompetitor: ItoNReducer('match', 'competitor'),
+  matchCompetitor: CRUDReducer('matchCompetitor'),
   matchCompetitorModel: modelReducer('matchCompetitorModel'),
   matchCompetitorForm: formReducer('matchCompetitorModel'),
 

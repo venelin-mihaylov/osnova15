@@ -32,12 +32,12 @@ create table matches (
 insert into matches(name, "tournamentId", notes) values('match1', 1, '[{"text": "note1"}, {"text": "note2"}]');
 insert into matches(name, "tournamentId", notes) values('match2', 1, '[{"text": "note1"}, {"text": "note2"}]');
 
-drop table competitor_match CASCADE;
-create table competitor_match(
+drop table match_competitor CASCADE;
+create table match_competitor(
   id serial PRIMARY KEY,
   "competitorId" INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
   "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
   "disqualified" BOOLEAN DEFAULT FALSE
 );
-insert into competitor_match ("competitorId", "matchId") values(1,1);
-insert into competitor_match ("competitorId", "matchId") values(2,1);
+insert into match_competitor ("competitorId", "matchId") values(1,1);
+insert into match_competitor ("competitorId", "matchId") values(2,1);

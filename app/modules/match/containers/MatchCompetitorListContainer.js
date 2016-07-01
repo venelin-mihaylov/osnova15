@@ -1,29 +1,42 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
-import ItoNActionType from 'constants/ItoNActionType'
-import MatchCompetitorList from 'modules/match/components/MatchCompetitorList'
+import CRUDActionType from 'constants/CRUDActionType'
+import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import ListContainerHOC from 'hoc/ListContainerHOC'
+import EntityList from 'components/EntityList'
 
 @connect(state => ({
-  redux: state.ItoNMatchCompetitor,
+  redux: state.matchCompetitor,
   nav: state.nav
 }))
 @autobind
+@HasSelectionHOC('redux.listRecords')
+@ListContainerHOC('matchCompetitor')
 export default class MatchCompetitorListContainer extends React.Component {
 
-  constructor() {
-    super()
-    this.entity = 'match'
-    this.relation = 'competitor'
-    this.act = ItoNActionType.act(this.entity, this.relation)
-  }
-
   componentWillMount() {
-    this.props.dispatch(this.act(ItoNActionType.I_TO_N_LIST_REQUESTED, {parentId: this.props.params.parentId}))
+    this.props.dispatch(this.props.act(CRUDActionType.LIST_REQUESTED, {
+      filter: {
+        matchId: this.props.params.matchId
+      }
+    }))
   }
 
   render() {
-    return <MatchCompetitorList
+    return <EntityList
+      toolbarTitle="Competitors"
+      columns={[{
+        name: 'id',
+        title: 'ИД'
+      }, {
+        name: 'name',
+        title: 'Име'
+      }, {
+        name: 'startDate',
+        title: 'Стартиращ на'
+      }]}
+      {...this.props}
     />
   }
 

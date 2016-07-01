@@ -61,7 +61,7 @@ export default (store) => {
         <IndexRoute component={MatchListContainer}/>
         <Route name="Add match" path="add" component={MatchAddContainer}/>
         <Route name="Edit match" staticName={true} path="edit/:id" component={MatchEditContainer}/>
-        <Route name="Edit match competitors" path=":parentId/competitor" component={MatchCompetitorListContainer}/>
+        <Route name="List match competitors" path=":matchId/competitor" component={MatchCompetitorListContainer}/>
       </Route>
 
       <Route name="Competitors" path="competitor" component={ContentContainer}>

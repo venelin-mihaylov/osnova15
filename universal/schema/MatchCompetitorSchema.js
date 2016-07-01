@@ -1,4 +1,4 @@
-const CompetitorMatchSchema = {
+const MatchCompetitorSchema = {
   type: 'object',
   required: ['competitorId', 'matchId'],
   properties: {
@@ -8,4 +8,4 @@ const CompetitorMatchSchema = {
     is_disqualified: {type: 'boolean'}
   }
 }
-export default CompetitorMatchSchema
+export default MatchCompetitorSchema
