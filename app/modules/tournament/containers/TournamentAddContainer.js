@@ -11,7 +11,9 @@ import AddContainerHOC from 'hoc/AddContainerHOC'
   form: state.tournamentForm
 }))
 @autobind
-@AddContainerHOC('tournament')
+@AddContainerHOC({
+  entity: 'tournament'
+})
 class TournamentAddContainer extends React.Component {
 
   render() {

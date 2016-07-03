@@ -47,9 +47,17 @@ export default function ListContainerHOC({entity, uri}) {
         } = this.props
 
         return <Component
-          {...{act, entity}}
-          {...{dispatch, withFirstSelection}}
-          {...{onAddClick, onEditClick, onDeleteClick, onRefresh, onLimitChange}}
+          {...{
+            entity,
+            act,
+            dispatch,
+            withFirstSelection,
+            onAddClick,
+            onEditClick,
+            onDeleteClick,
+            onRefresh,
+            onLimitChange,
+          }}
           {...rest}
         />
       }

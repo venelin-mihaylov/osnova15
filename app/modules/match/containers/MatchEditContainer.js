@@ -12,7 +12,9 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
   model: state.matchModel
 }))
 @autobind
-@EditContainerHOC('match')
+@EditContainerHOC({
+  entity: 'match'
+})
 class MatchEditContainer extends React.Component {
   render() {
     return (<EntityEdit

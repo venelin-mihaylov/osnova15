@@ -6,7 +6,10 @@ import {actions} from "react-redux-form"
 import {resetFormRecord} from 'actions/resetFormRecord'
 import {goBack} from 'react-router-redux'
 
-export default function AddContainerHOC(entity) {
+export default function AddContainerHOC({
+  entity,
+  postSaveUri
+}) {
 
   return function AddContainerHOC(Component) {
     return class AddContainerHOC extends React.Component {
@@ -23,14 +26,22 @@ export default function AddContainerHOC(entity) {
         const act = CRUDActionType.act(entity)
         const {
           dispatch,
+          onSubmit = record => dispatch(act(CRUDActionType.CREATE_REQUESTED, {record})),
+          onReset = () => dispatch(resetFormRecord(entity)),
+          onCancel = () => dispatch(goBack()),
+          ...rest
         } = this.props
 
         return <Component
-          onSubmit={record => dispatch(act(CRUDActionType.CREATE_REQUESTED, {record}))}
-          onReset={() => dispatch(resetFormRecord(entity))}
-          onCancel={() => dispatch(goBack())}
-          {...{act, entity}}
-          {...this.props}
+          {...{
+            entity,
+            act,
+            dispatch,
+            onSubmit,
+            onReset,
+            onCancel
+          }}
+          {...rest}
         />
       }
     }

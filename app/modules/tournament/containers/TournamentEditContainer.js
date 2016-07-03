@@ -11,7 +11,9 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
   form: state.tournamentForm
 }))
 @autobind
-@EditContainerHOC('tournament')
+@EditContainerHOC({
+  entity: 'tournament'
+})
 class TournamentEditContainer extends React.Component {
   render() {
     return (<EntityEdit

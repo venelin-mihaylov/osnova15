@@ -4,7 +4,9 @@ import CRUDActionType from 'constants/CRUDActionType'
 import {resetFormRecord} from 'actions/resetFormRecord'
 import {goBack} from 'react-router-redux'
 
-export default function EditContainerHOC(entity) {
+export default function EditContainerHOC({
+  entity
+}) {
 
   return function EditContainerHOC(Component) {
     return class EditContainerHOC extends React.Component {
@@ -26,14 +28,22 @@ export default function EditContainerHOC(entity) {
         const act = this.act
         const {
           dispatch,
+          onSubmit =record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record})),
+          onReset = () => dispatch(resetFormRecord(entity)),
+          onCancel= () => dispatch(goBack()),
+          ...rest
         } = this.props
 
         return <Component
-          onSubmit={record => dispatch(act(CRUDActionType.UPDATE_REQUESTED, {record}))}
-          onReset={() => dispatch(resetFormRecord(entity))}
-          onCancel={() => dispatch(goBack())}
-          {...{act, entity}}
-          {...this.props}
+          {...{
+            entity,
+            act,
+            dispatch,
+            onSubmit,
+            onReset,
+            onCancel
+          }}
+          {...rest}
         />
       }
     }

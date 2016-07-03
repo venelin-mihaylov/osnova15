@@ -14,13 +14,11 @@ export default function CRUDSaga(entity) {
 
   /**
    *
-   * @param {action} action
-   * @param {int} action.id
    */
-  function* read(action) {
+  function* read({id}) {
     try {
       const response = yield call(axios, {
-        url: `/api/${endpoint}/${action.id}`,
+        url: `/api/${endpoint}/${id}`,
         method: 'get'
       })
       yield put(act(CRUDActionType.READ_SUCCESS, {record: response.data}))
@@ -43,7 +41,7 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* create({record}) {
+  function* create({record, postSaveUri = `/${entity}`}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
@@ -51,7 +49,7 @@ export default function CRUDSaga(entity) {
         data: record
       })
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}))
-      yield put(push(`/${entity}`))
+      yield put(push(postSaveUri))
     } catch(err) {
       yield put(act(CRUDActionType.CREATE_ERROR, formatServerError(err)))
     }
@@ -74,11 +72,8 @@ export default function CRUDSaga(entity) {
   }
 
   /**
-   *
-   * @param action
-   * @param {object} action.record
    */
-  function* update({record}) {
+  function* update({record, postSaveUri = `/${entity}`}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
@@ -86,7 +81,7 @@ export default function CRUDSaga(entity) {
         data: record
       })
       yield put(act(CRUDActionType.UPDATE_SUCCESS, {record: response.data}))
-      yield put(push(`/${entity}`))
+      yield put(push(postSaveUri))
     } catch(err) {
       let err2 = formatServerError(err), {fieldErrors} = err2
       yield put(act(CRUDActionType.UPDATE_ERROR, err2))

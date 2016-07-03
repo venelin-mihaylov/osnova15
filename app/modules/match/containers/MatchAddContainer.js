@@ -12,7 +12,9 @@ import AddContainerHOC from 'hoc/AddContainerHOC'
   model: state.matchModel
 }))
 @autobind
-@AddContainerHOC('match')
+@AddContainerHOC({
+  entity: 'match'
+})
 class MatchAddContainer extends React.Component {
 
   render() {

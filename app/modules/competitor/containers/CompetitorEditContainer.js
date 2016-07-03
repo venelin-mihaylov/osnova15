@@ -12,7 +12,9 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
   model: state.competitorModel
 }))
 @autobind
-@EditContainerHOC('competitor')
+@EditContainerHOC({
+  entity: 'competitor'
+})
 class CompetitorEditContainer extends React.Component {
   render() {
     return (<EntityEdit
