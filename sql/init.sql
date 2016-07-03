@@ -39,5 +39,5 @@ create table match_competitor(
   "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
   "disqualified" BOOLEAN DEFAULT FALSE
 );
-insert into match_competitor ("competitorId", "matchId") values(1,1);
-insert into match_competitor ("competitorId", "matchId") values(2,1);
+insert into match_competitor ("competitorId", "matchId", "disqualified") values(1,1, true);
+insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,1, false);

@@ -7,13 +7,13 @@ import {log, toUri} from 'utils/Util'
 
 
 
-export default function ListContainerHOC({entity, calcCRUDUri}) {
+export default function ListContainerHOC({entity, uri}) {
 
   return function ListContainerHOC(Component) {
     return class ListContainerHOC extends React.Component {
 
       static entity = entity
-      static calcCRUDUri = calcCRUDUri
+      static uri = uri
       static displayName = `ListContainerHOC(${getDisplayName(Component)})`
 
       componentWillMount() {
@@ -22,7 +22,7 @@ export default function ListContainerHOC({entity, calcCRUDUri}) {
 
       @autobind
       uri({action, id = ''}) {
-        const cb = this.constructor.calcCRUDUri
+        const cb = this.constructor.uri
         const entity = this.constructor.entity
         if(typeof cb == 'function') {
           return cb(this.props, {action, id, entity});

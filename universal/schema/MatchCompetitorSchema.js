@@ -5,7 +5,7 @@ const MatchCompetitorSchema = {
     id: {type: 'integer'},
     competitorId: {type: 'integer'},
     matchId: {type: 'integer'},
-    is_disqualified: {type: 'boolean'}
+    disqualified: {type: 'boolean'}
   }
 }
 export default MatchCompetitorSchema

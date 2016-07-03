@@ -15,7 +15,7 @@ import {toUri} from 'utils/Util'
 @HasSelectionHOC('redux.listRecords')
 @ListContainerHOC({
   entity: 'matchCompetitor',
-  calcCRUDUri: (props, {action, id}) => toUri(['match', props.params.matchId, 'competitor', id, action])
+  uri: (props, {action, id}) => toUri(['match', props.params.matchId, 'competitor', id, action])
 })
 export default class MatchCompetitorListContainer extends React.Component {
 
@@ -37,8 +37,8 @@ export default class MatchCompetitorListContainer extends React.Component {
         name: 'competitorId',
         title: 'Състезател ИД'
       }, {
-        name: 'competitor',
-        title: 'Състезател'
+        name: 'disqualified',
+        title: 'Дисквалифициран'
       }]}
       {...this.props}
     />
