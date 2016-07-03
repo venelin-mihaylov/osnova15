@@ -1,11 +1,10 @@
 import React from 'react'
 import CRUDActionType from 'constants/CRUDActionType'
 import {autobind} from 'core-decorators'
-import {actions} from 'react-redux-form'
-import {formModel} from 'utils/Util'
 import {resetFormRecord} from 'actions/resetFormRecord'
-import {goBack} from 'react-router-redux'
+import {push, goBack} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
+
 
 
 export default class OsnovaEditContainer extends React.Component {
@@ -28,6 +27,7 @@ export default class OsnovaEditContainer extends React.Component {
   addProps() {
     const {
       dispatch,
+      redux
     } = this.props
 
     const entity = this.constructor.entity
@@ -39,7 +39,7 @@ export default class OsnovaEditContainer extends React.Component {
       boundAct,
       onSubmit: record => boundAct(CRUDActionType.UPDATE_REQUESTED, {record}),
       onReset: () => dispatch(resetFormRecord(entity)),
-      onCancel: () => dispatch(goBack())
+      onCancel: () => dispatch(redux.nextUri ? push(redux.nextUri) : goBack())
     }
   }
 

@@ -5,6 +5,8 @@ import {connect} from "react-redux"
 import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import OsnovaListContainer from 'components/OsnovaListContainer'
+import CRUDActionType from 'constants/CRUDActionType'
+import {push} from 'react-router-redux'
 
 @connect(state => ({redux: state.tournament}))
 @autobind
@@ -15,6 +17,17 @@ export default class TournamentListContainer extends OsnovaListContainer {
   static entity = 'tournament'
 
   render() {
+
+    const {
+      dispatch
+    } = this.props
+
+    let addProps = this.addProps()
+    addProps.onAddClick = () => {
+      dispatch(this.act(CRUDActionType.SET_NEXT_URI, {nextUri:'/match'}))
+      dispatch(push(this.uri({action: 'add'})))
+    }
+
     return <EntityList
       toolbarTitle="Tournaments"
       columns={[{
@@ -28,7 +41,7 @@ export default class TournamentListContainer extends OsnovaListContainer {
         title: 'Стартиращ на'
       }]}
       {...this.props}
-      {...(this.addProps())}
+      {...(addProps)}
     />
   }
 }

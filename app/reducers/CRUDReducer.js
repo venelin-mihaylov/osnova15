@@ -13,6 +13,7 @@ export default function CRUDReducer(entity) {
     saving: false, // are we saving to the server?
     record: null, //  currently edited record
     deleteId: null, // id to delete / deleted id
+    nextUri: `/${entity}`, // set next uri
 
     listError: false, // list error
     listLoading: false, // are loading the list from the server
@@ -128,6 +129,14 @@ export default function CRUDReducer(entity) {
       case addPrefix(CRUDActionType.LIST_SET_PAGE):
         return Object.assign({}, state, {
           listPage: action.page
+        })
+      case addPrefix(CRUDActionType.SET_NEXT_URI):
+        return Object.assign({}, state, {
+          nextUri: action.nextUri
+        })
+      case addPrefix(CRUDActionType.CLEAN_NEXT_URI):
+        return Object.assign({}, state, {
+          nextUri: `/${entity}`
         })
       default:
         return state

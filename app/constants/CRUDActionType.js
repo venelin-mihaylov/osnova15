@@ -26,6 +26,10 @@ export default class CRUDActionType {
   static LIST_SET_LIMIT = 'LIST_SET_LIMIT'
   static LIST_SET_PAGE = 'LIST_SET_PAGE' // triggers LIST_REQUESTED, which initiates server data retrieval
 
+
+  static SET_NEXT_URI = 'SET_NEXT_URI'
+  static CLEAN_NEXT_URI = 'CLEAN_NEXT_URI'
+
   static create(object) {
     let ret = {}
     for (let action in this) {

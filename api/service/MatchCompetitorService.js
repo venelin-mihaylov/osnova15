@@ -7,21 +7,20 @@ import {throwOnError} from '../utils/utils'
 import MatchCompetitor from '../../universal/model/MatchCompetitor'
 
 @autobind
-@web.controller('/match')
-export default class MatchService extends CRUDService {
+@web.controller('/match_competitor')
+export default class MatchCompetitorService extends CRUDService {
 
   @decorate(logSql)
   read(id) {
     return this.model.query()
       .findById(id)
-      .eager('match_competitor.competitor')
+      .eager('competitor')
   }
 
   @decorate(logSql)
   list({filter}) {
-    return this.model.query()
-      .select('matches.*', 'tournament.name as tournamentId__name')
-      .join('tournament', 'matches.tournamentId', 'tournament.id')
+    let qb = this.model.query().eager('competitor')
+    return this.filter(qb, filter)
   }
 }
 

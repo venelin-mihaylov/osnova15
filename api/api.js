@@ -7,6 +7,7 @@ import SocketIo from 'socket.io'
 import config from '../universal/config'
 import CRUDService from './service/CRUDService'
 import MatchService from './service/MatchService'
+import MatchCompetitorService from './service/MatchCompetitorService'
 import {Model} from 'objection'
 import Tournament from "../universal/model/Tournament"
 import Match from "../universal/model/Match"
@@ -53,8 +54,8 @@ app.use(passport.session())
 app.use('/auth', configureAuthRouter(passport))
 CRUDService.factory(Tournament).register(app)
 CRUDService.factory(Competitor).register(app)
-CRUDService.factory(MatchCompetitor).register(app)
 new MatchService(Match).register(app)
+new MatchCompetitorService(MatchCompetitor).register(app)
 //</editor-fold>
 app.use(renderError)
 

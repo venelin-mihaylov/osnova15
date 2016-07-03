@@ -20,6 +20,8 @@ insert into competitor("firstName", "lastName", email) values('Georgi', 'Ivanov'
 drop table tournament CASCADE;
 create table tournament (id serial PRIMARY KEY, name varchar(255), description varchar(2048), notes jsonb);
 insert into tournament (name) values('tournament 1');
+insert into tournament (name) values('tournament 2');
+insert into tournament (name) values('tournament 3');
 
 drop table matches CASCADE;
 create table matches (
@@ -41,3 +43,5 @@ create table match_competitor(
 );
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(1,1, true);
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,1, false);
+insert into match_competitor ("competitorId", "matchId", "disqualified") values(1,2, false);
+insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,2, false);

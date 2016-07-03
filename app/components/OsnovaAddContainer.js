@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators'
 import {actions} from 'react-redux-form'
 import {formModel} from 'utils/Util'
 import {resetFormRecord} from 'actions/resetFormRecord'
-import {goBack} from 'react-router-redux'
+import {push, goBack} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 
 
@@ -20,6 +20,10 @@ export default class OsnovaAddContainer extends React.Component {
     this.resetForm()
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(this.act(CRUDActionType.CLEAN_NEXT_URI))
+  }
+
   @autobind
   resetForm() {
     this.props.dispatch(actions.reset(formModel(this.constructor.entity)))
@@ -28,6 +32,9 @@ export default class OsnovaAddContainer extends React.Component {
   addProps() {
     const {
       dispatch,
+      redux: {
+        nextUri
+      }
     } = this.props
 
     const entity = this.constructor.entity
@@ -37,9 +44,9 @@ export default class OsnovaAddContainer extends React.Component {
     return {
       entity,
       boundAct,
-      onSubmit: record => boundAct(CRUDActionType.CREATE_REQUESTED, {record}),
+      onSubmit: record => boundAct(CRUDActionType.CREATE_REQUESTED, {record, nextUri}),
       onReset: () => dispatch(resetFormRecord(entity)),
-      onCancel: () => dispatch(goBack())
+      onCancel: () => dispatch(nextUri ? push(nextUri) : goBack())
     }
   }
 

@@ -11,6 +11,7 @@ import TextField from "material-ui/TextField"
 import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper'
+import CRUDActionType from 'constants/CRUDActionType'
 import IconButton from "material-ui/IconButton"
 import {push} from 'react-router-redux'
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
@@ -22,6 +23,9 @@ export const MatchFormFields = ({
   model: {
     notes = [],
     match_competitor = []
+  },
+  params: {
+    id
   }
 }) => (
 
@@ -74,28 +78,26 @@ export const MatchFormFields = ({
       labelField="lastName"
       renderRecords={(rs = []) => rs.map(r => ({text: r.lastName, value: r.lastName}))}
       onChange={(id, record) => {
-        if (match_competitor.find(r => r.id === record.id)) return
-
-        dispatch(actions.push(formModelField(entity, 'match_competitor[]'), record))
+        if (match_competitor.find(r => r.competitorId === record.id)) return
+        dispatch(actions.push(formModelField(entity, 'match_competitor[]'), {
+          competitorId: record.id,
+          competitor: record
+        }))
         dispatch(actions.change(formModelField(''), null))
       }}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {
+        dispatch({type: CRUDActionType.prefixType('competitor', CRUDActionType.SET_NEXT_URI), nextUri: `/match/${id}/edit`})
         dispatch(push('/competitor/add'))
       }}/>]}
     />
     <br/>
 
     <If condition={match_competitor.length}>
-
-
-
-
       {match_competitor.map((n, i) => (
        <Chip onRequestDelete={() => dispatch(actions.remove(formModelField(entity, 'match_competitor[]'), i))}>
-         competitor: {n.lastName}
+         competitor: {console.log(n) || n.competitor.lastName}
        </Chip>
       ))}
-
       <br/>
     </If>
 

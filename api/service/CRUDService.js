@@ -73,7 +73,6 @@ export default class CRUDService {
   }
 
   create(data) {
-    console.log(data)
     return this.model.query().insert(data)
   }
 

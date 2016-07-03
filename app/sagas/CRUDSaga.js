@@ -1,5 +1,5 @@
 import CRUDActionType from 'constants/CRUDActionType'
-import { fork, put, take, call } from 'redux-saga/effects'
+import { fork, put, take, call, select } from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from "react-redux-form"
@@ -12,9 +12,6 @@ export default function CRUDSaga(entity) {
   const type = type => CRUDActionType.prefixType(entity, type)
   const endpoint = camelCaseToUnderscore(entity)
 
-  /**
-   *
-   */
   function* read({id}) {
     try {
       const response = yield call(axios, {
@@ -41,7 +38,7 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* create({record, postSaveUri = `/${entity}`}) {
+  function* create({record, nextUri = `/${entity}`}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
@@ -49,7 +46,7 @@ export default function CRUDSaga(entity) {
         data: record
       })
       yield put(act(CRUDActionType.CREATE_SUCCESS, {record: response.data}))
-      yield put(push(postSaveUri))
+      if(nextUri) yield put(push(nextUri))
     } catch(err) {
       yield put(act(CRUDActionType.CREATE_ERROR, formatServerError(err)))
     }
@@ -62,7 +59,7 @@ export default function CRUDSaga(entity) {
         method: 'get',
         params: {
           page: page,
-          filter: filter
+          filter: filter ? JSON.stringify(filter) : null
         }
       })
       yield put(act(CRUDActionType.LIST_SUCCESS, {records: response.data}))
@@ -73,7 +70,7 @@ export default function CRUDSaga(entity) {
 
   /**
    */
-  function* update({record, postSaveUri = `/${entity}`}) {
+  function* update({record, nextUri = `/${entity}`}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
@@ -81,7 +78,7 @@ export default function CRUDSaga(entity) {
         data: record
       })
       yield put(act(CRUDActionType.UPDATE_SUCCESS, {record: response.data}))
-      yield put(push(postSaveUri))
+      if(nextUri) yield put(push(nextUri))
     } catch(err) {
       let err2 = formatServerError(err), {fieldErrors} = err2
       yield put(act(CRUDActionType.UPDATE_ERROR, err2))

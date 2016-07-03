@@ -20,14 +20,15 @@ const EntityForm = ({
   },
   form,
   model,
-  FormFieldsComponent
+  FormFieldsComponent,
+  ...rest
 }) => (
   <div>
     <Saving {...{saving}} />
     <Loading {...{loading}} />
     <GlobalError {...{globalError}}/>
     <Form {...{onSubmit}} model={formModel(entity)}>
-      <FormFieldsComponent {...{form, model, entity, dispatch}}/>
+      <FormFieldsComponent {...{form, model, entity, dispatch}} {...rest}/>
       <DefaultFormButtons {...{onReset, onCancel}}/>
     </Form>
   </div>
