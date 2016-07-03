@@ -5,6 +5,7 @@ import CRUDReducer from "./CRUDReducer"
 import FKReducer from "./FKReducer"
 import user from "./user"
 import nav from "./nav"
+import misc from './misc'
 import {modelReducer, formReducer} from "react-redux-form"
 
 // Combine reducers with routeReducer which keeps track of
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   nav,
   routing,
   user,
+  misc,
 
   competitor: CRUDReducer('competitor'),
   competitorModel: modelReducer('competitorModel', {}),

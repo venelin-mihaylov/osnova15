@@ -86,7 +86,10 @@ export const MatchFormFields = ({
         dispatch(actions.change(formModelField(''), null))
       }}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {
-        dispatch({type: CRUDActionType.prefixType('competitor', CRUDActionType.SET_NEXT_URI), nextUri: `/match/${id}/edit`})
+        dispatch({
+          type: CRUDActionType.prefixType('competitor', CRUDActionType.SET_NEXT_URI),
+          nextUri: `/match/${id}/edit`
+        })
         dispatch(push('/competitor/add'))
       }}/>]}
     />

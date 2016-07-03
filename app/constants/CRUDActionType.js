@@ -30,6 +30,9 @@ export default class CRUDActionType {
   static SET_NEXT_URI = 'SET_NEXT_URI'
   static CLEAN_NEXT_URI = 'CLEAN_NEXT_URI'
 
+  static CONTINUE_FORM = 'CONTINUE_FORM'
+  static INIT_FORM = 'INIT_FORM'
+
   static create(object) {
     let ret = {}
     for (let action in this) {

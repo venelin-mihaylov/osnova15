@@ -23,6 +23,9 @@ const ActionType = Object.assign({
     LOGOUT_USER_SUCCESS: 'LOGOUT_USER_SUCCESS',
     LOGOUT_USER_ERROR: 'LOGOUT_USER_ERROR',
 
+    MATCH_DO_ADD_CREATED_COMPETITOR: 'MATCH_DO_ADD_CREATED_COMPETITOR',
+    MATCH_DONT_ADD_CREATED_COMPETITOR: 'MATCH_DONT_ADD_CREATED_COMPETITOR'
+
   },
   ItoNActionType.create('match', 'tournament'),
   CRUDActionType.create('tournament'),

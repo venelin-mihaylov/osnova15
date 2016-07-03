@@ -16,7 +16,9 @@ export default class OsnovaEditContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.readServerRecord()
+    if(this.props.redux.initForm) {
+      this.readServerRecord()
+    }
   }
 
   @autobind

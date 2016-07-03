@@ -17,7 +17,9 @@ export default class OsnovaAddContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.resetForm()
+    if(this.props.redux.initForm) {
+      this.resetForm()
+    }
   }
 
   componentWillUnmount() {

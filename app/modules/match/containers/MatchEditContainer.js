@@ -16,6 +16,11 @@ class MatchEditContainer extends OsnovaEditContainer {
 
   static entity = 'match'
 
+  componentWillMount() {
+    super.componentWillMount()
+
+  }
+
   render() {
     return (<EntityEdit
       FormFieldsComponent={MatchFormFields}
