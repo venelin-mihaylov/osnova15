@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityEdit from "components/EntityEdit"
 import MatchFormFields from "modules/match/components/MatchFormFields"
-import EditContainerHOC from 'hoc/EditContainerHOC'
+import OsnovaEditContainer from 'components/OsnovaEditContainer'
 
 @connect(state => ({
   redux: state.match,
@@ -12,14 +12,15 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
   model: state.matchModel
 }))
 @autobind
-@EditContainerHOC({
-  entity: 'match'
-})
-class MatchEditContainer extends React.Component {
+class MatchEditContainer extends OsnovaEditContainer {
+
+  static entity = 'match'
+
   render() {
     return (<EntityEdit
       FormFieldsComponent={MatchFormFields}
       {...this.props}
+      {...(this.addProps())}
     />)
   }
 }

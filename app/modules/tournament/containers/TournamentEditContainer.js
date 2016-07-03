@@ -4,21 +4,22 @@ import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityEdit from "components/EntityEdit"
 import TournamentFormFields from "modules/tournament/components/TournamentFormFields"
-import EditContainerHOC from 'hoc/EditContainerHOC'
+import OsnovaEditContainer from 'components/OsnovaEditContainer'
 
 @connect(state => ({
   redux: state.tournament,
   form: state.tournamentForm
 }))
 @autobind
-@EditContainerHOC({
-  entity: 'tournament'
-})
-class TournamentEditContainer extends React.Component {
+class TournamentEditContainer extends OsnovaEditContainer {
+
+  static entity = 'tournament'
+
   render() {
     return (<EntityEdit
       FormFieldsComponent={TournamentFormFields}
       {...this.props}
+      {...(this.addProps())}
     />)
   }
 }

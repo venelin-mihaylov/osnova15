@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import CRUDActionType from 'constants/CRUDActionType'
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
-import ListContainerHOC from 'hoc/ListContainerHOC'
+import OsnovaListContainer from 'components/OsnovaListContainer'
 import EntityList from 'components/EntityList'
 import {toUri} from 'utils/Util'
 
@@ -13,11 +13,7 @@ import {toUri} from 'utils/Util'
 }))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC({
-  entity: 'matchCompetitor',
-  uri: (props, {action, id}) => toUri(['match', props.params.matchId, 'competitor', id, action])
-})
-export default class MatchCompetitorListContainer extends React.Component {
+export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
   componentWillMount() {
     this.props.dispatch(this.props.act(CRUDActionType.LIST_REQUESTED, {
@@ -25,6 +21,10 @@ export default class MatchCompetitorListContainer extends React.Component {
         matchId: this.props.params.matchId
       }
     }))
+  }
+
+  uri({action, id}) {
+    return toUri(['match', this.props.params.matchId, 'competitor', id, action])
   }
 
   render() {

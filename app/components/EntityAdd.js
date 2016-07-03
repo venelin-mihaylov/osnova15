@@ -7,4 +7,9 @@ const EntityAdd = props => (<div>
     <div><EntityForm {...props}/></div>
   </div>
 );
+
+EntityAdd.constructor.propTypes = {
+  entity: React.PropTypes.string.isRequired
+}
+
 export default EntityAdd

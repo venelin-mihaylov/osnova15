@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {autobind} from "core-decorators"
 import EntityEdit from "components/EntityEdit"
 import CompetitorFormFields from "modules/competitor/components/CompetitorFormFields"
-import EditContainerHOC from 'hoc/EditContainerHOC'
+import OsnovaEditContainer from 'components/OsnovaEditContainer'
 
 @connect(state => ({
   redux: state.competitor,
@@ -12,14 +12,14 @@ import EditContainerHOC from 'hoc/EditContainerHOC'
   model: state.competitorModel
 }))
 @autobind
-@EditContainerHOC({
-  entity: 'competitor'
-})
-class CompetitorEditContainer extends React.Component {
+class CompetitorEditContainer extends OsnovaEditContainer {
+  entity = 'competitor'
+
   render() {
     return (<EntityEdit
       FormFieldsComponent={CompetitorFormFields}
       {...this.props}
+      {...(this.addProps())}
     />)
   }
 }

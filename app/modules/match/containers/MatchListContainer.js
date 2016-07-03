@@ -4,7 +4,7 @@ import {autobind} from "core-decorators"
 import {connect} from "react-redux"
 import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
-import ListContainerHOC from 'hoc/ListContainerHOC'
+import OsnovaListContainer from 'components/OsnovaListContainer'
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
 import ActionType from 'constants/ActionType'
@@ -15,8 +15,10 @@ import ActionType from 'constants/ActionType'
 }))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC({entity: 'match'})
-export default class MatchListContainer extends React.Component {
+export default class MatchListContainer extends OsnovaListContainer {
+
+  static entity = 'match'
+
   render() {
     const {
       dispatch,
@@ -59,6 +61,7 @@ export default class MatchListContainer extends React.Component {
         title: 'Състезание'
       }]}
       {...this.props}
+      {...(this.addProps())}
     />
   }
 }

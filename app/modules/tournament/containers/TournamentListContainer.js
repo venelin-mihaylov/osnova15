@@ -4,13 +4,16 @@ import {autobind} from "core-decorators"
 import {connect} from "react-redux"
 import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
-import ListContainerHOC from 'hoc/ListContainerHOC'
+import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.tournament}))
 @autobind
 @HasSelectionHOC('redux.listRecords')
-@ListContainerHOC({entity: 'tournament'})
-export default class TournamentListContainer extends React.Component {
+
+export default class TournamentListContainer extends OsnovaListContainer {
+
+  static entity = 'tournament'
+
   render() {
     return <EntityList
       toolbarTitle="Tournaments"
@@ -25,6 +28,7 @@ export default class TournamentListContainer extends React.Component {
         title: 'Стартиращ на'
       }]}
       {...this.props}
+      {...(this.addProps())}
     />
   }
 }
