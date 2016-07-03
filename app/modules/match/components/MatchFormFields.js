@@ -12,6 +12,7 @@ import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper'
 import CRUDActionType from 'constants/CRUDActionType'
+import ActionType from 'constants/ActionType'
 import IconButton from "material-ui/IconButton"
 import {push} from 'react-router-redux'
 import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
@@ -26,7 +27,9 @@ export const MatchFormFields = ({
   },
   params: {
     id
-  }
+  },
+  onClickAddCompetitor,
+  onSelectCompetitor
 }) => (
 
   <div>
@@ -77,21 +80,8 @@ export const MatchFormFields = ({
       hintText="Add competitor"
       labelField="lastName"
       renderRecords={(rs = []) => rs.map(r => ({text: r.lastName, value: r.lastName}))}
-      onChange={(id, record) => {
-        if (match_competitor.find(r => r.competitorId === record.id)) return
-        dispatch(actions.push(formModelField(entity, 'match_competitor[]'), {
-          competitorId: record.id,
-          competitor: record
-        }))
-        dispatch(actions.change(formModelField(''), null))
-      }}
-      iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {
-        dispatch({
-          type: CRUDActionType.prefixType('competitor', CRUDActionType.SET_NEXT_URI),
-          nextUri: `/match/${id}/edit`
-        })
-        dispatch(push('/competitor/add'))
-      }}/>]}
+      onChange={onSelectCompetitor}
+      iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
     />
     <br/>
 

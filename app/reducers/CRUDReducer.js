@@ -14,8 +14,8 @@ export default function CRUDReducer(entity) {
     record: null, //  currently edited record
     savedRecord: null, // the record, which has been just saved
     deleteId: null, // id to delete / deleted id
-    nextUri: `/${entity}`, // set next uri,
-    initForm: true, // if true, the form is not reset/loaded on mount
+    nextUri: `/${entity}`, // set next uri, after action. set to null to not change routes
+    initForm: true, // reset/load the crud form
 
     listError: false, // list error
     listLoading: false, // are loading the list from the server
@@ -141,13 +141,9 @@ export default function CRUDReducer(entity) {
         return Object.assign({}, state, {
           nextUri: `/${entity}`
         })
-      case addPrefix(CRUDActionType.CONTINUE_FORM):
-        return Object.assign({}, state, {
-          initForm: false
-        })
       case addPrefix(CRUDActionType.INIT_FORM):
         return Object.assign({}, state, {
-          initForm: true,
+          initForm: action.value,
         })
       default:
         return state

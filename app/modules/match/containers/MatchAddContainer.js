@@ -9,14 +9,21 @@ import OsnovaAddContainer from 'components/OsnovaAddContainer'
 @connect(state => ({
   redux: state.match,
   form: state.matchForm,
-  model: state.matchModel
+  model: state.matchModel,
+  misc: state.misc,
+  createdCompetitor: state.competitor.savedRecord
 }))
 @autobind
 class MatchAddContainer extends OsnovaAddContainer {
 
   static entity = 'match'
 
+  componentWillMount() {
+    super.componentWillMount()
+  }
+
   render() {
+
     return (<EntityAdd
       FormFieldsComponent={MatchFormFields}
       {...this.props}

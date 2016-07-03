@@ -18,6 +18,9 @@ export default class OsnovaEditContainer extends React.Component {
   componentWillMount() {
     if(this.props.redux.initForm) {
       this.readServerRecord()
+    } else {
+      // by default initForm=false is a flash, reset setting
+      this.props.dispatch(this.act(CRUDActionType.INIT_FORM, true))
     }
   }
 
