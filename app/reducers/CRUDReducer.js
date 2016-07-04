@@ -16,7 +16,21 @@ export default function CRUDReducer(entity) {
     deleteId: null, // id to delete / deleted id
     nextUri: `/${entity}`, // set next uri, after action. set to null to not change routes
     initForm: true, // reset/load the crud form
-
+    // if we have a foreign key in the table, we might want to
+    // create a foreign key record and set it for the currently edited record
+    // i.e. create new competitor and set it to be the competitor for match_competitor record
+    // string|array[string] watch
+    // if not null on mount we check the specified state path for a record.
+    // if it is present, set it to the specified field.
+    // it's a flash setting, if it's true, set it to false
+    // foreignKey: prop <- prop to select the new record from
+    selectCreatedFK: [{
+      field: 'competitorId',
+      relationOne: 'competitor',
+      relationMany: 'match_competitor',
+      relationType: 'one', //| many, use actions.push, not actions.set
+      propFKRecord: 'createdCompetitor',
+    }],
     listError: false, // list error
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
@@ -24,8 +38,12 @@ export default function CRUDReducer(entity) {
     listPage: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {
+    const {
+      type,
+      ...rest
+    } = action
 
-    switch (action.type) {
+    switch (type) {
       case addPrefix(CRUDActionType.CREATE_REQUESTED):
         return Object.assign({}, state, {
           saving: true
@@ -144,6 +162,10 @@ export default function CRUDReducer(entity) {
       case addPrefix(CRUDActionType.INIT_FORM):
         return Object.assign({}, state, {
           initForm: action.value,
+        })
+      case addPrefix(CRUDActionType.SELECT_CREATED_FK_RECORD):
+        return Object.assign({}, state, {
+          selectCreatedFK: action.value
         })
       default:
         return state

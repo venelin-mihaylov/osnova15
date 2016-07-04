@@ -30,8 +30,9 @@ export default class CRUDActionType {
   static SET_NEXT_URI = 'SET_NEXT_URI'
   static CLEAN_NEXT_URI = 'CLEAN_NEXT_URI'
 
-  static CONTINUE_FORM = 'CONTINUE_FORM'
   static INIT_FORM = 'INIT_FORM'
+
+  static SELECT_CREATED_FK_RECORD = 'SELECT_CREATED_FK_RECORD'
 
   static create(object) {
     let ret = {}
@@ -55,8 +56,15 @@ export default class CRUDActionType {
   }
 
   static act = entity => (actionType, rest = {}) => {
-    return Object.assign({
-      type: CRUDActionType.prefixType(entity, actionType)
-    }, rest)
+    if(typeof rest == 'object') {
+      return Object.assign({
+        type: CRUDActionType.prefixType(entity, actionType)
+      }, rest)
+    } else {
+      return Object.assign({
+        type: CRUDActionType.prefixType(entity, actionType),
+        value: rest
+      })
+    }
   }
 }
