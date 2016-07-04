@@ -15,19 +15,29 @@ import {formModelField} from 'utils/Util'
 @connect(state => ({
   redux: state.match,
   form: state.matchForm,
-  model: state.matchModel
+  model: state.matchModel,
+  misc: state.misc,
+  createdCompetitor: state.competitor.savedRecord
 }))
 @autobind
 class MatchEditContainer extends OsnovaEditContainer {
 
   static entity = 'match'
 
+  onAddCreatedCompetitor() {
+    if (this.props.misc.matchAddCreatedCompetitor) {
+      const record = this.props.createdCompetitor
+      this.props.dispatch(actions.push(formModelField(this.constructor.entity, 'match_competitor[]'), {
+        competitorId: record.id,
+        competitor: record
+      }))
+      this.props.dispatch({type: ActionType.MATCH_ADD_CREATED_COMPETITOR, value: false})
+    }
+  }
+
   componentWillMount() {
     super.componentWillMount()
-
-    if (this.props.misc.matchAddCreatedCompetitor) {
-
-    }
+    this.onAddCreatedCompetitor()
   }
 
   render() {
@@ -35,6 +45,9 @@ class MatchEditContainer extends OsnovaEditContainer {
       dispatch,
       model: {
         match_competitor = []
+      },
+      params: {
+        id
       }
     } = this.props
     const entity = this.constructor.entity

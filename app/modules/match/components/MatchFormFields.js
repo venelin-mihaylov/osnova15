@@ -25,9 +25,6 @@ export const MatchFormFields = ({
     notes = [],
     match_competitor = []
   },
-  params: {
-    id
-  },
   onClickAddCompetitor,
   onSelectCompetitor
 }) => (
