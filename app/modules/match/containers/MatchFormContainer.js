@@ -2,9 +2,9 @@
 import React from "react"
 import {connect} from "react-redux"
 import {autobind} from "core-decorators"
-import EntityEdit from "components/EntityEdit"
+import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchFormFields from "modules/match/components/MatchFormFields"
-import OsnovaEditContainer from 'components/OsnovaEditContainer'
+import OsnovaFormContainer from 'components/OsnovaFormContainer'
 import CRUDActionType from 'constants/CRUDActionType'
 import ActionType from 'constants/ActionType'
 import {push} from 'react-router-redux'
@@ -20,7 +20,7 @@ import {formModelField} from 'utils/Util'
   createdCompetitor: state.competitor.savedRecord
 }))
 @autobind
-class MatchEditContainer extends OsnovaEditContainer {
+class MatchFormContainer extends OsnovaFormContainer {
 
   static entity = 'match'
 
@@ -53,7 +53,7 @@ class MatchEditContainer extends OsnovaEditContainer {
     const entity = this.constructor.entity
 
 
-    return (<EntityEdit
+    return (<EntityFormWrapper
       FormFieldsComponent={MatchFormFields}
       {...this.props}
       {...(this.addProps())}
@@ -78,4 +78,4 @@ class MatchEditContainer extends OsnovaEditContainer {
     />)
   }
 }
-export default MatchEditContainer
+export default MatchFormContainer

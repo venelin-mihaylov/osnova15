@@ -2,9 +2,9 @@
 import React from "react"
 import {connect} from "react-redux"
 import {autobind} from "core-decorators"
-import EntityAdd from "components/EntityAdd"
+import EntityFormWrapper from "components/EntityFormWrapper"
 import CompetitorFormFields from "modules/competitor/components/CompetitorFormFields"
-import OsnovaAddContainer from 'components/OsnovaAddContainer'
+import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 
 @connect(state => ({
   redux: state.competitor,
@@ -12,17 +12,15 @@ import OsnovaAddContainer from 'components/OsnovaAddContainer'
   model: state.competitorModel
 }))
 @autobind
-class CompetitorAddContainer extends OsnovaAddContainer {
-
+class CompetitorFormContainer extends OsnovaFormContainer {
   static entity = 'competitor'
 
   render() {
-    return <EntityAdd
+    return (<EntityFormWrapper
       FormFieldsComponent={CompetitorFormFields}
       {...this.props}
       {...(this.addProps())}
-    />
+    />)
   }
 }
-export default CompetitorAddContainer
-
+export default CompetitorFormContainer

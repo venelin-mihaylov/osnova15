@@ -2,20 +2,16 @@ import React from "react"
 import {Route, IndexRoute} from "react-router"
 import App from "containers/App"
 import TournamentListContainer from "modules/tournament/containers/TournamentListContainer"
-import TournamentAddContainer from "modules/tournament/containers/TournamentAddContainer"
-import TournamentEditContainer from "modules/tournament/containers/TournamentEditContainer"
+import TournamentFormContainer from "modules/tournament/containers/TournamentFormContainer"
 
 import MatchListContainer from "modules/match/containers/MatchListContainer"
-import MatchAddContainer from "modules/match/containers/MatchAddContainer"
-import MatchEditContainer from "modules/match/containers/MatchEditContainer"
+import MatchFormContainer from "modules/match/containers/MatchFormContainer"
 
 import MatchCompetitorListContainer from 'modules/matchCompetitor/containers/MatchCompetitorListContainer.js'
-import MatchCompetitorAddContainer from 'modules/matchCompetitor/containers/MatchCompetitorAddContainer.js'
-import MatchCompetitorEditContainer from 'modules/matchCompetitor/containers/MatchCompetitorEditContainer.js'
+import MatchCompetitorFormContainer from 'modules/matchCompetitor/containers/MatchCompetitorFormContainer.js'
 
 import CompetitorListContainer from "modules/competitor/containers/CompetitorListContainer"
-import CompetitorAddContainer from "modules/competitor/containers/CompetitorAddContainer"
-import CompetitorEditContainer from "modules/competitor/containers/CompetitorEditContainer"
+import CompetitorFormContainer from "modules/competitor/containers/CompetitorFormContainer"
 
 
 
@@ -57,22 +53,22 @@ export default (store) => {
       <Route name="Login" path="login" component={LoginPage}/>
       <Route name="Tournaments" path="tournament" component={ContentContainer}>
         <IndexRoute component={TournamentListContainer}/>
-        <Route name="Add tournament" path="add" component={TournamentAddContainer}/>
-        <Route name="Edit tournament" staticName={true} path=":id/edit" component={TournamentEditContainer}/>
+        <Route name="Add tournament" path=":action" component={TournamentFormContainer}/>
+        <Route name="Edit tournament" staticName={true} path=":id/:action" component={TournamentFormContainer}/>
       </Route>
       <Route name="Matches" path="match" component={ContentContainer}>
         <IndexRoute component={MatchListContainer}/>
-        <Route name="Add match" path="add" component={MatchAddContainer}/>
-        <Route name="Edit match" staticName={true} path=":id/edit" component={MatchEditContainer}/>
         <Route name="List match competitors" path=":matchId/competitor" component={MatchCompetitorListContainer}/>
-        <Route name="Add match competitor" path=":matchId/competitor/add" component={MatchCompetitorAddContainer}/>
-        <Route name="Edit match competitor" path=":matchId/competitor/:id/edit" component={MatchCompetitorEditContainer}/>
+        <Route name="Add match competitor" path=":matchId/competitor/:action" component={MatchCompetitorFormContainer}/>
+        <Route name="Edit match competitor" path=":matchId/competitor/:id/:action" component={MatchCompetitorFormContainer}/>
+        <Route name="Add match" path="add" component={MatchFormContainer}/>
+        <Route name="Edit match" staticName={true} path=":id/:action" component={MatchFormContainer}/>
       </Route>
 
       <Route name="Competitors" path="competitor" component={ContentContainer}>
         <IndexRoute component={CompetitorListContainer}/>
-        <Route name="Add competitor" path="add" component={CompetitorAddContainer}/>
-        <Route name="Edit competitor" staticName={true} path=":id/edit" component={CompetitorEditContainer}/>
+        <Route name="Add competitor" path=":action" component={CompetitorFormContainer}/>
+        <Route name="Edit competitor" staticName={true} path=":id/:action" component={CompetitorFormContainer}/>
       </Route>
 
     </Route>
