@@ -5,12 +5,11 @@ import {autobind} from "core-decorators"
 import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchFormFields from "modules/match/components/MatchFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import CRUDActionType from 'constants/CRUDActionType'
+import CRUDAct from 'constants/CRUDAct'
 import ActionType from 'constants/ActionType'
 import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
 import {toUri, formModelField} from 'utils/Util'
-
 
 
 @connect(state => ({
@@ -51,7 +50,7 @@ class MatchFormContainer extends OsnovaFormContainer {
           }
         }
       })
-      dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, false))
+      dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, false))
     }
   }
 
@@ -81,7 +80,7 @@ class MatchFormContainer extends OsnovaFormContainer {
       onClickAddCompetitor={() => {
         const fkEntity = 'competitor'
         // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
-        dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, [{
+        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, [{
           foreignKey: 'competitorId',
           relationType: 'many',
           relationOne: 'competitor',
@@ -89,10 +88,10 @@ class MatchFormContainer extends OsnovaFormContainer {
           propFKRecord: 'createdCompetitor'
         }]))
         // do not load the form on its next mount, *once*, (flash)
-        dispatch(this.act(CRUDActionType.INIT_FORM, false))
+        dispatch(this.act(CRUDAct.INIT_FORM, false))
         // set the return uri for the next form
         dispatch({
-          type: CRUDActionType.prefixType(fkEntity, CRUDActionType.SET_NEXT_URI),
+          type: CRUDAct.prefixType(fkEntity, CRUDAct.SET_NEXT_URI),
           value: toUri([entity, id, action]) // i.e come back here
         })
         // redirect

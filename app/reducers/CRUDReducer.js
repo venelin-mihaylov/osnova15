@@ -1,5 +1,5 @@
 "use strict"
-import CRUDActionType from "../constants/CRUDActionType"
+import CRUDAct from "../constants/CRUDAct"
 
 export default function CRUDReducer(entity) {
   let addPrefix = type => `${entity.toUpperCase()}_${type}`
@@ -45,22 +45,22 @@ export default function CRUDReducer(entity) {
     } = action
 
     switch (type) {
-      case addPrefix(CRUDActionType.CREATE_REQUESTED):
+      case addPrefix(CRUDAct.CREATE_REQUESTED):
         return Object.assign({}, state, {
           saving: true
         })
-      case addPrefix(CRUDActionType.CREATE_SUCCESS):
+      case addPrefix(CRUDAct.CREATE_SUCCESS):
         return Object.assign({}, state, {
           saving: false,
           savedRecord: action.record
       })
-      case addPrefix(CRUDActionType.CREATE_ERROR):
+      case addPrefix(CRUDAct.CREATE_ERROR):
         return Object.assign({}, state, {
           saving: false,
           globalError: action.globalError,
           fieldErrors: action.fieldErrors
         })
-      case addPrefix(CRUDActionType.LIST_REQUESTED):
+      case addPrefix(CRUDAct.LIST_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           listLoading: true,
@@ -69,19 +69,19 @@ export default function CRUDReducer(entity) {
           listPage: action.page,
           listFilter: action.filter
         })
-      case addPrefix(CRUDActionType.LIST_SUCCESS):
+      case addPrefix(CRUDAct.LIST_SUCCESS):
         return Object.assign({}, state, {
           listLoading: false,
           listRecords: action.records,
           listError: null
         })
-      case addPrefix(CRUDActionType.LIST_ERROR):
+      case addPrefix(CRUDAct.LIST_ERROR):
         return Object.assign({}, state, {
           listLoading: false,
           listError: action.globalError,
           listRecords: []
         })
-      case addPrefix(CRUDActionType.READ_REQUESTED):
+      case addPrefix(CRUDAct.READ_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           loading: true,
@@ -89,34 +89,34 @@ export default function CRUDReducer(entity) {
           message: null,
           globalError: null
         })
-      case addPrefix(CRUDActionType.READ_SUCCESS):
+      case addPrefix(CRUDAct.READ_SUCCESS):
         return Object.assign({}, state, {
           params: action.params,
           loading: false,
           record: action.record,
           message: action.message
         })
-      case addPrefix(CRUDActionType.READ_ERROR):
+      case addPrefix(CRUDAct.READ_ERROR):
         return Object.assign({}, state, {
           params: action.params,
           loading: false,
           globalError: action.globalError || "Error occurred",
           record: null
         })
-      case addPrefix(CRUDActionType.UPDATE_REQUESTED):
+      case addPrefix(CRUDAct.UPDATE_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           saving: true,
           globalError: null,
           fieldErrors: null
         })
-      case addPrefix(CRUDActionType.UPDATE_SUCCESS):
+      case addPrefix(CRUDAct.UPDATE_SUCCESS):
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
           savedRecord: action.record
         })
-      case addPrefix(CRUDActionType.UPDATE_ERROR):
+      case addPrefix(CRUDAct.UPDATE_ERROR):
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
@@ -124,47 +124,47 @@ export default function CRUDReducer(entity) {
           globalError: action.globalError || "Error occurred",
           fieldErrors: action.fieldErrors
         })
-      case addPrefix(CRUDActionType.DELETE_REQUESTED):
+      case addPrefix(CRUDAct.DELETE_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           saving: true,
           deleteId: action.id
         })
-      case addPrefix(CRUDActionType.DELETE_SUCCESS):
+      case addPrefix(CRUDAct.DELETE_SUCCESS):
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
           message: action.message,
           deleteId: action.id
         })
-      case addPrefix(CRUDActionType.DELETE_ERROR):
+      case addPrefix(CRUDAct.DELETE_ERROR):
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
           globalError: action.globalError || "Error occurred",
           deleteId: action.id
         })
-      case addPrefix(CRUDActionType.LIST_SET_LIMIT):
+      case addPrefix(CRUDAct.LIST_SET_LIMIT):
         return Object.assign({}, state, {
           listLimit: action.limit
         })
-      case addPrefix(CRUDActionType.LIST_SET_PAGE):
+      case addPrefix(CRUDAct.LIST_SET_PAGE):
         return Object.assign({}, state, {
           listPage: action.page
         })
-      case addPrefix(CRUDActionType.SET_NEXT_URI):
+      case addPrefix(CRUDAct.SET_NEXT_URI):
         return Object.assign({}, state, {
           nextUri: action.value
         })
-      case addPrefix(CRUDActionType.CLEAN_NEXT_URI):
+      case addPrefix(CRUDAct.CLEAN_NEXT_URI):
         return Object.assign({}, state, {
           nextUri: `/${entity}`
         })
-      case addPrefix(CRUDActionType.INIT_FORM):
+      case addPrefix(CRUDAct.INIT_FORM):
         return Object.assign({}, state, {
           initForm: action.value,
         })
-      case addPrefix(CRUDActionType.SELECT_CREATED_FK_RECORD):
+      case addPrefix(CRUDAct.SELECT_CREATED_FK_RECORD):
         return Object.assign({}, state, {
           selectCreatedFK: action.value
         })

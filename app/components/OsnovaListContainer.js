@@ -1,6 +1,6 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
-import CRUDActionType from 'constants/CRUDActionType'
+import CRUDAct from 'constants/CRUDAct'
 import {toUri} from 'utils/Util'
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
@@ -11,7 +11,7 @@ export default class OsnovaListContainer extends React.Component {
 
   constructor() {
     super()
-    this.act = CRUDActionType.act(this.constructor.entity)
+    this.act = CRUDAct.act(this.constructor.entity)
   }
 
   componentWillMount() {
@@ -20,7 +20,7 @@ export default class OsnovaListContainer extends React.Component {
 
   @autobind
   listServerRecords() {
-    this.props.dispatch(this.act(CRUDActionType.LIST_REQUESTED))
+    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED))
   }
 
   @autobind
@@ -43,9 +43,9 @@ export default class OsnovaListContainer extends React.Component {
       boundAct,
       onAddClick: () => dispatch(push(this.uri({action: 'add'}))),
       onEditClick: () => withFirstSelection(r => dispatch(push(this.uri({action: 'edit', id: r.id})))),
-      onDeleteClick: () => withFirstSelection(r => boundAct(CRUDActionType.DELETE_REQUESTED, {id: r.id})),
-      onRefresh: () => boundAct(CRUDActionType.LIST_REQUESTED),
-      onLimitChange: (e, limit) => boundAct(CRUDActionType.LIST_SET_LIMIT, {limit: limit}),
+      onDeleteClick: () => withFirstSelection(r => boundAct(CRUDAct.DELETE_REQUESTED, {id: r.id})),
+      onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED),
+      onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit: limit}),
     }
   }
 

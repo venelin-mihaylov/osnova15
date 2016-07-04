@@ -1,5 +1,5 @@
 "use strict"
-export default class CRUDActionType {
+export default class CRUDAct {
 
   static CREATE_REQUESTED = 'CREATE_REQUESTED'
   static CREATE_SUCCESS = 'CREATE_SUCCESS'
@@ -58,18 +58,18 @@ export default class CRUDActionType {
   static act = entity => (actionType, rest = {}) => {
     if(Array.isArray(rest)) {
       return Object.assign({
-        type: CRUDActionType.prefixType(entity, actionType),
+        type: CRUDAct.prefixType(entity, actionType),
         value: rest
       })
     }
 
     if(typeof rest === 'object') {
       return Object.assign({
-        type: CRUDActionType.prefixType(entity, actionType)
+        type: CRUDAct.prefixType(entity, actionType)
       }, rest)
     } else {
       return Object.assign({
-        type: CRUDActionType.prefixType(entity, actionType),
+        type: CRUDAct.prefixType(entity, actionType),
         value: rest
       })
     }

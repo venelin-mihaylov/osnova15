@@ -1,4 +1,4 @@
-import CRUDActionType from "constants/CRUDActionType"
+import CRUDAct from "constants/CRUDAct"
 import ForeignKeyActionType from "constants/FKActionType"
 import ItoNActionType from 'constants/ItoNActionType'
 
@@ -27,9 +27,9 @@ const ActionType = Object.assign({
 
   },
   ItoNActionType.create('match', 'tournament'),
-  CRUDActionType.create('tournament'),
-  CRUDActionType.create('competitor'),
-  CRUDActionType.create('match'),
+  CRUDAct.create('tournament'),
+  CRUDAct.create('competitor'),
+  CRUDAct.create('match'),
   ForeignKeyActionType.create('tournament')
 )
 export default ActionType

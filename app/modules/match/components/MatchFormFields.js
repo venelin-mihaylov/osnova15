@@ -11,7 +11,7 @@ import TextField from "material-ui/TextField"
 import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
 import Paper from 'material-ui/Paper'
-import CRUDActionType from 'constants/CRUDActionType'
+import CRUDAct from 'constants/CRUDAct'
 import ActionType from 'constants/ActionType'
 import IconButton from "material-ui/IconButton"
 import {push} from 'react-router-redux'

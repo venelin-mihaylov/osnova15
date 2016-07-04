@@ -1,5 +1,5 @@
 import React from 'react'
-import CRUDActionType from 'constants/CRUDActionType'
+import CRUDAct from 'constants/CRUDAct'
 import {autobind} from 'core-decorators'
 import {formModel} from 'utils/Util'
 import {resetFormRecord} from 'actions/resetFormRecord'
@@ -12,7 +12,7 @@ export default class OsnovaFormContainer extends React.Component {
 
   constructor() {
     super()
-    this.act = CRUDActionType.act(this.constructor.entity)
+    this.act = CRUDAct.act(this.constructor.entity)
   }
 
   componentWillMount() {
@@ -34,7 +34,7 @@ export default class OsnovaFormContainer extends React.Component {
       }
     } else {
       // by default initForm=false is a flash,  reset setting
-      dispatch(this.act(CRUDActionType.INIT_FORM, {value: true}))
+      dispatch(this.act(CRUDAct.INIT_FORM, true))
     }
   }
 
@@ -45,7 +45,7 @@ export default class OsnovaFormContainer extends React.Component {
 
   @autobind
   readServerRecord() {
-    this.props.dispatch(this.act(CRUDActionType.READ_REQUESTED, { id: this.props.params.id}))
+    this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, { id: this.props.params.id}))
   }
 
   addProps() {
@@ -66,8 +66,8 @@ export default class OsnovaFormContainer extends React.Component {
       boundAct,
       action,
       onSubmit: (action == 'add' ?
-          record => boundAct(CRUDActionType.CREATE_REQUESTED, {record, nextUri: redux.nextUri}) :
-          record => boundAct(CRUDActionType.UPDATE_REQUESTED, {record, nextUri: redux.nextUri})
+          record => boundAct(CRUDAct.CREATE_REQUESTED, {record, nextUri: redux.nextUri}) :
+          record => boundAct(CRUDAct.UPDATE_REQUESTED, {record, nextUri: redux.nextUri})
       ),
       onReset: () => dispatch(resetFormRecord(entity)),
       onCancel: () => dispatch(redux.nextUri ? push(redux.nextUri) : goBack())

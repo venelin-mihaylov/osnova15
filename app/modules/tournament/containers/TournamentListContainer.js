@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import CRUDActionType from 'constants/CRUDActionType'
+import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
 
 @connect(state => ({redux: state.tournament}))
@@ -24,7 +24,7 @@ export default class TournamentListContainer extends OsnovaListContainer {
 
     let addProps = this.addProps()
     addProps.onAddClick = () => {
-      dispatch(this.act(CRUDActionType.SET_NEXT_URI, {nextUri:'/match'}))
+      dispatch(this.act(CRUDAct.SET_NEXT_URI, {nextUri:'/match'}))
       dispatch(push(this.uri({action: 'add'})))
     }
 
