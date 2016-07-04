@@ -1,7 +1,7 @@
 "use strict"
 import React from "react"
 import {Form} from "react-redux-form"
-import {formModel} from "utils/Util"
+import {rrfModel} from "utils/Util"
 import DefaultFormButtons from 'components/DefaultFormButtons'
 import Loading from 'components/Loading'
 import GlobalError from 'components/GlobalError'
@@ -27,7 +27,7 @@ const EntityForm = ({
     <Saving {...{saving}} />
     <Loading {...{loading}} />
     <GlobalError {...{globalError}}/>
-    <Form {...{onSubmit}} model={formModel(entity)}>
+    <Form {...{onSubmit}} model={rrfModel(entity)}>
       <FormFieldsComponent {...{form, model, entity, dispatch}} {...rest}/>
       <DefaultFormButtons {...{onReset, onCancel}}/>
     </Form>

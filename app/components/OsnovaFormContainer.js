@@ -1,7 +1,7 @@
 import React from 'react'
 import CRUDAct from 'constants/CRUDAct'
 import {autobind} from 'core-decorators'
-import {formModel} from 'utils/Util'
+import {rrfModel} from 'utils/Util'
 import {resetFormRecord} from 'actions/resetFormRecord'
 import {push, goBack} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
@@ -40,7 +40,7 @@ export default class OsnovaFormContainer extends React.Component {
 
   @autobind
   resetForm() {
-    this.props.dispatch(actions.reset(formModel(this.constructor.entity)))
+    this.props.dispatch(actions.reset(rrfModel(this.constructor.entity)))
   }
 
   @autobind

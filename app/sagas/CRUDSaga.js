@@ -3,7 +3,7 @@ import { fork, put, take, call, select } from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from "react-redux-form"
-import {formModel, formModelField} from "utils/Util"
+import {rrfModel, rrfField} from "utils/Util"
 import {push} from 'react-router-redux'
 import {formatServerError, camelCaseToUnderscore} from 'utils/Util'
 
@@ -19,7 +19,7 @@ export default function CRUDSaga(entity) {
         method: 'get'
       })
       yield put(act(CRUDAct.READ_SUCCESS, {record: response.data}))
-      yield put(actions.load(formModel(entity), response.data))
+      yield put(actions.load(rrfModel(entity), response.data))
     } catch(err) {
       yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
     }
@@ -84,7 +84,7 @@ export default function CRUDSaga(entity) {
       yield put(act(CRUDAct.UPDATE_ERROR, err2))
       for(let k in fieldErrors) {
         if(!fieldErrors.hasOwnProperty(k)) continue
-        yield put(actions.setErrors(formModelField(entity, k), fieldErrors[k].message))
+        yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
       }
     }
   }

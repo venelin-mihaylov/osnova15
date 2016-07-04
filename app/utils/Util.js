@@ -3,11 +3,11 @@ import React from "react"
 import {Errors} from "react-redux-form"
 import _get from "lodash.get"
 
-export function formModel(entity) {
+export function rrfModel(entity) {
   return `${entity}Model`
 }
-export function formModelField(entity, field) {
-  return formModel(entity) + '.' + field
+export function rrfField(entity, field) {
+  return rrfModel(entity) + '.' + field
 }
 
 export const defaultErrorMessages = {
@@ -39,7 +39,7 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
   }
 
   return <Errors
-    model={formModelField(dbTable, fieldName)}
+    model={rrfField(dbTable, fieldName)}
     messages={messages}
   />
 }

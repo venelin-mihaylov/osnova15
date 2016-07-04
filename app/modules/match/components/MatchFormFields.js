@@ -3,7 +3,7 @@ import React from 'react'
 import OsnovaTextField from 'components/OsnovaTextField'
 import MaterialField from 'components/MaterialField'
 import FKSelect from 'components/FKSelect'
-import {formModelField} from "utils/Util"
+import {rrfField} from "utils/Util"
 import {actions, track} from 'react-redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import _get from 'utils/get'
@@ -37,7 +37,7 @@ export const MatchFormFields = ({
       hintText="name"
       floatingLabelText="name"
     />
-    <MaterialField model={formModelField(entity, 'tournamentId')}>
+    <MaterialField model={rrfField(entity, 'tournamentId')}>
       <FKSelect
         entity="tournament"
         variation="1"
@@ -51,15 +51,15 @@ export const MatchFormFields = ({
     </MaterialField>
 
     <RaisedButton label="Add note" style={{margin: 5}} onClick={() => {
-      dispatch(actions.push(formModelField(entity, 'notes[]'), {
+      dispatch(actions.push(rrfField(entity, 'notes[]'), {
         text: ''
       }))
     }}/>
     <RaisedButton label="Remove note" style={{margin: 5}} onClick={() => {
-      dispatch(actions.remove(formModelField(entity, 'notes[]'), notes ? notes.length - 1 : 0))
+      dispatch(actions.remove(rrfField(entity, 'notes[]'), notes ? notes.length - 1 : 0))
     }}/>
     {notes && notes.map((n, i) => (
-      <MaterialField model={formModelField(entity, `notes[${i}].text`)}>
+      <MaterialField model={rrfField(entity, `notes[${i}].text`)}>
         <TextField
           required
           hintText={`note ${i + 1}`}
@@ -84,7 +84,7 @@ export const MatchFormFields = ({
 
     <If condition={match_competitor.length}>
       {match_competitor.map((n, i) => (
-       <Chip onRequestDelete={() => dispatch(actions.remove(formModelField(entity, 'match_competitor[]'), i))}>
+       <Chip onRequestDelete={() => dispatch(actions.remove(rrfField(entity, 'match_competitor[]'), i))}>
          competitor: {console.log(n) || n.competitor.lastName}
        </Chip>
       ))}
@@ -94,4 +94,4 @@ export const MatchFormFields = ({
   </div>
 )
 export default MatchFormFields
-/*{dispatch(actions.remove(formModelField(entity, 'match_competitor[]'), match_competitor ? match_competitor.length-1 : 0))}*/
+/*{dispatch(actions.remove(rrfField(entity, 'match_competitor[]'), match_competitor ? match_competitor.length-1 : 0))}*/

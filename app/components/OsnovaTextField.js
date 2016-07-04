@@ -1,11 +1,11 @@
 import React from 'react'
-import {formModelField} from "utils/Util"
+import {rrfField} from "utils/Util"
 import {MUIErrorText} from "utils/Util"
 import MaterialField from "components/MaterialField"
 import TextField from "material-ui/TextField"
 
 const OsnovaTextField = ({form, entity, field, ...rest}) => (
-  <MaterialField model={formModelField(entity, field)}>
+  <MaterialField model={rrfField(entity, field)}>
     <TextField
       errorText={MUIErrorText(form, entity, field)}
       {...rest}
