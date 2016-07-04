@@ -85,7 +85,7 @@ class MatchFormContainer extends OsnovaFormContainer {
           relationMany: 'match_competitor[]',
           propFKRecord: 'createdCompetitor'
         }]))
-        // do not load the form on its next mount, *once*, (flash)
+        // only on the next form mount, do not init/reset the form model
         dispatch(this.act(CRUDAct.INIT_FORM, false))
         // set the return uri for the next form
         dispatch({
