@@ -28,7 +28,7 @@ class MatchFormContainer extends OsnovaFormContainer {
   onAddCreatedCompetitor() {
     const {
       dispatch,
-        redux: {
+      redux: {
         selectCreatedFK
       },
     } = this.props
@@ -38,22 +38,20 @@ class MatchFormContainer extends OsnovaFormContainer {
         const recordFK = this.props[fk.propFKRecord]
         if(recordFK) {
           if(fk.relationType == 'one') {
-
-
+            dispatch(actions.change(formModelField(this.constructor.entity, fk.foreignKey), recordFK.id))
+            dispatch(actions.change(formModelField(this.constructor.entity, fk.relationOne), recordFK))
           }
           if(fk.relationType == 'many') {
             let r = {}
-            r[fk.relationOne] = recordFK
-            r[fk.field] = recordFK.id
+            r[fk.foreignKey] = recordFK.id
+            if(fk.relationOne) {
+              r[fk.relationOne] = recordFK
+            }
             dispatch(actions.push(formModelField(this.constructor.entity, fk.relationMany), r))
           }
-
         }
       })
-
-      const record = this.props.createdCompetitor
-
-      this.props.dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, null))
+      dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, false))
     }
   }
 
@@ -81,19 +79,24 @@ class MatchFormContainer extends OsnovaFormContainer {
       {...this.props}
       {...(this.addProps())}
       onClickAddCompetitor={() => {
+        const fkEntity = 'competitor'
         // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
-        dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, {
-          value: {
-            competitorId: 'competitor'
-          }
-        }))
+        dispatch(this.act(CRUDActionType.SELECT_CREATED_FK_RECORD, [{
+          foreignKey: 'competitorId',
+          relationType: 'many',
+          relationOne: 'competitor',
+          relationMany: 'match_competitor[]',
+          propFKRecord: 'createdCompetitor'
+        }]))
         // do not load the form on its next mount, *once*, (flash)
-        dispatch(this.act(CRUDActionType.INIT_FORM, {value: false}))
+        dispatch(this.act(CRUDActionType.INIT_FORM, false))
+        // set the return uri for the next form
         dispatch({
-          type: CRUDActionType.prefixType('competitor', CRUDActionType.SET_NEXT_URI),
-          nextUri: toUri(entity, id, action) // i.e come back here
+          type: CRUDActionType.prefixType(fkEntity, CRUDActionType.SET_NEXT_URI),
+          value: toUri([entity, id, action]) // i.e come back here
         })
-        dispatch(push('/competitor/add'))
+        // redirect
+        dispatch(push(`/${fkEntity}/add`))
       }}
       onSelectCompetitor={(id, record) => {
         if (match_competitor.find(r => r.competitorId === record.id)) return

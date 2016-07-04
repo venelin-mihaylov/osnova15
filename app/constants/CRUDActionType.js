@@ -56,7 +56,14 @@ export default class CRUDActionType {
   }
 
   static act = entity => (actionType, rest = {}) => {
-    if(typeof rest == 'object') {
+    if(Array.isArray(rest)) {
+      return Object.assign({
+        type: CRUDActionType.prefixType(entity, actionType),
+        value: rest
+      })
+    }
+
+    if(typeof rest === 'object') {
       return Object.assign({
         type: CRUDActionType.prefixType(entity, actionType)
       }, rest)

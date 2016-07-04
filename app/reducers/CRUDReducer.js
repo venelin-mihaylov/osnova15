@@ -24,13 +24,14 @@ export default function CRUDReducer(entity) {
     // if it is present, set it to the specified field.
     // it's a flash setting, if it's true, set it to false
     // foreignKey: prop <- prop to select the new record from
-    selectCreatedFK: [{
-      field: 'competitorId',
-      relationOne: 'competitor',
-      relationMany: 'match_competitor',
-      relationType: 'one', //| many, use actions.push, not actions.set
-      propFKRecord: 'createdCompetitor',
-    }],
+    // selectCreatedFK: [{
+    //   foreignKey: 'competitorId',
+    //   relationOne: 'competitor',
+    //   relationMany: 'match_competitor',
+    //   relationType: 'one', //| many, use actions.push, not actions.set
+    //   propFKRecord: 'createdCompetitor',
+    // }],
+    selectCreatedFK: false,
     listError: false, // list error
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
@@ -153,7 +154,7 @@ export default function CRUDReducer(entity) {
         })
       case addPrefix(CRUDActionType.SET_NEXT_URI):
         return Object.assign({}, state, {
-          nextUri: action.nextUri
+          nextUri: action.value
         })
       case addPrefix(CRUDActionType.CLEAN_NEXT_URI):
         return Object.assign({}, state, {

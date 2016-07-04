@@ -66,8 +66,8 @@ export default class OsnovaFormContainer extends React.Component {
       boundAct,
       action,
       onSubmit: (action == 'add' ?
-          record => boundAct(CRUDActionType.CREATE_REQUESTED, {record}) :
-          record => boundAct(CRUDActionType.UPDATE_REQUESTED, {record})
+          record => boundAct(CRUDActionType.CREATE_REQUESTED, {record, nextUri: redux.nextUri}) :
+          record => boundAct(CRUDActionType.UPDATE_REQUESTED, {record, nextUri: redux.nextUri})
       ),
       onReset: () => dispatch(resetFormRecord(entity)),
       onCancel: () => dispatch(redux.nextUri ? push(redux.nextUri) : goBack())
