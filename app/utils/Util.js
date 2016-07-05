@@ -2,6 +2,10 @@
 import React from "react"
 import {Errors} from "react-redux-form"
 import _get from "lodash.get"
+import CRUDAct from 'constants/CRUDAct'
+import {push} from 'react-router-redux'
+import {setNextUri} from 'actions/actions'
+import {actions} from 'react-redux-form'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -86,4 +90,50 @@ export function toUri(arr) {
     return '';
   }
   return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
+}
+
+export function navigateToCreateFKRecordAndScheduleSelect({
+  dispatch,
+  entity,
+  fkEntity,
+  scheduleSelect,
+  thisUri,
+  nextUri,
+}) {
+  const act = CRUDAct.act(entity)
+
+  // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
+  dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
+  // do not load the form on its next mount, *once*, (flash)
+  dispatch(act(CRUDAct.INIT_FORM, false))
+  // set the return uri for the next form
+  dispatch(setNextUri(fkEntity, thisUri))
+  // redirect
+  dispatch(push(nextUri))
+}
+
+export function doSelectCreatedFK({
+  dispatch,
+  entity,
+  selectCreatedFK
+}) {
+
+  if (!selectCreatedFK) return
+
+  selectCreatedFK.forEach(fk => {
+    const recordFK = this.props[fk.propFKRecord]
+    if(!recordFK) return
+
+    if(fk.relationType == 'one') {
+      dispatch(actions.change(rrfField(entity, fk.foreignKey), recordFK.id))
+      dispatch(actions.change(rrfField(entity, fk.relationOne), recordFK))
+    }
+    if(fk.relationType == 'many') {
+      let r = {}
+      r[fk.foreignKey] = recordFK.id
+      if(fk.relationOne) r[fk.relationOne] = recordFK
+      dispatch(actions.push(rrfField(entity, fk.relationMany), r))
+    }
+  })
+  dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, false))
 }

@@ -6,10 +6,10 @@ import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchFormFields from "modules/match/components/MatchFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 import CRUDAct from 'constants/CRUDAct'
-import ActionType from 'constants/ActionType'
-import {push} from 'react-router-redux'
+
 import {actions} from 'react-redux-form'
-import {toUri, rrfField} from 'utils/Util'
+import {toUri, rrfField, navigateToCreateFKRecordAndScheduleSelect, doSelectCreatedFK} from 'utils/Util'
+
 
 @connect(state => ({
   redux: state.match,
@@ -28,28 +28,15 @@ class MatchFormContainer extends OsnovaFormContainer {
       dispatch,
       redux: {
         selectCreatedFK
-      },
+      }
     } = this.props
     const entity = this.constructor.entity
 
-    if (!selectCreatedFK) return
-
-    selectCreatedFK.forEach(fk => {
-      const recordFK = this.props[fk.propFKRecord]
-      if(!recordFK) return
-
-      if(fk.relationType == 'one') {
-        dispatch(actions.change(rrfField(entity, fk.foreignKey), recordFK.id))
-        dispatch(actions.change(rrfField(entity, fk.relationOne), recordFK))
-      }
-      if(fk.relationType == 'many') {
-        let r = {}
-        r[fk.foreignKey] = recordFK.id
-        if(fk.relationOne) r[fk.relationOne] = recordFK
-        dispatch(actions.push(rrfField(entity, fk.relationMany), r))
-      }
+    doSelectCreatedFK({
+      dispatch,
+      entity,
+      selectCreatedFK
     })
-    dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, false))
   }
 
   componentWillMount() {
@@ -70,30 +57,26 @@ class MatchFormContainer extends OsnovaFormContainer {
     } = this.props
     const entity = this.constructor.entity
 
-
     return (<EntityFormWrapper
       FormFieldsComponent={MatchFormFields}
       {...this.props}
       {...(this.addProps())}
       onClickAddCompetitor={() => {
         const fkEntity = 'competitor'
-        // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
-        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, [{
-          foreignKey: 'competitorId',
-          relationType: 'many',
-          relationOne: 'competitor',
-          relationMany: 'match_competitor[]',
-          propFKRecord: 'createdCompetitor'
-        }]))
-        // only on the next form mount, do not init/reset the form model
-        dispatch(this.act(CRUDAct.INIT_FORM, false))
-        // set the return uri for the next form
-        dispatch({
-          type: CRUDAct.prefixType(fkEntity, CRUDAct.SET_NEXT_URI),
-          value: toUri([entity, id, action]) // i.e come back here
+        navigateToCreateFKRecordAndScheduleSelect({
+          dispatch,
+          entity,
+          fkEntity,
+          thisUri: toUri([entity, id, action]),
+          nextUri: `/${fkEntity}/add`,
+          scheduleSelect: [{
+            foreignKey: 'competitorId',
+            relationType: 'many',
+            relationOne: 'competitor',
+            relationMany: 'match_competitor[]',
+            propFKRecord: 'createdCompetitor'
+          }]
         })
-        // redirect
-        dispatch(push(`/${fkEntity}/add`))
       }}
       onSelectCompetitor={(id, record) => {
         if (match_competitor.find(r => r.competitorId === record.id)) return
