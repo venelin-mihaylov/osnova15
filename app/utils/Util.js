@@ -85,9 +85,10 @@ export function log(o) {
   return o;
 }
 
-export function toUri(arr) {
-  if(!arr || !arr.length) {
-    return '';
+export function toUri() {
+  let arr = []
+  for(let i = 0; i < arguments.length; i++) {
+    arr.push(arguments[i])
   }
   return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
 }

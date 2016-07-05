@@ -9,7 +9,7 @@ import {formatServerError, camelCaseToUnderscore} from 'utils/Util'
 
 export default function CRUDSaga(entity) {
   const act = CRUDAct.act(entity)
-  const type = type => CRUDAct.prefixType(entity, type)
+  const type = type => CRUDAct.type(entity, type)
   const endpoint = camelCaseToUnderscore(entity)
 
   function* read({id}) {

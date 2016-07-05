@@ -25,7 +25,7 @@ export default class OsnovaListContainer extends React.Component {
 
   @autobind
   uri({action, id}) {
-    return toUri([this.constructor.entity, id, action])
+    return toUri(this.constructor.entity, id, action)
   }
 
   addProps() {

@@ -7,6 +7,7 @@ import {push, goBack} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {actions} from 'react-redux-form'
 
+@autobind
 export default class OsnovaFormContainer extends React.Component {
   static entity
 
@@ -38,12 +39,10 @@ export default class OsnovaFormContainer extends React.Component {
     }
   }
 
-  @autobind
   resetForm() {
     this.props.dispatch(actions.reset(rrfModel(this.constructor.entity)))
   }
 
-  @autobind
   readServerRecord() {
     this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, { id: this.props.params.id}))
   }

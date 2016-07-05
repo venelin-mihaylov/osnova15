@@ -21,22 +21,22 @@ const rootReducer = combineReducers({
   user,
   misc,
 
-  competitor: CRUDReducer('competitor'),
+  competitor: CRUDReducer({entity: 'competitor'}),
   competitorModel: modelReducer('competitorModel', {}),
   competitorForm: formReducer('competitorModel', {}),
 
-  tournament: CRUDReducer('tournament'),
+  tournament: CRUDReducer({entity: 'tournament'}),
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
   FKtournament: FKReducer('tournament', '1'),
   FKcompetitor1: FKReducer('competitor', '1'),
 
-  matchCompetitor: CRUDReducer('matchCompetitor'),
+  matchCompetitor: CRUDReducer({entity: 'matchCompetitor'}),
   matchCompetitorModel: modelReducer('matchCompetitorModel'),
   matchCompetitorForm: formReducer('matchCompetitorModel'),
 
-  match: CRUDReducer('match'),
+  match: CRUDReducer({entity: 'match'}),
   matchModel: modelReducer('matchModel'),
   matchForm: formReducer('matchModel'),
 

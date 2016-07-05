@@ -1,7 +1,10 @@
 "use strict"
 import CRUDAct from "../constants/CRUDAct"
 
-export default function CRUDReducer(entity) {
+export default function CRUDReducer({
+  entity,
+  rootUri = `/${entity}`
+}) {
   let addPrefix = type => `${entity.toUpperCase()}_${type}`
 
   return function CRUD(state = {
@@ -14,7 +17,7 @@ export default function CRUDReducer(entity) {
     record: null, //  currently edited record
     savedRecord: null, // the record, which has been just saved
     deleteId: null, // id to delete / deleted id
-    nextUri: `/${entity}`, // set next uri, after action. set to null to not change routes
+    nextUri: rootUri, // set next uri, after action. set to null to not change routes
     initForm: true, // reset/load the crud form
     // if we have a foreign key in the table, we might want to
     // create a foreign key record and set it for the currently edited record
@@ -40,8 +43,7 @@ export default function CRUDReducer(entity) {
     listLimit: 100 // list limit
   }, action = {}) {
     const {
-      type,
-      ...rest
+      type
     } = action
 
     switch (type) {
@@ -158,7 +160,7 @@ export default function CRUDReducer(entity) {
         })
       case addPrefix(CRUDAct.CLEAN_NEXT_URI):
         return Object.assign({}, state, {
-          nextUri: `/${entity}`
+          nextUri: rootUri
         })
       case addPrefix(CRUDAct.INIT_FORM):
         return Object.assign({}, state, {

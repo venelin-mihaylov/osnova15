@@ -64,7 +64,7 @@ class MatchFormContainer extends OsnovaFormContainer {
           dispatch,
           entity,
           fkEntity,
-          thisUri: toUri([entity, id, action]),
+          thisUri: toUri(entity, id, action),
           nextUri: `/${fkEntity}/add`,
           scheduleSelect: [{
             foreignKey: 'competitorId',

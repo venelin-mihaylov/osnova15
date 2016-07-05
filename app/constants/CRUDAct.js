@@ -51,25 +51,25 @@ export default class CRUDAct {
    * @param {string} action
    * @returns {*}
      */
-  static prefixType(entity, action) {
+  static type(entity, action) {
     return entity.toUpperCase() + '_' + action
   }
 
   static act = entity => (actionType, rest = {}) => {
     if(Array.isArray(rest)) {
       return Object.assign({
-        type: CRUDAct.prefixType(entity, actionType),
+        type: CRUDAct.type(entity, actionType),
         value: rest
       })
     }
 
     if(typeof rest === 'object') {
       return Object.assign({
-        type: CRUDAct.prefixType(entity, actionType)
+        type: CRUDAct.type(entity, actionType)
       }, rest)
     } else {
       return Object.assign({
-        type: CRUDAct.prefixType(entity, actionType),
+        type: CRUDAct.type(entity, actionType),
         value: rest
       })
     }

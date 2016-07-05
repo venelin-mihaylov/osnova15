@@ -17,6 +17,7 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
   static entity = 'matchCompetitor'
 
   componentWillMount() {
+    this.props.dispatch(this.act(CRUDAct.SET_NEXT_URI, toUri('match', this.props.params.matchId, 'competitor')))
     this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, {
       filter: {
         matchId: this.props.params.matchId
@@ -25,35 +26,25 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
   }
 
   uri({action, id}) {
-    return toUri(['match', this.props.params.matchId, 'competitor', id, action])
+    return toUri('match', this.props.params.matchId, 'competitor', id, action)
   }
 
-
   render() {
-    const {
-      dispatch
-    } = this.props
-
-    let addProps = this.addProps()
-    addProps.onAddClick = () => {
-      dispatch(this.act(CRUDAct.SET_NEXT_URI, {nextUri:'/tournament'}))
-      dispatch(push(this.uri({action: 'add'})))
-    }
-
     return <EntityList
       toolbarTitle="MatchCompetitors"
       columns={[{
         name: 'id',
         title: 'ИД'
       }, {
-        name: 'competitorId',
-        title: 'Състезател ИД'
+        name: 'competitor',
+        title: 'Състезател',
+        //render: (v, r) => `${r.firstName} ${r.lastName}`
       }, {
         name: 'disqualified',
         title: 'Дисквалифициран'
       }]}
       {...this.props}
-      {...(addProps)}
+      {...(this.addProps())}
     />
   }
 }
