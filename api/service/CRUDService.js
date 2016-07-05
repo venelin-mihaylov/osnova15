@@ -1,8 +1,9 @@
 "use strict"
 import {autobind} from "core-decorators"
-import {ValidationError} from 'objection'
 import {throwOnError} from '../utils/utils'
 import * as web from 'express-decorators';
+import {logSql} from '../utils/utils'
+import {decorate} from 'core-decorators'
 
 @autobind
 export default class CRUDService {
@@ -72,6 +73,7 @@ export default class CRUDService {
     return this.filter(this.model.query(), filter)
   }
 
+  @decorate(logSql)
   create(data) {
     return this.model.query().insert(data)
   }

@@ -8,12 +8,27 @@ import OsnovaFormContainer from 'components/OsnovaFormContainer'
 
 @connect(state => ({
   redux: state.matchCompetitor,
+  model: state.matchCompetitorModel,
   form: state.matchCompetitorForm
 }))
 @autobind
 class MatchCompetitorFormContainer extends OsnovaFormContainer {
 
   static entity = 'matchCompetitor'
+
+  onCreate(record) {
+    super.onCreate({
+      matchId: this.props.params.matchId,
+      ...record
+    })
+  }
+
+  onUpdate(record) {
+    super.onUpdate({
+      matchId: this.props.params.matchId,
+      ...record
+    })
+  }
 
   render() {
     return (<EntityFormWrapper

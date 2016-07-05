@@ -91,7 +91,10 @@ export default class FKSelect extends React.Component {
         records,
         renderedRecords
       },
-      renderRecords = (rs=[]) => rs.map(r => ({text: r.name, value: r.name})),
+      labelField,
+      renderRecords = (rs=[]) => rs.map(r => {
+        return {text: r[labelField], value: r[labelField]}
+      }),
       model,
       onChange,
       iconButtons = [],

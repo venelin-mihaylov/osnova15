@@ -5,11 +5,8 @@ import {autobind} from "core-decorators"
 import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchFormFields from "modules/match/components/MatchFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import CRUDAct from 'constants/CRUDAct'
-
 import {actions} from 'react-redux-form'
 import {toUri, rrfField, navigateToCreateFKRecordAndScheduleSelect, doSelectCreatedFK} from 'utils/Util'
-
 
 @connect(state => ({
   redux: state.match,

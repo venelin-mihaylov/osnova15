@@ -48,10 +48,22 @@ export default class OsnovaFormContainer extends React.Component {
     this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, { id: this.props.params.id}))
   }
 
+  onCreate(record) {
+    const {dispatch, redux: {nextUri}} = this.props
+    dispatch(this.act(CRUDAct.CREATE_REQUESTED, {record, nextUri}))
+  }
+
+  onUpdate(record) {
+    const {dispatch, redux: {nextUri}} = this.props
+    dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextUri}))
+  }
+
   addProps() {
     const {
       dispatch,
-      redux,
+      redux: {
+        nextUri
+      },
       params: {
         action
       }
@@ -65,12 +77,9 @@ export default class OsnovaFormContainer extends React.Component {
       entity,
       boundAct,
       action,
-      onSubmit: (action == 'add' ?
-          record => boundAct(CRUDAct.CREATE_REQUESTED, {record, nextUri: redux.nextUri}) :
-          record => boundAct(CRUDAct.UPDATE_REQUESTED, {record, nextUri: redux.nextUri})
-      ),
+      onSubmit: (action == 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
-      onCancel: () => dispatch(redux.nextUri ? push(redux.nextUri) : goBack())
+      onCancel: () => dispatch(nextUri ? push(nextUri) : goBack())
     }
   }
 
