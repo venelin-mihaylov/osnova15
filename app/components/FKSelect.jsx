@@ -70,6 +70,10 @@ export default class FKSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps')
+    console.log(this.props.modelValue)
+    console.log(nextProps.modelValue)
+    console.log(nextProps.redux.valueLabel)
     if (nextProps.modelValue != this.props.modelValue) {
       this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {
         id: nextProps.modelValue,
@@ -78,7 +82,7 @@ export default class FKSelect extends React.Component {
     }
   }
 
-  componentWillmount() {
+  componentWillMount() {
     this.props.dispatch(this.act(FKActionType.FK_RESET))
   }
 

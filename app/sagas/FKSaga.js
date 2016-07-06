@@ -58,8 +58,8 @@ export default function FKSaga(entity, variation) {
 
   return function* FKSaga() {
     yield [
-      fork(function* () {yield* takeEvery(type(FKActionType.FK_READ_REQUESTED), read)}),
-      fork(function* () {yield* takeEvery(type(FKActionType.FK_LIST_REQUESTED), list)}),
+      fork(function* watchRead() {yield* takeEvery(type(FKActionType.FK_READ_REQUESTED), read)}),
+      fork(function* watchList() {yield* takeEvery(type(FKActionType.FK_LIST_REQUESTED), list)}),
     ]
   }
 }

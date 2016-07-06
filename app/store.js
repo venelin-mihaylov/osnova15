@@ -7,10 +7,11 @@ import createSagaMiddleware, {END} from 'redux-saga'
 import thunk from "redux-thunk"
 import rootReducer from './reducers/index'
 import rootSaga from './sagas'
+import sagaMonitor from './sagaMonitor'
 
 export default function configureStore(initialState = {}, history) {
 
-  const sagaMiddleware = createSagaMiddleware()
+  const sagaMiddleware = createSagaMiddleware({sagaMonitor})
   const devtools = window.devToolsExtension || (() => noop => noop)
 
   // Create the store with two middlewares

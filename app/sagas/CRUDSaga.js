@@ -45,8 +45,11 @@ export default function CRUDSaga(entity) {
         method: 'put',
         data: record
       })
+      console.log('server put finished')
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: response.data}))
+      console.log('create success')
       if(nextUri) yield put(push(nextUri))
+      console.log('navigated')
     } catch(err) {
       yield put(act(CRUDAct.CREATE_ERROR, formatServerError(err)))
     }
@@ -87,13 +90,13 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  return function* root() {
+  return function* CRUDSaga() {
     yield [
-      fork(function* () {yield* takeEvery(type(CRUDAct.READ_REQUESTED), read)}),
-      fork(function* () {yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list)}),
-      fork(function* () {yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create)}),
-      fork(function* () {yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update)}),
-      fork(function* () {yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), doDelete)})
+      fork(function* watchRead() {yield* takeEvery(type(CRUDAct.READ_REQUESTED), read)}),
+      fork(function* watchList() {yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list)}),
+      fork(function* watchCreate() {yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create)}),
+      fork(function* watchUpdate() {yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update)}),
+      fork(function* watchDelete() {yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), doDelete)})
     ]
   }
 }

@@ -25,7 +25,7 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       dispatch: this.props.dispatch,
       entity: this.constructor.entity,
       selectCreatedFK: this.props.redux.selectCreatedFK,
-      createdCompetitor: this.props.redux.createdCompetitor
+      createdCompetitor: this.props.createdCompetitor
     })
   }
 

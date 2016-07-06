@@ -38,7 +38,9 @@ class MatchFormContainer extends OsnovaFormContainer {
         match_competitor = []
       },
       params: {
-        id,
+        id
+      },
+      route: {
         action
       }
     } = this.props
