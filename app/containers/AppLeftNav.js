@@ -26,7 +26,10 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
       </If>
       <If condition={activeMatchId}>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Match Competitors</Link>
+          <Link to={`/match/${activeMatchId}/view`} {...{activeStyle}}>Details</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Competitors</Link>
         </MenuItem>
       </If>
     </Drawer>

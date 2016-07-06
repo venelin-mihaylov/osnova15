@@ -22,7 +22,7 @@ export default class OsnovaFormContainer extends React.Component {
       redux: {
         initForm
       },
-      params: {
+      route: {
         action
       }
     } = this.props
