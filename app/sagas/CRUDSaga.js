@@ -25,14 +25,14 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* doDelete({id}) {
+  function* doDelete({id, listParams = {}}) {
     try {
       yield call(axios, {
         url: `/api/${endpoint}/${id}`,
         method: 'delete'
       })
       yield put(act(CRUDAct.DELETE_SUCCESS))
-      yield put(act(CRUDAct.LIST_REQUESTED))
+      yield put(act(CRUDAct.LIST_REQUESTED, {...listParams}))
     } catch(err) {
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
     }
