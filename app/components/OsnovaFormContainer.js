@@ -63,7 +63,7 @@ export default class OsnovaFormContainer extends React.Component {
       redux: {
         nextUri
       },
-      params: {
+      route: {
         action
       }
     } = this.props
