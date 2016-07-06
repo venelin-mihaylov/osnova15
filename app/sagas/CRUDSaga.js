@@ -68,8 +68,6 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  /**
-   */
   function* update({record, nextUri = `/${entity}`}) {
     try {
       const response = yield call(axios, {

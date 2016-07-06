@@ -20,25 +20,15 @@ class MatchFormContainer extends OsnovaFormContainer {
 
   static entity = 'match'
 
-  selectCreatedFK() {
-    const {
-      dispatch,
-      redux: {
-        selectCreatedFK
-      }
-    } = this.props
-    const entity = this.constructor.entity
-
-    doSelectCreatedFK({
-      dispatch,
-      entity,
-      selectCreatedFK
-    })
-  }
-
   componentWillMount() {
     super.componentWillMount()
-    this.selectCreatedFK()
+
+    doSelectCreatedFK({
+      dispatch: this.props.dispatch,
+      entity: this.constructor.entity,
+      selectCreatedFK: this.props.redux.selectCreatedFK,
+      createdCompetitor: this.props.createdCompetitor
+    })
   }
 
   render() {

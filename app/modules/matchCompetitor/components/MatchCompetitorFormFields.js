@@ -5,11 +5,18 @@ import {MUIErrorText} from "utils/Util"
 import FKSelect from 'components/FKSelect'
 import MaterialField from 'components/MaterialField'
 import MaterialToggle from 'components/MaterialToggle'
+import IconButton from 'material-ui/IconButton'
 
 // after person create, we need to be able to get the latest created competitor
 // i.e. add onCompetitorCreated
 
-const MatchCompetitorFormFields = ({form, entity, model, dispatch}) => (
+const MatchCompetitorFormFields = ({
+  dispatch,
+  form,
+  entity,
+  model,
+  onClickAddCompetitor
+}) => (
   <div>
     <MaterialField model={rrfField(entity, 'competitorId')}>
       <FKSelect
@@ -20,6 +27,7 @@ const MatchCompetitorFormFields = ({form, entity, model, dispatch}) => (
         hintText="Competitor"
         labelField="lastName"
         errorText={MUIErrorText(form, entity, 'competitorId')}
+        iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
       />
       <br/>
     </MaterialField>

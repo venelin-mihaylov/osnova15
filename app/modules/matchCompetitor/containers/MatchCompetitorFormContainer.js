@@ -5,16 +5,29 @@ import {autobind} from "core-decorators"
 import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchCompetitorFormFields from "modules/matchCompetitor/components/MatchCompetitorFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
+import {toUri, navigateToCreateFKRecordAndScheduleSelect, doSelectCreatedFK} from 'utils/Util'
 
 @connect(state => ({
   redux: state.matchCompetitor,
   model: state.matchCompetitorModel,
-  form: state.matchCompetitorForm
+  form: state.matchCompetitorForm,
+  createdCompetitor: state.competitor.savedRecord
 }))
 @autobind
 class MatchCompetitorFormContainer extends OsnovaFormContainer {
 
   static entity = 'matchCompetitor'
+
+  componentWillMount() {
+    super.componentWillMount()
+
+    doSelectCreatedFK({
+      dispatch: this.props.dispatch,
+      entity: this.constructor.entity,
+      selectCreatedFK: this.props.redux.selectCreatedFK,
+      createdCompetitor: this.props.redux.createdCompetitor
+    })
+  }
 
   onCreate(record) {
     super.onCreate({
@@ -31,10 +44,38 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
   }
 
   render() {
+    const {
+      dispatch,
+      params: {
+        matchId
+      },
+      route: {
+        action
+      }
+    } = this.props
+    const entity = this.constructor.entity
+
     return (<EntityFormWrapper
       FormFieldsComponent={MatchCompetitorFormFields}
       {...this.props}
       {...(this.addProps())}
+      onClickAddCompetitor={() => {
+        const fkEntity = 'competitor'
+        navigateToCreateFKRecordAndScheduleSelect({
+          dispatch,
+          entity,
+          fkEntity,
+          thisUri: toUri('match', matchId, 'competitor', action),
+          nextUri: `/${fkEntity}/add`,
+          scheduleSelect: [{
+            foreignKey: 'competitorId',
+            relationType: 'one',
+            relationOne: 'competitor',
+            propFKRecord: 'createdCompetitor'
+          }]
+        })
+      }}
+
     />)
   }
 }

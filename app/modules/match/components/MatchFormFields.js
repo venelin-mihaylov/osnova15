@@ -4,18 +4,12 @@ import OsnovaTextField from 'components/OsnovaTextField'
 import MaterialField from 'components/MaterialField'
 import FKSelect from 'components/FKSelect'
 import {rrfField} from "utils/Util"
-import {actions, track} from 'react-redux-form'
+import {actions} from 'react-redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import _get from 'utils/get'
 import TextField from "material-ui/TextField"
 import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
-import Paper from 'material-ui/Paper'
-import CRUDAct from 'constants/CRUDAct'
-import ActionType from 'constants/ActionType'
 import IconButton from "material-ui/IconButton"
-import {push} from 'react-router-redux'
-import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 
 export const MatchFormFields = ({
   dispatch,
@@ -76,7 +70,7 @@ export const MatchFormFields = ({
       floatingLabelText="Add competitor"
       hintText="Add competitor"
       labelField="lastName"
-      renderRecords={(rs = []) => rs.map(r => ({text: r.lastName, value: r.lastName}))}
+      renderRecords={(rs = []) => rs.map(r => ({text: `${r.firstName} ${r.lastName}`, value: `${r.firstName} ${r.lastName}`}))}
       onChange={onSelectCompetitor}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
     />

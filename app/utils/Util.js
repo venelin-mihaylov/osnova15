@@ -102,6 +102,7 @@ export function navigateToCreateFKRecordAndScheduleSelect({
   thisUri,
   nextUri,
 }) {
+  console.log(arguments)
   const act = CRUDAct.act(entity)
 
   // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
@@ -117,13 +118,14 @@ export function navigateToCreateFKRecordAndScheduleSelect({
 export function doSelectCreatedFK({
   dispatch,
   entity,
-  selectCreatedFK
+  selectCreatedFK,
+  ...rest
 }) {
 
   if (!selectCreatedFK) return
 
   selectCreatedFK.forEach(fk => {
-    const recordFK = this.props[fk.propFKRecord]
+    const recordFK = rest[fk.propFKRecord]
     if(!recordFK) return
 
     if(fk.relationType == 'one') {
@@ -137,5 +139,5 @@ export function doSelectCreatedFK({
       dispatch(actions.push(rrfField(entity, fk.relationMany), r))
     }
   })
-  dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, false))
+  dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
 }
