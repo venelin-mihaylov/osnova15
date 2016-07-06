@@ -16,13 +16,17 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
   static entity = 'matchCompetitor'
 
-  componentWillMount() {
-    this.props.dispatch(this.act(CRUDAct.SET_NEXT_URI, toUri('match', this.props.params.matchId, 'competitor')))
-    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, {
+  serverListParams() {
+    return {
       filter: {
         matchId: this.props.params.matchId
       }
-    }))
+    }
+  }
+
+  componentWillMount() {
+    super.componentWillMount()
+    this.props.dispatch(this.act(CRUDAct.SET_NEXT_URI, toUri('match', this.props.params.matchId, 'competitor')))
   }
 
   uri({action, id}) {
@@ -36,9 +40,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         name: 'id',
         title: 'ИД'
       }, {
-        name: 'competitor',
+        name: 'competitorId',
         title: 'Състезател',
-        //render: (v, r) => `${r.firstName} ${r.lastName}`
+        render: ({data: {competitor}}) => (competitor ? `${competitor.firstName} ${competitor.lastName}` : '')
       }, {
         name: 'disqualified',
         title: 'Дисквалифициран'

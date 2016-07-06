@@ -20,4 +20,3 @@ export default class MatchCompetitorService extends CRUDService {
     return this.filter(qb, filter)
   }
 }
-
