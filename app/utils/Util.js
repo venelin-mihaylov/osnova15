@@ -123,20 +123,27 @@ export function doSelectCreatedFK({
 }) {
   if (!selectCreatedFK) return
 
-  selectCreatedFK.forEach(fk => {
-    const recordFK = rest[fk.propFKRecord]
+  selectCreatedFK.forEach(({
+    propFKRecord,
+    foreignKey,
+    relationType,
+    relationOne,
+    relationMany,
+    fkEntity
+  }) => {
+    const recordFK = rest[propFKRecord]
     if(!recordFK) return
 
-    if(fk.relationType == 'one') {
-      dispatch(actions.change(rrfField(entity, fk.foreignKey), recordFK.id))
-      dispatch(actions.change(rrfField(entity, fk.relationOne), recordFK))
+    if(relationType == 'one') {
+      dispatch(actions.change(rrfField(entity, foreignKey), recordFK.id))
     }
-    if(fk.relationType == 'many') {
+    if(relationType == 'many') {
       let r = {}
-      r[fk.foreignKey] = recordFK.id
-      if(fk.relationOne) r[fk.relationOne] = recordFK
-      dispatch(actions.push(rrfField(entity, fk.relationMany), r))
+      r[foreignKey] = recordFK.id
+      if(relationOne) r[relationOne] = recordFK
+      dispatch(actions.push(rrfField(entity, relationMany), r))
     }
+    dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
   })
   dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
 }

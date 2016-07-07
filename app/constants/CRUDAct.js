@@ -28,6 +28,7 @@ export default class CRUDAct {
   static CLEAN_NEXT_URI = 'CLEAN_NEXT_URI'
 
   static RESET_FORM = 'RESET_FORM'
+  static RESET = 'RESET'
 
   static SELECT_CREATED_FK_RECORD = 'SELECT_CREATED_FK_RECORD'
 

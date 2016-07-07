@@ -170,6 +170,15 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           selectCreatedFK: action.value
         })
+      case addPrefix(CRUDAct.RESET):
+        return Object.assign({}, state, {
+          saving: false,
+          loading: false,
+          savedRecord: false,
+          globalError: false,
+          fieldErrors: false,
+          selectCreatedFK: false
+        })
       default:
         return state
     }
