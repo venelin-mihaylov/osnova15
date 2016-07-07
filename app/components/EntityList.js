@@ -37,6 +37,7 @@ const EntityList = ({
       style={{height: 500}}
       selected={selectedId}
       allowUnsort={true}
+      sortInfo={false}
       loading={listLoading}
       {...rest}
     />
