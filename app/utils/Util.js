@@ -150,12 +150,11 @@ export function calcNextPath({
   action,
   id
 }) {
+  console.log(pathname)
   let matches = null
-  console.log(arguments[0])
-
   if(action == 'create' || action == 'update') {
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/edit$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
   }
 
@@ -164,10 +163,8 @@ export function calcNextPath({
   }
 
   if(action == 'edit') {
-    return toUri(pathname, id, action)
+    return pathname + toUri(id, action)
   }
-
-  console.log('no match')
 
   return pathname
 }
