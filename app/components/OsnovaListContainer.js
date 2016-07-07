@@ -47,13 +47,10 @@ export default class OsnovaListContainer extends React.Component {
       act,
       boundAct,
       onAddClick: () => dispatch(push(this.nextPath({action: 'add'}))),
-      onEditClick: () => withFirstSelection(r => dispatch(push(this.nextPath({action: 'edit', id: r.id})))),
-      onDeleteClick: () => withFirstSelection(r => boundAct(CRUDAct.DELETE_REQUESTED, {
-        id: r.id,
-        listParams: this.serverListParams()
-      })),
+      onEditClick: () => withFirstSelection(({id}) => dispatch(push(this.nextPath({action: 'edit', id})))),
+      onDeleteClick: () => withFirstSelection(({id}) => boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.serverListParams()})),
       onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.serverListParams()),
-      onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit: limit}),
+      onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit}),
     }
   }
 
