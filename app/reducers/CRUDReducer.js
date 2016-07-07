@@ -18,7 +18,7 @@ export default function CRUDReducer({
     savedRecord: null, // the record, which has been just saved
     deleteId: null, // id to delete / deleted id
     nextUri: rootUri, // set next uri, after action. set to null to not change routes
-    initForm: true, // reset/load the crud form
+    resetForm: true, // reset/load the crud form
     // if we have a foreign key in the table, we might want to
     // create a foreign key record and set it for the currently edited record
     // i.e. create new competitor and set it to be the competitor for match_competitor record
@@ -162,9 +162,9 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           nextUri: rootUri
         })
-      case addPrefix(CRUDAct.INIT_FORM):
+      case addPrefix(CRUDAct.RESET_FORM):
         return Object.assign({}, state, {
-          initForm: action.value,
+          resetForm: action.value,
         })
       case addPrefix(CRUDAct.SELECT_CREATED_FK_RECORD):
         return Object.assign({}, state, {

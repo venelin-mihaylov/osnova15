@@ -33,8 +33,8 @@ const rootReducer = combineReducers({
   FKcompetitor1: FKReducer('competitor', '1'),
 
   matchCompetitor: CRUDReducer({entity: 'matchCompetitor'}),
-  matchCompetitorModel: modelReducer('matchCompetitorModel'),
-  matchCompetitorForm: formReducer('matchCompetitorModel'),
+  matchCompetitorModel: modelReducer('matchCompetitorModel', {}),
+  matchCompetitorForm: formReducer('matchCompetitorModel', {}),
 
   match: CRUDReducer({entity: 'match'}),
   matchModel: modelReducer('matchModel'),

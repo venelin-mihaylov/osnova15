@@ -8,30 +8,19 @@ export default function FKSaga(entity, variation) {
   const act = FKActionType.act(entity, variation)
   const type = type => FKActionType.prefixType(entity, variation, type)
 
-  /**
-   *
-   * @param {object} action
-   * @param {integer} action.id
-   * @param {string} action.labelField
-   * @param {int} action.id
-   */
-  function* read(action) {
-    if(!action.id) {
-      yield put(act(FKActionType.FK_READ_SUCCESS, {
-        valueRecord: null,
-        valueLabel: null
-      }))
+  function* read({id}) {
+    if(!id) {
+      yield put(act(FKActionType.FK_READ_SUCCESS, {valueRecord: null}))
       return
     }
 
     try {
       const response = yield call(axios, {
-        url: `/api/${entity}/${action.id}`,
+        url: `/api/${entity}/${id}`,
         method: 'get'
       })
       yield put(act(FKActionType.FK_READ_SUCCESS, {
-        valueRecord: response.data,
-        valueLabel: response.data[action.labelField]
+        valueRecord: response.data
       }))
     } catch(err) {
       yield put(act(FKActionType.FK_READ_ERROR, formatServerError(err)))
@@ -41,15 +30,14 @@ export default function FKSaga(entity, variation) {
   /**
    *
    */
-  function* list({renderRecords}) {
+  function* list() {
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
         method: 'get'
       })
       yield put(act(FKActionType.FK_LIST_SUCCESS, {
-        records: response.data,
-        renderedRecords: renderRecords(response.data)
+        records: response.data
       }))
     } catch(err) {
       yield put(act(FKActionType.FK_LIST_ERROR, formatServerError(err)))

@@ -10,6 +10,7 @@ export default class FKActionType {
   static FK_READ_ERROR = 'FK_READ_ERROR'
 
   static FK_CLEAR_SELECTION = 'FK_CLEAR_SELECTION'
+  static SET_RENDER_RECORD = 'SET_RENDER_RECORD'
   static FK_RESET = 'FK_RESET'
 
   static create(object) {

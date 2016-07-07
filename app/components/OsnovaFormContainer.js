@@ -20,22 +20,26 @@ export default class OsnovaFormContainer extends React.Component {
     const {
       dispatch,
       redux: {
-        initForm
+        resetForm
       },
       route: {
         action
       }
     } = this.props
 
-    if(initForm) {
-      if(action == 'add') {
-        this.resetForm()
-      } else {
+    if(resetForm) {
+      if(action == 'edit') {
         this.readServerRecord()
       }
     } else {
-      // by default initForm=false is a flash,  reset setting
-      dispatch(this.act(CRUDAct.INIT_FORM, true))
+      // by default resetForm=false is a flash,  reset setting
+      dispatch(this.act(CRUDAct.RESET_FORM, true))
+    }
+  }
+
+  componentWillUnmount() {
+    if(this.props.redux.resetForm) {
+      this.resetForm()
     }
   }
 

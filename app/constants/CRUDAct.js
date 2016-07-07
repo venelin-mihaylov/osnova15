@@ -9,8 +9,6 @@ export default class CRUDAct {
   static READ_SUCCESS = 'READ_SUCCESS'
   static READ_ERROR = 'READ_ERROR'
 
-  static RESET = 'RESET'
-
   static UPDATE_REQUESTED = 'UPDATE_REQUESTED'
   static UPDATE_SUCCESS = 'UPDATE_SUCCESS'
   static UPDATE_ERROR = 'UPDATE_ERROR'
@@ -26,11 +24,10 @@ export default class CRUDAct {
   static LIST_SET_LIMIT = 'LIST_SET_LIMIT'
   static LIST_SET_PAGE = 'LIST_SET_PAGE' // triggers LIST_REQUESTED, which initiates server data retrieval
 
-
   static SET_NEXT_URI = 'SET_NEXT_URI'
   static CLEAN_NEXT_URI = 'CLEAN_NEXT_URI'
 
-  static INIT_FORM = 'INIT_FORM'
+  static RESET_FORM = 'RESET_FORM'
 
   static SELECT_CREATED_FK_RECORD = 'SELECT_CREATED_FK_RECORD'
 

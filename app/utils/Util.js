@@ -108,7 +108,7 @@ export function navigateToCreateFKRecordAndScheduleSelect({
   // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
   dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
   // do not load the form on its next mount, *once*, (flash)
-  dispatch(act(CRUDAct.INIT_FORM, false))
+  dispatch(act(CRUDAct.RESET_FORM, false))
   // set the return uri for the next form
   dispatch(setNextUri(fkEntity, thisUri))
   // redirect
@@ -121,9 +121,6 @@ export function doSelectCreatedFK({
   selectCreatedFK,
   ...rest
 }) {
-  console.log('doSelectCreatedFK')
-  console.log(rest)
-
   if (!selectCreatedFK) return
 
   selectCreatedFK.forEach(fk => {

@@ -71,7 +71,7 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
             foreignKey: 'competitorId',
             relationType: 'one',
             relationOne: 'competitor',
-            propFKRecord: 'createdCompetitor'
+            propFKRecord: 'createdCompetitor',
           }]
         })
       }}

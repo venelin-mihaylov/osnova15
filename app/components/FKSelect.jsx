@@ -13,7 +13,6 @@ import FKActionType from 'constants/FKActionType'
 })
 @autobind
 /**
- * @class FKSelect
  * Provides a foreign key select combo.
  * Keeps the current selection in redux-form
  * On load the current selection is passed down by redux-form via a value prop
@@ -54,36 +53,36 @@ export default class FKSelect extends React.Component {
     /**
      * Function to render the server data to a UI friendly format
      */
-    renderRecords: React.PropTypes.func,
+    renderList: React.PropTypes.func,
     /**
      * value
      */
-    modelValue: React.PropTypes.number,
+    value: React.PropTypes.string,
     /**
      * labelField
      */
-    labelField: React.PropTypes.string.isRequired,
+    renderRecord: React.PropTypes.func,
     /**
      * onChange(id, record)
      */
     onChange: React.PropTypes.func.isRequired,
   }
 
+  loadServerRecord(id) {
+    this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {id}))
+  }
+
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps')
-    console.log(this.props.modelValue)
-    console.log(nextProps.modelValue)
-    console.log(nextProps.redux.valueLabel)
-    if (nextProps.modelValue != this.props.modelValue) {
-      this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {
-        id: nextProps.modelValue,
-        labelField: this.props.labelField
-      }))
+    if (nextProps.value != this.props.value) {
+      this.loadServerRecord(nextProps.value)
     }
   }
 
   componentWillMount() {
     this.props.dispatch(this.act(FKActionType.FK_RESET))
+    if(!this.props.redux.valueRecord) {
+      this.loadServerRecord(this.props.value)
+    }
   }
 
   render() {
@@ -91,13 +90,13 @@ export default class FKSelect extends React.Component {
     const {
       dispatch,
       redux: {
-        valueLabel,
-        records,
-        renderedRecords
+        valueRecord,
+        records
       },
       labelField,
-      renderRecords = (rs=[]) => rs.map(r => {
-        return {text: r[labelField], value: r[labelField]}
+      renderRecord = r => r[labelField],
+      renderList = (rs=[]) => rs.map(r => {
+        return {text: renderRecord(r), value: renderRecord(r)}
       }),
       model,
       onChange,
@@ -111,10 +110,10 @@ export default class FKSelect extends React.Component {
           style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
-          searchText={valueLabel}
-          dataSource={renderedRecords}
-          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED, {renderRecords}))}
-          onFocus={() => dispatch(act(FKActionType.FK_LIST_REQUESTED, {renderRecords}))}
+          searchText={renderRecord(valueRecord)}
+          dataSource={renderList(records)}
+          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
+          onFocus={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />

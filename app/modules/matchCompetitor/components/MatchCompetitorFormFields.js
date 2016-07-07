@@ -26,6 +26,7 @@ const MatchCompetitorFormFields = ({
         floatingLabelText="Competitor"
         hintText="Competitor"
         labelField="lastName"
+        renderRecord={r => r && `${r.firstName} ${r.lastName}`}
         errorText={MUIErrorText(form, entity, 'competitorId')}
         iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
       />

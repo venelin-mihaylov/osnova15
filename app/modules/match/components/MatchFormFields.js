@@ -70,7 +70,7 @@ export const MatchFormFields = ({
       floatingLabelText="Add competitor"
       hintText="Add competitor"
       labelField="lastName"
-      renderRecords={(rs = []) => rs.map(r => ({text: `${r.firstName} ${r.lastName}`, value: `${r.firstName} ${r.lastName}`}))}
+      renderRecord={r => `${r.firstName} ${r.lastName}`}
       onChange={onSelectCompetitor}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
     />
