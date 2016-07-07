@@ -46,12 +46,8 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
   render() {
     const {
       dispatch,
-      params: {
-        matchId
-      },
-      route: {
-        action
-      }
+      params: {matchId},
+      route: {action}
     } = this.props
     const entity = this.constructor.entity
 
