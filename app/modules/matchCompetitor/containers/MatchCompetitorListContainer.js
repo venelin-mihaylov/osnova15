@@ -56,15 +56,6 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
     }
   }
 
-  componentWillMount() {
-    super.componentWillMount()
-    this.props.dispatch(this.act(CRUDAct.SET_NEXT_URI, toUri('match', this.props.params.matchId, 'competitor')))
-  }
-
-  uri({action, id}) {
-    return toUri('match', this.props.params.matchId, 'competitor', id, action)
-  }
-
   render() {
     return <EntityList
       toolbarTitle="MatchCompetitors"

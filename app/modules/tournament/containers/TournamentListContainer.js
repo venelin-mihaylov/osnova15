@@ -22,12 +22,6 @@ export default class TournamentListContainer extends OsnovaListContainer {
       dispatch
     } = this.props
 
-    let addProps = this.addProps()
-    addProps.onAddClick = () => {
-      dispatch(this.act(CRUDAct.SET_NEXT_URI, {nextUri:'/match'}))
-      dispatch(push(this.uri({action: 'add'})))
-    }
-
     return <EntityList
       toolbarTitle="Tournaments"
       columns={[{
@@ -41,7 +35,7 @@ export default class TournamentListContainer extends OsnovaListContainer {
         title: 'Стартиращ на'
       }]}
       {...this.props}
-      {...(addProps)}
+      {...(this.addProps())}
     />
   }
 }

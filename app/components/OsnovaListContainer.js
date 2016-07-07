@@ -1,7 +1,7 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
 import CRUDAct from 'constants/CRUDAct'
-import {toUri} from 'utils/Util'
+import {calcNextPath} from 'utils/Util'
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 
@@ -28,8 +28,9 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   @autobind
-  uri({action, id}) {
-    return toUri(this.constructor.entity, id, action)
+  nextPath({action, id}) {
+    const {location: {pathname}} = this.props
+    return calcNextPath({pathname, action, id})
   }
 
   addProps() {
@@ -45,8 +46,8 @@ export default class OsnovaListContainer extends React.Component {
       entity,
       act,
       boundAct,
-      onAddClick: () => dispatch(push(this.uri({action: 'add'}))),
-      onEditClick: () => withFirstSelection(r => dispatch(push(this.uri({action: 'edit', id: r.id})))),
+      onAddClick: () => dispatch(push(this.nextPath({action: 'add'}))),
+      onEditClick: () => withFirstSelection(r => dispatch(push(this.nextPath({action: 'edit', id: r.id})))),
       onDeleteClick: () => withFirstSelection(r => boundAct(CRUDAct.DELETE_REQUESTED, {
         id: r.id,
         listParams: this.serverListParams()

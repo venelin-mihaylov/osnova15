@@ -38,17 +38,15 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* create({record, nextUri = `/${entity}`}) {
+  function* create({record, nextPath}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'put',
         data: record
       })
-      console.log('server put finished')
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: response.data}))
-      console.log('create success')
-      if(nextUri) yield put(push(nextUri))
+      if(nextPath) yield put(push(nextPath))
       console.log('navigated')
     } catch(err) {
       yield put(act(CRUDAct.CREATE_ERROR, formatServerError(err)))
@@ -71,7 +69,7 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* update({record, nextUri = `/${entity}`}) {
+  function* update({record, nextPath}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
@@ -79,7 +77,7 @@ export default function CRUDSaga(entity) {
         data: record
       })
       yield put(act(CRUDAct.UPDATE_SUCCESS, {record: response.data}))
-      if(nextUri) yield put(push(nextUri))
+      if(nextPath) yield put(push(nextPath))
     } catch(err) {
       let err2 = formatServerError(err), {fieldErrors} = err2
       yield put(act(CRUDAct.UPDATE_ERROR, err2))

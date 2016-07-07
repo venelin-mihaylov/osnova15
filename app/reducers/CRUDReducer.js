@@ -2,8 +2,7 @@
 import CRUDAct from "../constants/CRUDAct"
 
 export default function CRUDReducer({
-  entity,
-  rootUri = `/${entity}`
+  entity
 }) {
   let addPrefix = type => `${entity.toUpperCase()}_${type}`
 
@@ -17,7 +16,6 @@ export default function CRUDReducer({
     record: null, //  currently edited record
     savedRecord: null, // the record, which has been just saved
     deleteId: null, // id to delete / deleted id
-    nextUri: rootUri, // set next uri, after action. set to null to not change routes
     resetForm: true, // reset/load the crud form
     // if we have a foreign key in the table, we might want to
     // create a foreign key record and set it for the currently edited record
@@ -42,9 +40,7 @@ export default function CRUDReducer({
     listPage: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {
-    const {
-      type
-    } = action
+    const {type} = action
 
     switch (type) {
       case addPrefix(CRUDAct.CREATE_REQUESTED):
@@ -153,14 +149,6 @@ export default function CRUDReducer({
       case addPrefix(CRUDAct.LIST_SET_PAGE):
         return Object.assign({}, state, {
           listPage: action.page
-        })
-      case addPrefix(CRUDAct.SET_NEXT_URI):
-        return Object.assign({}, state, {
-          nextUri: action.value
-        })
-      case addPrefix(CRUDAct.CLEAN_NEXT_URI):
-        return Object.assign({}, state, {
-          nextUri: rootUri
         })
       case addPrefix(CRUDAct.RESET_FORM):
         return Object.assign({}, state, {

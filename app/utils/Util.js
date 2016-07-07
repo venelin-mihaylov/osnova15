@@ -4,7 +4,6 @@ import {Errors} from "react-redux-form"
 import _get from "lodash.get"
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
-import {setNextUri} from 'actions/actions'
 import {actions} from 'react-redux-form'
 
 export function rrfModel(entity) {
@@ -99,7 +98,6 @@ export function navigateToCreateFKRecordAndScheduleSelect({
   entity,
   fkEntity,
   scheduleSelect,
-  thisUri,
   nextUri,
 }) {
   console.log(arguments)
@@ -107,10 +105,9 @@ export function navigateToCreateFKRecordAndScheduleSelect({
 
   // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
   dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
-  // do not load the form on its next mount, *once*, (flash)
+  // do not reset the form on its next mount, *once*, (flash)
   dispatch(act(CRUDAct.RESET_FORM, false))
   // set the return uri for the next form
-  dispatch(setNextUri(fkEntity, thisUri))
   // redirect
   dispatch(push(nextUri))
 }
@@ -146,4 +143,31 @@ export function doSelectCreatedFK({
     dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
   })
   dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
+}
+
+export function calcNextPath({
+  pathname,
+  action,
+  id
+}) {
+  let matches = null
+  console.log(arguments[0])
+
+  if(action == 'create' || action == 'update') {
+    if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/edit$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
+  }
+
+  if(action == 'add') {
+    return pathname + '/add'
+  }
+
+  if(action == 'edit') {
+    return toUri(pathname, id, action)
+  }
+
+  console.log('no match')
+
+  return pathname
 }

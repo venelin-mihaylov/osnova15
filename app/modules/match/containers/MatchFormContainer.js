@@ -34,15 +34,10 @@ class MatchFormContainer extends OsnovaFormContainer {
   render() {
     const {
       dispatch,
-      model: {
-        match_competitor = []
-      },
-      params: {
-        id
-      },
-      route: {
-        action
-      }
+      model: {match_competitor = []},
+      params: {id},
+      route: {action},
+      location: {pathname}
     } = this.props
     const entity = this.constructor.entity
 
@@ -56,7 +51,6 @@ class MatchFormContainer extends OsnovaFormContainer {
           dispatch,
           entity,
           fkEntity,
-          thisUri: toUri(entity, id, action),
           nextUri: `/${fkEntity}/add`,
           scheduleSelect: [{
             foreignKey: 'competitorId',

@@ -6,6 +6,8 @@ import {resetFormRecord} from 'actions/resetFormRecord'
 import {push, goBack} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {actions} from 'react-redux-form'
+import {calcNextPath} from 'utils/Util'
+
 
 @autobind
 export default class OsnovaFormContainer extends React.Component {
@@ -51,14 +53,21 @@ export default class OsnovaFormContainer extends React.Component {
     this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, { id: this.props.params.id}))
   }
 
+  nextPath({action, id}) {
+    const {location: {pathname}} = this.props
+    return calcNextPath({pathname, action, id})
+  }
+
   onCreate(record) {
-    const {dispatch, redux: {nextUri}} = this.props
-    dispatch(this.act(CRUDAct.CREATE_REQUESTED, {record, nextUri}))
+    const {dispatch, location: {pathname}} = this.props
+    const nextPath = this.nextPath({action: 'create'})
+    dispatch(this.act(CRUDAct.CREATE_REQUESTED, {record, nextPath}))
   }
 
   onUpdate(record) {
-    const {dispatch, redux: {nextUri}} = this.props
-    dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextUri}))
+    const {dispatch} = this.props
+    const nextPath = this.nextPath({action: 'update'})
+    dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath}))
   }
 
   addProps() {
