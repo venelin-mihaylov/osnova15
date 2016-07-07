@@ -14,7 +14,7 @@ import ActionType from 'constants/ActionType'
   nav: state.nav
 }))
 @autobind
-@HasSelectionHOC('redux.listRecords')
+@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class MatchListContainer extends OsnovaListContainer {
 
   static entity = 'match'

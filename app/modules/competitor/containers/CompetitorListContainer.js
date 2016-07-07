@@ -8,7 +8,7 @@ import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.competitor}))
 @autobind
-@HasSelectionHOC('redux.listRecords')
+@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class CompetitorListContainer extends OsnovaListContainer {
 
   static entity = 'competitor'

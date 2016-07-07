@@ -11,6 +11,7 @@ const EntityList = ({
   onLimitChange,
   onRefresh,
   toolbarTitle,
+  idProperty,
   selectedId,
   toolbarProps = {},
   redux: {
@@ -30,11 +31,12 @@ const EntityList = ({
     />
     <GlobalError globalError={listError}/>
     <DataGrid
-      idProperty="id"
+      idProperty={idProperty}
       zebraRows={false}
       dataSource={listRecords}
       style={{height: 500}}
       selected={selectedId}
+      allowUnsort={true}
       loading={listLoading}
       {...rest}
     />

@@ -43,7 +43,7 @@ import {push} from 'react-router-redux'
 
 @connect(state => ({redux: state.matchCompetitor}))
 @autobind
-@HasSelectionHOC('redux.listRecords')
+@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
   static entity = 'matchCompetitor'

@@ -10,8 +10,7 @@ import {push} from 'react-router-redux'
 
 @connect(state => ({redux: state.tournament}))
 @autobind
-@HasSelectionHOC('redux.listRecords')
-
+@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class TournamentListContainer extends OsnovaListContainer {
 
   static entity = 'tournament'
