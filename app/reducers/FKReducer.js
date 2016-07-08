@@ -53,6 +53,10 @@ export default function FKReducer(entity, variation) {
           valueRecord: null,
           records: []
         })
+      case type(FKActionType.FK_PRELOAD_RECORD):
+        return Object.assign({}, state, {
+          valueRecord: action.value,
+        })
       default:
         return state
     }

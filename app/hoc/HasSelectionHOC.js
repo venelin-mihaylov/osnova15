@@ -58,7 +58,6 @@ export default function HasSelectionHOC({
       getSelectionIdx() {
         const idProperty = this.constructor.idProperty
         const data = this.getData()
-        console.log(data)
         const ret2 = this.getData().findIndex(r => {
           const ret = r[idProperty] === this.state.selectedId
           if(ret) {

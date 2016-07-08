@@ -10,7 +10,7 @@ export default class FKActionType {
   static FK_READ_ERROR = 'FK_READ_ERROR'
 
   static FK_CLEAR_SELECTION = 'FK_CLEAR_SELECTION'
-  static SET_RENDER_RECORD = 'SET_RENDER_RECORD'
+  static FK_PRELOAD_RECORD = 'FK_PRELOAD_RECORD'
   static FK_RESET = 'FK_RESET'
 
   static create(object) {
@@ -36,8 +36,15 @@ export default class FKActionType {
   }
 
   static act = (entity, variation) => (actionType, rest = {}) => {
-    return Object.assign({
-      type: FKActionType.prefixType(entity, variation, actionType)
-    }, rest)
+    if(typeof rest == 'object') {
+      return Object.assign({
+        type: FKActionType.prefixType(entity, variation, actionType)
+      }, rest)
+    } else {
+      return {
+        type: FKActionType.prefixType(entity, variation, actionType),
+        value: rest
+      }
+    }
   }
 }

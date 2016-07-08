@@ -6,7 +6,7 @@ import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import CRUDAct from 'constants/CRUDAct'
-import {toUri} from 'utils/Util'
+import {toUri, log} from 'utils/Util'
 import {push} from 'react-router-redux'
 
 
@@ -68,7 +68,8 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         render: ({data: {competitor}}) => (competitor ? `${competitor.firstName} ${competitor.lastName}` : '')
       }, {
         name: 'disqualified',
-        title: 'Дисквалифициран'
+        title: 'Дисквалифициран',
+        render: ({value}) => value ? 'Yes' : 'No'
       }]}
       {...this.props}
       {...(this.addProps())}

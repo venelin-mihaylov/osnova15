@@ -64,6 +64,7 @@ export default (store) => {
         <Route name="Add match competitor" path=":matchId/competitor/add" action="add" component={MatchCompetitorFormContainer}/>
         <Route name="Edit match competitor" path=":matchId/competitor/:id/edit" action="edit" component={MatchCompetitorFormContainer}/>
         <Route name="Add new competitor" path=":matchId/competitor/add/create-competitor" action="add" component={CompetitorFormContainer}/>
+        <Route name="Add new competitor" path=":matchId/competitor/:id/edit/create-competitor" action="add" component={CompetitorFormContainer}/>
         <Route name="Add match" path="add" component={MatchFormContainer}/>
         <Route name="Edit match" staticName={true} path=":id/edit" action="edit" component={MatchFormContainer}/>
       </Route>

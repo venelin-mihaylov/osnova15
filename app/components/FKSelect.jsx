@@ -23,7 +23,8 @@ export default class FKSelect extends React.Component {
   defaultProps = {
     redux: {
       records: []
-    }
+    },
+    reset: true
   }
 
   /**
@@ -57,11 +58,18 @@ export default class FKSelect extends React.Component {
     /**
      * value
      */
-    value: React.PropTypes.string,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string,
+    ]),
     /**
      * labelField
      */
     renderRecord: React.PropTypes.func,
+    /**
+     * should we reset the store state, by default yes, start clean
+     */
+    reset: React.PropTypes.bool,
     /**
      * onChange(id, record)
      */
@@ -79,7 +87,9 @@ export default class FKSelect extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(this.act(FKActionType.FK_RESET))
+    if(this.props.reset) {
+      this.props.dispatch(this.act(FKActionType.FK_RESET))
+    }
     if(!this.props.redux.valueRecord) {
       this.loadServerRecord(this.props.value)
     }

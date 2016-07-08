@@ -15,7 +15,8 @@ const MatchCompetitorFormFields = ({
   form,
   entity,
   model,
-  onClickAddCompetitor
+  onClickAddCompetitor,
+  resetForm,
 }) => (
   <div>
     <MaterialField model={rrfField(entity, 'competitorId')}>
@@ -26,6 +27,7 @@ const MatchCompetitorFormFields = ({
         floatingLabelText="Competitor"
         hintText="Competitor"
         labelField="lastName"
+        reset={resetForm}
         renderRecord={r => r && `${r.firstName} ${r.lastName}`}
         errorText={MUIErrorText(form, entity, 'competitorId')}
         iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}

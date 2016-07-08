@@ -70,12 +70,15 @@ export default class OsnovaFormContainer extends React.Component {
     dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath}))
   }
 
+  onCancel() {
+    const {dispatch} = this.props
+    const nextPath = this.nextPath({action: 'cancel'})
+    dispatch(push(nextPath))
+  }
+
   addProps() {
     const {
       dispatch,
-      redux: {
-        nextUri
-      },
       route: {
         action
       }
@@ -91,7 +94,7 @@ export default class OsnovaFormContainer extends React.Component {
       action,
       onSubmit: (action == 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
-      onCancel: () => dispatch(nextUri ? push(nextUri) : goBack())
+      onCancel: this.onCancel
     }
   }
 
