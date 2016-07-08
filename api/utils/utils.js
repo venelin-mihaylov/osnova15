@@ -45,3 +45,11 @@ export function logSql(fn) {
     return ret
   }
 }
+
+export function toArray(o) {
+  return Array.isArray(o) ? o : [o]
+}
+
+export function toJSON(o) {
+  return typeof o === 'string' ? JSON.parse(o) : o
+}

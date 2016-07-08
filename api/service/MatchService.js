@@ -3,7 +3,6 @@ import {autobind, decorate } from 'core-decorators';
 import {QueryBuilder} from 'knex'
 import {logSql} from '../utils/utils'
 import * as web from 'express-decorators';
-import {throwOnError} from '../utils/utils'
 import MatchCompetitor from '../../universal/model/MatchCompetitor'
 
 @autobind
@@ -23,5 +22,6 @@ export default class MatchService extends CRUDService {
       .select('matches.*', 'tournament.name as tournamentId__name')
       .join('tournament', 'matches.tournamentId', 'tournament.id')
   }
+
 }
 

@@ -36,7 +36,6 @@ const EntityList = ({
       dataSource={listRecords}
       style={{height: 500}}
       selected={selectedId}
-      allowUnsort={true}
       sortInfo={false}
       loading={listLoading}
       {...rest}

@@ -4,6 +4,7 @@ import {throwOnError} from '../utils/utils'
 import * as web from 'express-decorators';
 import {logSql} from '../utils/utils'
 import {decorate} from 'core-decorators'
+import QueryFilter from './QueryFilter'
 
 @autobind
 export default class CRUDService {
@@ -49,28 +50,21 @@ export default class CRUDService {
     res.json(await this.delete(req.params.id, req.body))
   }
 
-  /**
-   *
-   * @param {QueryBuilder} qb
-   * @param {object|string} filter
-   */
-  filter(qb, filter) {
-    if(!filter) return qb
+  filterRules() {
 
-    if(typeof filter === 'string')
-      filter = JSON.parse(filter)
+  }
 
-    for(let field in filter) {
-      if(!filter.hasOwnProperty(field)) continue
-      qb.andWhere(field, '=', filter[field])
-    }
-    return qb
+  listQuery() {
+    return this.model.query()
   }
 
   list({
     filter
   }) {
-    return this.filter(this.model.query(), filter)
+    let qb = this.listQuery()
+    QueryFilter.filter(qb, filter, this.filterRules())
+    // TODO: pagination
+    return qb
   }
 
   @decorate(logSql)

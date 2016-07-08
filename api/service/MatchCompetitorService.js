@@ -1,8 +1,7 @@
 import CRUDService from './CRUDService'
-import {autobind, decorate } from 'core-decorators';
+import {autobind } from 'core-decorators';
 import {QueryBuilder} from 'knex'
 import * as web from 'express-decorators';
-import {throwOnError} from '../utils/utils'
 import MatchCompetitor from '../../universal/model/MatchCompetitor'
 
 @autobind
@@ -15,8 +14,13 @@ export default class MatchCompetitorService extends CRUDService {
       .eager('competitor')
   }
 
-  list({filter}) {
-    let qb = this.model.query().eager('competitor')
-    return this.filter(qb, filter)
+  listQuery() {
+    return this.model.query().eager('competitor')
+  }
+
+  filterRules() {
+    return {
+
+    }
   }
 }
