@@ -39,7 +39,8 @@ create table match_competitor(
   id serial PRIMARY KEY,
   "competitorId" INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
   "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "disqualified" BOOLEAN DEFAULT FALSE
+  "disqualified" BOOLEAN DEFAULT FALSE,
+  "notes" varchar(255)
 );
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(1,1, true);
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,1, false);

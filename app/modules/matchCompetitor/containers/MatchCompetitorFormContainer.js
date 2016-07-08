@@ -29,6 +29,11 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps')
+    console.log(nextProps)
+  }
+
   onCreate(record) {
     super.onCreate({
       matchId: this.props.params.matchId,
@@ -46,8 +51,6 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
   render() {
     const {
       dispatch,
-      params: {id, matchId},
-      route: {action},
       location: {pathname}
     } = this.props
     const entity = this.constructor.entity

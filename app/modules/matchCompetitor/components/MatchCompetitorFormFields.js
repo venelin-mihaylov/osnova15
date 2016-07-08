@@ -5,6 +5,7 @@ import {MUIErrorText} from "utils/Util"
 import FKSelect from 'components/FKSelect'
 import MaterialField from 'components/MaterialField'
 import MaterialToggle from 'components/MaterialToggle'
+import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 
 // after person create, we need to be able to get the latest created competitor
@@ -34,10 +35,19 @@ const MatchCompetitorFormFields = ({
       />
       <br/>
     </MaterialField>
+
     <MaterialField model={rrfField(entity, 'disqualified')}>
       <MaterialToggle
         labelPosition='right'
         label="Disqualified"
+      />
+    </MaterialField>
+
+    <MaterialField model={rrfField(entity, 'notes')}>
+      <TextField
+        name="notes"
+        floatingLabelText="notes"
+        errorText={MUIErrorText(form, entity, model.notes)}
       />
     </MaterialField>
 
