@@ -24,12 +24,16 @@ export default class CRUDService {
     req.checkParams('id').isInt()
     throwOnError(req.validationErrors())
 
-    res.json(await this.read(req.params.id))
+    const json = await this.read(req.params.id)
+    if(!json) {
+      res.status(404).json({globalError: 'Record not found'})
+    } else {
+      res.json(json)
+    }
   }
 
   @web.put('/')
   async webCreate(req, res) {
-    console.log(req.body)
     res.json(await this.create(req.body))
   }
 

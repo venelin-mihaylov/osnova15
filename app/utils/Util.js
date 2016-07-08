@@ -54,6 +54,11 @@ export function formatServerError(err) {
     return {
       globalError: 'Internal server error'
     }
+  } else if(err.status == 404) {
+    return {
+      globalError: err.data.globalError
+    }
+
   } else if(err.status == 422) { // validation
     return err.data
   } else { // default
