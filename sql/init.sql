@@ -46,3 +46,25 @@ insert into match_competitor ("competitorId", "matchId", "disqualified") values(
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,1, false);
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(1,2, false);
 insert into match_competitor ("competitorId", "matchId", "disqualified") values(2,2, false);
+
+
+drop table exercise CASCADE;
+create table exercise (
+id serial PRIMARY KEY,
+name varchar(255),
+notes varchar(255)
+);
+insert into exercise (name, notes) values('exercise 1', 'notes 1');
+insert into exercise (name, notes) values('exercise 2', 'notes 2');
+insert into exercise (name, notes) values('exercise 3', 'notes 3');
+
+drop table match_exercise CASCADE;
+create table match_exercise(
+id serial PRIMARY KEY,
+"exerciseId" INTEGER REFERENCES exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"notes" varchar(255)
+);
+insert into match_exercise ("exerciseId", "matchId") values (1,1);
+insert into match_exercise ("exerciseId", "matchId") values (2,1);
+insert into match_exercise ("exerciseId", "matchId") values (3,2);
