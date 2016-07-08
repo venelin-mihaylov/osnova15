@@ -4,7 +4,7 @@ import {autobind} from "core-decorators"
 import AutoComplete from "material-ui/AutoComplete"
 import IconButton from "material-ui/IconButton"
 import {actions} from "react-redux-form"
-import FKActionType from 'constants/FKActionType'
+import FKAct from 'constants/FKAct'
 
 @connect((state, ownProps) => {
   return {
@@ -35,7 +35,7 @@ export default class FKSelect extends React.Component {
    */
   constructor(props) {
     super(props)
-    this.act = FKActionType.act(this.props.entity, this.props.variation)
+    this.act = FKAct.act(this.props.entity, this.props.variation)
   }
 
   static propTypes = {
@@ -77,7 +77,7 @@ export default class FKSelect extends React.Component {
   }
 
   loadServerRecord(id) {
-    this.props.dispatch(this.act(FKActionType.FK_READ_REQUESTED, {id}))
+    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id}))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +88,7 @@ export default class FKSelect extends React.Component {
 
   componentWillMount() {
     if(this.props.reset) {
-      this.props.dispatch(this.act(FKActionType.FK_RESET))
+      this.props.dispatch(this.act(FKAct.FK_RESET))
     }
     if(!this.props.redux.valueRecord) {
       this.loadServerRecord(this.props.value)
@@ -122,13 +122,13 @@ export default class FKSelect extends React.Component {
           filter={AutoComplete.noFilter}
           searchText={renderRecord(valueRecord)}
           dataSource={renderList(records)}
-          onUpdateInput={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
-          onFocus={() => dispatch(act(FKActionType.FK_LIST_REQUESTED))}
+          onUpdateInput={() => dispatch(act(FKAct.FK_LIST_REQUESTED))}
+          onFocus={() => dispatch(act(FKAct.FK_LIST_REQUESTED))}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
         <IconButton iconClassName="fa fa-eraser" onClick={() => {
-          dispatch(act(FKActionType.FK_CLEAR_SELECTION))
+          dispatch(act(FKAct.FK_CLEAR_SELECTION))
           model && dispatch(actions.change(model, null))
         }}/>
         {iconButtons.length ? iconButtons : null}

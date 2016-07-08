@@ -5,7 +5,7 @@ import _get from "lodash.get"
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
-import FKActionType from 'constants/FKActionType'
+import FKAct from 'constants/FKAct'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -133,7 +133,7 @@ export function doSelectCreatedFK({
 
     if(relationType == 'one') {
       dispatch(actions.change(rrfField(entity, foreignKey), recordFK.id))
-      dispatch(FKActionType.act(fkEntity, fkVariation)(FKActionType.FK_PRELOAD_RECORD, {value: recordFK}))
+      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {value: recordFK}))
     }
     if(relationType == 'many') {
       let r = {}

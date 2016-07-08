@@ -1,5 +1,5 @@
 "use strict"
-export default class FKActionType {
+export default class FKAct {
 
   static FK_LIST_REQUESTED = 'FK_LIST_REQUESTED'
   static FK_LIST_SUCCESS = 'FK_LIST_SUCCESS'
@@ -38,11 +38,11 @@ export default class FKActionType {
   static act = (entity, variation) => (actionType, rest = {}) => {
     if(typeof rest == 'object') {
       return Object.assign({
-        type: FKActionType.prefixType(entity, variation, actionType)
+        type: FKAct.prefixType(entity, variation, actionType)
       }, rest)
     } else {
       return {
-        type: FKActionType.prefixType(entity, variation, actionType),
+        type: FKAct.prefixType(entity, variation, actionType),
         value: rest
       }
     }

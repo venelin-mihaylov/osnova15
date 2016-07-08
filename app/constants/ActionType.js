@@ -1,5 +1,5 @@
 import CRUDAct from "constants/CRUDAct"
-import ForeignKeyActionType from "constants/FKActionType"
+import ForeignKeyActionType from "constants/FKAct"
 import ItoNActionType from 'constants/ItoNActionType'
 
 const ActionType = Object.assign({
