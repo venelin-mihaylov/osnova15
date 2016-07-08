@@ -1,6 +1,5 @@
 import CRUDAct from "constants/CRUDAct"
-import ForeignKeyActionType from "constants/FKActionType"
-import ItoNActionType from 'constants/ItoNActionType'
+import ForeignKeyActionType from "constants/FKAct"
 
 const ActionType = Object.assign({
     TOGGLE_LEFT_NAV: 'TOGGLE_LEFT_NAV',
@@ -26,7 +25,6 @@ const ActionType = Object.assign({
     MATCH_ADD_CREATED_COMPETITOR: 'MATCH_DO_ADD_CREATED_COMPETITOR',
 
   },
-  ItoNActionType.create('match', 'tournament'),
   CRUDAct.create('tournament'),
   CRUDAct.create('competitor'),
   CRUDAct.create('match'),

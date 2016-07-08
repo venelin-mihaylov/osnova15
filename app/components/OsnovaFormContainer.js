@@ -30,18 +30,14 @@ export default class OsnovaFormContainer extends React.Component {
     } = this.props
 
     if(resetForm) {
+      this.resetForm()
+
       if(action == 'edit') {
         this.readServerRecord()
       }
     } else {
       // by default resetForm=false is a flash,  reset setting
       dispatch(this.act(CRUDAct.RESET_FORM, true))
-    }
-  }
-
-  componentWillUnmount() {
-    if(this.props.redux.resetForm) {
-      this.resetForm()
     }
   }
 
@@ -59,23 +55,27 @@ export default class OsnovaFormContainer extends React.Component {
   }
 
   onCreate(record) {
-    const {dispatch, location: {pathname}} = this.props
+    const {dispatch} = this.props
     const nextPath = this.nextPath({action: 'create'})
     dispatch(this.act(CRUDAct.CREATE_REQUESTED, {record, nextPath}))
   }
 
   onUpdate(record) {
-    const {dispatch} = this.props
+    const {dispatch, params: {id}} = this.props
+    record.id = id
     const nextPath = this.nextPath({action: 'update'})
     dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath}))
+  }
+
+  onCancel() {
+    const {dispatch} = this.props
+    const nextPath = this.nextPath({action: 'cancel'})
+    dispatch(push(nextPath))
   }
 
   addProps() {
     const {
       dispatch,
-      redux: {
-        nextUri
-      },
       route: {
         action
       }
@@ -91,7 +91,7 @@ export default class OsnovaFormContainer extends React.Component {
       action,
       onSubmit: (action == 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
-      onCancel: () => dispatch(nextUri ? push(nextUri) : goBack())
+      onCancel: this.onCancel
     }
   }
 

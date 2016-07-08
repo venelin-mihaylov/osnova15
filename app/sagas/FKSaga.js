@@ -1,16 +1,16 @@
-import FKActionType from 'constants/FKActionType'
+import FKAct from 'constants/FKAct'
 import { fork, put, take, call } from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {formatServerError} from 'utils/Util'
 
 export default function FKSaga(entity, variation) {
-  const act = FKActionType.act(entity, variation)
-  const type = type => FKActionType.prefixType(entity, variation, type)
+  const act = FKAct.act(entity, variation)
+  const type = type => FKAct.prefixType(entity, variation, type)
 
   function* read({id}) {
     if(!id) {
-      yield put(act(FKActionType.FK_READ_SUCCESS, {valueRecord: null}))
+      yield put(act(FKAct.FK_READ_SUCCESS, {valueRecord: null}))
       return
     }
 
@@ -19,11 +19,11 @@ export default function FKSaga(entity, variation) {
         url: `/api/${entity}/${id}`,
         method: 'get'
       })
-      yield put(act(FKActionType.FK_READ_SUCCESS, {
+      yield put(act(FKAct.FK_READ_SUCCESS, {
         valueRecord: response.data
       }))
     } catch(err) {
-      yield put(act(FKActionType.FK_READ_ERROR, formatServerError(err)))
+      yield put(act(FKAct.FK_READ_ERROR, formatServerError(err)))
     }
   }
 
@@ -36,18 +36,18 @@ export default function FKSaga(entity, variation) {
         url: `/api/${entity}`,
         method: 'get'
       })
-      yield put(act(FKActionType.FK_LIST_SUCCESS, {
+      yield put(act(FKAct.FK_LIST_SUCCESS, {
         records: response.data
       }))
     } catch(err) {
-      yield put(act(FKActionType.FK_LIST_ERROR, formatServerError(err)))
+      yield put(act(FKAct.FK_LIST_ERROR, formatServerError(err)))
     }
   }
 
   return function* FKSaga() {
     yield [
-      fork(function* watchRead() {yield* takeEvery(type(FKActionType.FK_READ_REQUESTED), read)}),
-      fork(function* watchList() {yield* takeEvery(type(FKActionType.FK_LIST_REQUESTED), list)}),
+      fork(function* watchRead() {yield* takeEvery(type(FKAct.FK_READ_REQUESTED), read)}),
+      fork(function* watchList() {yield* takeEvery(type(FKAct.FK_LIST_REQUESTED), list)}),
     ]
   }
 }

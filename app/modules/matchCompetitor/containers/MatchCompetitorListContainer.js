@@ -36,7 +36,8 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         render: ({data: {competitor}}) => (competitor ? `${competitor.firstName} ${competitor.lastName}` : '')
       }, {
         name: 'disqualified',
-        title: 'Дисквалифициран'
+        title: 'Дисквалифициран',
+        render: ({value}) => value ? 'Yes' : 'No'
       }]}
       {...this.props}
       {...(this.addProps())}

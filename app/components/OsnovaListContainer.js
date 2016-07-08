@@ -36,8 +36,7 @@ export default class OsnovaListContainer extends React.Component {
   addProps() {
     const {
       dispatch,
-      withFirstSelection,
-      selectByIdx
+      withFirstSelection
     } = this.props
     const act = this.act
     const boundAct = bindActionCreators(act, dispatch)
@@ -49,10 +48,7 @@ export default class OsnovaListContainer extends React.Component {
       boundAct,
       onAddClick: () => dispatch(push(this.nextPath({action: 'add'}))),
       onEditClick: () => withFirstSelection(({id}) => dispatch(push(this.nextPath({action: 'edit', id})))),
-      onDeleteClick: () => withFirstSelection(({id}, idx) => {
-        boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.serverListParams()})
-        selectByIdx(idx+1)
-      }),
+      onDeleteClick: () => withFirstSelection(({id}, idx) => boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.serverListParams()})),
       onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.serverListParams()),
       onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit}),
     }

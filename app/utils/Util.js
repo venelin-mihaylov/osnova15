@@ -5,6 +5,7 @@ import _get from "lodash.get"
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
+import FKAct from 'constants/FKAct'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -53,6 +54,11 @@ export function formatServerError(err) {
     return {
       globalError: 'Internal server error'
     }
+  } else if(err.status == 404) {
+    return {
+      globalError: err.data.globalError
+    }
+
   } else if(err.status == 422) { // validation
     return err.data
   } else { // default
@@ -96,17 +102,17 @@ export function toUri() {
 export function navigateToCreateFKRecordAndScheduleSelect({
   dispatch,
   entity,
-  fkEntity,
   scheduleSelect,
   nextUri,
 }) {
-  console.log(arguments)
   const act = CRUDAct.act(entity)
+
+  // do not reset the form on its next mount, *once*, (flash)
+  dispatch(act(CRUDAct.RESET_FORM, false))
 
   // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
   dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
-  // do not reset the form on its next mount, *once*, (flash)
-  dispatch(act(CRUDAct.RESET_FORM, false))
+
   // set the return uri for the next form
   // redirect
   dispatch(push(nextUri))
@@ -126,13 +132,15 @@ export function doSelectCreatedFK({
     relationType,
     relationOne,
     relationMany,
-    fkEntity
+    fkEntity,
+    fkVariation
   }) => {
     const recordFK = rest[propFKRecord]
     if(!recordFK) return
 
     if(relationType == 'one') {
       dispatch(actions.change(rrfField(entity, foreignKey), recordFK.id))
+      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {value: recordFK}))
     }
     if(relationType == 'many') {
       let r = {}
@@ -140,6 +148,7 @@ export function doSelectCreatedFK({
       if(relationOne) r[relationOne] = recordFK
       dispatch(actions.push(rrfField(entity, relationMany), r))
     }
+    // reset the foreign key entity store state, to clear the created record
     dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
   })
   dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
@@ -152,7 +161,7 @@ export function calcNextPath({
 }) {
   console.log(pathname)
   let matches = null
-  if(action == 'create' || action == 'update') {
+  if(action == 'create' || action == 'update' || action == 'cancel') {
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
@@ -165,6 +174,8 @@ export function calcNextPath({
   if(action == 'edit') {
     return pathname + toUri(id, action)
   }
+
+  console.log('no rule for next path')
 
   return pathname
 }

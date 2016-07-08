@@ -29,6 +29,11 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps')
+    console.log(nextProps)
+  }
+
   onCreate(record) {
     super.onCreate({
       matchId: this.props.params.matchId,
@@ -46,8 +51,7 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
   render() {
     const {
       dispatch,
-      params: {matchId},
-      route: {action}
+      location: {pathname}
     } = this.props
     const entity = this.constructor.entity
 
@@ -56,14 +60,13 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       {...this.props}
       {...(this.addProps())}
       onClickAddCompetitor={() => {
-        const fkEntity = 'competitor'
         navigateToCreateFKRecordAndScheduleSelect({
           dispatch,
           entity,
-          fkEntity,
-          nextUri: toUri('match', matchId, 'competitor', action, 'create-competitor'),
+          nextUri: `${pathname}/create-competitor`,
           scheduleSelect: [{
-            fkEntity,
+            fkEntity: 'competitor',
+            fkVariation: '1',
             foreignKey: 'competitorId',
             relationType: 'one',
             relationOne: 'competitor',
