@@ -13,7 +13,7 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
   static entity = 'matchCompetitor'
 
-  serverListParams() {
+  baseListParams() {
     return {
       filter: {
         matchId: {

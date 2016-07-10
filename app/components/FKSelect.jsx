@@ -108,8 +108,8 @@ export default class FKSelect extends React.Component {
         valueRecord,
         records
       },
-      labelField,
-      renderRecord = r => r[labelField],
+      labelField = 'id',
+      renderRecord = (r={}) => r[labelField],
       renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
       model,
       listParams,
@@ -118,13 +118,15 @@ export default class FKSelect extends React.Component {
       ...rest
     } = this.props
 
+    console.log(valueRecord)
+
     return (
       <span>
         <AutoComplete
           style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
-          searchText={renderRecord(valueRecord)}
+          searchText={valueRecord && renderRecord(valueRecord)}
           dataSource={renderList(records)}
           onUpdateInput={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
           onFocus={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}

@@ -44,6 +44,7 @@ export default class QueryFilter {
    * @param {array} rule.leftJoin
    * @param {array} rule.innerJoin
    * @param {array} rule.where
+   * @param {function} rule.fn
    * @param {object} input
    * @param {string} input.operator
    * @param {string} input.value
@@ -60,6 +61,9 @@ export default class QueryFilter {
     if(rule.where) {
       const where = toArray(rule.where)
       where.forEach(j => qb.andWhere(j[0], input.operator, input.value))
+    }
+    if(rule.fn) {
+      rule.fn(qb, input)
     }
 
     return qb

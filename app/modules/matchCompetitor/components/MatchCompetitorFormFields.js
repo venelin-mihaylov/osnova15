@@ -18,6 +18,7 @@ const MatchCompetitorFormFields = ({
   model,
   onClickAddCompetitor,
   resetForm,
+  params: {matchId}
 }) => (
   <div>
     <MaterialField model={rrfField(entity, 'competitorId')}>
@@ -30,9 +31,9 @@ const MatchCompetitorFormFields = ({
         reset={resetForm}
         listParams={{
           filter: {
-            matchId: {
+            belongsToMatch: {
               operator: '=',
-              value: 1
+              value: matchId
             }
           }
         }}

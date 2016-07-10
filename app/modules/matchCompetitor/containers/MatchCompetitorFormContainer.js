@@ -29,25 +29,6 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps')
-    console.log(nextProps)
-  }
-
-  onCreate(record) {
-    super.onCreate({
-      matchId: this.props.params.matchId,
-      ...record
-    })
-  }
-
-  onUpdate(record) {
-    super.onUpdate({
-      matchId: this.props.params.matchId,
-      ...record
-    })
-  }
-
   render() {
     const {
       dispatch,
