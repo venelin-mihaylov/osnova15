@@ -5,6 +5,7 @@ import AutoComplete from "material-ui/AutoComplete"
 import IconButton from "material-ui/IconButton"
 import {actions} from "react-redux-form"
 import FKAct from 'constants/FKAct'
+import {mergeDeep} from 'utils/Util'
 
 @connect((state, ownProps) => {
   return {
@@ -77,7 +78,7 @@ export default class FKSelect extends React.Component {
     /**
      * onChange(id, record)
      */
-    onChange: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func,
     listParams: React.PropTypes.object
   }
 
@@ -106,7 +107,8 @@ export default class FKSelect extends React.Component {
       dispatch,
       redux: {
         valueRecord,
-        records
+        records,
+        lastSearchText
       },
       labelField = 'id',
       renderRecord = (r={}) => r[labelField],
@@ -128,8 +130,8 @@ export default class FKSelect extends React.Component {
           filter={AutoComplete.noFilter}
           searchText={valueRecord && renderRecord(valueRecord)}
           dataSource={renderList(records)}
-          onUpdateInput={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
-          onFocus={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
+          onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
+          onFocus={() => !records && dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />

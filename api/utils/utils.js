@@ -53,3 +53,7 @@ export function toArray(o) {
 export function toJSON(o) {
   return typeof o === 'string' ? JSON.parse(o) : o
 }
+
+export function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+}

@@ -15,7 +15,7 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   baseListParams() {
-    return null
+    return {}
   }
 
   componentWillMount() {

@@ -1,4 +1,4 @@
-import {toArray, toJSON} from '../utils/utils'
+import {toArray, toJSON, isObject} from '../utils/utils'
 
 export default class QueryFilter {
 
@@ -27,14 +27,33 @@ export default class QueryFilter {
 
     for(let key in input) {
       if(!input.hasOwnProperty(key)) continue
+      const i = QueryFilter.formatInput(input[key])
 
       if(rules.hasOwnProperty(key)) {
-        qb = QueryFilter.applyRule(qb, rules[key], input[key])
+        qb = QueryFilter.applyRule(qb, rules[key], i)
       } else {
-        qb.andWhere(key, input[key].operator, input[key].value)
+        qb.andWhere(key, i.operator, i.value)
       }
     }
     return qb
+  }
+
+  static DEFAULT_OPERATOR = '='
+
+  /**
+   *
+   * @param input
+   * @returns {*}
+   */
+  static formatInput(input) {
+    if(!isObject(input)) {
+      return {
+        operator: QueryFilter.DEFAULT_OPERATOR,
+        value: input
+      }
+    } else { //isObject
+      return input
+    }
   }
 
   /**

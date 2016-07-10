@@ -13,6 +13,8 @@ export default class FKAct {
   static FK_PRELOAD_RECORD = 'FK_PRELOAD_RECORD'
   static FK_RESET = 'FK_RESET'
 
+  static FK_LAST_SEARCH_TEXT = 'FK_LAST_SEARCH_TEXT'
+
   static create(object) {
     let ret = {}
     for (let action in this) {

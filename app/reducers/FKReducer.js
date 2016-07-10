@@ -5,7 +5,8 @@ export default function FKReducer(entity, variation) {
     loading: false,
     globalError: null,
     records: [],
-    valueRecord: null
+    valueRecord: null,
+    lastSearchText: null
   }, action = {}) {
     const type = type => FKAct.prefixType(entity, variation, type)
 
@@ -56,6 +57,10 @@ export default function FKReducer(entity, variation) {
       case type(FKAct.FK_PRELOAD_RECORD):
         return Object.assign({}, state, {
           valueRecord: action.value,
+        })
+      case type(FKAct.FK_LAST_SEARCH_TEXT):
+        return Object.assign({}, state, {
+          lastSearchText: action.value,
         })
       default:
         return state

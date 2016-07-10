@@ -9,6 +9,13 @@ export default class CompetitorService extends CRUDService {
 
   filterRules() {
     return {
+      searchText: {
+        fn: (qb, {operator, value}) => {
+          return qb.andWhere(function() {
+            this.where('lastName', 'ilike', `%${value}%`).orWhere('firstName', 'ilike', `%${value}%`)
+          })
+        }
+      },
       belongsToMatch: {
         fn: (qb, {operator, value}) => {
           return qb.whereNotIn('id', function() {

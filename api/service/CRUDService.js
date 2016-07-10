@@ -62,7 +62,7 @@ export default class CRUDService {
     return this.model.query()
   }
 
-  //@decorate(logSql)
+  @decorate(logSql)
   list({
     filter
   }) {
