@@ -14,6 +14,14 @@ export default class MatchCompetitorService extends CRUDService {
       .eager('competitor')
   }
 
+  filterRules() {
+    return {
+      notMatchId: {
+        
+      }
+    }
+  }
+
   listQuery() {
     return this.model.query().eager('competitor')
   }

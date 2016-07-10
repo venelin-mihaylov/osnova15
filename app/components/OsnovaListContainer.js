@@ -14,7 +14,7 @@ export default class OsnovaListContainer extends React.Component {
     this.act = CRUDAct.act(this.constructor.entity)
   }
 
-  serverListParams() {
+  baseListParams() {
     return null
   }
 
@@ -24,7 +24,7 @@ export default class OsnovaListContainer extends React.Component {
 
   @autobind
   listServerRecords() {
-    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, this.serverListParams()))
+    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, this.baseListParams()))
   }
 
   @autobind
@@ -48,8 +48,8 @@ export default class OsnovaListContainer extends React.Component {
       boundAct,
       onAddClick: () => dispatch(push(this.nextPath({action: 'add'}))),
       onEditClick: () => withFirstSelection(({id}) => dispatch(push(this.nextPath({action: 'edit', id})))),
-      onDeleteClick: () => withFirstSelection(({id}, idx) => boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.serverListParams()})),
-      onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.serverListParams()),
+      onDeleteClick: () => withFirstSelection(({id}, idx) => boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.baseListParams()})),
+      onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.baseListParams()),
       onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit}),
     }
   }

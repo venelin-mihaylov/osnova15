@@ -27,8 +27,15 @@ const MatchCompetitorFormFields = ({
         FKname="FKcompetitor1"
         floatingLabelText="Competitor"
         hintText="Competitor"
-        labelField="lastName"
         reset={resetForm}
+        listParams={{
+          filter: {
+            matchId: {
+              operator: '=',
+              value: 1
+            }
+          }
+        }}
         renderRecord={r => r && `${r.firstName} ${r.lastName}`}
         errorText={MUIErrorText(form, entity, 'competitorId')}
         iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}

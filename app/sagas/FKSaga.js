@@ -30,11 +30,12 @@ export default function FKSaga(entity, variation) {
   /**
    *
    */
-  function* list() {
+  function* list({listParams}) {
     try {
       const response = yield call(axios, {
         url: `/api/${entity}`,
-        method: 'get'
+        method: 'get',
+        params: listParams
       })
       yield put(act(FKAct.FK_LIST_SUCCESS, {
         records: response.data

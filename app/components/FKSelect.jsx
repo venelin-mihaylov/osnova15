@@ -52,6 +52,10 @@ export default class FKSelect extends React.Component {
      */
     FKname: React.PropTypes.string.isRequired,
     /**
+     * field to use as label for the records. Use either labelField, or renderRecord
+     */
+    labelField: React.PropTypes.string,
+    /**
      * Function to render the server data to a UI friendly format
      */
     renderList: React.PropTypes.func,
@@ -74,6 +78,7 @@ export default class FKSelect extends React.Component {
      * onChange(id, record)
      */
     onChange: React.PropTypes.func.isRequired,
+    listParams: React.PropTypes.object
   }
 
   loadServerRecord(id) {
@@ -105,10 +110,9 @@ export default class FKSelect extends React.Component {
       },
       labelField,
       renderRecord = r => r[labelField],
-      renderList = (rs=[]) => rs.map(r => {
-        return {text: renderRecord(r), value: renderRecord(r)}
-      }),
+      renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
       model,
+      listParams,
       onChange,
       iconButtons = [],
       ...rest
@@ -122,8 +126,8 @@ export default class FKSelect extends React.Component {
           filter={AutoComplete.noFilter}
           searchText={renderRecord(valueRecord)}
           dataSource={renderList(records)}
-          onUpdateInput={() => dispatch(act(FKAct.FK_LIST_REQUESTED))}
-          onFocus={() => dispatch(act(FKAct.FK_LIST_REQUESTED))}
+          onUpdateInput={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
+          onFocus={() => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
