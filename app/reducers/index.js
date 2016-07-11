@@ -21,24 +21,33 @@ const rootReducer = combineReducers({
   user,
   misc,
 
-  competitor: CRUDReducer({entity: 'competitor'}),
-  competitorModel: modelReducer('competitorModel', {}),
-  competitorForm: formReducer('competitorModel', {}),
-
   tournament: CRUDReducer({entity: 'tournament'}),
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
   FKtournament: FKReducer('tournament', '1'),
   FKcompetitor1: FKReducer('competitor', '1'),
+  FKexercise1: FKReducer('exercise', '1'),
+
+  match: CRUDReducer({entity: 'match'}),
+  matchModel: modelReducer('matchModel'),
+  matchForm: formReducer('matchModel'),
+
+  competitor: CRUDReducer({entity: 'competitor'}),
+  competitorModel: modelReducer('competitorModel', {}),
+  competitorForm: formReducer('competitorModel', {}),
 
   matchCompetitor: CRUDReducer({entity: 'matchCompetitor'}),
   matchCompetitorModel: modelReducer('matchCompetitorModel', {}),
   matchCompetitorForm: formReducer('matchCompetitorModel', {}),
 
-  match: CRUDReducer({entity: 'match'}),
-  matchModel: modelReducer('matchModel'),
-  matchForm: formReducer('matchModel'),
+  exercise: CRUDReducer({entity: 'exercise'}),
+  exerciseModel: modelReducer('exerciseModel', {}),
+  exerciseForm: formReducer('exerciseModel', {}),
+
+  matchExercise: CRUDReducer({entity: 'matchExercise'}),
+  matchExerciseModel: modelReducer('matchExerciseModel', {}),
+  matchExerciseForm: formReducer('matchExerciseModel', {}),
 
   loginUser: modelReducer('loginUser', {}),
   loginForm: formReducer('loginUser', {})

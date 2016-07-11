@@ -65,6 +65,7 @@ export default class QueryFilter {
    * @param {array} rule.where
    * @param {function} rule.fn
    * @param {object} input
+   * @param {object} input.params
    * @param {string} input.operator
    * @param {string} input.value
    */

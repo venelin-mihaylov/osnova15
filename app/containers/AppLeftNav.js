@@ -21,6 +21,9 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
           <Link to="/competitor" {...{activeStyle}}>Competitors</Link>
         </MenuItem>
         <MenuItem>
+          <Link to="/exercise" {...{activeStyle}}>Exercises</Link>
+        </MenuItem>
+        <MenuItem>
           <Link to="/match" {...{activeStyle}}>Matches</Link>
         </MenuItem>
       </If>
@@ -30,6 +33,9 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
         </MenuItem>
         <MenuItem>
           <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Competitors</Link>
+        </MenuItem>
+        <MenuItem>
+          <Link to={`/match/${activeMatchId}/exercise`} {...{activeStyle}}>Exercises</Link>
         </MenuItem>
       </If>
     </Drawer>

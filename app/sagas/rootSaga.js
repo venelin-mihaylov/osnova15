@@ -51,11 +51,16 @@ export default function* rootSaga() {
   yield [
     fork(watchUserLogin),
     fork(watchUserLogout),
+
     fork(CRUDSaga('tournament')),
     fork(CRUDSaga('match')),
     fork(CRUDSaga('competitor')),
     fork(CRUDSaga('matchCompetitor')),
+    fork(CRUDSaga('exercise')),
+    fork(CRUDSaga('matchExercise')),
+
     fork(FKSaga('tournament', '1')),
     fork(FKSaga('competitor', '1')),
+    fork(FKSaga('exercise', '1')),
   ]
 }

@@ -8,48 +8,44 @@ import MaterialToggle from 'components/MaterialToggle'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 
-// after person create, we need to be able to get the latest created competitor
-// i.e. add onCompetitorCreated
+// after person create, we need to be able to get the latest created exercise
+// i.e. add onExerciseCreated
 
-const MatchCompetitorFormFields = ({
+const MatchExerciseFormFields = ({
   dispatch,
   form,
   entity,
   model,
-  onClickAddCompetitor,
+  onClickAddExercise,
   resetForm,
   params: {matchId}
 }) => (
   <div>
-    <MaterialField model={rrfField(entity, 'competitorId')}>
+    <MaterialField model={rrfField(entity, 'exerciseId')}>
       <FKSelect
-        entity="competitor"
+        entity="exercise"
         variation="1"
-        FKname="FKcompetitor1"
-        floatingLabelText="Competitor"
-        hintText="Competitor"
+        FKname="FKexercise1"
+        floatingLabelText="Exercise"
+        hintText="Exercise"
         reset={resetForm}
         listParams={{
           filter: {
             belongsToMatch: {
+              params: {
+                curId: model.exerciseId
+              },
               operator: '=',
               value: matchId
             }
           }
         }}
+        labelField="name"
         required
-        renderRecord={r => r && `${r.firstName} ${r.lastName}`}
-        errorText={MUIErrorText(form, entity, 'competitorId')}
-        iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
+        errorText={MUIErrorText(form, entity, 'exerciseId')}
+        iconButtons={[<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddExercise}/>]}
       />
       <br/>
-    </MaterialField>
-
-    <MaterialField model={rrfField(entity, 'disqualified')}>
-      <MaterialToggle
-        labelPosition='right'
-        label="Disqualified"
-      />
     </MaterialField>
 
     <MaterialField model={rrfField(entity, 'notes')}>
@@ -62,4 +58,4 @@ const MatchCompetitorFormFields = ({
 
   </div>
 );
-export default MatchCompetitorFormFields;
+export default MatchExerciseFormFields;

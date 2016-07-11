@@ -6,14 +6,26 @@ import http from 'http'
 import SocketIo from 'socket.io'
 import config from '../universal/config'
 import CRUDService from './service/CRUDService'
-import CompetitorService from './service/CompetitorService'
-import MatchService from './service/MatchService'
-import MatchCompetitorService from './service/MatchCompetitorService'
+
 import {Model} from 'objection'
+
 import Tournament from "../universal/model/Tournament"
+
 import Match from "../universal/model/Match"
+import MatchService from './service/MatchService'
+
 import Competitor from "../universal/model/Competitor"
+import CompetitorService from './service/CompetitorService'
+
 import MatchCompetitor from "../universal/model/MatchCompetitor"
+import MatchCompetitorService from './service/MatchCompetitorService'
+
+import Exercise from "../universal/model/Exercise"
+import ExerciseService from './service/ExerciseService'
+
+import MatchExercise from "../universal/model/MatchExercise"
+import MatchExerciseService from './service/MatchExerciseService'
+
 import configureAuthRouter from './router/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
@@ -53,11 +65,17 @@ app.use(passport.session())
 
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
+
 CRUDService.factory(Tournament).register(app)
 
-new CompetitorService(Competitor).register(app)
 new MatchService(Match).register(app)
+
+new CompetitorService(Competitor).register(app)
 new MatchCompetitorService(MatchCompetitor).register(app)
+
+new ExerciseService(Exercise).register(app)
+new MatchExerciseService(MatchExercise).register(app)
+
 //</editor-fold>
 app.use(renderError)
 

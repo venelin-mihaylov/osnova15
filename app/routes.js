@@ -14,7 +14,11 @@ import MatchCompetitorFormContainer from 'modules/matchCompetitor/containers/Mat
 import CompetitorListContainer from "modules/competitor/containers/CompetitorListContainer"
 import CompetitorFormContainer from "modules/competitor/containers/CompetitorFormContainer"
 
+import ExerciseListContainer from "modules/exercise/containers/ExerciseListContainer"
+import ExerciseFormContainer from "modules/exercise/containers/ExerciseFormContainer"
 
+import MatchExerciseListContainer from 'modules/matchExercise/containers/MatchExerciseListContainer.js'
+import MatchExerciseFormContainer from 'modules/matchExercise/containers/MatchExerciseFormContainer.js'
 
 
 import HomePage from "containers/HomePage"
@@ -60,13 +64,28 @@ export default (store) => {
       <Route name="Matches" path="match" component={ContentContainer}>
         <IndexRoute component={MatchListContainer}/>
         <Route name="Match view" path=":matchId/view" component={MatchViewContainer}/>
+        
         <Route name="List match competitors" path=":matchId/competitor" component={MatchCompetitorListContainer}/>
         <Route name="Add match competitor" path=":matchId/competitor/add" action="add" component={MatchCompetitorFormContainer}/>
         <Route name="Edit match competitor" path=":matchId/competitor/:id/edit" action="edit" component={MatchCompetitorFormContainer}/>
         <Route name="Add new competitor" path=":matchId/competitor/add/create-competitor" action="add" component={CompetitorFormContainer}/>
         <Route name="Add new competitor" path=":matchId/competitor/:id/edit/create-competitor" action="add" component={CompetitorFormContainer}/>
+
+        <Route name="List match exercises" path=":matchId/exercise" component={MatchExerciseListContainer}/>
+        <Route name="Add match exercise" path=":matchId/exercise/add" action="add" component={MatchExerciseFormContainer}/>
+        <Route name="Edit match exercise" path=":matchId/exercise/:id/edit" action="edit" component={MatchExerciseFormContainer}/>
+        <Route name="Add new exercise" path=":matchId/exercise/add/create-exercise" action="add" component={ExerciseFormContainer}/>
+        <Route name="Add new exercise" path=":matchId/exercise/:id/edit/create-exercise" action="add" component={ExerciseFormContainer}/>
+
+        
         <Route name="Add match" path="add" component={MatchFormContainer}/>
         <Route name="Edit match" staticName={true} path=":id/edit" action="edit" component={MatchFormContainer}/>
+      </Route>
+
+      <Route name="Exercises" path="exercise" component={ContentContainer}>
+        <IndexRoute component={ExerciseListContainer}/>
+        <Route name="Add exercise" path="add" action="add" component={ExerciseFormContainer}/>
+        <Route name="Edit exercise" staticName={true} path=":id/edit" action="edit" component={ExerciseFormContainer}/>
       </Route>
 
       <Route name="Competitors" path="competitor" component={ContentContainer}>

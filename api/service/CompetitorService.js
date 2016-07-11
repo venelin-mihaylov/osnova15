@@ -11,8 +11,11 @@ export default class CompetitorService extends CRUDService {
     return {
       searchText: {
         fn: (qb, {operator, value}) => {
+          const v = value.trim()
+          if(!v) return
+
           return qb.andWhere(function() {
-            this.where('lastName', 'ilike', `%${value}%`).orWhere('firstName', 'ilike', `%${value}%`)
+            this.where('lastName', 'ilike', `%${v}%`).orWhere('firstName', 'ilike', `%${v}%`)
           })
         }
       },

@@ -165,6 +165,7 @@ export function calcNextPath({
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-exercise/)) return matches[1]
   }
 
   if(action == 'add') {
