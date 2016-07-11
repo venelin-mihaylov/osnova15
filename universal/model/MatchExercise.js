@@ -4,7 +4,7 @@ import {Model} from "objection"
 
 export default class MatchExercise extends OsnovaModel {
   static tableName = 'match_exercise'
-  //static jsonSchema = MatchExerciseSchema
+  static jsonSchema = MatchExerciseSchema
 
   static relationMappings = {
     match: {

@@ -20,6 +20,8 @@ import ExerciseFormContainer from "modules/exercise/containers/ExerciseFormConta
 import MatchExerciseListContainer from 'modules/matchExercise/containers/MatchExerciseListContainer.js'
 import MatchExerciseFormContainer from 'modules/matchExercise/containers/MatchExerciseFormContainer.js'
 
+import TargetListContainer from "modules/target/containers/TargetListContainer"
+import TargetFormContainer from "modules/target/containers/TargetFormContainer"
 
 import HomePage from "containers/HomePage"
 import LoginPage from "containers/LoginPage"
@@ -92,6 +94,12 @@ export default (store) => {
         <IndexRoute component={CompetitorListContainer}/>
         <Route name="Add competitor" path="add" action="add" component={CompetitorFormContainer}/>
         <Route name="Edit competitor" staticName={true} path=":id/edit" action="edit" component={CompetitorFormContainer}/>
+      </Route>
+
+      <Route name="Targets" path="target" component={ContentContainer}>
+        <IndexRoute component={TargetListContainer}/>
+        <Route name="Add target" path="add" action="add" component={TargetFormContainer}/>
+        <Route name="Edit target" staticName={true} path=":id/edit" action="edit" component={TargetFormContainer}/>
       </Route>
 
     </Route>

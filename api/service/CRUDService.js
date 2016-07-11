@@ -63,7 +63,7 @@ export default class CRUDService {
   }
 
   @decorate(logSql)
-  list({
+  async list({
     filter
   }) {
     let qb = this.listQuery()
@@ -73,19 +73,19 @@ export default class CRUDService {
   }
 
   //@decorate(logSql)
-  create(data) {
+  async create(data) {
     return this.model.query().insert(data)
   }
 
-  read(id) {
+  async read(id) {
     return this.model.query().findById(id)
   }
 
-  update(id, data) {
+  async update(id, data) {
     return this.model.query().updateAndFetchById(id, data)
   }
 
-  delete(id) {
+  async delete(id) {
     return this.model.query().deleteById(id)
   }
 

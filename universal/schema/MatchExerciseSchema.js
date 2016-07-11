@@ -1,4 +1,4 @@
-const MatchExeciseSchema = {
+const MatchExerciseSchema = {
   type: 'object',
   required: ['exerciseId', 'matchId'],
   properties: {
@@ -7,4 +7,4 @@ const MatchExeciseSchema = {
     matchId: {type: 'integer'}
   }
 }
-export default MatchExeciseSchema
+export default MatchExerciseSchema

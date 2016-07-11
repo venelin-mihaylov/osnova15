@@ -49,6 +49,10 @@ const rootReducer = combineReducers({
   matchExerciseModel: modelReducer('matchExerciseModel', {}),
   matchExerciseForm: formReducer('matchExerciseModel', {}),
 
+  target: CRUDReducer({entity: 'target'}),
+  targetModel: modelReducer('targetModel'),
+  targetForm: formReducer('targetModel'),
+
   loginUser: modelReducer('loginUser', {}),
   loginForm: formReducer('loginUser', {})
 })

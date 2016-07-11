@@ -26,6 +26,9 @@ import ExerciseService from './service/ExerciseService'
 import MatchExercise from "../universal/model/MatchExercise"
 import MatchExerciseService from './service/MatchExerciseService'
 
+import Target from '../universal/model/Target'
+import TargetService from './service/TargetService'
+
 import configureAuthRouter from './router/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
@@ -75,6 +78,7 @@ new MatchCompetitorService(MatchCompetitor).register(app)
 
 new ExerciseService(Exercise).register(app)
 new MatchExerciseService(MatchExercise).register(app)
+new TargetService(Target).register(app)
 
 //</editor-fold>
 app.use(renderError)

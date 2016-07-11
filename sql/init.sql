@@ -68,3 +68,43 @@ id serial PRIMARY KEY,
 insert into match_exercise ("exerciseId", "matchId") values (1,1);
 insert into match_exercise ("exerciseId", "matchId") values (2,1);
 insert into match_exercise ("exerciseId", "matchId") values (3,2);
+
+drop table target cascade;
+create table target(
+id serial primary key,
+name varchar(255)
+);
+insert into target ("name") values('target 1');
+insert into target ("name") values('target 2');
+insert into target ("name") values('target 3');
+
+drop table target_zone cascade;
+create table target_zone(
+id serial primary key,
+name varchar(255),
+score INTEGER,
+"targetId" integer references target(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+insert into target_zone (name, score, "targetId") values('zone1-1', 1, 1);
+insert into target_zone (name, score, "targetId") values('zone1-2', 2, 1);
+insert into target_zone (name, score, "targetId") values('zone1-3', 3, 1);
+insert into target_zone (name, score, "targetId") values('zone2-1', 4, 2);
+insert into target_zone (name, score, "targetId") values('zone2-2', 4, 2);
+insert into target_zone (name, score, "targetId") values('zone2-3', 2, 2);
+
+drop table exercise_target cascade;
+create table exercise_target(
+id serial primary key,
+"exerciseId" integer references exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"targetId" integer references target(id) ON DELETE CASCADE ON UPDATE CASCADE,
+distance INTEGER
+);
+insert into exercise_target ("exerciseId", "targetId", distance) values(1,1,10);
+insert into exercise_target ("exerciseId", "targetId", distance) values(1,2,30);
+insert into exercise_target ("exerciseId", "targetId", distance) values(1,3,20);
+
+insert into exercise_target ("exerciseId", "targetId", distance) values(2,1,10);
+insert into exercise_target ("exerciseId", "targetId", distance) values(2,2,30);
+
+insert into exercise_target ("exerciseId", "targetId", distance) values(3,1,10);
+insert into exercise_target ("exerciseId", "targetId", distance) values(3,3,10);
