@@ -37,8 +37,8 @@ insert into matches(name, "tournamentId", notes) values('match2', 1, '[{"text": 
 drop table match_competitor CASCADE;
 create table match_competitor(
   id serial PRIMARY KEY,
-  "competitorId" INTEGER REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  "matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  "competitorId" INTEGER NOT NULL REFERENCES competitor(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  "matchId" INTEGER NOT NULL REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
   "disqualified" BOOLEAN DEFAULT FALSE,
   "notes" varchar(255)
 );
@@ -61,8 +61,8 @@ insert into exercise (name, notes) values('exercise 3', 'notes 3');
 drop table match_exercise CASCADE;
 create table match_exercise(
 id serial PRIMARY KEY,
-"exerciseId" INTEGER REFERENCES exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
-"matchId" INTEGER REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"exerciseId" INTEGER NOT NULL REFERENCES exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"matchId" INTEGER NOT NULL REFERENCES matches(id) ON DELETE CASCADE ON UPDATE CASCADE,
 "notes" varchar(255)
 );
 insert into match_exercise ("exerciseId", "matchId") values (1,1);
@@ -83,7 +83,7 @@ create table target_zone(
 id serial primary key,
 name varchar(255),
 score INTEGER,
-"targetId" integer references target(id) ON DELETE CASCADE ON UPDATE CASCADE
+"targetId" integer NOT NULL references target(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 insert into target_zone (name, score, "targetId") values('zone1-1', 1, 1);
 insert into target_zone (name, score, "targetId") values('zone1-2', 2, 1);
@@ -95,8 +95,8 @@ insert into target_zone (name, score, "targetId") values('zone2-3', 2, 2);
 drop table exercise_target cascade;
 create table exercise_target(
 id serial primary key,
-"exerciseId" integer references exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
-"targetId" integer references target(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"exerciseId" integer NOT NULL references exercise(id) ON DELETE CASCADE ON UPDATE CASCADE,
+"targetId" integer NOT NULL references target(id) ON DELETE CASCADE ON UPDATE CASCADE,
 distance INTEGER
 );
 insert into exercise_target ("exerciseId", "targetId", distance) values(1,1,10);

@@ -2,7 +2,7 @@
 import React from 'react'
 import OsnovaTextField from 'components/OsnovaTextField'
 import {actions} from 'react-redux-form'
-import {rrfField} from 'utils/Util'
+import {rrfField, MUIErrorText} from 'utils/Util'
 import RaisedButton from 'material-ui/RaisedButton'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
@@ -42,6 +42,7 @@ export const TargetFormFields = ({
             required
             hintText="Name"
             floatingLabelText="Name"
+            errorText={MUIErrorText(form, entity, `target_zone[${i}].name`)}
           />
         </MaterialField>
         <MaterialField model={rrfField(entity, `target_zone[${i}].score`)}>
@@ -49,6 +50,7 @@ export const TargetFormFields = ({
             required
             hintText="Score"
             floatingLabelText="Score"
+            errorText={MUIErrorText(form, entity, `target_zone[${i}].name`)}
           />
         </MaterialField>
       </div>
