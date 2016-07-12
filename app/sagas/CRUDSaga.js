@@ -49,7 +49,10 @@ export default function CRUDSaga(entity) {
       if(nextPath) yield put(push(nextPath))
       console.log('navigated')
     } catch(err) {
-      yield put(act(CRUDAct.CREATE_ERROR, formatServerError(err)))
+      let err2 = formatServerError(err)
+      yield put(act(CRUDAct.CREATE_ERROR, err2))
+      let {fieldErrors} = err2
+      yield setValidationErrors(fieldErrors)
     }
   }
 
@@ -69,6 +72,14 @@ export default function CRUDSaga(entity) {
     }
   }
 
+  function* setValidationErrors(fieldErrors) {
+    if(!fieldErrors) return
+    for(let k in fieldErrors) {
+      if(!fieldErrors.hasOwnProperty(k)) continue
+      yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
+    }
+  }
+
   function* update({record, nextPath}) {
     try {
       const response = yield call(axios, {
@@ -79,12 +90,10 @@ export default function CRUDSaga(entity) {
       yield put(act(CRUDAct.UPDATE_SUCCESS, {record: response.data}))
       if(nextPath) yield put(push(nextPath))
     } catch(err) {
-      let err2 = formatServerError(err), {fieldErrors} = err2
+      let err2 = formatServerError(err)
       yield put(act(CRUDAct.UPDATE_ERROR, err2))
-      for(let k in fieldErrors) {
-        if(!fieldErrors.hasOwnProperty(k)) continue
-        yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
-      }
+      let {fieldErrors} = err2
+      yield setValidationErrors(fieldErrors)
     }
   }
 
