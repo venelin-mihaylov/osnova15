@@ -2,7 +2,9 @@ import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators';
 import * as web from 'express-decorators';
 import TargetZone from '../../universal/model/TargetZone'
+import {isRowEqual} from '../utils/utils'
 import _isEqual from 'lodash.isequal'
+import {ValidationError} from 'objection'
 
 import knex from 'knex'
 
@@ -31,8 +33,10 @@ export default class TargetService extends CRUDService {
       ...target
     } = data
 
-    await this.model.query().updateAndFetchById(id, target)
+    console.log(data)
+    console.log(target)
 
+    await this.model.query().updateAndFetchById(id, target)
 
     const orderById = this.orderById
     let r = await this.model.query().findById(id).eager('target_zone(orderById)', {orderById})
@@ -51,8 +55,25 @@ export default class TargetService extends CRUDService {
       }
     })
 
-    // return updated, easy way
+    // return updated, the easy way
     return await this.model.query().findById(id).eager('target_zone(orderById)', {orderById})
+  }
+
+  rethrowItoNValidationErrors(err, relation, i) {
+    let data = {}
+    for(let f in err.data) {
+      if(!err.data.hasOwnProperty(f)) continue
+      data[`${relation}[${i}].${f}`] = err.data[f]
+    }
+    throw new ValidationError(data)
+  }
+
+  handleItoNException(err, relation, i) {
+    if(err instanceof ValidationError) {
+      this.rethrowItoNValidationErrors(err, relation, i)
+    } else {
+      throw err
+    }
   }
 
 
@@ -61,23 +82,18 @@ export default class TargetService extends CRUDService {
     // in input, not in db -> insert
     // in input, in db -> update
     // not in input, in db -> delete
-    var keep = []
+    let keep = []
     for (let i = 0; i < inRows.length; i++) {
       const inRow = Object.assign({}, inRows[i], fk)
       const dbRow = dbRows.find(dbRow => dbRow.id == inRow.id)
       if (dbRow) {
         // in input, in db -> update
         keep.push(dbRow.id)
-        if (!_isEqual(dbRow.toJSON(), inRow)) {
+        if (!isRowEqual(dbRow.toJSON(), inRow)) {
           try {
-            console.log('update')
             await model.query().updateAndFetchById(dbRow.id, inRow)
           } catch(err) {
-            if(err instanceof ValidationError) {
-              let data = {}
-              data[`relation[${i}]`] = err.data
-              throw new ValidationError(data)
-            }
+            this.handleItoNException(err, relation, i)
           }
         }
       } else {
@@ -86,11 +102,7 @@ export default class TargetService extends CRUDService {
           console.log('insert')
           await model.query().insert(inRow)
         } catch(err) {
-          if(err instanceof ValidationError) {
-            let data = {}
-            data[`relation[${i}]`] = err.data
-            throw new ValidationError(data)
-          }
+          this.handleItoNException(err, relation, i)
         }
       }
     }

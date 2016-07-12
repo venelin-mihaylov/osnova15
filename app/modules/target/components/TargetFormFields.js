@@ -37,7 +37,7 @@ export const TargetFormFields = ({
     }}/>
     {target_zone && target_zone.map((n, i) => (
       <div>
-        <MaterialField model={rrfField(entity, `target_zone[${i}].name`)}>
+        <MaterialField key={`${i}.name`} model={rrfField(entity, `target_zone[${i}].name`)}>
           <TextField
             required
             hintText="Name"
@@ -45,12 +45,12 @@ export const TargetFormFields = ({
             errorText={MUIErrorText(form, entity, `target_zone[${i}].name`)}
           />
         </MaterialField>
-        <MaterialField model={rrfField(entity, `target_zone[${i}].score`)}>
+        <MaterialField key={`${i}.score`} model={rrfField(entity, `target_zone[${i}].score`)}>
           <TextField
             required
             hintText="Score"
             floatingLabelText="Score"
-            errorText={MUIErrorText(form, entity, `target_zone[${i}].name`)}
+            errorText={MUIErrorText(form, entity, `target_zone[${i}].score`)}
           />
         </MaterialField>
       </div>

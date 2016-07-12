@@ -29,10 +29,14 @@ export const defaultErrorMessages = {
  * @constructor
  */
 export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMessages) {
-  const fieldErrors = _get(form, `fields.${fieldName}.errors`)
-  if (!fieldErrors) {
-    return null
-  }
+  const key = fieldName.replace(/\[|\]\./g, '.')
+  console.log(key)
+  const field = form.fields[key]
+  console.log(field)
+  if(!field) return null
+  if(!field.errors) return null
+
+  const fieldErrors = field.errors
   let error = false
   for (let k in fieldErrors) {
     if(!fieldErrors.hasOwnProperty(k)) continue

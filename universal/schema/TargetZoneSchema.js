@@ -4,7 +4,7 @@ const TargetZoneSchema = {
 
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', maxLength: 255},
+    name: {type: 'string', minLength: 99, maxLength: 255},
     score: {type: ['string', 'integer']},
     targetId: {type: ['string']}
   }

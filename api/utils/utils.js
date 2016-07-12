@@ -58,3 +58,14 @@ export function toJSON(o) {
 export function isObject(item) {
   return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
 }
+
+export function isRowEqual(dbRow, inRow) {
+  for(let f in inRow) {
+    if(!inRow.hasOwnProperty(f)) continue
+
+    if(inRow[f] != dbRow[f]) {
+      return false
+    }
+  }
+  return true
+}
