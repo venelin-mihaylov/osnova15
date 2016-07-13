@@ -30,13 +30,13 @@ export const defaultErrorMessages = {
  */
 export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMessages) {
   const key = fieldName.replace(/\[|\]\./g, '.')
-  console.log(key)
   const field = form.fields[key]
-  console.log(field)
   if(!field) return null
   if(!field.errors) return null
 
   const fieldErrors = field.errors
+  console.log(key)
+  console.log(fieldErrors)
   let error = false
   for (let k in fieldErrors) {
     if(!fieldErrors.hasOwnProperty(k)) continue

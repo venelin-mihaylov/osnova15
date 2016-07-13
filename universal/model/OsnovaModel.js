@@ -58,6 +58,8 @@ export default class OsnovaModel extends Model {
     let errorHash = {}
     let index = 0
 
+    console.log(report)
+
     if (report.errors.length === 0) {
       return null
     }

@@ -15,7 +15,6 @@ export function renderValidationErrors(validationErrors, res) {
 }
 
 export function renderError(err, req, res, next) {
-  console.log(err)
   if (err instanceof ValidationError) {
     res.status(422).json({
       globalError: 'Invalid data',
