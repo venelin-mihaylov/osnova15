@@ -1,4 +1,5 @@
 import {ValidationError} from 'objection'
+import NotFoundException from '../exception/NotFoundException'
 /**
  *
  * @param validationErrors
@@ -19,6 +20,10 @@ export function renderError(err, req, res, next) {
     res.status(422).json({
       globalError: 'Invalid data',
       fieldErrors: err.data
+    })
+  } else if(err instanceof NotFoundException) {
+    res.status(404).json({
+      globalError: err.message
     })
   } else {
     console.log(err)

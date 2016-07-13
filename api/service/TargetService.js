@@ -5,6 +5,7 @@ import TargetZone from '../../universal/model/TargetZone'
 import {toArray} from '../utils/utils'
 import knex from 'knex'
 import ItoN from '../utils/ItoN'
+import NotFoundException from '../exception/NotFoundException'
 
 @autobind
 @web.controller('/target')
@@ -36,7 +37,7 @@ export default class TargetService extends CRUDService {
 
     const r = await this.model.query().updateAndFetchById(id, target)
     if (!r) {
-      //TODO: Throw an exception, that will be rendered as 404
+      throw new NotFoundException(this.model.tableName, id)
     }
 
     const relName =  this.ItoNRelation
