@@ -47,6 +47,7 @@ export function logSql(fn) {
 }
 
 export function toArray(o) {
+  if(!o) return []
   return Array.isArray(o) ? o : [o]
 }
 

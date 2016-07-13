@@ -13,14 +13,14 @@ export default class TargetService extends CRUDService {
   ItoNRelation = 'target_zone'
 
   read(id) {
-    return ItoN.findByIdEagerRelation({id, model: this.model, relation: 'target_zone'})
+    return ItoN.findByIdEagerRelation({id, model: this.model, relName: 'target_zone'})
   }
 
   async create(input) {
     // separate validation step for ItoN, otherwise the validation errors are not properly formatted
     ItoN.validateMultiple({
       model: this.model,
-      relation: this.ItoNRelation,
+      relName: this.ItoNRelation,
       input
     })
     return this.model.query().insertWithRelated(input)
@@ -29,20 +29,25 @@ export default class TargetService extends CRUDService {
   async update(id, input) {
     // update the parent
 
-    const r = await this.model.query().updateAndFetchById(id, input)
+    const {
+      target_zone,
+      ...target,
+    } = input
+
+    const r = await this.model.query().updateAndFetchById(id, target)
     if (!r) {
       //TODO: Throw an exception, that will be rendered as 404
     }
 
-    const relation =  this.ItoNRelation
-    const params = ItoN.paramsByModel({
+    const relName =  this.ItoNRelation
+    await ItoN.updateMultiple({
       id,
+      input,
       model: this.model,
-      relation
+      relSpec: {relName}
     })
-    await ItoN.updateMultiple({input, params})
     // return updated, the easy way
-    return ItoN.findByIdEagerRelation({id, model: this.model, relation})
+    return ItoN.findByIdEagerRelation({id, model: this.model, relName})
   }
 
 }

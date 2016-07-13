@@ -4,18 +4,18 @@ import {toArray} from '../utils/utils'
 
 export default class ItoN {
 
-  static rethrowValidationErrors(err, relation, i) {
+  static rethrowValidationErrors(err, relName, i) {
     let data = {}
     for(let f in err.data) {
       if(!err.data.hasOwnProperty(f)) continue
-      data[`${relation}[${i}].${f}`] = err.data[f]
+      data[`${relName}[${i}].${f}`] = err.data[f]
     }
     throw new ValidationError(data)
   }
 
-  static handleException(err, relation, i) {
+  static handleException(err, relName, i) {
     if(err instanceof ValidationError) {
-      ItoN.rethrowValidationErrors(err, relation, i)
+      ItoN.rethrowValidationErrors(err, relName, i)
     } else {
       throw err
     }
@@ -24,15 +24,14 @@ export default class ItoN {
   static async findByIdEagerRelation({
     id,
     model,
-    relation,
+    relName,
     eagerParam = {
       orderBy: builder => builder.orderBy('id')
     }
   }) {
-    const arrRelation = toArray(relation)
     const strEagerParam = Object.keys(eagerParam).join(',')
     let builder = model.query().findById(id)
-    arrRelation.forEach(rel => builder.eager(`${relation}(${strEagerParam})`, eagerParam))
+    toArray(relName).forEach(rel => builder.eager(`${rel}(${strEagerParam})`, eagerParam))
     return builder
   }
 
@@ -51,33 +50,40 @@ export default class ItoN {
     }))
   }
 
-  static validate({relModel, relation, inRows}) {
+  static validate({relModel, relName, inRows}) {
     const o = new relModel()
     for(let i = 0; i < inRows.length; i++) {
       const inRow = inRows[i]
       try {
         o.$validate(inRow)
       } catch(err) {
-        ItoN.handleException(err, relation, i)
+        ItoN.handleException(err, relName, i)
       }
     }
   }
 
-  static async updateMultiple({input, params}) {
-    const arrItoN = toArray(params)
+  static async updateMultiple({input, id, model, relSpec}) {
 
-    for(let i = 0; i < arrItoN.length; i++) {
+    const arrRelSpec = ItoN.transformRelSpec({
+      id,
+      model,
+      relSpec
+    })
+
+    console.log(arrRelSpec)
+
+    for(let i = 0; i < arrRelSpec.length; i++) {
       const {
         relModel,
-        relation,
+        relName,
         fk
-      } = params[i]
+      } = arrRelSpec[i]
 
-      const inRows = input[relation]
+      const inRows = input[relName]
       const dbRows = await relModel.query().where(fk.field, fk.value)
-      await ItoN.update({
+      await ItoN.updateSingle({
         relModel,
-        relation,
+        relName: relName,
         fk,
         dbRows,
         inRows,
@@ -85,27 +91,26 @@ export default class ItoN {
     }
   }
 
-  static paramsByModel({model, id, relation}) {
-    const arrRelation = toArray(relation)
-    return arrRelation.map(relation => {
-      const modelClass = model.relationMappings[relation].modelClass
+  static transformRelSpec({model, id, relSpec}) {
+    return toArray(relSpec).map(({relName}) => {
+      const modelClass = model.relationMappings[relName].modelClass
       const relModel = typeof modelClass == 'string' ?
         require(modelClass).default :
         modelClass
-      const fkField = model.relationMappings[relation].join.to.replace(`${relModel.className}.`, '')
+      const fkField = model.relationMappings[relName].join.to.replace(`${relModel.className}.`, '')
       return {
-        relation,
+        relModel,
+        relName,
         fk: {
           field: fkField,
           value: id
-        },
-        relModel
+        }
       }
     })
   }
 
-  static async update({relModel, relation, dbRows, inRows, fk}) {
-    ItoN.validate({relModel, relation, inRows})
+  static async updateSingle({relModel, relName, dbRows, inRows, fk}) {
+    ItoN.validate({relModel, relName, inRows})
 
     // in input, not in db -> insert
     // in input, in db -> update

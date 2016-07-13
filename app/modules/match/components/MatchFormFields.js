@@ -78,7 +78,7 @@ export const MatchFormFields = ({
     <If condition={match_competitor.length}>
       {match_competitor.map((n, i) => (
        <Chip onRequestDelete={() => dispatch(actions.remove(rrfField(entity, 'match_competitor[]'), i))}>
-         competitor: {console.log(n) || n.competitor.lastName}
+         competitor: {n.competitor.lastName}
        </Chip>
       ))}
       <br/>
