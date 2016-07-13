@@ -35,22 +35,26 @@ export default class ItoN {
     return builder
   }
 
-  static validateMultiple({model, relation, input}) {
+  static validateMultiple({model, relSpec, input}) {
 
-    const arrRelation = toArray(relation)
-    const modelClass = model.relationMappings[relation].modelClass
-    const relModel = typeof modelClass == 'string' ?
-      require(modelClass).default :
-      modelClass
 
-    arrRelation.forEach(relation => ItoN.validate({
-      relModel,
-      relation,
-      inRows: input[relation]
-    }))
+    toArray(relSpec).forEach(({relName}) => {
+
+      const modelClass = model.relationMappings[relName].modelClass
+      const relModel = typeof modelClass == 'string' ?
+        require(modelClass).default :
+        modelClass
+
+      ItoN.validate({
+        relModel,
+        relName,
+        inRows: input[relName]
+      })
+    })
   }
 
   static validate({relModel, relName, inRows}) {
+    if(!inRows) return
     const o = new relModel()
     for(let i = 0; i < inRows.length; i++) {
       const inRow = inRows[i]

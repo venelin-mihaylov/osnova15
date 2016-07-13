@@ -21,7 +21,9 @@ export default class TargetService extends CRUDService {
     // separate validation step for ItoN, otherwise the validation errors are not properly formatted
     ItoN.validateMultiple({
       model: this.model,
-      relName: this.ItoNRelation,
+      relSpec: {
+        relName: this.ItoNRelation
+      },
       input
     })
     return this.model.query().insertWithRelated(input)
