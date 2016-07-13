@@ -4,7 +4,7 @@ import {toArray} from '../utils/utils'
 
 export default class ItoN {
 
-  static rethrowIValidationErrors(err, relation, i) {
+  static rethrowValidationErrors(err, relation, i) {
     let data = {}
     for(let f in err.data) {
       if(!err.data.hasOwnProperty(f)) continue
@@ -15,7 +15,7 @@ export default class ItoN {
 
   static handleException(err, relation, i) {
     if(err instanceof ValidationError) {
-      ItoN.rethrowIValidationErrors(err, relation, i)
+      ItoN.rethrowValidationErrors(err, relation, i)
     } else {
       throw err
     }
