@@ -14,7 +14,7 @@ export default class TargetService extends CRUDService {
   ItoNRelation = 'target_zone'
 
   read(id) {
-    return ItoN.findByIdEagerRelation({id, model: this.model, relName: 'target_zone'})
+    return ItoN.findByIdEagerRelation({id, model: this.model, relName: this.ItoNRelation})
   }
 
   async create(input) {
@@ -30,14 +30,10 @@ export default class TargetService extends CRUDService {
   }
 
   async update(id, input) {
-    // update the parent
+    const record = Object.assign({}, input)
+    delete record[this.ItoNRelation]
 
-    const {
-      target_zone,
-      ...target,
-    } = input
-
-    const r = await this.model.query().updateAndFetchById(id, target)
+    const r = await this.model.query().updateAndFetchById(id, record)
     if (!r) {
       throw new NotFoundException(this.model.tableName, id)
     }

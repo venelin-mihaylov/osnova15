@@ -1,6 +1,7 @@
 import {isRowEqual} from './utils'
 import {ValidationError} from 'objection'
 import {toArray} from '../utils/utils'
+import _isString from 'lodash.isstring'
 
 export default class ItoN {
 
@@ -35,86 +36,8 @@ export default class ItoN {
     return builder
   }
 
-  static validateMultiple({model, relSpec, input}) {
-
-
-    toArray(relSpec).forEach(({relName}) => {
-
-      const modelClass = model.relationMappings[relName].modelClass
-      const relModel = typeof modelClass == 'string' ?
-        require(modelClass).default :
-        modelClass
-
-      ItoN.validate({
-        relModel,
-        relName,
-        inRows: input[relName]
-      })
-    })
-  }
-
-  static validate({relModel, relName, inRows}) {
-    if(!inRows) return
-    const o = new relModel()
-    for(let i = 0; i < inRows.length; i++) {
-      const inRow = inRows[i]
-      try {
-        o.$validate(inRow)
-      } catch(err) {
-        ItoN.handleException(err, relName, i)
-      }
-    }
-  }
-
-  static async updateMultiple({input, id, model, relSpec}) {
-
-    const arrRelSpec = ItoN.transformRelSpec({
-      id,
-      model,
-      relSpec
-    })
-
-    console.log(arrRelSpec)
-
-    for(let i = 0; i < arrRelSpec.length; i++) {
-      const {
-        relModel,
-        relName,
-        fk
-      } = arrRelSpec[i]
-
-      const inRows = input[relName]
-      const dbRows = await relModel.query().where(fk.field, fk.value)
-      await ItoN.updateSingle({
-        relModel,
-        relName: relName,
-        fk,
-        dbRows,
-        inRows,
-      })
-    }
-  }
-
-  static transformRelSpec({model, id, relSpec}) {
-    return toArray(relSpec).map(({relName}) => {
-      const modelClass = model.relationMappings[relName].modelClass
-      const relModel = typeof modelClass == 'string' ?
-        require(modelClass).default :
-        modelClass
-      const fkField = model.relationMappings[relName].join.to.replace(`${relModel.className}.`, '')
-      return {
-        relModel,
-        relName,
-        fk: {
-          field: fkField,
-          value: id
-        }
-      }
-    })
-  }
-
-  static async updateSingle({relModel, relName, dbRows, inRows, fk}) {
-    ItoN.validate({relModel, relName, inRows})
+  static async _updateSingle({relModel, relName, dbRows, inRows, fk}) {
+    ItoN._validateSingle({relModel, relName, inRows})
 
     // in input, not in db -> insert
     // in input, in db -> update
@@ -144,5 +67,79 @@ export default class ItoN {
       }
     }
   }
+
+  static validateMultiple({model, relSpec, input}) {
+    toArray(relSpec).forEach(({relName}) => {
+      const relModelClass = model.relationMappings[relName].modelClass
+      const relModel = _isString(relModelClass) ? require(relModelClass).default : relModelClass
+      const inRows = input[relName]
+      ItoN._validateSingle({relModel, relName, inRows})
+    })
+  }
+
+  /**
+   * @param relModel
+   * @param relName
+   * @param inRows
+   * @private
+   */
+  static _validateSingle({relModel, relName, inRows}) {
+    if(!inRows) return
+    const o = new relModel()
+    for(let i = 0; i < inRows.length; i++) {
+      const inRow = inRows[i]
+      try {
+        o.$validate(inRow)
+      } catch(err) {
+        ItoN.handleException(err, relName, i)
+      }
+    }
+  }
+
+  static async updateMultiple({id, model, relSpec, input}) {
+    const arrRelSpec = ItoN._transformRelSpec({
+      id,
+      model,
+      relSpec
+    })
+
+    for(let i = 0; i < arrRelSpec.length; i++) {
+      const {
+        relModel,
+        relName,
+        fk
+      } = arrRelSpec[i]
+
+      const inRows = input[relName]
+      const dbRows = await relModel.query().where(fk.field, fk.value)
+      await ItoN._updateSingle({
+        relModel,
+        relName: relName,
+        fk,
+        dbRows,
+        inRows,
+      })
+    }
+  }
+
+  static _transformRelSpec({model, id, relSpec}) {
+    return toArray(relSpec).map(({relName}) => {
+      const modelClass = model.relationMappings[relName].modelClass
+      const relModel = typeof modelClass == 'string' ?
+        require(modelClass).default :
+        modelClass
+      const fkField = model.relationMappings[relName].join.to.replace(`${relModel.className}.`, '')
+      return {
+        relModel,
+        relName,
+        fk: {
+          field: fkField,
+          value: id
+        }
+      }
+    })
+  }
+
+
 
 }
