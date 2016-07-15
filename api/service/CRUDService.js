@@ -66,7 +66,7 @@ export default class CRUDService {
   async list({
     filter
   }) {
-    let qb = this.listQuery()
+    let qb = this.listQuery().orderBy('id')
     QueryFilter.filter(qb, filter, this.filterRules())
     // TODO: pagination
     return qb

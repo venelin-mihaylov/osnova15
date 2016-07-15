@@ -5,7 +5,7 @@ import _isString from 'lodash.isstring'
 
 export default class ItoN {
 
-  static rethrowValidationErrors(err, relName, i) {
+  static _rethrowValidationErrors(err, relName, i) {
     let data = {}
     for(let f in err.data) {
       if(!err.data.hasOwnProperty(f)) continue
@@ -14,10 +14,12 @@ export default class ItoN {
     throw new ValidationError(data)
   }
 
-  static handleException(err, relName, i) {
+  static _handleException(err, relName, i) {
     if(err instanceof ValidationError) {
-      ItoN.rethrowValidationErrors(err, relName, i)
+      console.log('rethrow')
+      ItoN._rethrowValidationErrors(err, relName, i)
     } else {
+      console.log('no validation, rethrow')
       throw err
     }
   }
@@ -36,36 +38,38 @@ export default class ItoN {
     return builder
   }
 
-  static async _updateSingle({relModel, relName, dbRows, inRows, fk}) {
-    ItoN._validateSingle({relModel, relName, inRows})
-
+  static _diff({relModel, dbRows, inRows, fk}) {
     // in input, not in db -> insert
     // in input, in db -> update
     // not in input, in db -> delete
+    let op = {
+      insert: [],
+      update: [],
+      del: []
+    }
+
     let keep = []
-    for (let i = 0; i < inRows.length; i++) {
-      let inRow = Object.assign({}, inRows[i])
+    inRows.forEach(_inRow => {
+      const inRow = Object.assign({}, _inRow)
       inRow[fk.field] = fk.value
+
       const dbRow = dbRows.find(dbRow => dbRow.id == inRow.id)
       if (dbRow) {
         // in input, in db -> update
         keep.push(dbRow.id)
         if (!isRowEqual(dbRow.toJSON(), inRow)) {
-          await relModel.query().update(inRow).where('id', dbRow.id)
+          op.update.push({relModel, id: dbRow.id, inRow})
         }
       } else {
         // in input, not in db -> create
-        await relModel.query().insert(inRow)
+        op.insert.push({relModel, inRow})
       }
-    }
-
-    for (let i = 0; i < dbRows.length; i++) {
-      const dbRow = dbRows[i]
-      if (-1 === keep.indexOf(dbRow.id)) {
-        // in db, not in input -> delete
-        await relModel.query().deleteById(dbRow.id).execute()
-      }
-    }
+    })
+    dbRows.forEach(dbRow => {
+      // in db, not in input -> delete
+      if (-1 === keep.indexOf(dbRow.id)) op.del.push({relModel, id: dbRow.id})
+    })
+    return op
   }
 
   static validateMultiple({model, relSpec, input}) {
@@ -73,7 +77,7 @@ export default class ItoN {
       const relModelClass = model.relationMappings[relName].modelClass
       const relModel = _isString(relModelClass) ? require(relModelClass).default : relModelClass
       const inRows = input[relName]
-      ItoN._validateSingle({relModel, relName, inRows})
+      ItoN._validate({relModel, relName, inRows})
     })
   }
 
@@ -83,17 +87,16 @@ export default class ItoN {
    * @param inRows
    * @private
    */
-  static _validateSingle({relModel, relName, inRows}) {
+  static _validate({relModel, relName, inRows}) {
     if(!inRows) return
     const o = new relModel()
-    for(let i = 0; i < inRows.length; i++) {
-      const inRow = inRows[i]
+    inRows.forEach((inRow, i) => {
       try {
         o.$validate(inRow)
       } catch(err) {
-        ItoN.handleException(err, relName, i)
+        ItoN._handleException(err, relName, i)
       }
-    }
+    })
   }
 
   static async updateMultiple({id, model, relSpec, input}) {
@@ -111,15 +114,25 @@ export default class ItoN {
       } = arrRelSpec[i]
 
       const inRows = input[relName]
+      ItoN._validate({relModel, relName, inRows})
       const dbRows = await relModel.query().where(fk.field, fk.value)
-      await ItoN._updateSingle({
-        relModel,
-        relName: relName,
-        fk,
-        dbRows,
-        inRows,
-      })
+      const diff = ItoN._diff({relModel, fk, dbRows, inRows})
+      await ItoN._persist(diff)
     }
+  }
+
+  static async _persist({
+    insert,
+    update,
+    del
+  }) {
+    let q = []
+    del.forEach(({relModel, id}) => q.push(relModel.query().deleteById(id).execute()))
+    insert.forEach(({relModel, inRow}) => q.push(relModel.query().insert(inRow)))
+    update.forEach(({relModel, id, inRow}) => q.push(relModel.query().update(inRow).where('id', id)))
+
+    // muhahahhaha, await multiple async functions, run in parallel (supposedly)
+    await Promise.all(q)
   }
 
   static _transformRelSpec({model, id, relSpec}) {
@@ -128,7 +141,7 @@ export default class ItoN {
       const relModel = typeof modelClass == 'string' ?
         require(modelClass).default :
         modelClass
-      const fkField = model.relationMappings[relName].join.to.replace(`${relModel.className}.`, '')
+      const fkField = model.relationMappings[relName].join.to.replace(`${relModel.tableName}\.`, '')
       return {
         relModel,
         relName,
@@ -139,7 +152,4 @@ export default class ItoN {
       }
     })
   }
-
-
-
 }
