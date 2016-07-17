@@ -30,6 +30,7 @@ exports.up = function(knex, Promise) {
       t.string('notes')
       t.integer('matchId').notNullable().references('id').inTable('matches')
       t.integer('competitorId').notNullable().references('id').inTable('competitor')
+      t.unique(['matchId', 'competitorId'])
     }),
     knex.schema.createTable('exercise', function(t) {
       t.increments('id').primary()
@@ -40,6 +41,7 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.integer('matchId').notNullable().references('id').inTable('matches')
       t.integer('exerciseId').notNullable().references('id').inTable('exercise')
+      t.unique(['matchId', 'exerciseId'])
     }),
     knex.schema.createTable('target', function(t) {
       t.increments('id').primary()
@@ -56,6 +58,7 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.integer('exerciseId').notNullable().references('id').inTable('exercise')
       t.integer('targetId').notNullable().references('id').inTable('target')
+      t.unique(['targetId', 'exerciseId'])
     }),
   ])
 };
