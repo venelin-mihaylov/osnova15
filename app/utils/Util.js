@@ -29,6 +29,9 @@ export const defaultErrorMessages = {
  * @constructor
  */
 export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMessages) {
+  if(!fieldName) {
+    return null
+  }
   const key = fieldName.replace(/\[|\]\./g, '.')
   const field = form.fields[key]
   if(!field) return null
