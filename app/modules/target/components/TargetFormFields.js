@@ -39,10 +39,6 @@ export const TargetFormFields = ({
 
     <br/>
 
-
-    <RaisedButton label='Remove zone' style={{margin: 5}} onClick={() => {
-
-    }}/>
     <If condition={target_zone}>
       <fieldset style={{borderTop: '1px solid green', padding: '10px'}}>
         <legend>
