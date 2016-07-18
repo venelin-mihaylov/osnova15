@@ -4,7 +4,8 @@ const TargetSchema = {
 
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', minLength: 10, maxLength: 255}
+    name: {type: 'string', minLength: 10, maxLength: 255},
+    favourite: {type: 'boolean'}
   }
 }
 export default TargetSchema

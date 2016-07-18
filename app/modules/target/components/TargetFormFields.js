@@ -6,6 +6,9 @@ import {rrfField, MUIErrorText} from 'utils/Util'
 import RaisedButton from 'material-ui/RaisedButton'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
+import MaterialCheckbox from 'components/MaterialCheckbox'
+import ActionFavorite from 'material-ui/svg-icons/action/favorite';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 export const TargetFormFields = ({
   dispatch,
@@ -24,6 +27,14 @@ export const TargetFormFields = ({
       hintText="name"
       floatingLabelText="name"
     />
+
+    <MaterialField model={rrfField(entity, 'favourite')}>
+      <MaterialCheckbox
+        checkedIcon={<ActionFavorite />}
+        uncheckedIcon={<ActionFavoriteBorder />}
+        label="Favourite"
+      />
+    </MaterialField>
 
     <br/>
 
