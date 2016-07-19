@@ -107,8 +107,7 @@ export default class FKSelect extends React.Component {
       dispatch,
       redux: {
         valueRecord,
-        records,
-        lastSearchText
+        records
       },
       labelField = 'id',
       renderRecord = (r={}) => r[labelField],
@@ -119,8 +118,6 @@ export default class FKSelect extends React.Component {
       iconButtons = [],
       ...rest
     } = this.props
-
-    console.log(valueRecord)
 
     return (
       <span>

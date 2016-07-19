@@ -3,13 +3,13 @@ import React from 'react'
 import OsnovaTextField from 'components/OsnovaTextField'
 import {actions} from 'react-redux-form'
 import {rrfField, MUIErrorText} from 'utils/Util'
-import RaisedButton from 'material-ui/RaisedButton'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
 import MaterialCheckbox from 'components/MaterialCheckbox'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import IconButton from 'material-ui/IconButton'
+import Toggle from 'material-ui/Toggle'
 
 export const TargetFormFields = ({
   dispatch,

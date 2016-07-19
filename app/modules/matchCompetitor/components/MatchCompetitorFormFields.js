@@ -7,6 +7,7 @@ import MaterialField from 'components/MaterialField'
 import MaterialToggle from 'components/MaterialToggle'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
+import Toggle from 'material-ui/Toggle'
 
 // after person create, we need to be able to get the latest created competitor
 // i.e. add onCompetitorCreated
@@ -46,7 +47,7 @@ const MatchCompetitorFormFields = ({
     </MaterialField>
 
     <MaterialField model={rrfField(entity, 'disqualified')}>
-      <MaterialToggle
+      <Toggle
         labelPosition='right'
         label="Disqualified"
       />

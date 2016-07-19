@@ -7,11 +7,13 @@ import {connect} from 'react-redux'
 export default class MaterialToggle extends React.Component {
 
   render() {
-    const {dispatch, model, modelValue} = this.props
+    const {dispatch, name, onChange, checked} = this.props
 
     return <Toggle
-      onToggle={e => dispatch(actions.toggle(model))}
-      toggled={modelValue}
+      onToggle={e => {
+        onChange(!checked)
+      }}
+      toggled={checked}
       {...this.props}
     />
   }
