@@ -36,40 +36,38 @@ export default class TargetService extends CRUDService {
     }
   }
 
+  ItoNParams() {
+    const model = this.model
+    const relName =  this.ItoNRelation
+    const relSpec = {relName}
+
+    return {
+      model,
+      relSpec
+    }
+  }
+
   read(id) {
-    return ItoN.findByIdEagerRelation({id, model: this.model, relName: this.ItoNRelation})
+    return ItoN.findByIdEagerRelation({id, ...(this.ItoNParams())})
   }
 
   async create(input) {
-    // separate validation step for ItoN, otherwise the validation errors are not properly formatted
+    // separate validation step for ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
-      model: this.model,
-      relSpec: {
-        relName: this.ItoNRelation
-      },
-      input
+      input,
+      ...(this.ItoNParams())
     })
     return this.model.query().insertWithRelated(input)
   }
 
   async update(id, input) {
-    const record = Object.assign({}, input)
-    delete record[this.ItoNRelation]
-
-    const r = await this.model.query().updateAndFetchById(id, record)
-    if (!r) {
-      throw new NotFoundException(this.model.tableName, id)
-    }
-
-    const relName = this.ItoNRelation
-    await ItoN.updateMultiple({
+    await ItoN.updateParentAndRelations({
       id,
       input,
-      model: this.model,
-      relSpec: {relName}
+      ...(this.ItoNParams())
     })
     // return updated, the easy way
-    return ItoN.findByIdEagerRelation({id, model: this.model, relName})
+    return ItoN.findByIdEagerRelation({id, ...(this.ItoNParams())})
   }
 
 }

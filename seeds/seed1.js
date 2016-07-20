@@ -6,7 +6,7 @@ exports.seed = function (knex, Promise) {
 
   function uniqueRandInt2(low1, high1, low2, high2, count) {
     let ret = []
-    while(count(ret) < count) {
+    while (count(ret) < count) {
       ret[{
         idx1: randInt(low1, high1)
       }, {
@@ -20,14 +20,13 @@ exports.seed = function (knex, Promise) {
   let arr = []
 
   arr.push(knex('exercise_target').del())
+  arr.push(knex.raw('ALTER SEQUENCE exercise_target_id_seq RESTART WITH 1'))
   arr.push(knex('target_zone').del())
+  arr.push(knex.raw('ALTER SEQUENCE target_zone_id_seq RESTART WITH 1'))
   arr.push(knex('target').del())
   arr.push(knex.raw('ALTER SEQUENCE target_id_seq RESTART WITH 1'))
-
   arr.push(knex('match_exercise').del())
-  arr.push(knex.raw('ALTER SEQUENCE tournament_id_seq RESTART WITH 1'))
-  arr.push(knex('target').del())
-  arr.push(knex.raw('ALTER SEQUENCE target_id_seq RESTART WITH 1'))
+  arr.push(knex.raw('ALTER SEQUENCE match_exercise_id_seq RESTART WITH 1'))
   arr.push(knex('exercise').del())
   arr.push(knex.raw('ALTER SEQUENCE exercise_id_seq RESTART WITH 1'))
   arr.push(knex('match_competitor').del())
@@ -77,15 +76,15 @@ exports.seed = function (knex, Promise) {
   for (let i = 0; i < 10; i++) {
     arr.push(knex('target').returning('id').insert({
       name: 'target ' + i
+    }).then(ids => {
+      for (let i = 0; i < 3; i++) {
+        knex('target_zone').insert({
+          targetId: ids[0],
+          name: 'target zone ' + randInt(0, 999999),
+          score: randInt(1, 10)
+        })
+      }
     }))
-  }
-
-  for (let i = 0; i < 20; i++) {
-    knex('target_zone').insert({
-      targetId: randInt(1, 9),
-      name: 'target zone ' + randInt(0, 999999),
-      score: randInt(1, 10)
-    })
   }
 
   for (let i = 0; i < 10; i++) {

@@ -72,6 +72,4 @@ export default class ExerciseService extends CRUDService {
     // return updated, the easy way
     return ItoN.findByIdEagerRelation({id, ...(this.ItoNParams())})
   }
-
-
 }
