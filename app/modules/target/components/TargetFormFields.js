@@ -1,26 +1,25 @@
 'use strict'
 import React from 'react'
 import OsnovaTextField from 'components/OsnovaTextField'
-import {actions} from 'react-redux-form'
 import {rrfField, MUIErrorText} from 'utils/Util'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
-import MaterialCheckbox from 'components/MaterialCheckbox'
+import Checkbox from 'material-ui/Checkbox'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import ItoN from 'components/ItoN'
 import IconButton from 'material-ui/IconButton'
-import Toggle from 'material-ui/Toggle'
 
 export const TargetFormFields = ({
   dispatch,
   form,
   entity,
-  model: {
-    target_zone = []
-  }
-}) => (
+  model,
+}) => {
 
-  <div>
+  const relName = 'target_zone'
+
+  return <div>
     <OsnovaTextField
       {...{form, entity}}
       field='name'
@@ -29,7 +28,7 @@ export const TargetFormFields = ({
       floatingLabelText='name'
     />
     <MaterialField model={rrfField(entity, 'favourite')}>
-      <MaterialCheckbox
+      <Checkbox
         labelPosition='right'
         checkedIcon={<ActionFavorite />}
         uncheckedIcon={<ActionFavoriteBorder />}
@@ -39,35 +38,28 @@ export const TargetFormFields = ({
 
     <br/>
 
-    <If condition={target_zone}>
-      <fieldset style={{borderTop: '1px solid green', padding: '10px'}}>
-        <legend>
-          <IconButton iconClassName="fa fa-plus" onClick={() => dispatch(actions.push(rrfField(entity, 'target_zone[]'), {}))}/>
-          <IconButton iconClassName="fa fa-minus" onClick={() => dispatch(actions.remove(rrfField(entity, 'target_zone[]'), target_zone ? target_zone.length - 1 : 0))}/>
-          <h2 style={{marginRight: '10px', display: 'inline'}}>Target zones</h2>
-        </legend>
-    {target_zone && target_zone.map((n, i) => (
+    <ItoN {...{entity, model, relName, dispatch}} relTitle='Target Zones' renderRecord={(n, i, {relName, onDeleteByIndex}) => (
       <div>
-        <MaterialField key={`${i}.name`} model={rrfField(entity, `target_zone[${i}].name`)}>
+        <MaterialField key={`${i}.name`} model={rrfField(entity, `${relName}[${i}].name`)}>
           <TextField
             required
             hintText='Name'
             floatingLabelText='Name'
-            errorText={MUIErrorText(form, entity, `target_zone[${i}].name`)}
+            errorText={MUIErrorText(form, entity, `${relName}[${i}].name`)}
           />
         </MaterialField>
-        <MaterialField key={`${i}.score`} model={rrfField(entity, `target_zone[${i}].score`)}>
+        <MaterialField key={`${i}.score`} model={rrfField(entity, `${relName}[${i}].score`)}>
           <TextField
             required
             hintText='Score'
             floatingLabelText='Score'
-            errorText={MUIErrorText(form, entity, `target_zone[${i}].score`)}
+            errorText={MUIErrorText(form, entity, `${relName}[${i}].score`)}
           />
         </MaterialField>
+        <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(i)}/>
       </div>
-    ))}
-      </fieldset>
-    </If>
+    )}
+    />
   </div>
-)
+}
 export default TargetFormFields
