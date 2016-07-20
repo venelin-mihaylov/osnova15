@@ -4,7 +4,7 @@ import OsnovaTextField from 'components/OsnovaTextField'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import MaterialField from 'components/MaterialField'
-import MaterialCheckbox from 'components/MaterialCheckbox'
+import Checkbox from 'material-ui/Checkbox'
 import {rrfField} from 'utils/Util'
 
 export const ExerciseFormFields = ({
@@ -25,7 +25,7 @@ export const ExerciseFormFields = ({
     <br/>
 
     <MaterialField model={rrfField(entity, 'favourite')}>
-      <MaterialCheckbox
+      <Checkbox
         checkedIcon={<ActionFavorite />}
         uncheckedIcon={<ActionFavoriteBorder />}
         label="Favourite"

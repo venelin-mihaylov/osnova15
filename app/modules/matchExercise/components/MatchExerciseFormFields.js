@@ -4,7 +4,6 @@ import {rrfField} from "utils/Util"
 import {MUIErrorText} from "utils/Util"
 import FKSelect from 'components/FKSelect'
 import MaterialField from 'components/MaterialField'
-import MaterialToggle from 'components/MaterialToggle'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 

@@ -1,10 +1,9 @@
 "use strict"
 import React from "react"
-import MaterialToggle from 'components/MaterialToggle'
-import MaterialCheckbox from 'components/MaterialCheckbox'
 import FKSelect from 'components/FKSelect'
 import {createFieldClass, controls, utils} from "react-redux-form"
 import Toggle from 'material-ui/Toggle'
+import Checkbox from 'material-ui/Checkbox'
 
 
 function isChecked(props) {
@@ -21,7 +20,16 @@ function isChecked(props) {
 const MaterialField = createFieldClass({
   'TextField': controls.text,
   'Connect(FKSelect)': controls.text,
-  'Connect(MaterialCheckbox)': controls.checkbox,
+  Checkbox: (props) => ({
+    name: props.name || props.model,
+    checked: props.defaultChecked
+      ? props.checked
+      : isChecked(props),
+    ...props,
+    onCheck: () => {
+      props.onChange(!props.modelValue)
+    },
+  }),
   'Toggle': (props) => ({
     name: props.name || props.model,
     onToggle: () => {
@@ -31,13 +39,13 @@ const MaterialField = createFieldClass({
       ? props.toggled
       : isChecked(props),
     ...props,
-  })
+  }),
+
 }, {
   componentMap: {
     'Connect(FKSelect)': FKSelect,
-    'Connect(MaterialCheckbox)': MaterialCheckbox,
-    MaterialToggle: MaterialToggle,
-    Toggle: Toggle
+    Toggle: Toggle,
+    Checkbox: Checkbox
   }
 })
 
