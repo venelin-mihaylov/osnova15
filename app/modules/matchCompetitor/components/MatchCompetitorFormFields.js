@@ -27,7 +27,6 @@ const MatchCompetitorFormFields = ({
         variation="1"
         FKname="FKcompetitor1"
         floatingLabelText="Competitor"
-        hintText="Competitor"
         reset={resetForm}
         listParams={{
           filter: {

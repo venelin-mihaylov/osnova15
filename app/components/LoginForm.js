@@ -18,7 +18,6 @@ export default class LoginForm extends React.Component {
           <MaterialField model="loginUser.email">
             <TextField
               required
-              hintText="Email"
               floatingTextLabel="Email"
             />
           </MaterialField>
@@ -29,7 +28,6 @@ export default class LoginForm extends React.Component {
             <TextField
               type="password"
               required
-              hintText="password"
               floatingTextLabel="Password"
             />
           </MaterialField>

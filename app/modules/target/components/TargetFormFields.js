@@ -24,7 +24,6 @@ export const TargetFormFields = ({
       {...{form, entity}}
       field='name'
       required
-      hintText='name'
       floatingLabelText='name'
     />
     <MaterialField model={rrfField(entity, 'favourite')}>
@@ -43,7 +42,6 @@ export const TargetFormFields = ({
         <MaterialField key={`${i}.name`} model={rrfField(entity, `${relName}[${i}].name`)}>
           <TextField
             required
-            hintText='Name'
             floatingLabelText='Name'
             errorText={MUIErrorText(form, entity, `${relName}[${i}].name`)}
           />
@@ -51,7 +49,6 @@ export const TargetFormFields = ({
         <MaterialField key={`${i}.score`} model={rrfField(entity, `${relName}[${i}].score`)}>
           <TextField
             required
-            hintText='Score'
             floatingLabelText='Score'
             errorText={MUIErrorText(form, entity, `${relName}[${i}].score`)}
           />

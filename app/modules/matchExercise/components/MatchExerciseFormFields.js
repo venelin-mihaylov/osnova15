@@ -26,7 +26,6 @@ const MatchExerciseFormFields = ({
         variation="1"
         FKname="FKexercise1"
         floatingLabelText="Exercise"
-        hintText="Exercise"
         reset={resetForm}
         listParams={{
           filter: {

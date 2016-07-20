@@ -16,7 +16,6 @@ export const CompetitorFormFields = ({
       {...{form, entity}}
       field="firstName"
       required
-      hintText="first name"
       floatingLabelText="first name"
     />
     <br/>
@@ -24,7 +23,6 @@ export const CompetitorFormFields = ({
       {...{form, entity}}
       field="lastName"
       required
-      hintText="last name"
       floatingLabelText="last name"
     />
     <br/>
@@ -32,7 +30,6 @@ export const CompetitorFormFields = ({
       {...{form, entity}}
       field="email"
       required
-      hintText="email"
       floatingLabelText="email"
     />
     <br/>

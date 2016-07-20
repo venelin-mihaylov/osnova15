@@ -28,7 +28,6 @@ export const MatchFormFields = ({
       {...{form, entity}}
       field="name"
       required
-      hintText="name"
       floatingLabelText="name"
     />
     <MaterialField model={rrfField(entity, 'tournamentId')}>
@@ -37,7 +36,6 @@ export const MatchFormFields = ({
         variation="1"
         FKname="FKtournament"
         floatingLabelText="Tournament"
-        hintText="Tournament"
         labelField="name"
         errorText={MUIErrorText(form, entity, 'tournamentId')}
       />
@@ -56,7 +54,6 @@ export const MatchFormFields = ({
       <MaterialField model={rrfField(entity, `notes[${i}].text`)}>
         <TextField
           required
-          hintText={`note ${i + 1}`}
           floatingLabelText={`note ${i + 1}`}
         />
         <br/>
@@ -68,7 +65,6 @@ export const MatchFormFields = ({
       variation="1"
       FKname="FKcompetitor1"
       floatingLabelText="Add competitor"
-      hintText="Add competitor"
       renderRecord={r => `${r.firstName} ${r.lastName}`}
       onChange={onSelectCompetitor}
       iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
