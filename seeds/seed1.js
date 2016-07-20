@@ -42,8 +42,6 @@ exports.seed = function (knex, Promise) {
     arr.push(knex('tournament').insert({name: 'tournament ' + i}))
   }
 
-  const firstNames = ['Yavor', 'Georgi', 'Ivelin', 'Venelin', 'Petar']
-  const lastNames = ['Mihaylov', 'Dobrev', 'Ivanov', 'Yasenov']
   let firstName, lastName, email
   for (let i = 0; i < 10; i++) {
     firstName = firstNames[randInt(0, firstNames.length - 1)]

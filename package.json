@@ -41,7 +41,7 @@
     "test:safari": "npm run test -- --browsers Safari",
     "test:ie": "npm run test -- --browsers IE",
     "coveralls": "cat ./coverage/lcov/lcov.info | coveralls",
-    "knex": "node node_modules/knex/lib/bin/cli"
+    "knex": "node --harmony node_modules/knex/lib/bin/cli"
   },
   "betterScripts": {
     "start-dev-api": {
