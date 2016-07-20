@@ -70,6 +70,11 @@ export default class QueryFilter {
    * @param {string} input.value
    */
   static applyRule(qb, rule, input) {
+
+    if(typeof rule == 'function') {
+      return rule(qb, input)
+    }
+
     if(rule.leftJoin) {
       const leftJoin = toArray(rule.leftJoin)
       leftJoin.forEach(j => qb.leftJoin(j[0], j[1], j[2]))

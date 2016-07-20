@@ -8,7 +8,6 @@ import {bindActionCreators} from 'redux'
 import {actions} from 'react-redux-form'
 import {calcNextPath} from 'utils/Util'
 
-
 @autobind
 export default class OsnovaFormContainer extends React.Component {
   static entity
@@ -69,6 +68,7 @@ export default class OsnovaFormContainer extends React.Component {
   onCancel() {
     const {dispatch} = this.props
     const nextPath = this.nextPath({action: 'cancel'})
+    this.resetForm()
     dispatch(push(nextPath))
   }
 

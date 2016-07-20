@@ -40,6 +40,9 @@ const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
         <MenuItem>
           <Link to={`/match/${activeMatchId}/exercise`} {...{activeStyle}}>Exercises</Link>
         </MenuItem>
+        <MenuItem>
+          <Link to={`/match/${activeMatchId}/target`} {...{activeStyle}}>Targets</Link>
+        </MenuItem>
       </If>
     </Drawer>
   )

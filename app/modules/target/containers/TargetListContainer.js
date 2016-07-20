@@ -13,8 +13,20 @@ export default class TargetListContainer extends OsnovaListContainer {
 
   static entity = 'target'
 
-  render() {
 
+  baseListParams() {
+    if(this.props.route.filterByActiveMatchId) {
+      return {
+        filter: {
+          matchId: this.props.params.matchId
+        }
+      }
+    }
+
+    return {}
+  }
+
+  render() {
     return <EntityList
       toolbarTitle="Targets"
       columns={[{

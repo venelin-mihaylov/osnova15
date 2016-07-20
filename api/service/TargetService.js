@@ -15,15 +15,23 @@ export default class TargetService extends CRUDService {
 
   filterRules() {
     return {
-      searchText: {
-        fn: (qb, {operator, value}) => {
-          const v = value.trim()
-          if(!v) return
+      searchText: (qb, {operator, value}) => {
+        const v = value.trim()
+        if (!v) return
 
-          return qb.andWhere(function() {
-            this.where('name', 'ilike', `%${v}%`).andWhere('favourite', '=', true)
-          })
-        }
+        return qb.andWhere(function () {
+          this.where('name', 'ilike', `%${v}%`).andWhere('favourite', '=', true)
+        })
+      },
+      matchId: (qb, {value}) => {
+        qb.whereIn('id', function() {
+          this.select('exercise_target.targetId')
+            .from('exercise_target')
+            .innerJoin('match_exercise', 'exercise_target.exerciseId', '=', 'match_exercise.exerciseId')
+            .where('match_exercise.matchId', '=', value)
+        })
+        console.log(qb.toSql())
+        return qb
       }
     }
   }
@@ -44,8 +52,6 @@ export default class TargetService extends CRUDService {
     return this.model.query().insertWithRelated(input)
   }
 
-
-
   async update(id, input) {
     const record = Object.assign({}, input)
     delete record[this.ItoNRelation]
@@ -55,7 +61,7 @@ export default class TargetService extends CRUDService {
       throw new NotFoundException(this.model.tableName, id)
     }
 
-    const relName =  this.ItoNRelation
+    const relName = this.ItoNRelation
     await ItoN.updateMultiple({
       id,
       input,

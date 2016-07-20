@@ -126,6 +126,7 @@
     "react-datagrid": "^3.0.25-beta",
     "react-dom": "^15.0.1",
     "react-fa": "^4.1.2",
+    "react-mixin": "^3.0.5",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
     "react-redux-form": "^0.14.1",

@@ -1,6 +1,24 @@
 import {Model} from "objection"
 import tv4 from 'tv4'
 import {ValidationError, ModelBase} from 'objection'
+var tv4coerce = require('tv4-coerce/main.js')
+
+/**
+ * add basic type coercetion
+ */
+tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error) {
+  if (type === 'number') {
+    data = parseFloat(data);
+    if (!isNaN(data)) return data;
+  } else if (type === 'integer') {
+    data = parseInt(data);
+    if (!isNaN(data)) return data;
+  } else if (type === 'string') {
+    if (typeof data === 'number') {
+      return "" + data;
+    }
+  }
+});
 
 export default class OsnovaModel extends Model {
 
@@ -46,7 +64,9 @@ export default class OsnovaModel extends Model {
         jsonSchema.required = []
       }
 
-      return tv4.validateMultiple(json, jsonSchema)
+      // coerce types
+      let result = tv4coerce.coerce(json, jsonSchema)
+      return tv4.validateMultiple(result.data, jsonSchema)
     } finally {
       if (options.patch) {
         jsonSchema.required = required
