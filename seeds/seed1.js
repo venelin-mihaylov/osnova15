@@ -89,7 +89,7 @@ exports.seed = function (knex, Promise) {
   }
 
   for (let i = 0; i < 10; i++) {
-    arr.push(knex.raw('INSERT INTO exercise_target ("targetId", "exerciseId") VALUES(?, ?) ON CONFLICT DO NOTHING', [randInt(1, 9), randInt(1, 9)]))
+    arr.push(knex.raw('INSERT INTO exercise_target ("targetId", "exerciseId", distance, description) VALUES(?, ?, ?, ?) ON CONFLICT DO NOTHING', [randInt(1, 9), randInt(1, 9), randInt(1, 90), 'description ' + randInt(1, 90)]))
   }
 
   arr.push(knex('users').del())

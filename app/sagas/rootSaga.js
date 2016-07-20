@@ -63,5 +63,6 @@ export default function* rootSaga() {
     fork(FKSaga('tournament', '1')),
     fork(FKSaga('competitor', '1')),
     fork(FKSaga('exercise', '1')),
+    fork(FKSaga('target', '1')),
   ]
 }

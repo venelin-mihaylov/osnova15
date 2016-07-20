@@ -2,6 +2,7 @@ import {isRowEqual} from './utils'
 import {ValidationError} from 'objection'
 import {toArray} from '../utils/utils'
 import _isString from 'lodash.isstring'
+import NotFoundException from '../exception/NotFoundException'
 
 export default class ItoN {
 
@@ -28,13 +29,16 @@ export default class ItoN {
     id,
     model,
     relName,
+    relSpec,
     eagerParam = {
       orderBy: builder => builder.orderBy('id')
     }
   }) {
     const strEagerParam = Object.keys(eagerParam).join(',')
     let builder = model.query().findById(id)
-    toArray(relName).forEach(rel => builder.eager(`${rel}(${strEagerParam})`, eagerParam))
+
+    const arr = relSpec ? toArray(relSpec).map(s => s.relName) : toArray(relName)
+    arr.forEach(rel => builder.eager(`${rel}(${strEagerParam})`, eagerParam))
     return builder
   }
 
@@ -99,6 +103,17 @@ export default class ItoN {
     })
   }
 
+
+  static async updateParentAndRelations({
+    id,
+    model,
+    relSpec,
+    input
+  }) {
+    await this.updateParent({id, model, relSpec, input})
+    await this.updateMultiple({id, model, relSpec, input})
+  }
+
   static async updateMultiple({id, model, relSpec, input}) {
     const arrRelSpec = ItoN._transformRelSpec({
       id,
@@ -135,7 +150,7 @@ export default class ItoN {
     await Promise.all(q)
   }
 
-  static _transformRelSpec({model, id, relSpec}) {
+  static _transformRelSpec({id, model, relSpec}) {
     return toArray(relSpec).map(({relName}) => {
       const modelClass = model.relationMappings[relName].modelClass
       const relModel = typeof modelClass == 'string' ?
@@ -151,5 +166,17 @@ export default class ItoN {
         }
       }
     })
+  }
+
+  static async updateParent({id, model, relSpec, input}) {
+    const record = Object.assign({}, input)
+
+    toArray(relSpec).forEach(({relName}) => delete record[relName])
+
+    const r = await model.query().updateAndFetchById(id, record)
+    if (!r) {
+      throw new NotFoundException(model.tableName, id)
+    }
+    return r
   }
 }

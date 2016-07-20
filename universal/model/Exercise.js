@@ -6,4 +6,14 @@ export default class Exercise extends OsnovaModel {
   static tableName = 'exercise'
   static jsonSchema = ExerciseSchema
 
+  static relationMappings = {
+    exercise_target: {
+      relation: Model.HasManyRelation,
+      modelClass: __dirname + '/ExerciseTarget',
+      join: {
+        from: 'exercise.id',
+        to: 'exercise_target.exerciseId'
+      }
+    }
+  }
 }

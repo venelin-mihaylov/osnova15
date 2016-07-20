@@ -21,7 +21,7 @@ export default class ItoN extends React.Component {
     const onDeleteByIndex = (idx) => dispatch(actions.remove(rrfField(entity, `${relName}[]`), idx))
 
     return <If condition={relData}>
-      <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '600px'}}>
+      <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '1000px'}}>
         <legend>
           <IconButton iconClassName='fa fa-plus' onClick={onAdd}/>
           <h2 style={{marginRight: '10px', display: 'inline'}}>{relTitle}</h2>

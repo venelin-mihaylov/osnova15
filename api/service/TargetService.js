@@ -13,6 +13,21 @@ export default class TargetService extends CRUDService {
 
   ItoNRelation = 'target_zone'
 
+  filterRules() {
+    return {
+      searchText: {
+        fn: (qb, {operator, value}) => {
+          const v = value.trim()
+          if(!v) return
+
+          return qb.andWhere(function() {
+            this.where('name', 'ilike', `%${v}%`).andWhere('favourite', '=', true)
+          })
+        }
+      }
+    }
+  }
+
   read(id) {
     return ItoN.findByIdEagerRelation({id, model: this.model, relName: this.ItoNRelation})
   }
@@ -28,6 +43,8 @@ export default class TargetService extends CRUDService {
     })
     return this.model.query().insertWithRelated(input)
   }
+
+
 
   async update(id, input) {
     const record = Object.assign({}, input)

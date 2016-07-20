@@ -34,7 +34,7 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('exercise', function(t) {
       t.increments('id').primary()
-      t.boolean('favourite')
+      t.boolean('favourite').notNullable().default(false)
       t.string('name')
     }),
     knex.schema.createTable('match_exercise', function(t) {
@@ -58,6 +58,8 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.integer('exerciseId').notNullable().references('id').inTable('exercise')
       t.integer('targetId').notNullable().references('id').inTable('target')
+      t.integer('distance').notNullable()
+      t.string('description').notNullable()
       t.unique(['targetId', 'exerciseId'])
     }),
   ])
