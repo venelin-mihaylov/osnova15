@@ -1,6 +1,7 @@
 import sqlFixtures from 'sql-fixtures'
 import dbConfig from '../api/config/db'
 import _range from 'lodash.range'
+import _ from 'lodash'
 
 function generate(cnt, data) {
   return _range(cnt).map((i) => {
@@ -46,17 +47,21 @@ const dataSpec = {
     email: (i, r) => r.firstName + '@' + r.lastName + '.com'
   }),
   target: generate(count.target, {name: (i) => `Target ${i}`}),
+  target_zone: _.flatten(_range(count.target, (targetIdx) => {
+
+  })),
+  exercise: generate(count.exercise, {name: (i) => `Exercise ${i}`}),
   matches: generate(count.matches, {
     name: (i) => `Match ${i}`,
     tournamentId:  () => `tournament:${randInt(1, count.tournament)}`
   }),
-  match_competitor: _range(0, count.matches).map((matchIdx) => {
-    const arr = arrUniqRandInt(0, count.competitor-1, count.match_competitor_max)
-    return generate(arr.length, {
-      matchId: `matches:${matchIdx}`,
-      competitorId: (i) => `competitor:${arr[i-1]}`
-    })
-  })
+  // match_competitor: _range(0, count.matches).map((matchIdx) => {
+  //   const arr = arrUniqRandInt(0, count.competitor-1, count.match_competitor_max)
+  //   return generate(arr.length, {
+  //     matchId: `matches:${matchIdx}`,
+  //     competitorId: (i) => `competitor:${arr[i-1]}`
+  //   })
+  // })
 }
 
 console.log(JSON.stringify(dataSpec.match_competitor, null, 2))
