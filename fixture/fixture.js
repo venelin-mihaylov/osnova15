@@ -32,8 +32,9 @@ const lastNames = ['Mihaylov', 'Dobrev', 'Ivanov', 'Yasenov']
 
 const count = {
   tournament: 10,
-  competitor: 10,
+  competitor: 20,
   target: 10,
+  target_zone_max: 5, // per target
   matches: 10,
   match_competitor_max: 5, // per match
 }
@@ -47,31 +48,34 @@ const dataSpec = {
     email: (i, r) => r.firstName + '@' + r.lastName + '.com'
   }),
   target: generate(count.target, {name: (i) => `Target ${i}`}),
-  target_zone: _.flatten(_range(count.target, (targetIdx) => {
-
+  target_zone: _.flatten(_range(count.target).map((targetIdx) => {
+    return generate(randInt(1, count.target_zone_max), {
+      targetId: `target:${targetIdx}`,
+      name: 'Zone ' + randInt(1, 100),
+      score: randInt(1, 100)
+    })
   })),
   exercise: generate(count.exercise, {name: (i) => `Exercise ${i}`}),
   matches: generate(count.matches, {
     name: (i) => `Match ${i}`,
-    tournamentId:  () => `tournament:${randInt(1, count.tournament)}`
+    tournamentId: () => `tournament:${randInt(0, count.tournament-1)}`
   }),
-  // match_competitor: _range(0, count.matches).map((matchIdx) => {
-  //   const arr = arrUniqRandInt(0, count.competitor-1, count.match_competitor_max)
-  //   return generate(arr.length, {
-  //     matchId: `matches:${matchIdx}`,
-  //     competitorId: (i) => `competitor:${arr[i-1]}`
-  //   })
-  // })
+  match_competitor: _.flatten(_range(0, count.matches).map((matchIdx) => {
+    const arr = arrUniqRandInt(0, count.competitor-1, count.match_competitor_max)
+    return generate(arr.length, {
+      matchId: `matches:${matchIdx}`,
+      competitorId: (i) => `competitor:${arr[i]}`
+    })
+  }))
 }
-
-console.log(JSON.stringify(dataSpec.match_competitor, null, 2))
 
 const options = {
   showWarning: true
 }
+
 sqlFixtures.create(dbConfig, dataSpec, options, function (err, result) {
   // at this point a row has been added to the users table
   console.log(err)
-  console.log(result)
+  console.log(JSON.stringify(result, null, 2))
   process.exit()
 })
