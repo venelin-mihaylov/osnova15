@@ -51,14 +51,17 @@ exports.up = function(knex, Promise) {
     knex.schema.createTable('target_zone', function(t) {
       t.increments('id').primary()
       t.string('name').notNullable()
-      t.integer('score').notNullable()
+      t.decimal('width').notNullable()
+      t.decimal('height').notNullable()
+      t.decimal('score').notNullable()
+      t.decimal('weight', 3).notNullable().default(1)
       t.integer('targetId').notNullable().references('id').inTable('target')
     }),
     knex.schema.createTable('exercise_target', function(t) {
       t.increments('id').primary()
       t.integer('exerciseId').notNullable().references('id').inTable('exercise')
       t.integer('targetId').notNullable().references('id').inTable('target')
-      t.integer('distance').notNullable()
+      t.decimal('distance').notNullable()
       t.string('description').notNullable()
       t.unique(['targetId', 'exerciseId'])
     }),

@@ -9,6 +9,11 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoN from 'components/ItoN'
 import IconButton from 'material-ui/IconButton'
+import {relationMappings} from '../../../../universal/model/TargetZone'
+import TargetZoneSchema from '../../../../universal/schema/TargetZoneSchema'
+import AutoFields from 'components/AutoFields'
+
+import styles from 'styles/components/TargetFormFields.css'
 
 export const TargetFormFields = ({
   dispatch,
@@ -18,6 +23,8 @@ export const TargetFormFields = ({
 }) => {
 
   const relName = 'target_zone'
+
+  console.log(relationMappings)
 
   return <div>
     <OsnovaTextField
@@ -39,24 +46,35 @@ export const TargetFormFields = ({
 
     <ItoN {...{entity, model, relName, dispatch}} relTitle='Target Zones' renderRecord={({row, idx, relName, onDeleteByIndex}) => (
       <div>
-        <MaterialField key={`${idx}.name`} model={rrfField(entity, `${relName}[${idx}].name`)}>
-          <TextField
-            required
-            floatingLabelText='Name'
-            errorText={MUIErrorText(form, entity, `${relName}[${idx}].name`)}
-          />
-        </MaterialField>
-        <MaterialField key={`${idx}.score`} model={rrfField(entity, `${relName}[${idx}].score`)}>
-          <TextField
-            required
-            floatingLabelText='Score'
-            errorText={MUIErrorText(form, entity, `${relName}[${idx}].score`)}
-          />
-        </MaterialField>
+        <AutoFields
+          {...{form, entity, styles}}
+          namePrefix={`${relName}[${idx}]`}
+        />
         <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
       </div>
     )}
     />
   </div>
 }
+
+//
+// <MaterialField key={`${idx}.name`} model={rrfField(entity, `${relName}[${idx}].name`)}>
+//   <TextField
+//     required
+//     floatingLabelText='Name'
+//     floatingLabelFixed={true}
+//     className={styles.name}
+//     errorText={MUIErrorText(form, entity, `${relName}[${idx}].name`)}
+//   />
+// </MaterialField>
+// <MaterialField key={`${idx}.score`} model={rrfField(entity, `${relName}[${idx}].score`)}>
+// <TextField
+// required
+// floatingLabelText='Score'
+// floatingLabelFixed={true}
+// className={styles.score}
+// errorText={MUIErrorText(form, entity, `${relName}[${idx}].score`)}
+// />
+// </MaterialField>
+
 export default TargetFormFields

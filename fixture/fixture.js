@@ -91,7 +91,10 @@ const dataSpec = {
   target_zone: generateItoN(count.target, count.target_zone_max, {
     targetId: ({parentIdx}) => `target:${parentIdx}`,
     name: () => 'Zone ' + randInt(1, 100),
-    score: () => randInt(1, 100)
+    score: () => randInt(1, 100),
+    width: () => randInt(1, 10),
+    height: () => randInt(1, 10),
+    weight: 1
   }),
   exercise: generate(count.exercise, {
     name: (i) => `Exercise ${i}`
