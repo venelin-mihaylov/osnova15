@@ -54,8 +54,6 @@ export default class AutoFields extends React.Component {
     if (name == 'id') return null
     if (input) return input
 
-    console.log(arguments)
-
     const fullField = `${namePrefix}${name}`
 
     let genInput = <div>No Field</div>
