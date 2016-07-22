@@ -1,5 +1,8 @@
 import React from 'react'
 import {MUIErrorText, rrfField} from 'utils/Util'
+import MaterialField from 'components/MaterialField'
+import TextField from 'material-ui/TextField'
+import Checkbox from 'material-ui/Checkbox'
 import _ from 'lodash'
 
 /**
@@ -17,41 +20,87 @@ import _ from 'lodash'
  */
 export default class AutoFields extends React.Component {
 
-  renderField({form, entity, spec, field, namePrefix, namePrefix, relations, options, fieldOptions, styles}) {
-    const {
+  static propTypes = {
+    form: React.PropTypes.object.isRequired,
+    entity: React.PropTypes.string.isRequired,
+    namePrefix: React.PropTypes.string,
+    fieldName: React.PropTypes.string.isRequired,
+    fieldOptions: React.PropTypes.object,
+    styles: React.PropTypes.object,
+  }
+
+  static defaultProps = {
+    fieldOptions: {}
+  }
+
+  renderField({
+    form,
+    entity,
+    namePrefix = '',
+    name,
+    schema: {
       type,
-      label
-    } = spec
-
-    const {
-      muiProps = {},
+      label = name
+    },
+    options: {
+      input = null,
+      inputProps = {},
       rrfProps = {},
-      skip = false,
-    } = fieldOptions
+      exclude = false
+    },
+    styles = {}
+  }) {
+    if (exclude) return null
+    if (name == 'id') return null
+    if (input) return input
 
-    if (skip) {
-      return null
-    }
+    console.log(arguments)
 
-    const fullField = `${namePrefix}${field}`
+    const fullField = `${namePrefix}${name}`
 
-    let input = <div>No Field</div>
+    let genInput = <div>No Field</div>
 
     switch (type) {
       case 'string':
-        input = <TextField
+        genInput = <TextField
           {...(Object.assign({
             required: true,
             floatingLabelText: label,
             floatingLabelFixed: true,
-            className: styles[field],
+            className: styles[name],
             errorText: MUIErrorText(form, entity, fullField)
-          }, muiProps))}
+          }, inputProps))}
         />
         break;
       case 'integer':
+        genInput = <TextField
+          {...(Object.assign({
+            floatingLabelText: label,
+            floatingLabelFixed: true,
+            className: styles[name],
+            errorText: MUIErrorText(form, entity, fullField)
+          }, inputProps))}
+        />
+        break
       case 'number':
+        genInput = <TextField
+          {...(Object.assign({
+            floatingLabelText: label,
+            floatingLabelFixed: true,
+            className: styles[name],
+            errorText: MUIErrorText(form, entity, fullField)
+          }, inputProps))}
+        />
+        break
       case 'boolean':
+        genInput = <Checkbox {...(Object.assign({
+          label,
+          labelPosition: 'right',
+          className: styles[name],
+          errorText: MUIErrorText(form, entity, fullField)
+        }, inputProps))}
+        />
+        break
     }
 
     return <MaterialField {...(Object.assign({
@@ -59,29 +108,26 @@ export default class AutoFields extends React.Component {
       model: rrfField(entity, fullField)
     }, rrfProps))}
     >
-      {input}
+      {genInput}
     </MaterialField>
 
   }
 
   render() {
     const {
-      form,
-      entity,
-      namePrefix,
-      schema,
-      relations,
-      fieldOptions,
-      options,
-      styles
+      fieldOptions = {},
+      jsonSchema = {},
+      ...fieldParams
     } = this.props
 
     let uiFields = []
-    _.forOwn(schema.properties, (spec, field) => {
-      let f = this.renderField(this.props)
+    _.forOwn(jsonSchema.properties, (schema, name) => {
+      const options = fieldOptions[name] || {}
+      const args = Object.assign({schema, name, options}, fieldParams)
+      let f = this.renderField(args)
       if (f) uiFields.push(f)
     })
 
-    return <div>{uiFields}</div>
+    return <span>{uiFields}</span>
   }
 }

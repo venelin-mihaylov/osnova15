@@ -9,8 +9,8 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoN from 'components/ItoN'
 import IconButton from 'material-ui/IconButton'
-import {relationMappings} from '../../../../universal/model/TargetZone'
 import TargetZoneSchema from '../../../../universal/schema/TargetZoneSchema'
+import TargetSchema from '../../../../universal/schema/TargetSchema'
 import AutoFields from 'components/AutoFields'
 
 import styles from 'styles/components/TargetFormFields.css'
@@ -24,35 +24,38 @@ export const TargetFormFields = ({
 
   const relName = 'target_zone'
 
-  console.log(relationMappings)
-
   return <div>
-    <OsnovaTextField
+    <AutoFields
       {...{form, entity}}
-      field='name'
-      required
-      floatingLabelText='name'
+      jsonSchema={TargetSchema}
+      fieldOptions={{
+        favourite: {
+          inputProps: {
+            checkedIcon: <ActionFavorite />,
+            uncheckedIcon: <ActionFavoriteBorder />
+          }
+        }
+      }}
     />
-    <MaterialField model={rrfField(entity, 'favourite')}>
-      <Checkbox
-        labelPosition='right'
-        checkedIcon={<ActionFavorite />}
-        uncheckedIcon={<ActionFavoriteBorder />}
-        label='Favourite'
-      />
-    </MaterialField>
-
     <br/>
-
-    <ItoN {...{entity, model, relName, dispatch}} relTitle='Target Zones' renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-      <div>
-        <AutoFields
-          {...{form, entity, styles}}
-          namePrefix={`${relName}[${idx}]`}
-        />
-        <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
-      </div>
-    )}
+    <ItoN
+      {...{entity, model, relName, dispatch}}
+      relTitle='Target Zones'
+      renderRecord={({row, idx, relName, onDeleteByIndex}) => (
+        <div>
+          <AutoFields
+            {...{form, entity, styles}}
+            namePrefix={`${relName}[${idx}]`}
+            jsonSchema={TargetZoneSchema}
+            fieldOptions={{
+              targetId: {
+                exclude: true
+              }
+            }}
+          />
+          <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
+        </div>
+      )}
     />
   </div>
 }
