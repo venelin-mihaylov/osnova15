@@ -5,7 +5,6 @@ import AutoComplete from "material-ui/AutoComplete"
 import IconButton from "material-ui/IconButton"
 import {actions} from "react-redux-form"
 import FKAct from 'constants/FKAct'
-import {mergeDeep} from 'utils/Util'
 
 @connect((state, ownProps) => {
   return {
@@ -106,13 +105,14 @@ export default class FKSelect extends React.Component {
     const {
       dispatch,
       redux: {
-        valueRecord,
+        recordById,
         records
       },
       labelField = 'id',
       renderRecord = (r={}) => r[labelField],
       renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
-      model,
+      name,
+      value,
       listParams,
       onChange,
       iconButtons = [],
@@ -125,7 +125,7 @@ export default class FKSelect extends React.Component {
           style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
-          searchText={valueRecord && renderRecord(valueRecord)}
+          searchText={recordById[value] && renderRecord(recordById[value])}
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={() => !records && dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
@@ -133,8 +133,8 @@ export default class FKSelect extends React.Component {
           {...rest}
         />
         <IconButton iconClassName="fa fa-eraser" onClick={() => {
-          dispatch(act(FKAct.FK_CLEAR_SELECTION))
-          model && dispatch(actions.change(model, null))
+          dispatch(act(FKAct.FK_CLEAR_SELECTION, value))
+          name && dispatch(actions.change(name, null))
         }}/>
         {iconButtons.length ? iconButtons : null}
       </span>

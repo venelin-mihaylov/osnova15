@@ -5,10 +5,11 @@ export default function FKReducer(entity, variation) {
     loading: false,
     globalError: null,
     records: [],
-    valueRecord: null,
+    recordById: [],
     lastSearchText: null
   }, action = {}) {
     const type = type => FKAct.prefixType(entity, variation, type)
+    let ret = null
 
     switch (action.type) {
       case type(FKAct.FK_LIST_REQUESTED):
@@ -29,35 +30,33 @@ export default function FKReducer(entity, variation) {
       case type(FKAct.FK_READ_REQUESTED):
         return Object.assign({}, state, {
           loading: true,
-          valueRecord: null
         })
       case type(FKAct.FK_READ_SUCCESS):
-        return Object.assign({}, state, {
-          loading: false,
-          valueRecord: action.valueRecord
+        ret = Object.assign({}, state, {
+          loading: false
         })
+        ret.recordById[action.id] = action.record
+        return ret
       case type(FKAct.FK_READ_ERROR):
         return Object.assign({}, state, {
           loading: false,
-          valueRecord: null,
           globalError: action.globalError
         })
       case type(FKAct.FK_RESET):
         return Object.assign({}, state, {
           loading: false,
-          valueRecord: null,
           records: [],
+          recordById: [],
           globalError: false
         })
       case type(FKAct.FK_CLEAR_SELECTION):
-        return Object.assign({}, state, {
-          valueRecord: null,
-          records: []
-        })
+        ret = Object.assign({}, state)
+        delete ret.recordById[action.value]
+        return ret
       case type(FKAct.FK_PRELOAD_RECORD):
-        return Object.assign({}, state, {
-          valueRecord: action.value,
-        })
+        ret = Object.assign({}, state)
+        ret.recordById[action.id] = action.record
+        return ret
       case type(FKAct.FK_LAST_SEARCH_TEXT):
         return Object.assign({}, state, {
           lastSearchText: action.value,

@@ -20,7 +20,8 @@ export default function FKSaga(entity, variation) {
         method: 'get'
       })
       yield put(act(FKAct.FK_READ_SUCCESS, {
-        valueRecord: response.data
+        id,
+        record: response.data
       }))
     } catch(err) {
       yield put(act(FKAct.FK_READ_ERROR, formatServerError(err)))
