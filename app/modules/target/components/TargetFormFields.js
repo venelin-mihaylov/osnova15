@@ -37,23 +37,23 @@ export const TargetFormFields = ({
 
     <br/>
 
-    <ItoN {...{entity, model, relName, dispatch}} relTitle='Target Zones' renderRecord={(n, i, {relName, onDeleteByIndex}) => (
+    <ItoN {...{entity, model, relName, dispatch}} relTitle='Target Zones' renderRecord={({row, idx, relName, onDeleteByIndex}) => (
       <div>
-        <MaterialField key={`${i}.name`} model={rrfField(entity, `${relName}[${i}].name`)}>
+        <MaterialField key={`${idx}.name`} model={rrfField(entity, `${relName}[${idx}].name`)}>
           <TextField
             required
             floatingLabelText='Name'
-            errorText={MUIErrorText(form, entity, `${relName}[${i}].name`)}
+            errorText={MUIErrorText(form, entity, `${relName}[${idx}].name`)}
           />
         </MaterialField>
-        <MaterialField key={`${i}.score`} model={rrfField(entity, `${relName}[${i}].score`)}>
+        <MaterialField key={`${idx}.score`} model={rrfField(entity, `${relName}[${idx}].score`)}>
           <TextField
             required
             floatingLabelText='Score'
-            errorText={MUIErrorText(form, entity, `${relName}[${i}].score`)}
+            errorText={MUIErrorText(form, entity, `${relName}[${idx}].score`)}
           />
         </MaterialField>
-        <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(i)}/>
+        <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
       </div>
     )}
     />
