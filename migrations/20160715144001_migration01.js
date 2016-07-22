@@ -22,14 +22,14 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.string('description')
-      t.integer('tournamentId').notNullable().references('id').inTable('tournament')
+      t.integer('tournamentId').notNullable().references('id').inTable('tournament').onDelete('CASCADE')
     }),
     knex.schema.createTable('match_competitor', function(t) {
       t.increments('id').primary()
       t.boolean('disqualified').notNullable().default(false)
       t.string('notes')
-      t.integer('matchId').notNullable().references('id').inTable('matches')
-      t.integer('competitorId').notNullable().references('id').inTable('competitor')
+      t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
+      t.integer('competitorId').notNullable().references('id').inTable('competitor').onDelete('CASCADE')
       t.unique(['matchId', 'competitorId'])
     }),
     knex.schema.createTable('exercise', function(t) {
@@ -39,8 +39,8 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('match_exercise', function(t) {
       t.increments('id').primary()
-      t.integer('matchId').notNullable().references('id').inTable('matches')
-      t.integer('exerciseId').notNullable().references('id').inTable('exercise')
+      t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
+      t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.unique(['matchId', 'exerciseId'])
     }),
     knex.schema.createTable('target', function(t) {
@@ -55,12 +55,12 @@ exports.up = function(knex, Promise) {
       t.decimal('height').notNullable()
       t.decimal('score').notNullable()
       t.decimal('weight', 3).notNullable().default(1)
-      t.integer('targetId').notNullable().references('id').inTable('target')
+      t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
     }),
     knex.schema.createTable('exercise_target', function(t) {
       t.increments('id').primary()
-      t.integer('exerciseId').notNullable().references('id').inTable('exercise')
-      t.integer('targetId').notNullable().references('id').inTable('target')
+      t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
+      t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
       t.decimal('distance').notNullable()
       t.string('description').notNullable()
       t.unique(['targetId', 'exerciseId'])
