@@ -26,7 +26,9 @@ export default class ItoN extends React.Component {
           <IconButton iconClassName='fa fa-plus' onClick={onAdd}/>
           <h2 style={{marginRight: '10px', display: 'inline'}}>{relTitle}</h2>
         </legend>
-        {relData.map((n, i) => renderRecord(n, i, {
+        {relData.map((row, idx) => renderRecord({
+          row,
+          idx,
           relName,
           onDeleteByIndex
         }))}

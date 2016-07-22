@@ -43,24 +43,24 @@ export const ExerciseFormFields = ({
 
     <ItoN {...{entity, model, relName, dispatch}}
           relTitle='Exercise Targets'
-          renderRecord={(n, i, {relName, onDeleteByIndex}) => (
-            <div>
-              <MaterialField key={`${i}.description`} model={rrfField(entity, `${relName}[${i}].description`)}>
+          renderRecord={({row, idx, relName, onDeleteByIndex}) => (
+            <div key={idx}>
+              <MaterialField key={`${idx}.description`} model={rrfField(entity, `${relName}[${idx}].description`)}>
                 <TextField
                   required
                   floatingLabelText='Description'
-                  errorText={MUIErrorText(form, entity, `${relName}[${i}].description`)}
+                  errorText={MUIErrorText(form, entity, `${relName}[${idx}].description`)}
                 />
               </MaterialField>
-              <MaterialField key={`${i}.distance`} model={rrfField(entity, `${relName}[${i}].distance`)}>
+              <MaterialField key={`${idx}.distance`} model={rrfField(entity, `${relName}[${idx}].distance`)}>
                 <TextField
                   required
                   className={styles.width80}
                   floatingLabelText='Distance'
-                  errorText={MUIErrorText(form, entity, `${relName}[${i}].distance`)}
+                  errorText={MUIErrorText(form, entity, `${relName}[${idx}].distance`)}
                 />
               </MaterialField>
-              <MaterialField key={`${i}.targetId`} model={rrfField(entity, `${relName}[${i}].targetId`)}>
+              <MaterialField key={`${idx}.targetId`} model={rrfField(entity, `${relName}[${idx}].targetId`)}>
                 <FKSelect
                   entity="target"
                   variation="1"
@@ -68,7 +68,7 @@ export const ExerciseFormFields = ({
                   floatingLabelText="Target"
                   labelField="name"
                   required
-                  iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {}}/>]}
+                  iconButtons={[<IconButton key="add" iconClassName="fa fa-user-plus" onClick={() => {}}/>]}
                   errorText={MUIErrorText(form, entity, 'targetId')}
                 />
               </MaterialField>

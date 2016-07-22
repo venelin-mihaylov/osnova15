@@ -27,11 +27,13 @@ const EntityForm = ({
   <div>
     <Saving {...{saving}} />
     <Loading {...{loading}} />
-    <GlobalError {...{globalError}}/>
-    <Form {...{onSubmit}} model={rrfModel(entity)}>
-      <FormFieldsComponent {...{form, model, entity, dispatch, resetForm}} {...rest}/>
-      <DefaultFormButtons {...{onReset, onCancel}}/>
-    </Form>
+    <If condition={!loading}>
+      <GlobalError {...{globalError}}/>
+      <Form {...{onSubmit}} model={rrfModel(entity)}>
+        <FormFieldsComponent {...{form, model, entity, dispatch, resetForm}} {...rest}/>
+        <DefaultFormButtons {...{onReset, onCancel}}/>
+      </Form>
+    </If>
   </div>
 )
 export default EntityForm
