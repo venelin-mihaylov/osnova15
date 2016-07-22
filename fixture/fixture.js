@@ -27,6 +27,39 @@ function arrUniqRandInt(low, high, cnt) {
   return Object.keys(ret)
 }
 
+function generateItoN(countOne, countManyMax, data) {
+  return _.flatten(_range(countOne).map((parentIdx) => {
+    return _range(randInt(1, countManyMax)).map((i) => {
+      let record = {}
+      Object.keys(data).forEach(field => {
+        if (typeof data[field] == 'function') {
+          record[field] = data[field]({i, field, record, parentIdx})
+        } else {
+          record[field] = data[field]
+        }
+      })
+      return record
+    })
+  }))
+}
+
+function generateNtoM(countN, countM, countNtoMMax, data) {
+  return _.flatten(_range(0, countN).map((nIdx) => {
+    const arr = arrUniqRandInt(0, countM - 1, countNtoMMax)
+    return _range(arr.length).map((mIdx) => {
+      let record = {}
+      Object.keys(data).forEach(field => {
+        if (typeof data[field] == 'function') {
+          record[field] = data[field]({nIdx, mIdx, field, record})
+        } else {
+          record[field] = data[field]
+        }
+      })
+      return record
+    })
+  }))
+}
+
 const firstNames = ['Yavor', 'Georgi', 'Ivelin', 'Venelin', 'Petar']
 const lastNames = ['Mihaylov', 'Dobrev', 'Ivanov', 'Yasenov']
 
@@ -37,36 +70,51 @@ const count = {
   target_zone_max: 5, // per target
   matches: 10,
   match_competitor_max: 5, // per match
+  exercise: 10,
+  exercise_target_max: 5,
+  match_exercise_max: 5
 }
 
 const dataSpec = {
 
-  tournament: generate(count.tournament, {name: (i) => `Tournament ${i}`}),
+  tournament: generate(count.tournament, {
+    name: (i) => `Tournament ${i}`
+  }),
   competitor: generate(count.competitor, {
     firstName: () => firstNames[randInt(0, firstNames.length - 1)],
     lastName: () => lastNames[randInt(0, lastNames.length - 1)],
     email: (i, r) => r.firstName + '@' + r.lastName + '.com'
   }),
-  target: generate(count.target, {name: (i) => `Target ${i}`}),
-  target_zone: _.flatten(_range(count.target).map((targetIdx) => {
-    return generate(randInt(1, count.target_zone_max), {
-      targetId: `target:${targetIdx}`,
-      name: 'Zone ' + randInt(1, 100),
-      score: randInt(1, 100)
-    })
-  })),
-  exercise: generate(count.exercise, {name: (i) => `Exercise ${i}`}),
+  target: generate(count.target, {
+    name: (i) => `Target ${i}`
+  }),
+  target_zone: generateItoN(count.target, count.target_zone_max, {
+    targetId: ({parentIdx}) => `target:${parentIdx}`,
+    name: () => 'Zone ' + randInt(1, 100),
+    score: () => randInt(1, 100)
+  }),
+  exercise: generate(count.exercise, {
+    name: (i) => `Exercise ${i}`
+  }),
+  exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
+    exerciseId: ({mIdx}) => `exercise:${mIdx}`,
+    targetId: ({nIdx}) => `target:${nIdx}`,
+    distance: () => randInt(1, 100),
+    description: () => 'Exercise target ' + randInt(1, 100)
+  }),
   matches: generate(count.matches, {
     name: (i) => `Match ${i}`,
     tournamentId: () => `tournament:${randInt(0, count.tournament-1)}`
   }),
-  match_competitor: _.flatten(_range(0, count.matches).map((matchIdx) => {
-    const arr = arrUniqRandInt(0, count.competitor-1, count.match_competitor_max)
-    return generate(arr.length, {
-      matchId: `matches:${matchIdx}`,
-      competitorId: (i) => `competitor:${arr[i]}`
-    })
-  }))
+  match_competitor: generateNtoM(count.matches, count.competitor, count.match_competitor_max, {
+    matchId: ({nIdx}) => `matches:${nIdx}`,
+    competitorId: ({mIdx}) => `competitor:${mIdx}`
+  }),
+  match_exercise: generateNtoM(count.matches, count.exercise, count.match_competitor_max, {
+    matchId: ({nIdx}) => `matches:${nIdx}`,
+    exerciseId: ({mIdx}) => `exercise:${mIdx}`
+  }),
+
 }
 
 const options = {
