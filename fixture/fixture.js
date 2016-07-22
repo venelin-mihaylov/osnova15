@@ -45,8 +45,8 @@ function generateItoN(countOne, countManyMax, data) {
 
 function generateNtoM(countN, countM, countNtoMMax, data) {
   return _.flatten(_range(0, countN).map((nIdx) => {
-    const arr = arrUniqRandInt(0, countM - 1, countNtoMMax)
-    return _range(arr.length).map((mIdx) => {
+    const arrM = arrUniqRandInt(0, countM - 1, countNtoMMax)
+    return arrM.map((mIdx) => {
       let record = {}
       Object.keys(data).forEach(field => {
         if (typeof data[field] == 'function') {
@@ -117,6 +117,8 @@ const dataSpec = {
 
 }
 
+console.log(dataSpec.exercise_target);
+
 const options = {
   showWarning: true
 }
@@ -124,6 +126,6 @@ const options = {
 sqlFixtures.create(dbConfig, dataSpec, options, function (err, result) {
   // at this point a row has been added to the users table
   console.log(err)
-  console.log(JSON.stringify(result, null, 2))
+  //console.log(JSON.stringify(result, null, 2))
   process.exit()
 })
