@@ -53,10 +53,7 @@ export default class ItoN {
     }
 
     let keep = []
-    inRows.forEach(_inRow => {
-      const inRow = Object.assign({}, _inRow)
-      inRow[fk.field] = fk.value
-
+    inRows.forEach(inRow => {
       const dbRow = dbRows.find(dbRow => dbRow.id == inRow.id)
       if (dbRow) {
         // in input, in db -> update
@@ -128,7 +125,8 @@ export default class ItoN {
         fk
       } = arrRelSpec[i]
 
-      const inRows = input[relName]
+      const o = {[fk.field]: fk.value};
+      const inRows = toArray(input[relName]).map(row => Object.assign({}, row, o))
       ItoN._validate({relModel, relName, inRows})
       const dbRows = await relModel.query().where(fk.field, fk.value)
       const diff = ItoN._diff({relModel, fk, dbRows, inRows})
