@@ -67,6 +67,7 @@ export const ExerciseFormFields = ({
                   FKname="FKtarget1"
                   floatingLabelText="Target"
                   labelField="name"
+                  required
                   iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={() => {}}/>]}
                   errorText={MUIErrorText(form, entity, 'targetId')}
                 />
