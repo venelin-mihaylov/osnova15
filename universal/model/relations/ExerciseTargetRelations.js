@@ -3,7 +3,7 @@ const ExerciseTargetRelations = {
     relation: 'BelongsToOne',
     modelClass: 'Exercise',
     join: {
-      fromTable: 'exercise',
+      fromTable: 'exercise_target',
       fromField: 'exerciseId',
       toTable: 'exercise',
       toField: 'id'

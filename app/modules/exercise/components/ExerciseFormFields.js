@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 import React from 'react'
 import OsnovaTextField from 'components/OsnovaTextField'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
@@ -10,6 +10,10 @@ import ItoN from 'components/ItoN'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import FKSelect from 'components/FKSelect'
+import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
+import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
+import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
+import AutoFields from 'components/AutoFields'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
@@ -24,9 +28,9 @@ export const ExerciseFormFields = ({
   return <div>
     <OsnovaTextField
       {...{form, entity}}
-      field="name"
+      field='name'
       required
-      floatingLabelText="name"
+      floatingLabelText='name'
     />
 
     <br/>
@@ -37,42 +41,26 @@ export const ExerciseFormFields = ({
       <Checkbox
         checkedIcon={<ActionFavorite />}
         uncheckedIcon={<ActionFavoriteBorder />}
-        label="Favourite"
+        label='Favourite'
       />
     </MaterialField>
 
     <ItoN {...{entity, model, relName, dispatch}}
           relTitle='Exercise Targets'
           renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-            <div key={idx}>
-              <MaterialField key={`${idx}.description`} model={rrfField(entity, `${relName}[${idx}].description`)}>
-                <TextField
-                  required
-                  floatingLabelText='Description'
-                  errorText={MUIErrorText(form, entity, `${relName}[${idx}].description`)}
-                />
-              </MaterialField>
-              <MaterialField key={`${idx}.distance`} model={rrfField(entity, `${relName}[${idx}].distance`)}>
-                <TextField
-                  required
-                  className={styles.width80}
-                  floatingLabelText='Distance'
-                  errorText={MUIErrorText(form, entity, `${relName}[${idx}].distance`)}
-                />
-              </MaterialField>
-              <MaterialField key={`${idx}.targetId`} model={rrfField(entity, `${relName}[${idx}].targetId`)}>
-                <FKSelect
-                  entity="target"
-                  variation="1"
-                  FKname="FKtarget1"
-                  floatingLabelText="Target"
-                  labelField="name"
-                  required
-                  iconButtons={[<IconButton key="add" iconClassName="fa fa-user-plus" onClick={() => {}}/>]}
-                  errorText={MUIErrorText(form, entity, 'targetId')}
-                />
-              </MaterialField>
-              <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(i)}/>
+            <div>
+              <AutoFields
+                {...{form, entity, styles}}
+                namePrefix={`${relName}[${idx}]`}
+                jsonSchema={ExerciseTargetSchema}
+                relations={ExerciseTargetRelations}
+                overrides={{
+                  exerciseId: {
+                    exclude: true
+                  }
+                }}
+              />
+              <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
             </div>
           )}
     />
