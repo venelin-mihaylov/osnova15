@@ -59,61 +59,45 @@ export default class AutoFields extends React.Component {
 
     switch (type) {
       case 'string':
-        genInput = <TextField
-          {...(Object.assign({
+        genInput = React.createElement(TextField, Object.assign({
             floatingLabelText: label,
             floatingLabelFixed: true,
-          }, common, inputProps))}
-        />
-        break;
+          }, common, inputProps))
+        break
       case 'integer':
         if (fkProps.entity) {
-          genInput = <FKSelect
-            {...(Object.assign({
-              entity: fkProps.entity,
-              variation: "1", // by default variation is "1"
-              floatingLabelText: label,
-              floatingLabelFixed: true,
-              labelField: labelField,
-            }, common, inputProps))}
-          />
+          genInput = React.createElement(FKSelect, Object.assign({
+            entity: fkProps.entity,
+            variation: "1", // by default variation is "1"
+            floatingLabelText: label,
+            floatingLabelFixed: true,
+            labelField: labelField,
+          }, common, inputProps))
         } else {
-          genInput = <TextField
-            {...(Object.assign({
-              floatingLabelText: label,
-              floatingLabelFixed: true,
-            }, common, inputProps))}
-          />
+          genInput = React.createElement(TextField, Object.assign({
+            floatingLabelText: label,
+            floatingLabelFixed: true,
+          }, common, inputProps))
         }
         break
       case 'number':
-        genInput = <TextField
-          {...(Object.assign({
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-          }, common, inputProps))}
-        />
+        genInput = React.createElement(TextField, Object.assign({
+          floatingLabelText: label,
+          floatingLabelFixed: true,
+        }, common, inputProps))
         break
       case 'boolean':
-        genInput = <Checkbox {...(Object.assign({
+        genInput = React.createElement(Checkbox, Object.assign({
           label,
           labelPosition: 'right',
-          className,
-          required,
-          errorText,
-        }, inputProps))}
-        />
+        }, common, inputProps))
         break
     }
 
-    return <MaterialField {...(Object.assign({
+    return React.createElement(MaterialField, Object.assign({
       key: fullField,
       model: rrfField(entity, fullField)
-    }, rrfProps))}
-    >
-      {genInput}
-    </MaterialField>
-
+    }, rrfProps), genInput)
   }
 
   /**

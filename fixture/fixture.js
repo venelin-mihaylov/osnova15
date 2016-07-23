@@ -120,8 +120,6 @@ const dataSpec = {
 
 }
 
-console.log(dataSpec.exercise_target);
-
 const options = {
   showWarning: true
 }
