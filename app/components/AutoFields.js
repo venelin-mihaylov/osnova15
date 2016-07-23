@@ -4,7 +4,7 @@ import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect'
-import _ from 'lodash'
+import _ from 'lodash/'
 
 export default class AutoFields extends React.Component {
 
@@ -46,13 +46,16 @@ export default class AutoFields extends React.Component {
     if (name == 'id') return null
     if (input) return input
 
-    if(_.endsWith(label, 'Id')) {
+    if (_.endsWith(label, 'Id')) {
       label = _.trimEnd(label, 'Id')
     }
 
     const fullField = `${namePrefix}${name}`
 
     let genInput = <div>No Field</div>
+    const errorText = MUIErrorText(form, entity, fullField)
+    const className = styles[name]
+    const common = {required, className, errorText}
 
     switch (type) {
       case 'string':
@@ -60,14 +63,11 @@ export default class AutoFields extends React.Component {
           {...(Object.assign({
             floatingLabelText: label,
             floatingLabelFixed: true,
-            className: styles[name],
-            required,
-            errorText: MUIErrorText(form, entity, fullField)
-          }, inputProps))}
+          }, common, inputProps))}
         />
         break;
       case 'integer':
-        if(fkProps.entity) {
+        if (fkProps.entity) {
           genInput = <FKSelect
             {...(Object.assign({
               entity: fkProps.entity,
@@ -75,20 +75,14 @@ export default class AutoFields extends React.Component {
               floatingLabelText: label,
               floatingLabelFixed: true,
               labelField: labelField,
-              className: styles[name],
-              required,
-              errorText: MUIErrorText(form, entity, fullField)
-            }, inputProps))}
+            }, common, inputProps))}
           />
         } else {
           genInput = <TextField
             {...(Object.assign({
               floatingLabelText: label,
               floatingLabelFixed: true,
-              className: styles[name],
-              required,
-              errorText: MUIErrorText(form, entity, fullField)
-            }, inputProps))}
+            }, common, inputProps))}
           />
         }
         break
@@ -97,19 +91,16 @@ export default class AutoFields extends React.Component {
           {...(Object.assign({
             floatingLabelText: label,
             floatingLabelFixed: true,
-            className: styles[name],
-            required,
-            errorText: MUIErrorText(form, entity, fullField)
-          }, inputProps))}
+          }, common, inputProps))}
         />
         break
       case 'boolean':
         genInput = <Checkbox {...(Object.assign({
           label,
           labelPosition: 'right',
-          className: styles[name],
+          className,
           required,
-          errorText: MUIErrorText(form, entity, fullField)
+          errorText,
         }, inputProps))}
         />
         break
@@ -130,19 +121,17 @@ export default class AutoFields extends React.Component {
    * we have to render a FKSelect
    * @param fieldName
    * @param relations
-     */
+   */
   fkProps(fieldName, relations) {
     let ret = {}
     _.forOwn(relations, (relSpec) => {
-      if(relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
+      if (relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
         // this is a foreign key to modelClass model, toField
         ret = {
           entity: relSpec.join.toTable,
           field: relSpec.join.toField
         }
         return false
-      } else {
-        return true
       }
     })
     return ret
@@ -158,7 +147,7 @@ export default class AutoFields extends React.Component {
 
     let ret = []
     _.forOwn(jsonSchema.properties, (schema, name) => {
-      if(schema.properties) return
+      if (schema.properties) return
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = -1 != jsonSchema.required.indexOf(name)
