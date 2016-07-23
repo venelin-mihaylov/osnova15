@@ -27,6 +27,7 @@ export default class AutoFields extends React.Component {
     entity,
     namePrefix = '', // prefix, in case of 1:N
     name, // name of the field
+    required = false,
     fkProps = {}, // FK props, available only for FK
     schema: {
       type,
@@ -57,10 +58,10 @@ export default class AutoFields extends React.Component {
       case 'string':
         genInput = <TextField
           {...(Object.assign({
-            required: true,
             floatingLabelText: label,
             floatingLabelFixed: true,
             className: styles[name],
+            required,
             errorText: MUIErrorText(form, entity, fullField)
           }, inputProps))}
         />
@@ -75,6 +76,7 @@ export default class AutoFields extends React.Component {
               floatingLabelFixed: true,
               labelField: labelField,
               className: styles[name],
+              required,
               errorText: MUIErrorText(form, entity, fullField)
             }, inputProps))}
           />
@@ -84,6 +86,7 @@ export default class AutoFields extends React.Component {
               floatingLabelText: label,
               floatingLabelFixed: true,
               className: styles[name],
+              required,
               errorText: MUIErrorText(form, entity, fullField)
             }, inputProps))}
           />
@@ -95,6 +98,7 @@ export default class AutoFields extends React.Component {
             floatingLabelText: label,
             floatingLabelFixed: true,
             className: styles[name],
+            required,
             errorText: MUIErrorText(form, entity, fullField)
           }, inputProps))}
         />
@@ -104,6 +108,7 @@ export default class AutoFields extends React.Component {
           label,
           labelPosition: 'right',
           className: styles[name],
+          required,
           errorText: MUIErrorText(form, entity, fullField)
         }, inputProps))}
         />
@@ -116,7 +121,6 @@ export default class AutoFields extends React.Component {
     }, rrfProps))}
     >
       {genInput}
-      <br/>
     </MaterialField>
 
   }
@@ -157,7 +161,8 @@ export default class AutoFields extends React.Component {
       if(schema.properties) return
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
-      const args = Object.assign({schema, name, options, fkProps}, rest)
+      const required = -1 != jsonSchema.required.indexOf(name)
+      const args = Object.assign({schema, name, required, options, fkProps}, rest)
       let f = this.renderField(args)
       if (f) ret.push(f)
     })
