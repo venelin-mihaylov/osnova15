@@ -1,27 +1,12 @@
 import OsnovaModel from './OsnovaModel'
-import ExerciseTargetSchema from "../model/schema/ExerciseTargetSchema"
+import ExerciseTargetSchema from "./schema/ExerciseTargetSchema"
+import ExerciseTargetRelations from './relations/ExerciseTargetRelations'
 import {Model} from "objection"
+import {toObjectionRelations} from './util/util'
 
-export default class ExercisEeTarget extends OsnovaModel {
+export default class ExerciseTarget extends OsnovaModel {
   static tableName = 'exercise_target'
   static jsonSchema = ExerciseTargetSchema
 
-  static relationMappings = {
-    exercise: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: __dirname + '/Exercise',
-      join: {
-        from: 'exercise_target.exerciseId',
-        to: 'exercise.id'
-      }
-    },
-    target: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: __dirname + '/Target',
-      join: {
-        from: 'exercise_target.targetId',
-        to: 'target.id'
-      }
-    }
-  }
+  static relationMappings = toObjectionRelations(ExerciseTargetRelations)
 }

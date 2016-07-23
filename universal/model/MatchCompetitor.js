@@ -1,27 +1,10 @@
 import OsnovaModel from './OsnovaModel'
-import MatchCompetitorSchema from "../model/schema/MatchCompetitorSchema"
-import {Model} from "objection"
+import MatchCompetitorSchema from "./schema/MatchCompetitorSchema"
+import MatchCompetitorRelations from './relations/MatchCompetitorRelations'
+import {toObjectionRelations} from './util/util'
 
 export default class MatchCompetitor extends OsnovaModel {
   static tableName = 'match_competitor'
-  //static jsonSchema = MatchCompetitorSchema
-
-  static relationMappings = {
-    match: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: __dirname + '/Match',
-      join: {
-        from: 'match_competitor.matchId',
-        to: 'matches.id'
-      }
-    },
-    competitor: {
-      relation: Model.BelongsToOneRelation,
-      modelClass: __dirname + '/Competitor',
-      join: {
-        from: 'match_competitor.competitorId',
-        to: 'competitor.id'
-      }
-    }
-  }
+  static jsonSchema = MatchCompetitorSchema
+  static relationMappings = toObjectionRelations(MatchCompetitorRelations)
 }
