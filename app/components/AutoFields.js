@@ -6,19 +6,6 @@ import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect'
 import _ from 'lodash'
 
-/**
- * schemaFields: {
-        * name: {
-        *   rrfProps
-        *   muiProps
-        *          *
-        *
-        * }
-        *
-        *
-        * }
- *
- */
 export default class AutoFields extends React.Component {
 
   static propTypes = {
@@ -36,23 +23,23 @@ export default class AutoFields extends React.Component {
   }
 
   renderField({
-    form,
+    form, // rrf form object
     entity,
-    namePrefix = '',
-    name,
-    fkProps = {},
+    namePrefix = '', // prefix, in case of 1:N
+    name, // name of the field
+    fkProps = {}, // FK props, available only for FK
     schema: {
       type,
       label = name,
-      labelField = 'id', // FK
+      labelField = 'id', // FK prop
     },
     options: {
-      input = null,
-      inputProps = {},
-      rrfProps = {},
-      exclude = false
+      input = null, // add/override input component
+      inputProps = {}, // add/override input props
+      rrfProps = {}, // add/override react-redux-form component props
+      exclude = false // exclude field
     },
-    styles = {}
+    styles = {} // css styles
   }) {
     if (exclude) return null
     if (name == 'id') return null
@@ -167,8 +154,6 @@ export default class AutoFields extends React.Component {
 
     let ret = []
     _.forOwn(jsonSchema.properties, (schema, name) => {
-      console.log(name)
-      console.log(schema)
       if(schema.properties) return
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
