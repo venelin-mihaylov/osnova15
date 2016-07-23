@@ -19,7 +19,7 @@ export default class AutoFields extends React.Component {
 
   static defaultProps = {
     overrides: {},
-    relations: {},
+     relations: {},
   }
 
   renderField({
