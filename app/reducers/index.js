@@ -9,7 +9,7 @@ import misc from './misc'
 import {modelReducer, formReducer} from "react-redux-form"
 
 // Combine reducers with routeReducer which keeps track of
-// router state
+// router statee
 // list 1:N for a particular 1
 // reset form
 // save 1:N for a particular 1
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
-  FKtournament: FKReducer('tournament', '1'),
+  FKtournament1: FKReducer('tournament', '1'),
   FKcompetitor1: FKReducer('competitor', '1'),
   FKexercise1: FKReducer('exercise', '1'),
   FKtarget1: FKReducer('target', '1'),

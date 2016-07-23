@@ -1,20 +1,10 @@
 import OsnovaModel from './OsnovaModel'
-import TargetSchema from "../schema/TargetSchema"
-import {Model} from "objection"
+import TargetSchema from "../model/schema/TargetSchema"
+import TargetRelations from './relations/TargetRelations'
+import {toObjectionRelations} from './util/util'
 
 export default class Target extends OsnovaModel {
   static tableName = 'target'
   static jsonSchema = TargetSchema
-
-  static relationMappings = {
-    target_zone: {
-      relation: Model.HasManyRelation,
-      modelClass: __dirname + '/TargetZone',
-      join: {
-        from: 'target.id',
-        to: 'target_zone.targetId'
-      }
-    }
-  }
-
+  static relationMappings = toObjectionRelations(TargetRelations)
 }

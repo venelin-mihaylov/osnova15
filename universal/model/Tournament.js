@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import TournamentSchema from "../schema/TournamentSchema"
+import TournamentSchema from "../model/schema/TournamentSchema"
 import {Model} from "objection"
 
 export default class Tournament extends OsnovaModel {

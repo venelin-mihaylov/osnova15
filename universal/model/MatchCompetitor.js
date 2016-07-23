@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import MatchCompetitorSchema from "../schema/MatchCompetitorSchema"
+import MatchCompetitorSchema from "../model/schema/MatchCompetitorSchema"
 import {Model} from "objection"
 
 export default class MatchCompetitor extends OsnovaModel {

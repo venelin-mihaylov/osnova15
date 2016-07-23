@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import CompetitorSchema from "../schema/CompetitorSchema"
+import CompetitorSchema from "../model/schema/CompetitorSchema"
 import {Model} from "objection"
 
 export default class Competitor extends OsnovaModel {

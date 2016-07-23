@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import ExerciseTargetSchema from "../schema/ExerciseTargetSchema"
+import ExerciseTargetSchema from "../model/schema/ExerciseTargetSchema"
 import {Model} from "objection"
 
 export default class ExercisEeTarget extends OsnovaModel {

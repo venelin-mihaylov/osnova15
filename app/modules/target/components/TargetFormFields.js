@@ -4,8 +4,9 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoN from 'components/ItoN'
 import IconButton from 'material-ui/IconButton'
-import TargetZoneSchema from '../../../../universal/schema/TargetZoneSchema'
-import TargetSchema from '../../../../universal/schema/TargetSchema'
+import TargetSchema from '../../../../universal/model/schema/TargetSchema'
+import TargetZoneSchema from '../../../../universal/model/schema/TargetZoneSchema'
+import TargetZoneRelations from '../../../../universal/model/relations/TargetZoneRelations'
 import AutoFields from 'components/AutoFields'
 
 import styles from 'styles/components/TargetFormFields.css'
@@ -23,7 +24,7 @@ export const TargetFormFields = ({
     <AutoFields
       {...{form, entity}}
       jsonSchema={TargetSchema}
-      fieldOptions={{
+      overrides={{
         favourite: {
           inputProps: {
             checkedIcon: <ActionFavorite />,
@@ -42,7 +43,8 @@ export const TargetFormFields = ({
             {...{form, entity, styles}}
             namePrefix={`${relName}[${idx}]`}
             jsonSchema={TargetZoneSchema}
-            fieldOptions={{
+            relations={TargetZoneRelations}
+            overrides={{
               targetId: {
                 exclude: true
               }

@@ -3,6 +3,7 @@ import {MUIErrorText, rrfField} from 'utils/Util'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
+import FKSelect from 'components/FKSelect'
 import _ from 'lodash'
 
 /**
@@ -24,13 +25,14 @@ export default class AutoFields extends React.Component {
     form: React.PropTypes.object.isRequired,
     entity: React.PropTypes.string.isRequired,
     namePrefix: React.PropTypes.string,
-    fieldName: React.PropTypes.string.isRequired,
-    fieldOptions: React.PropTypes.object,
+    overrides: React.PropTypes.object,
+    relations: React.PropTypes.object,
     styles: React.PropTypes.object,
   }
 
   static defaultProps = {
-    fieldOptions: {}
+    overrides: {},
+    relations: {},
   }
 
   renderField({
@@ -38,9 +40,11 @@ export default class AutoFields extends React.Component {
     entity,
     namePrefix = '',
     name,
+    fkProps = {},
     schema: {
       type,
-      label = name
+      label = name,
+      labelField = 'id', // FK
     },
     options: {
       input = null,
@@ -53,6 +57,10 @@ export default class AutoFields extends React.Component {
     if (exclude) return null
     if (name == 'id') return null
     if (input) return input
+
+    if(_.endsWith(label, 'Id')) {
+      label = _.trimEnd(label, 'Id')
+    }
 
     const fullField = `${namePrefix}${name}`
 
@@ -71,14 +79,28 @@ export default class AutoFields extends React.Component {
         />
         break;
       case 'integer':
-        genInput = <TextField
-          {...(Object.assign({
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-            className: styles[name],
-            errorText: MUIErrorText(form, entity, fullField)
-          }, inputProps))}
-        />
+        if(fkProps.entity) {
+          genInput = <FKSelect
+            {...(Object.assign({
+              entity: fkProps.entity,
+              variation: "1", // by default variation is "1"
+              floatingLabelText: label,
+              floatingLabelFixed: true,
+              labelField: labelField,
+              className: styles[name],
+              errorText: MUIErrorText(form, entity, fullField)
+            }, inputProps))}
+          />
+        } else {
+          genInput = <TextField
+            {...(Object.assign({
+              floatingLabelText: label,
+              floatingLabelFixed: true,
+              className: styles[name],
+              errorText: MUIErrorText(form, entity, fullField)
+            }, inputProps))}
+          />
+        }
         break
       case 'number':
         genInput = <TextField
@@ -107,25 +129,54 @@ export default class AutoFields extends React.Component {
     }, rrfProps))}
     >
       {genInput}
+      <br/>
     </MaterialField>
 
   }
 
+  /**
+   * if the field is a foreign key,
+   * we have to render a FKSelect
+   * @param fieldName
+   * @param relations
+     */
+  fkProps(fieldName, relations) {
+    let ret = {}
+    _.forOwn(relations, (relSpec) => {
+      if(relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
+        // this is a foreign key to modelClass model, toField
+        ret = {
+          entity: relSpec.join.toTable,
+          field: relSpec.join.toField
+        }
+        return false
+      } else {
+        return true
+      }
+    })
+    return ret
+  }
+
   render() {
     const {
-      fieldOptions = {},
-      jsonSchema = {},
-      ...fieldParams
+      overrides,
+      jsonSchema,
+      relations,
+      ...rest // the rest is passed to every field
     } = this.props
 
-    let uiFields = []
+    let ret = []
     _.forOwn(jsonSchema.properties, (schema, name) => {
-      const options = fieldOptions[name] || {}
-      const args = Object.assign({schema, name, options}, fieldParams)
+      console.log(name)
+      console.log(schema)
+      if(schema.properties) return
+      const options = overrides[name] || {}
+      const fkProps = this.fkProps(name, relations)
+      const args = Object.assign({schema, name, options, fkProps}, rest)
       let f = this.renderField(args)
-      if (f) uiFields.push(f)
+      if (f) ret.push(f)
     })
 
-    return <span>{uiFields}</span>
+    return <span>{ret}</span>
   }
 }

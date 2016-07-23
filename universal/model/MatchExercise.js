@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import MatchExerciseSchema from "../schema/MatchExerciseSchema"
+import MatchExerciseSchema from "../model/schema/MatchExerciseSchema"
 import {Model} from "objection"
 
 export default class MatchExercise extends OsnovaModel {

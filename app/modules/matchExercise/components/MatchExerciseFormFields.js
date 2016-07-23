@@ -24,7 +24,6 @@ const MatchExerciseFormFields = ({
       <FKSelect
         entity="exercise"
         variation="1"
-        FKname="FKexercise1"
         floatingLabelText="Exercise"
         reset={resetForm}
         listParams={{

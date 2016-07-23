@@ -10,6 +10,9 @@ import TextField from "material-ui/TextField"
 import {MUIErrorText} from "utils/Util"
 import Chip from 'material-ui/Chip';
 import IconButton from "material-ui/IconButton"
+import MatchSchema from '../../../../universal/model/schema/MatchSchema'
+import MatchRelations from '../../../../universal/model/relations/MatchRelations'
+import AutoFields from 'components/AutoFields'
 
 export const MatchFormFields = ({
   dispatch,
@@ -24,23 +27,12 @@ export const MatchFormFields = ({
 }) => (
 
   <div>
-    <OsnovaTextField
+
+    <AutoFields
       {...{form, entity}}
-      field="name"
-      required
-      floatingLabelText="name"
+      jsonSchema={MatchSchema}
+      relations={MatchRelations}
     />
-    <MaterialField model={rrfField(entity, 'tournamentId')}>
-      <FKSelect
-        entity="tournament"
-        variation="1"
-        FKname="FKtournament"
-        floatingLabelText="Tournament"
-        labelField="name"
-        errorText={MUIErrorText(form, entity, 'tournamentId')}
-      />
-      <br/>
-    </MaterialField>
 
     <RaisedButton label="Add note" style={{margin: 5}} onClick={() => {
       dispatch(actions.push(rrfField(entity, 'notes[]'), {
@@ -63,7 +55,6 @@ export const MatchFormFields = ({
     <FKSelect
       entity="competitor"
       variation="1"
-      FKname="FKcompetitor1"
       floatingLabelText="Add competitor"
       renderRecord={r => `${r.firstName} ${r.lastName}`}
       onChange={onSelectCompetitor}

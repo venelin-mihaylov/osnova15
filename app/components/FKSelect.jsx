@@ -6,18 +6,24 @@ import IconButton from "material-ui/IconButton"
 import {actions} from "react-redux-form"
 import FKAct from 'constants/FKAct'
 
-@connect((state, ownProps) => {
+/**
+ * Provides a foreign key select combo.
+ * Keeps the current selection in react-redux-form
+ * On load the current selection is passed down by react-redux-form via a value prop
+ * {onChange,onBlur} a redux-form event handler is called, which gets the new value and saves it in redux-form
+ */
+@connect((state, {
+  FKname,
+  entity,
+  variation = ''
+}) => {
+  let key = FKname ? FKname : 'FK' + entity + variation
+  console.log(key)
   return {
-    redux: state[ownProps.FKname]
+    redux: state[key]
   }
 })
 @autobind
-/**
- * Provides a foreign key select combo.
- * Keeps the current selection in redux-form
- * On load the current selection is passed down by redux-form via a value prop
- * {onChange,onBlur} a redux-form event handler is called, which gets the new value and saves it in redux-form
- */
 export default class FKSelect extends React.Component {
 
   defaultProps = {
@@ -50,7 +56,7 @@ export default class FKSelect extends React.Component {
     /**
      * The name of the foreign key in the redux store
      */
-    FKname: React.PropTypes.string.isRequired,
+    FKname: React.PropTypes.string,
     /**
      * field to use as label for the records. Use either labelField, or renderRecord
      */

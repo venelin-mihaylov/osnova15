@@ -1,22 +1,10 @@
 import OsnovaModel from './OsnovaModel'
-import TargetZoneSchema from "../schema/TargetZoneSchema"
-import {Model} from "objection"
-
-export const tableName = 'target_zone'
-export const relationMappings = {
-  target: {
-    relation: Model.BelongsToOneRelation,
-    modelClass: __dirname + '/Target',
-    join: {
-      from: 'target_zone.targetId',
-      to: 'target.id'
-    }
-  }
-}
+import TargetZoneSchema from "./schema/TargetZoneSchema"
+import TargetZoneRelations from './relations/TargetZoneRelations'
+import {toObjectionRelations} from './util/util'
 
 export default class TargetZone extends OsnovaModel {
-  static tableName = tableName
+  static tableName = 'target_zone'
   static jsonSchema = TargetZoneSchema
-
-  static relationMappings = relationMappings
+  static relationMappings = toObjectionRelations(TargetZoneRelations)
 }

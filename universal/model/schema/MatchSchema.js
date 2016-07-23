@@ -4,7 +4,7 @@ const MatchSchema = {
   properties: {
     id: {type: 'integer'},
     name: {type: 'string', minLength: 10, maxLength: 255},
-    tournamentId: {type: 'integer'},
+    tournamentId: {type: 'integer', labelField: "name"},
     notes: {
       type: ['array', 'object', 'null'],
       required: ['text'],
