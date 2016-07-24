@@ -73,12 +73,13 @@ app.use('/auth', configureAuthRouter(passport))
 new TournamentService(Tournament).register(app)
 
 new MatchService(Match).register(app)
+new MatchExerciseService(MatchExercise).register(app)
 
 new CompetitorService(Competitor).register(app)
 new MatchCompetitorService(MatchCompetitor).register(app)
 
 new ExerciseService(Exercise).register(app)
-new MatchExerciseService(MatchExercise).register(app)
+
 new TargetService(Target).register(app)
 
 //</editor-fold>

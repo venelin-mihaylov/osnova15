@@ -5,7 +5,7 @@ const MatchExerciseRelations = {
     join: {
       fromTable: 'match_exercise',
       fromField: 'matchId',
-      toTable: 'match',
+      toTable: 'matches',
       toField: 'id'
     }
   },

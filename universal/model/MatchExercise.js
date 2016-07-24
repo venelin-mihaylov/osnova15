@@ -1,6 +1,6 @@
 import OsnovaModel from './OsnovaModel'
 import MatchExerciseSchema from "./schema/MatchExerciseSchema"
-import MatchExerciseRelations from './relations/MatchCompetitorRelations'
+import MatchExerciseRelations from './relations/MatchExerciseRelations'
 import {toObjectionRelations} from './util/util'
 
 export default class MatchExercise extends OsnovaModel {
