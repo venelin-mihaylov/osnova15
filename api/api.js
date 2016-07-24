@@ -10,6 +10,7 @@ import CRUDService from './service/CRUDService'
 import {Model} from 'objection'
 
 import Tournament from "../universal/model/Tournament"
+import TournamentService from './service/TournamentService'
 
 import Match from "../universal/model/Match"
 import MatchService from './service/MatchService'
@@ -69,7 +70,7 @@ app.use(passport.session())
 //<editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
 
-CRUDService.factory(Tournament).register(app)
+new TournamentService(Tournament).register(app)
 
 new MatchService(Match).register(app)
 
