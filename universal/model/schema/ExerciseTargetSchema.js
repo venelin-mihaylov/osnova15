@@ -4,8 +4,8 @@ const ExerciseTargetSchema = {
   properties: {
     id: {type: 'integer'},
     exerciseId: {type: 'integer'},
-    targetId: {type: 'integer'},
-    distance: {type: ['integer', 'string']},
+    targetId: {type: 'integer', labelField: 'name'},
+    distance: {type: 'number'},
     description: {type: 'string'}
   }
 }

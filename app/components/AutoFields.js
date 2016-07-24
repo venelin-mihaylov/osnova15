@@ -28,15 +28,15 @@ export default class AutoFields extends React.Component {
     namePrefix = '', // prefix, in case of 1:N
     name, // name of the field
     required = false,
-    fkProps = {}, // FK props, available only for FK
+    fkProps = {}, // FK table/field, available only for FK
     schema: {
       type,
       label = name,
       labelField = 'id', // FK prop
     },
     options: {
-      input = null, // add/override input component
-      inputProps = {}, // add/override input props
+      input = null, // completely override input component
+      inputProps = {}, // add/override input component props
       rrfProps = {}, // add/override react-redux-form component props
       exclude = false // exclude field
     },
@@ -52,10 +52,11 @@ export default class AutoFields extends React.Component {
 
     const fullField = `${namePrefix}${name}`
 
-    let genInput = <div>No Field</div>
     const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
     const common = {required, className, errorText}
+
+    let genInput = <div>No Field: {name}</div>
 
     switch (type) {
       case 'string':
