@@ -1,16 +1,14 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
 import FontIcon from 'material-ui/FontIcon'
-import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton';
 
 
 import styles from 'styles/components/FileField.css'
 
+//TODO: provide option display Error text, same as "errorText" prop for MUI
 @autobind
 export default class FileField extends React.Component {
-
-
   refInputFile = 'test'
 
   static propTypes = {
