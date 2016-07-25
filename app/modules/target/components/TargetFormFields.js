@@ -36,7 +36,7 @@ export const TargetFormFields = ({
           }
         },
         image: {
-          input: <FileField accept=".png,.jpg" placeholder="Image"/>
+          input: <FileField accept=".png,.jpg" label="Target Image" placeholder="Image"/>
         }
       }}
     />

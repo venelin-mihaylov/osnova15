@@ -61,33 +61,23 @@ export default class FileField extends React.Component {
       {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
 
       <div>
-        <label htmlFor="file-input">
-          <FlatButton
-            label="Upload ..."
-            primary={true}
-            icon={<FontIcon className="fa fa-upload"/>}
-            onClick={() => {
-              console.log('ok')
-              console.log(this)
-              this.refInputFile.click()
-            }}
-          />
-        </label>
-        <input id="file-input" type="file"
-               onChange={this._handleImageChange}
-               className={styles.input}
-               ref={(input) => {
-                 console.log('file input mounted')
-                 this.refInputFile = input
-                 console.log(this)
-               }}
-               {...rest}
+        <FlatButton
+          label="Upload ..."
+          primary={true}
+          icon={<FontIcon className="fa fa-upload"/>}
+          onClick={() => this.refInputFile.click()}
         />
         <FlatButton
           label="Clear ..."
           secondary={true}
           icon={<FontIcon className="fa fa-eraser"/>}
           onClick={() => onChange('')}
+        />
+        <input id="file-input" type="file"
+               onChange={this._handleImageChange}
+               className={styles.input}
+               ref={input => this.refInputFile = input}
+               {...rest}
         />
       </div>
     </div>
