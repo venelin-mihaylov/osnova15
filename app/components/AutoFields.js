@@ -44,7 +44,6 @@ export default class AutoFields extends React.Component {
   }) {
     if (exclude) return null
     if (name == 'id') return null
-    if (input) return input
 
     if (_.endsWith(label, 'Id')) {
       label = _.trimEnd(label, 'Id')
@@ -56,43 +55,50 @@ export default class AutoFields extends React.Component {
     const className = styles[name]
     const common = {required, className, errorText}
 
-    let genInput = <div>No Field: {name}</div>
 
-    switch (type) {
-      case 'string':
-        genInput = React.createElement(TextField, Object.assign({
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-          }, common, inputProps))
-        break
-      case 'integer':
-        if (fkProps.entity) {
-          genInput = React.createElement(FKSelect, Object.assign({
-            entity: fkProps.entity,
-            variation: "1", // by default variation is "1"
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-            labelField: labelField,
-          }, common, inputProps))
-        } else {
+
+    let genInput = null
+    if(input) {
+      genInput = input
+    } else {
+      switch (type) {
+        case 'string':
           genInput = React.createElement(TextField, Object.assign({
             floatingLabelText: label,
             floatingLabelFixed: true,
           }, common, inputProps))
-        }
-        break
-      case 'number':
-        genInput = React.createElement(TextField, Object.assign({
-          floatingLabelText: label,
-          floatingLabelFixed: true,
-        }, common, inputProps))
-        break
-      case 'boolean':
-        genInput = React.createElement(Checkbox, Object.assign({
-          label,
-          labelPosition: 'right',
-        }, common, inputProps))
-        break
+          break
+        case 'integer':
+          if (fkProps.entity) {
+            genInput = React.createElement(FKSelect, Object.assign({
+              entity: fkProps.entity,
+              variation: "1", // by default variation is "1"
+              floatingLabelText: label,
+              floatingLabelFixed: true,
+              labelField: labelField,
+            }, common, inputProps))
+          } else {
+            genInput = React.createElement(TextField, Object.assign({
+              floatingLabelText: label,
+              floatingLabelFixed: true,
+            }, common, inputProps))
+          }
+          break
+        case 'number':
+          genInput = React.createElement(TextField, Object.assign({
+            floatingLabelText: label,
+            floatingLabelFixed: true,
+          }, common, inputProps))
+          break
+        case 'boolean':
+          genInput = React.createElement(Checkbox, Object.assign({
+            label,
+            labelPosition: 'right',
+          }, common, inputProps))
+          break
+        default:
+          genInput = <div>No Field</div>
+      }
     }
 
     return React.createElement(MaterialField, Object.assign({

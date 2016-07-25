@@ -47,6 +47,7 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.boolean('favourite').notNullable().default(false)
       t.string('name').notNullable()
+      t.text('image') //base64 image data, easiest to handle
     }),
     knex.schema.createTable('target_zone', function(t) {
       t.increments('id').primary()

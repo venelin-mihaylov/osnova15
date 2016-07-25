@@ -4,6 +4,7 @@ import FKSelect from 'components/FKSelect'
 import {createFieldClass, controls, utils} from "react-redux-form"
 import Toggle from 'material-ui/Toggle'
 import Checkbox from 'material-ui/Checkbox'
+import FileField from 'components/FileField'
 
 
 function isChecked(props) {
@@ -20,6 +21,7 @@ function isChecked(props) {
 const MaterialField = createFieldClass({
   'TextField': controls.text,
   'Connect(FKSelect)': controls.text,
+  FileField: controls.text,
   Checkbox: (props) => ({
     name: props.name || props.model,
     checked: props.defaultChecked
@@ -45,7 +47,8 @@ const MaterialField = createFieldClass({
   componentMap: {
     'Connect(FKSelect)': FKSelect,
     Toggle: Toggle,
-    Checkbox: Checkbox
+    Checkbox: Checkbox,
+    FileField: FileField
   }
 })
 

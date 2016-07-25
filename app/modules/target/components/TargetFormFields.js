@@ -8,6 +8,8 @@ import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import TargetZoneSchema from '../../../../universal/model/schema/TargetZoneSchema'
 import TargetZoneRelations from '../../../../universal/model/relations/TargetZoneRelations'
 import AutoFields from 'components/AutoFields'
+import FileField from 'components/FileField'
+import TextField from 'material-ui/TextField'
 
 
 
@@ -32,6 +34,9 @@ export const TargetFormFields = ({
             checkedIcon: <ActionFavorite />,
             uncheckedIcon: <ActionFavoriteBorder />
           }
+        },
+        image: {
+          input: <FileField accept=".png,.jpg" placeholder="Image"/>
         }
       }}
     />

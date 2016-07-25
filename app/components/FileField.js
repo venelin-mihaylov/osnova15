@@ -1,9 +1,23 @@
 import React from 'react'
-import FileInput from 'react-file-input'
+import {autobind} from 'core-decorators'
+import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
+import FlatButton from 'material-ui/FlatButton';
 
+
+import styles from 'styles/components/FileField.css'
+
+@autobind
 export default class FileField extends React.Component {
 
+
+  refInputFile = 'test'
+
   static propTypes = {
+    /**
+     * name of the field
+     */
+    name: React.PropTypes.string,
     /**
      * Current value - base64, to be displayed in the image preview sub-component. passed from RRF
      */
@@ -16,23 +30,66 @@ export default class FileField extends React.Component {
     onChange: React.PropTypes.func,
   }
 
-  _onChange() {
+  _handleImageChange(e) {
+    const {onChange} = this.props
 
+    e.preventDefault()
+
+    let reader = new FileReader()
+    let file = e.target.files[0]
+    reader.onloadend = () => {
+      console.log('result')
+      console.log(reader.result)
+      onChange(reader.result)
+    }
+
+    reader.readAsDataURL(file)
   }
 
   render() {
+    const {
+      name,
+      label = name,
+      value,
+      onChange, // do not pass it to FileInput
+      ...rest
+    } = this.props
 
     return <div>
 
-      <If condidition={value}>
+      {value && <div><img src={value}/></div>}
+      {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
 
-      </If>
-
-      <image></image>
-
-      <FileInput name="image" accept=".png,.jpg" placeholder="Target Image" onChange={() => {
-      console.log(arguments)
-      }}/>
+      <div>
+        <label htmlFor="file-input">
+          <FlatButton
+            label="Upload ..."
+            primary={true}
+            icon={<FontIcon className="fa fa-upload"/>}
+            onClick={() => {
+              console.log('ok')
+              console.log(this)
+              this.refInputFile.click()
+            }}
+          />
+        </label>
+        <input id="file-input" type="file"
+               onChange={this._handleImageChange}
+               className={styles.input}
+               ref={(input) => {
+                 console.log('file input mounted')
+                 this.refInputFile = input
+                 console.log(this)
+               }}
+               {...rest}
+        />
+        <FlatButton
+          label="Clear ..."
+          secondary={true}
+          icon={<FontIcon className="fa fa-eraser"/>}
+          onClick={() => onChange('')}
+        />
       </div>
+    </div>
   }
 }
