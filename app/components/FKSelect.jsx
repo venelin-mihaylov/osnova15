@@ -88,7 +88,8 @@ export default class FKSelect extends React.Component {
   }
 
   loadServerRecord(id) {
-    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id}))
+    const name = this.props.name
+    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id, name}))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,14 +112,13 @@ export default class FKSelect extends React.Component {
     const {
       dispatch,
       redux: {
-        recordById,
+        recordByFieldName,
         records
       },
       labelField = 'id',
       renderRecord = (r={}) => r[labelField],
       renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
       name,
-      value,
       listParams,
       onChange,
       iconButtons = [],
@@ -131,7 +131,7 @@ export default class FKSelect extends React.Component {
           style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
-          searchText={recordById[value] && renderRecord(recordById[value])}
+          searchText={recordByFieldName[name] && renderRecord(recordByFieldName[name])}
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={() => !records && dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
@@ -139,7 +139,7 @@ export default class FKSelect extends React.Component {
           {...rest}
         />
         <IconButton iconClassName="fa fa-eraser" onClick={() => {
-          dispatch(act(FKAct.FK_CLEAR_SELECTION, value))
+          dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
           name && dispatch(actions.change(name, null))
         }}/>
         {iconButtons.length ? iconButtons : null}

@@ -8,7 +8,7 @@ export default function FKSaga(entity, variation) {
   const act = FKAct.act(entity, variation)
   const type = type => FKAct.prefixType(entity, variation, type)
 
-  function* read({id}) {
+  function* read({id, name}) {
     if(!id) {
       yield put(act(FKAct.FK_READ_SUCCESS, {valueRecord: null}))
       return
@@ -21,6 +21,7 @@ export default function FKSaga(entity, variation) {
       })
       yield put(act(FKAct.FK_READ_SUCCESS, {
         id,
+        name,
         record: response.data
       }))
     } catch(err) {
