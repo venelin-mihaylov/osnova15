@@ -38,8 +38,6 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
   if(!field.errors) return null
 
   const fieldErrors = field.errors
-  console.log(key)
-  console.log(fieldErrors)
   let error = false
   for (let k in fieldErrors) {
     if(!fieldErrors.hasOwnProperty(k)) continue
@@ -120,8 +118,7 @@ export function navigateToCreateFKRecordAndScheduleSelect({
   // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
   dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
 
-  // set the return uri for the next form
-  // redirect
+  // redirect to nextUri
   dispatch(push(nextUri))
 }
 
@@ -134,26 +131,26 @@ export function doSelectCreatedFK({
   if (!selectCreatedFK) return
 
   selectCreatedFK.forEach(({
-    propFKRecord,
-    foreignKey,
+    fkRecordProp = 'createdFK',
     relationType,
     relationOne,
     relationMany,
     fkEntity,
-    fkVariation
+    fkVariation,
+    fkFieldName
   }) => {
-    const recordFK = rest[propFKRecord]
+    const recordFK = rest[fkRecordProp]
     if(!recordFK) return
 
-    if(relationType == 'one') {
-      dispatch(actions.change(rrfField(entity, foreignKey), recordFK.id))
-      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {value: recordFK}))
-    }
-    if(relationType == 'many') {
-      let r = {}
-      r[foreignKey] = recordFK.id
+    if(relationType == 'belongsToOne') {
+      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {name: fkFieldName, record: recordFK}))
+      dispatch(actions.change(rrfField(entity, fkFieldName), recordFK.id))
+    } else if(relationType == 'hasMany') {
+      let r = {[fkFieldName]: recordFK.id}
       if(relationOne) r[relationOne] = recordFK
       dispatch(actions.push(rrfField(entity, relationMany), r))
+    } else {
+      throw new Error("Bad relation type: " + relationType)
     }
     // reset the foreign key entity store state, to clear the created record
     dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
@@ -166,7 +163,6 @@ export function calcNextPath({
   action,
   id
 }) {
-  console.log(pathname)
   let matches = null
   if(action == 'create' || action == 'update' || action == 'cancel') {
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
@@ -184,7 +180,6 @@ export function calcNextPath({
   }
 
   console.log('no rule for next path')
-
   return pathname
 }
 

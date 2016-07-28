@@ -32,8 +32,6 @@ export function toObjectionRelations(relations) {
         to: `${rel.join.toTable}.${rel.join.toField}`
       }
     })
-    console.log(relName)
-    console.log(ret)
     return ret
   })
 }
