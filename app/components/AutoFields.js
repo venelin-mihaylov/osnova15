@@ -55,8 +55,6 @@ export default class AutoFields extends React.Component {
     const className = styles[name]
     const common = {required, className, errorText}
 
-
-
     let genInput = null
     if(input) {
       genInput = input

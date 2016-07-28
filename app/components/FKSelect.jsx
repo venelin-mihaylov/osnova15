@@ -18,7 +18,6 @@ import FKAct from 'constants/FKAct'
   variation = ''
 }) => {
   let key = FKname ? FKname : 'FK' + entity + variation
-  console.log(key)
   return {
     redux: state[key]
   }
