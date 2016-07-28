@@ -35,8 +35,6 @@ export const ExerciseFormFields = ({
 
     <br/>
 
-    <div className={styles.test}>Test</div>
-
     <MaterialField model={rrfField(entity, 'favourite')}>
       <Checkbox
         checkedIcon={<ActionFavorite />}
@@ -57,6 +55,11 @@ export const ExerciseFormFields = ({
                 overrides={{
                   exerciseId: {
                     exclude: true
+                  },
+                  targetId: {
+                    inputProps: {
+                      iconButtons: [<IconButton key="add" iconClassName="fa fa-plus" onClick={() => {}}/>]
+                    }
                   }
                 }}
               />
