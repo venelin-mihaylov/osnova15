@@ -63,9 +63,9 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
             fkEntity: 'exercise',
             fkVariation: '1',
             foreignKey: 'exerciseId',
-            relationType: 'one',
+            relationType: 'belongsToOne',
             relationOne: 'exercise',
-            propFKRecord: 'createdExercise',
+            fkRecordProp: 'createdExercise',
           }]
         })
       }}

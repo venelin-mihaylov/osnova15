@@ -5,13 +5,15 @@ import {autobind} from "core-decorators"
 import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchCompetitorFormFields from "modules/matchCompetitor/components/MatchCompetitorFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import {toUri, navigateToCreateFKRecordAndScheduleSelect, doSelectCreatedFK} from 'utils/Util'
+import {selectCreatedFK} from 'utils/Util'
+import CRUDAct from 'constants/CRUDAct'
+import {push} from 'react-router-redux'
 
 @connect(state => ({
   redux: state.matchCompetitor,
   model: state.matchCompetitorModel,
   form: state.matchCompetitorForm,
-  createdCompetitor: state.competitor.savedRecord
+  fkRecord: state.competitor.savedRecord
 }))
 @autobind
 class MatchCompetitorFormContainer extends OsnovaFormContainer {
@@ -21,11 +23,16 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
   componentWillMount() {
     super.componentWillMount()
 
-    doSelectCreatedFK({
+    selectCreatedFK({
       dispatch: this.props.dispatch,
       entity: this.constructor.entity,
-      selectCreatedFK: this.props.redux.selectCreatedFK,
-      createdCompetitor: this.props.createdCompetitor
+      select: this.props.redux.selectCreatedFK,
+      fkParams: [{
+        fkEntity: 'competitor',
+        fkRecord: this.props.fkRecord,
+        fkFieldName: 'competitorId',
+        relationType: 'belongsToOne'
+      }]
     })
   }
 
@@ -48,29 +55,16 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       dispatch,
       location: {pathname}
     } = this.props
-    const entity = this.constructor.entity
-
-    return (<EntityFormWrapper
+    return <EntityFormWrapper
       FormFieldsComponent={MatchCompetitorFormFields}
       {...this.props}
       {...(this.addProps())}
       onClickAddCompetitor={() => {
-        navigateToCreateFKRecordAndScheduleSelect({
-          dispatch,
-          entity,
-          nextUri: `${pathname}/create-competitor`,
-          scheduleSelect: [{
-            fkEntity: 'competitor',
-            fkVariation: '1',
-            foreignKey: 'competitorId',
-            relationType: 'one',
-            relationOne: 'competitor',
-            propFKRecord: 'createdCompetitor',
-          }]
-        })
+        dispatch(this.act(CRUDAct.RESET_FORM, false))
+        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, true))
+        dispatch(push(`${pathname}/create-competitor`))
       }}
-
-    />)
+    />
   }
 }
 export default MatchCompetitorFormContainer

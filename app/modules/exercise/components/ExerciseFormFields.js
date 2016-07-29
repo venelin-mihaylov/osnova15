@@ -21,7 +21,8 @@ export const ExerciseFormFields = ({
   dispatch,
   form,
   model,
-  entity
+  entity,
+  onClickAddTarget
 }) => {
   const relName = 'exercise_target'
 
@@ -58,7 +59,10 @@ export const ExerciseFormFields = ({
                   },
                   targetId: {
                     inputProps: {
-                      iconButtons: [<IconButton key="add" iconClassName="fa fa-plus" onClick={() => {}}/>]
+                      iconButtons: [<IconButton key="add" iconClassName="fa fa-plus" onClick={() => {
+                        const fkFieldName = `${relName}[${idx}]targetId`
+                        onClickAddTarget({fkFieldName})
+                      }}/>]
                     }
                   }
                 }}

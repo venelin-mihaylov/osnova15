@@ -17,22 +17,7 @@ export default function CRUDReducer({
     savedRecord: null, // the record, which has been just saved
     deleteId: null, // id to delete / deleted id
     resetForm: true, // reset/load the crud form
-    // if we have a foreign key in the table, we might want to
-    // create a foreign key record and set it for the currently edited record
-    // i.e. create new competitor and set it to be the competitor for match_competitor record
-    // string|array[string] watch
-    // if not null on mount we check the specified state path for a record.
-    // if it is present, set it to the specified field.
-    // it's a flash setting, if it's true, set it to false
-    // foreignKey: prop <- prop to select the new record from
-    // selectCreatedFK: [{
-    //   foreignKey: 'competitorId',
-    //   relationOne: 'competitor',
-    //   relationMany: 'match_competitor',
-    //   relationType: 'one', //| many, use actions.push, not actions.set
-    //   propFKRecord: 'createdCompetitor',
-    // }],
-    selectCreatedFK: false,
+    selectCreatedFK: false, // flag to look for newly created FK
     listError: false, // list error
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record

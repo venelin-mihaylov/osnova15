@@ -104,58 +104,48 @@ export function toUri() {
   return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
 }
 
-export function navigateToCreateFKRecordAndScheduleSelect({
+export function selectCreatedFK({
   dispatch,
   entity,
-  scheduleSelect,
-  nextUri,
+  select,
+  fkParams
+
 }) {
-  const act = CRUDAct.act(entity)
-
-  // do not reset the form on its next mount, *once*, (flash)
-  dispatch(act(CRUDAct.RESET_FORM, false))
-
-  // if the user creates a new competitor and returns here, add it to the match competitors *once* (flash)
-  dispatch(act(CRUDAct.SELECT_CREATED_FK_RECORD, scheduleSelect))
-
-  // redirect to nextUri
-  dispatch(push(nextUri))
+  if(!select) return
+  doSelectCreatedFK({
+    dispatch,
+    entity,
+    fkParams
+  })
+  dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
+  dispatch(CRUDAct.act(entity)(CRUDAct.RESET_FORM, true))
 }
 
-export function doSelectCreatedFK({
+function doSelectCreatedFK({
   dispatch,
   entity,
-  selectCreatedFK,
-  ...rest
+  fkParams
 }) {
-  if (!selectCreatedFK) return
-
-  selectCreatedFK.forEach(({
-    fkRecordProp = 'createdFK',
-    relationType,
-    relationOne,
-    relationMany,
+  fkParams.forEach(({
     fkEntity,
-    fkVariation,
-    fkFieldName
+    fkRecord,
+    fkFieldName,
+    relationType,
+    relationName,
   }) => {
-    const recordFK = rest[fkRecordProp]
-    if(!recordFK) return
+    if(!fkRecord) return
 
     if(relationType == 'belongsToOne') {
-      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {name: fkFieldName, record: recordFK}))
-      dispatch(actions.change(rrfField(entity, fkFieldName), recordFK.id))
+      dispatch(actions.change(rrfField(entity, fkFieldName), fkRecord.id))
     } else if(relationType == 'hasMany') {
-      let r = {[fkFieldName]: recordFK.id}
-      if(relationOne) r[relationOne] = recordFK
-      dispatch(actions.push(rrfField(entity, relationMany), r))
+      let r = {[fkFieldName]: fkRecord.id}
+      dispatch(actions.push(rrfField(entity, relationName), r))
     } else {
       throw new Error("Bad relation type: " + relationType)
     }
     // reset the foreign key entity store state, to clear the created record
     dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
   })
-  dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
 }
 
 export function calcNextPath({
@@ -169,6 +159,7 @@ export function calcNextPath({
     if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-exercise/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-target/)) return matches[1]
   }
 
   if(action == 'add') {

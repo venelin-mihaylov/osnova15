@@ -47,7 +47,6 @@ export default function CRUDSaga(entity) {
       })
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: response.data}))
       if(nextPath) yield put(push(nextPath))
-      console.log('navigated')
     } catch(err) {
       let err2 = formatServerError(err)
       yield put(act(CRUDAct.CREATE_ERROR, err2))

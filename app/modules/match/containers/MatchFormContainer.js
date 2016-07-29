@@ -53,11 +53,11 @@ class MatchFormContainer extends OsnovaFormContainer {
           fkEntity,
           nextUri: `/${fkEntity}/add`,
           scheduleSelect: [{
-            foreignKey: 'competitorId',
-            relationType: 'many',
+            fkFieldName: 'competitorId',
+            fkRecordProp: 'createdCompetitor',
+            relationType: 'hasMany',
             relationOne: 'competitor',
             relationMany: 'match_competitor[]',
-            propFKRecord: 'createdCompetitor'
           }]
         })
       }}
