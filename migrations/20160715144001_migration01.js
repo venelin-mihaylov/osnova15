@@ -8,9 +8,15 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('competitor', function(t) {
       t.increments('id').primary()
+      t.string('globalId')
       t.string('firstName').notNullable()
       t.string('lastName').notNullable()
+      t.string('nickName')
+      t.timestamp('birthDate').notNullable()
       t.string('email').notNullable()
+      t.string('phone')
+      t.string('country').notNullable()
+      t.string('club')
     }),
     knex.schema.createTable('tournament', function(t) {
       t.increments('id').primary()

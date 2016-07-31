@@ -1,7 +1,10 @@
 import {Model} from "objection"
 import tv4 from 'tv4'
+import formats from 'tv4-formats'
 import {ValidationError, ModelBase} from 'objection'
 var tv4coerce = require('tv4-coerce/main.js')
+
+tv4.addFormat(formats)
 
 /**
  * add basic type coercetion
@@ -16,6 +19,9 @@ tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error)
   } else if (type === 'string') {
     if (typeof data === 'number') {
       return "" + data;
+    }
+    if(!data) {
+      return ''
     }
   }
 });

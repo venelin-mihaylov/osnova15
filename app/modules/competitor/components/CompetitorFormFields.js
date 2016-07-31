@@ -1,39 +1,30 @@
 "use strict"
 import React from 'react'
-import OsnovaTextField from 'components/OsnovaTextField'
+import AutoFields from 'components/AutoFields'
+import CompetitorSchema from '../../../../universal/model/schema/CompetitorSchema'
+import AutoComplete from 'material-ui/AutoComplete'
+import CountryAutoCompleteProps from 'props/CountryAutoCompleteProps'
 
 export const CompetitorFormFields = ({
   dispatch,
   form,
   entity,
-  model: {
-    notes = []
-  }
+  model
 }) => (
-
   <div>
-    <OsnovaTextField
-      {...{form, entity}}
-      field="firstName"
-      required
-      floatingLabelText="first name"
+    <AutoFields
+      {...{form,entity}}
+      jsonSchema={CompetitorSchema}
+      overrides={{
+        country: {
+          input: <AutoComplete
+            floatingLabelText="Country"
+            floatingLabelFixed={true}
+            {...CountryAutoCompleteProps}
+          />
+        }
+      }}
     />
-    <br/>
-    <OsnovaTextField
-      {...{form, entity}}
-      field="lastName"
-      required
-      floatingLabelText="last name"
-    />
-    <br/>
-    <OsnovaTextField
-      {...{form, entity}}
-      field="email"
-      required
-      floatingLabelText="email"
-    />
-    <br/>
-
   </div>
 )
 export default CompetitorFormFields

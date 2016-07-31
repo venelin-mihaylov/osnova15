@@ -83,7 +83,9 @@ const dataSpec = {
   competitor: generate(count.competitor, {
     firstName: () => firstNames[randInt(0, firstNames.length - 1)],
     lastName: () => lastNames[randInt(0, lastNames.length - 1)],
-    email: (i, r) => r.firstName + '@' + r.lastName + '.com'
+    email: (i, r) => r.firstName + '@' + r.lastName + '.com',
+    country: 'Bulgaria',
+    birthDate: new Date()
   }),
   target: generate(count.target, {
     name: (i) => `Target ${i}`
