@@ -4,6 +4,7 @@ import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect'
+import DatePicker from 'material-ui/DatePicker'
 import _ from 'lodash/'
 
 export default class AutoFields extends React.Component {
@@ -11,6 +12,8 @@ export default class AutoFields extends React.Component {
   static propTypes = {
     form: React.PropTypes.object.isRequired,
     entity: React.PropTypes.string.isRequired,
+    jsonSchema: React.PropTypes.object.isRequired,
+    glue: React.PropTypes.object,
     namePrefix: React.PropTypes.string,
     overrides: React.PropTypes.object,
     relations: React.PropTypes.object,
@@ -19,7 +22,8 @@ export default class AutoFields extends React.Component {
 
   static defaultProps = {
     overrides: {},
-     relations: {},
+    relations: {},
+    glue: <br/>
   }
 
   renderField({
@@ -31,6 +35,8 @@ export default class AutoFields extends React.Component {
     fkProps = {}, // FK table/field, available only for FK
     schema: {
       type,
+      format,
+      subtype,
       label = name,
       labelField = 'id', // FK prop
     },
@@ -54,39 +60,39 @@ export default class AutoFields extends React.Component {
     const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
     const common = {required, className, errorText}
+    const commonLabel = {
+      floatingLabelText: label,
+      floatingLabelFixed: true
+    }
 
     let genInput = null
-    if(input) {
+    if (input) {
       genInput = input
     } else {
       switch (type) {
         case 'string':
-          genInput = React.createElement(TextField, Object.assign({
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-          }, common, inputProps))
+          if(subtype == 'date') {
+            genInput = React.createElement(DatePicker, Object.assign({
+              container: 'inline',
+              autoOk: true
+            }, common, commonLabel, inputProps))
+          } else {
+            genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+          }
           break
         case 'integer':
           if (fkProps.entity) {
             genInput = React.createElement(FKSelect, Object.assign({
               entity: fkProps.entity,
               variation: "1", // by default variation is "1"
-              floatingLabelText: label,
-              floatingLabelFixed: true,
               labelField: labelField,
-            }, common, inputProps))
+            }, common, commonLabel, inputProps))
           } else {
-            genInput = React.createElement(TextField, Object.assign({
-              floatingLabelText: label,
-              floatingLabelFixed: true,
-            }, common, inputProps))
+            genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
           }
           break
         case 'number':
-          genInput = React.createElement(TextField, Object.assign({
-            floatingLabelText: label,
-            floatingLabelFixed: true,
-          }, common, inputProps))
+          genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
           break
         case 'boolean':
           genInput = React.createElement(Checkbox, Object.assign({
@@ -131,6 +137,7 @@ export default class AutoFields extends React.Component {
       overrides,
       jsonSchema,
       relations,
+      glue,
       ...rest // the rest is passed to every field
     } = this.props
 
@@ -143,6 +150,7 @@ export default class AutoFields extends React.Component {
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
       let f = this.renderField(args)
       if (f) ret.push(f)
+      if (glue) ret.push(glue)
     })
 
     return <span>{ret}</span>
