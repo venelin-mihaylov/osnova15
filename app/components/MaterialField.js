@@ -4,7 +4,12 @@ import FKSelect from 'components/FKSelect'
 import {createFieldClass, controls, utils} from "react-redux-form"
 import Toggle from 'material-ui/Toggle'
 import Checkbox from 'material-ui/Checkbox'
+import TextField from 'material-ui/TextField'
 import FileField from 'components/FileField'
+import DatePicker from 'material-ui/DatePicker'
+import AutoComplete from 'material-ui/AutoComplete'
+
+import {log} from 'utils/Util'
 
 
 function isChecked(props) {
@@ -19,9 +24,26 @@ function isChecked(props) {
 }
 
 const MaterialField = createFieldClass({
-  'TextField': controls.text,
   'Connect(FKSelect)': controls.text,
+  TextField: controls.text,
   FileField: controls.text,
+  AutoComplete: props => ({
+    searchText: (() => {
+      const r = props.dataSource.find((e) => e.value == props.modelValue)
+      if(!r) return ''
+      return r.value
+    })(),
+    name: props.name || props.model,
+    onNewRequest: (searchText, idx) => {
+      props.onChange(props.dataSource[idx].text)
+    },
+  }),
+  DatePicker: ({onChange, ...props}) => ({
+    value: props.modelValue ? log(new Date(props.modelValue)) : null,
+    name: props.name || props.model,
+    onChange: (unused, value) => onChange(value),
+    ...props,
+  }),
   Checkbox: (props) => ({
     name: props.name || props.model,
     checked: props.defaultChecked
@@ -32,7 +54,7 @@ const MaterialField = createFieldClass({
       props.onChange(!props.modelValue)
     },
   }),
-  'Toggle': (props) => ({
+  Toggle: (props) => ({
     name: props.name || props.model,
     onToggle: () => {
       props.onChange(!props.modelValue)
@@ -45,10 +67,13 @@ const MaterialField = createFieldClass({
 
 }, {
   componentMap: {
-    'Connect(FKSelect)': FKSelect,
+    TextField: TextField,
     Toggle: Toggle,
     Checkbox: Checkbox,
-    FileField: FileField
+    FileField: FileField,
+    DatePicker: DatePicker,
+    AutoComplete: AutoComplete,
+    'Connect(FKSelect)': FKSelect,
   }
 })
 
