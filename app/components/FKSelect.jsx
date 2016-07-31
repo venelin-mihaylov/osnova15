@@ -121,6 +121,7 @@ export default class FKSelect extends React.Component {
       listParams,
       onChange,
       iconButtons = [],
+      onFocus,
       ...rest
     } = this.props
 
@@ -133,7 +134,11 @@ export default class FKSelect extends React.Component {
           searchText={recordByFieldName[name] && renderRecord(recordByFieldName[name])}
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
-          onFocus={() => !records && dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))}
+          onFocus={(e) => {
+            e.target.select()
+            if(!records) dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))
+            onFocus(e)
+          }}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
