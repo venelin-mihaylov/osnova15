@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField'
 import FileField from 'components/FileField'
 import DatePicker from 'material-ui/DatePicker'
 import AutoComplete from 'material-ui/AutoComplete'
+import SelectField from 'material-ui/SelectField'
 
 import {log} from 'utils/Util'
 
@@ -39,7 +40,7 @@ const MaterialField = createFieldClass({
     },
   }),
   DatePicker: ({onChange, ...props}) => ({
-    value: props.modelValue ? log(new Date(props.modelValue)) : null,
+    value: props.modelValue ? new Date(props.modelValue) : null,
     name: props.name || props.model,
     onChange: (unused, value) => onChange(value),
     ...props,
@@ -64,7 +65,12 @@ const MaterialField = createFieldClass({
       : isChecked(props),
     ...props,
   }),
-
+  SelectField: ({onChange, ...props}) => ({
+    value: props.modelValue,
+    name: props.name || props.model,
+    onChange: (event, idx, payload) => onChange(payload),
+    ...props,
+  })
 }, {
   componentMap: {
     TextField: TextField,
@@ -73,6 +79,7 @@ const MaterialField = createFieldClass({
     FileField: FileField,
     DatePicker: DatePicker,
     AutoComplete: AutoComplete,
+    SelectField: SelectField,
     'Connect(FKSelect)': FKSelect,
   }
 })

@@ -10,7 +10,6 @@ import TargetZoneRelations from '../../../../universal/model/relations/TargetZon
 import AutoFields from 'components/AutoFields'
 import FileField from 'components/FileField'
 
-
 import styles from 'styles/components/TargetFormFields.css'
 
 export const TargetFormFields = ({
@@ -26,6 +25,7 @@ export const TargetFormFields = ({
     <AutoFields
       {...{form, entity}}
       jsonSchema={TargetSchema}
+      glue={<br/>}
       overrides={{
         favourite: {
           inputProps: {
@@ -43,7 +43,7 @@ export const TargetFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Target Zones'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <div>
+        <div key={idx}>
           <AutoFields
             {...{form, entity, styles}}
             namePrefix={`${relName}[${idx}]`}

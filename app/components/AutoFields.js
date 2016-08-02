@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect'
 import DatePicker from 'material-ui/DatePicker'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import _ from 'lodash/'
 
 export default class AutoFields extends React.Component {
@@ -23,7 +25,7 @@ export default class AutoFields extends React.Component {
   static defaultProps = {
     overrides: {},
     relations: {},
-    glue: <br/>
+    glue: null
   }
 
   renderField({
@@ -38,6 +40,7 @@ export default class AutoFields extends React.Component {
       format,
       subtype,
       label = name,
+      enumProps, // if not true
       labelField = 'id', // FK prop
     },
     options: {
@@ -48,10 +51,10 @@ export default class AutoFields extends React.Component {
     },
     styles = {} // css styles
   }) {
-    if (exclude) return null
-    if (name == 'id') return null
+    if(exclude) return null
+    if(name == 'id') return null
 
-    if (_.endsWith(label, 'Id')) {
+    if(_.endsWith(label, 'Id')) {
       label = _.trimEnd(label, 'Id')
     }
 
@@ -66,10 +69,10 @@ export default class AutoFields extends React.Component {
     }
 
     let genInput = null
-    if (input) {
+    if(input) {
       genInput = input
     } else {
-      switch (type) {
+      switch(type) {
         case 'string':
           if(subtype == 'date') {
             genInput = React.createElement(DatePicker, Object.assign({
@@ -81,12 +84,24 @@ export default class AutoFields extends React.Component {
           }
           break
         case 'integer':
-          if (fkProps.entity) {
+          if(fkProps.entity) {
             genInput = React.createElement(FKSelect, Object.assign({
               entity: fkProps.entity,
               variation: "1", // by default variation is "1"
               labelField: labelField,
             }, common, commonLabel, inputProps))
+          } else if(enumProps) {
+            let arr = _.isArray(enumProps) ?
+              enumProps :
+              Object.keys(enumProps).map(value => ({value: parseInt(value), label: enumProps[value]}))
+
+            genInput = React.createElement(SelectField,
+              Object.assign({}, common, commonLabel, inputProps),
+              arr.map(({value, label}) => React.createElement(MenuItem, {
+                key: value + label,
+                value,
+                primaryText: label
+              })))
           } else {
             genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
           }
@@ -120,7 +135,7 @@ export default class AutoFields extends React.Component {
   fkProps(fieldName, relations) {
     let ret = {}
     _.forOwn(relations, (relSpec) => {
-      if (relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
+      if(relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
         // this is a foreign key to modelClass model, toField
         ret = {
           entity: relSpec.join.toTable,
@@ -143,14 +158,14 @@ export default class AutoFields extends React.Component {
 
     let ret = []
     _.forOwn(jsonSchema.properties, (schema, name) => {
-      if (schema.properties) return
+      if(schema.properties) return
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = -1 != jsonSchema.required.indexOf(name)
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
       let f = this.renderField(args)
-      if (f) ret.push(f)
-      if (glue) ret.push(glue)
+      if(f) ret.push(f)
+      if(glue) ret.push(glue)
     })
 
     return <span>{ret}</span>
