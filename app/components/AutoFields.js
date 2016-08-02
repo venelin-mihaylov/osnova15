@@ -15,7 +15,10 @@ export default class AutoFields extends React.Component {
     form: React.PropTypes.object.isRequired,
     entity: React.PropTypes.string.isRequired,
     jsonSchema: React.PropTypes.object.isRequired,
-    glue: React.PropTypes.object,
+    glue: React.PropTypes.oneOf(
+      React.PropTypes.object,
+      React.PropTypes.func
+    ),
     namePrefix: React.PropTypes.string,
     overrides: React.PropTypes.object,
     relations: React.PropTypes.object,
@@ -40,6 +43,7 @@ export default class AutoFields extends React.Component {
       format,
       subtype,
       label = name,
+      defaultValue,
       enumProps, // if not true
       labelField = 'id', // FK prop
     },
@@ -62,7 +66,7 @@ export default class AutoFields extends React.Component {
 
     const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
-    const common = {required, className, errorText}
+    const common = {required, className, errorText, defaultValue}
     const commonLabel = {
       floatingLabelText: label,
       floatingLabelFixed: true
@@ -136,7 +140,6 @@ export default class AutoFields extends React.Component {
     let ret = {}
     _.forOwn(relations, (relSpec) => {
       if(relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
-        // this is a foreign key to modelClass model, toField
         ret = {
           entity: relSpec.join.toTable,
           field: relSpec.join.toField
@@ -165,7 +168,9 @@ export default class AutoFields extends React.Component {
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
       let f = this.renderField(args)
       if(f) ret.push(f)
-      if(glue) ret.push(glue)
+      if(glue) {
+        _.isFunction(glue) ? ret.push(glue(args)) : ret.push(glue)
+      }
     })
 
     return <span>{ret}</span>
