@@ -32,10 +32,18 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('match_competitor', function(t) {
       t.increments('id').primary()
-      t.boolean('disqualified').notNullable().default(false)
-      t.string('notes')
       t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
       t.integer('competitorId').notNullable().references('id').inTable('competitor').onDelete('CASCADE')
+      t.integer('num')
+      t.integer('squad')
+      t.integer('division')
+      t.decimal('caliber')
+      t.string('gun')
+      t.string('team')
+      t.boolean('gunChecked')
+      t.boolean('feePaid')
+      t.boolean('disqualified').notNullable().default(false)
+      t.string('notes')
       t.unique(['matchId', 'competitorId'])
     }),
     knex.schema.createTable('exercise', function(t) {

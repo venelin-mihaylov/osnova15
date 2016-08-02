@@ -18,9 +18,9 @@ import FKAct from 'constants/FKAct'
   variation = ''
 }) => {
   let key = FKname ? FKname : 'FK' + entity + variation
-  return {
-    redux: state[key]
-  }
+  const redux = state[key]
+  if(!redux) throw new Error('Bad FKname for FKSelect: ' + key)
+  return {redux}
 })
 @autobind
 export default class FKSelect extends React.Component {
