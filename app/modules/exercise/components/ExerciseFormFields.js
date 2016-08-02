@@ -4,10 +4,10 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import IconButton from 'material-ui/IconButton'
+import AutoFields from 'components/AutoFields'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
-import AutoFields from 'components/AutoFields'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
