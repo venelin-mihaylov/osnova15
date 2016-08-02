@@ -22,13 +22,6 @@ class MatchFormContainer extends OsnovaFormContainer {
 
   componentWillMount() {
     super.componentWillMount()
-
-    doSelectCreatedFK({
-      dispatch: this.props.dispatch,
-      entity: this.constructor.entity,
-      selectCreatedFK: this.props.redux.selectCreatedFK,
-      createdCompetitor: this.props.createdCompetitor
-    })
   }
 
   render() {
@@ -45,29 +38,6 @@ class MatchFormContainer extends OsnovaFormContainer {
       FormFieldsComponent={MatchFormFields}
       {...this.props}
       {...(this.addProps())}
-      onClickAddCompetitor={() => {
-        const fkEntity = 'competitor'
-        navigateToCreateFKRecordAndScheduleSelect({
-          dispatch,
-          entity,
-          fkEntity,
-          nextUri: `/${fkEntity}/add`,
-          scheduleSelect: [{
-            fkFieldName: 'competitorId',
-            fkRecordProp: 'createdCompetitor',
-            relationType: 'hasMany',
-            relationOne: 'competitor',
-            relationMany: 'match_competitor[]',
-          }]
-        })
-      }}
-      onSelectCompetitor={(id, record) => {
-        if (match_competitor.find(r => r.competitorId === record.id)) return
-        dispatch(actions.push(rrfField(entity, 'match_competitor[]'), {
-          competitorId: record.id,
-          competitor: record
-        }))
-      }}
     />)
   }
 }

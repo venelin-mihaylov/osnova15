@@ -3,7 +3,7 @@ const MatchSchema = {
   required: ['name', 'tournamentId'],
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', minLength: 10, maxLength: 255},
+    name: {type: 'string'},
     description: {type: 'string'},
     tournamentId: {type: 'integer', labelField: "name"},
     discipline: {

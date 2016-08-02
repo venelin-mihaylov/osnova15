@@ -17,60 +17,16 @@ import AutoFields from 'components/AutoFields'
 export const MatchFormFields = ({
   dispatch,
   form,
-  entity,
-  model: {
-    notes = [],
-    match_competitor = []
-  },
-  onClickAddCompetitor,
-  onSelectCompetitor
+  entity
 }) => (
 
   <div>
-
     <AutoFields
       {...{form, entity}}
       jsonSchema={MatchSchema}
       relations={MatchRelations}
+      glue={({name}) => <br key={`glue-${name}`}/>}
     />
-
-    <RaisedButton label="Add note" style={{margin: 5}} onClick={() => {
-      dispatch(actions.push(rrfField(entity, 'notes[]'), {
-        text: ''
-      }))
-    }}/>
-    <RaisedButton label="Remove note" style={{margin: 5}} onClick={() => {
-      dispatch(actions.remove(rrfField(entity, 'notes[]'), notes ? notes.length - 1 : 0))
-    }}/>
-    {notes && notes.map((n, i) => (
-      <MaterialField model={rrfField(entity, `notes[${i}].text`)}>
-        <TextField
-          required
-          floatingLabelText={`note ${i + 1}`}
-        />
-        <br/>
-      </MaterialField>
-    ))}
-
-    <FKSelect
-      entity="competitor"
-      variation="1"
-      floatingLabelText="Add competitor"
-      renderRecord={r => `${r.firstName} ${r.lastName}`}
-      onChange={onSelectCompetitor}
-      iconButtons={[<IconButton iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]}
-    />
-    <br/>
-
-    <If condition={match_competitor.length}>
-      {match_competitor.map((n, i) => (
-       <Chip onRequestDelete={() => dispatch(actions.remove(rrfField(entity, 'match_competitor[]'), i))}>
-         competitor: {n.competitor.lastName}
-       </Chip>
-      ))}
-      <br/>
-    </If>
-
   </div>
 )
 export default MatchFormFields
