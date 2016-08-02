@@ -40,8 +40,15 @@ exports.up = function(knex, Promise) {
     }),
     knex.schema.createTable('exercise', function(t) {
       t.increments('id').primary()
-      t.boolean('favourite').notNullable().default(false)
       t.string('name')
+      t.integer('minShots')
+      t.integer('type')
+      t.integer('module')
+      t.string('rangeOfficer')
+      t.string('index')
+      t.string('signature')
+      t.boolean('favourite').notNullable().default(false)
+
     }),
     knex.schema.createTable('match_exercise', function(t) {
       t.increments('id').primary()
