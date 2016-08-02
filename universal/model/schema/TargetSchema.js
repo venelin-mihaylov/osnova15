@@ -13,9 +13,9 @@ const TargetSchema = {
         '2': 'Test 2'
       }
     },
+    weight: {type: 'number', defaultValue: 1},
     favourite: {type: 'boolean'},
     image: {type: 'string'},
-
   }
 }
 export default TargetSchema

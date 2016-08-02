@@ -24,6 +24,7 @@ export const CompetitorFormFields = ({
           />
         }
       }}
+      glue={({name}) => <br key={`glue-${name}`}/>}
     />
   </div>
 )
