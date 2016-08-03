@@ -7,13 +7,11 @@ import CountryAutoCompleteProps from 'props/CountryAutoCompleteProps'
 
 export const CompetitorFormFields = ({
   dispatch,
-  form,
-  entity,
-  model
+  entity
 }) => (
   <div>
     <AutoFields
-      {...{form,entity}}
+      {...{entity}}
       jsonSchema={CompetitorSchema}
       overrides={{
         country: {

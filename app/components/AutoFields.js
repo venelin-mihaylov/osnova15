@@ -32,7 +32,7 @@ export default class AutoFields extends React.Component {
   }
 
   renderField({
-    form, // rrf form object
+    //form, // rrf form object
     entity,
     namePrefix = '', // prefix, in case of 1:N
     name, // name of the field
@@ -64,9 +64,9 @@ export default class AutoFields extends React.Component {
 
     const fullField = `${namePrefix}${name}`
 
-    const errorText = MUIErrorText(form, entity, fullField)
+    //const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
-    const common = {required, className, errorText, defaultValue}
+    const common = {required, className, defaultValue}
     const commonLabel = {
       floatingLabelText: label,
       floatingLabelFixed: true

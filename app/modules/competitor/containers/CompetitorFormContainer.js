@@ -7,9 +7,7 @@ import CompetitorFormFields from "modules/competitor/components/CompetitorFormFi
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 
 @connect(state => ({
-  redux: state.competitor,
-  form: state.competitorForm,
-  model: state.competitorModel
+  redux: state.competitor
 }))
 @autobind
 class CompetitorFormContainer extends OsnovaFormContainer {
