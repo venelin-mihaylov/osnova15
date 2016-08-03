@@ -5,13 +5,14 @@ import {autobind} from "core-decorators"
 import EntityFormWrapper from "components/EntityFormWrapper"
 import MatchExerciseFormFields from "modules/matchExercise/components/MatchExerciseFormFields"
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import {toUri, navigateToCreateFKRecordAndScheduleSelect, doSelectCreatedFK} from 'utils/Util'
+import {selectCreatedFK} from 'utils/Util'
+import {push} from 'react-router-redux'
+import CRUDAct from 'constants/CRUDAct'
 
 @connect(state => ({
   redux: state.matchExercise,
   model: state.matchExerciseModel,
-  form: state.matchExerciseForm,
-  createdExercise: state.exercise.savedRecord
+  fkRecord: state.exercise.savedRecord
 }))
 @autobind
 class MatchExerciseFormContainer extends OsnovaFormContainer {
@@ -21,11 +22,16 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
   componentWillMount() {
     super.componentWillMount()
 
-    doSelectCreatedFK({
+    selectCreatedFK({
       dispatch: this.props.dispatch,
       entity: this.constructor.entity,
-      selectCreatedFK: this.props.redux.selectCreatedFK,
-      createdExercise: this.props.createdExercise
+      select: this.props.redux.selectCreatedFK,
+      fkParams: [{
+        fkEntity: 'exercise',
+        fkRecord: this.props.fkRecord,
+        fkFieldName: 'exerciseId',
+        relationType: 'belongsToOne'
+      }]
     })
   }
 
@@ -55,19 +61,9 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
       {...this.props}
       {...(this.addProps())}
       onClickAddExercise={() => {
-        navigateToCreateFKRecordAndScheduleSelect({
-          dispatch,
-          entity,
-          nextUri: `${pathname}/create-exercise`,
-          scheduleSelect: [{
-            fkEntity: 'exercise',
-            fkVariation: '1',
-            foreignKey: 'exerciseId',
-            relationType: 'belongsToOne',
-            relationOne: 'exercise',
-            fkRecordProp: 'createdExercise',
-          }]
-        })
+        dispatch(this.act(CRUDAct.RESET_FORM, false))
+        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, true))
+        dispatch(push(`${pathname}/create-exercise`))
       }}
 
     />)
