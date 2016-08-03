@@ -9,6 +9,7 @@ import FileField from 'components/FileField'
 import DatePicker from 'material-ui/DatePicker'
 import AutoComplete from 'material-ui/AutoComplete'
 import SelectField from 'material-ui/SelectField'
+import dateformat from 'dateformat'
 
 import {log} from 'utils/Util'
 
@@ -28,21 +29,22 @@ const MaterialField = createFieldClass({
   'Connect(FKSelect)': controls.text,
   TextField: controls.text,
   FileField: controls.text,
-  AutoComplete: props => ({
+  AutoComplete: ({onChange, onNewRequest, searchText, ...props}) => ({
     searchText: (() => {
-      const r = props.dataSource.find((e) => e.value == props.modelValue)
+      const r = props.dataSource.find((e) => e.value === props.modelValue)
       if(!r) return ''
-      return r.value
+      return r.text
     })(),
     name: props.name || props.model,
     onNewRequest: (searchText, idx) => {
-      props.onChange(props.dataSource[idx].text)
+      onChange(props.dataSource[idx].value)
     },
+    ...props
   }),
   DatePicker: ({onChange, ...props}) => ({
     value: props.modelValue ? new Date(props.modelValue) : null,
     name: props.name || props.model,
-    onChange: (unused, value) => onChange(value),
+    onChange: (unused, value) => onChange(dateformat(value, 'isoDate')),
     ...props,
   }),
   Checkbox: (props) => ({
@@ -50,10 +52,10 @@ const MaterialField = createFieldClass({
     checked: props.defaultChecked
       ? props.checked
       : isChecked(props),
-    ...props,
     onCheck: () => {
       props.onChange(!props.modelValue)
     },
+    ...props,
   }),
   Toggle: (props) => ({
     name: props.name || props.model,

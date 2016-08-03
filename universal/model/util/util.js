@@ -35,3 +35,8 @@ export function toObjectionRelations(relations) {
     return ret
   })
 }
+
+export function toArray(o) {
+  if(!o) return []
+  return Array.isArray(o) ? o : [o]
+}

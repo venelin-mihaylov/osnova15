@@ -1,11 +1,11 @@
 const MatchSchema = {
   type: 'object',
-  required: ['name', 'tournamentId'],
+  required: ['tournamentId', 'name', 'discipline', 'type', 'startDate', 'endDate', 'organizer', 'country',],
   properties: {
     id: {type: 'integer'},
+    tournamentId: {type: 'integer', labelField: "name"},
     name: {type: 'string'},
     description: {type: 'string'},
-    tournamentId: {type: 'integer', labelField: "name"},
     discipline: {
       type: 'integer',
       enum: [1, 2, 3],
@@ -24,8 +24,8 @@ const MatchSchema = {
         2: 'Team/Individual'
       }
     },
-    startDate: {type: 'string', format: 'date-time', subtype: 'date'},
-    endDate: {type: 'string', format: 'date-time', subtype: 'date'},
+    startDate: {type: 'string', format: 'date'},
+    endDate: {type: 'string', format: 'date'},
     organizer: {type: 'string'},
     country: {type: 'string'},
     rangeMaster: {type: 'string'},

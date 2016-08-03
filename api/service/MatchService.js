@@ -13,7 +13,6 @@ export default class MatchService extends CRUDService {
   read(id) {
     return this.model.query()
       .findById(id)
-      .eager('match_competitor.competitor')
   }
 
   @decorate(logSql)

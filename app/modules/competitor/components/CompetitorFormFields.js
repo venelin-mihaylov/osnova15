@@ -6,6 +6,7 @@ import AutoComplete from 'material-ui/AutoComplete'
 import CountryAutoCompleteProps from 'props/CountryAutoCompleteProps'
 
 export const CompetitorFormFields = ({
+  record,
   dispatch,
   entity
 }) => (
@@ -13,6 +14,7 @@ export const CompetitorFormFields = ({
     <AutoFields
       {...{entity}}
       jsonSchema={CompetitorSchema}
+      glue={({name}) => <br key={`glue-${name}`}/>}
       overrides={{
         country: {
           input: <AutoComplete
@@ -22,7 +24,6 @@ export const CompetitorFormFields = ({
           />
         }
       }}
-      glue={({name}) => <br key={`glue-${name}`}/>}
     />
   </div>
 )

@@ -1,12 +1,12 @@
 const MatchCompetitorSchema = {
   type: 'object',
-  required: ['competitorId', 'matchId'],
+  required: ['competitorId', 'matchId',  'division', 'caliber', 'gun'],
   properties: {
     id: {type: 'integer'},
     matchId: {type: 'integer'},
     competitorId: {type: 'integer'},
-    num: {type: 'integer'},
-    squad: {type: 'integer'},
+    num: {type: ['integer', 'null']},
+    squad: {type: ['integer', 'null']},
     division: {
       type: 'integer',
       enum: [1, 2, 3],

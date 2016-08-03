@@ -25,7 +25,7 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* doDelete({id, listParams = {}}) {
+  function* del({id, listParams = {}}) {
     try {
       yield call(axios, {
         url: `/api/${endpoint}/${id}`,
@@ -102,7 +102,7 @@ export default function CRUDSaga(entity) {
       fork(function* watchList() {yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list)}),
       fork(function* watchCreate() {yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create)}),
       fork(function* watchUpdate() {yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update)}),
-      fork(function* watchDelete() {yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), doDelete)})
+      fork(function* watchDelete() {yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), del)})
     ]
   }
 }

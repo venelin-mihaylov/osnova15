@@ -194,3 +194,8 @@ export function mergeDeep(target, source) {
   }
   return output;
 }
+
+export function toArray(o) {
+  if(!o) return []
+  return Array.isArray(o) ? o : [o]
+}

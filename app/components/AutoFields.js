@@ -7,7 +7,8 @@ import FKSelect from 'components/FKSelect'
 import DatePicker from 'material-ui/DatePicker'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import _ from 'lodash/'
+import _ from 'lodash'
+import {toArray} from 'utils/Util'
 
 export default class AutoFields extends React.Component {
 
@@ -15,10 +16,10 @@ export default class AutoFields extends React.Component {
     form: React.PropTypes.object.isRequired,
     entity: React.PropTypes.string.isRequired,
     jsonSchema: React.PropTypes.object.isRequired,
-    glue: React.PropTypes.oneOf(
+    glue: React.PropTypes.oneOf([
       React.PropTypes.object,
       React.PropTypes.func
-    ),
+    ]),
     namePrefix: React.PropTypes.string,
     overrides: React.PropTypes.object,
     relations: React.PropTypes.object,
@@ -28,11 +29,13 @@ export default class AutoFields extends React.Component {
   static defaultProps = {
     overrides: {},
     relations: {},
+    updateOn: 'change',
     glue: null
   }
 
   renderField({
     //form, // rrf form object
+    updateOn,
     entity,
     namePrefix = '', // prefix, in case of 1:N
     name, // name of the field
@@ -72,59 +75,55 @@ export default class AutoFields extends React.Component {
       floatingLabelFixed: true
     }
 
+    const t = toArray(type)
+
     let genInput = null
     if(input) {
       genInput = input
-    } else {
-      switch(type) {
-        case 'string':
-          if(subtype == 'date') {
-            genInput = React.createElement(DatePicker, Object.assign({
-              container: 'inline',
-              autoOk: true
-            }, common, commonLabel, inputProps))
-          } else {
-            genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
-          }
-          break
-        case 'integer':
-          if(fkProps.entity) {
-            genInput = React.createElement(FKSelect, Object.assign({
-              entity: fkProps.entity,
-              variation: "1", // by default variation is "1"
-              labelField: labelField,
-            }, common, commonLabel, inputProps))
-          } else if(enumProps) {
-            let arr = _.isArray(enumProps) ?
-              enumProps :
-              Object.keys(enumProps).map(value => ({value: parseInt(value), label: enumProps[value]}))
-
-            genInput = React.createElement(SelectField,
-              Object.assign({}, common, commonLabel, inputProps),
-              arr.map(({value, label}) => React.createElement(MenuItem, {
-                key: value + label,
-                value,
-                primaryText: label
-              })))
-          } else {
-            genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
-          }
-          break
-        case 'number':
-          genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
-          break
-        case 'boolean':
-          genInput = React.createElement(Checkbox, Object.assign({
-            label,
-            labelPosition: 'right',
-          }, common, inputProps))
-          break
-        default:
-          genInput = <div>No Field</div>
+    } else if(-1 != t.indexOf('string')) {
+      if(format == 'date') {
+        genInput = React.createElement(DatePicker, Object.assign({
+          container: 'inline',
+          autoOk: true
+        }, common, commonLabel, inputProps))
+      } else {
+        genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
       }
+    } else if(-1 != t.indexOf('integer')) {
+      if(fkProps.entity) {
+        genInput = React.createElement(FKSelect, Object.assign({
+          entity: fkProps.entity,
+          variation: "1", // by default variation is "1"
+          labelField: labelField,
+        }, common, commonLabel, inputProps))
+      } else if(enumProps) {
+        let arr = _.isArray(enumProps) ?
+          enumProps :
+          Object.keys(enumProps).map(value => ({value: parseInt(value), label: enumProps[value]}))
+
+        genInput = React.createElement(SelectField,
+          Object.assign({}, common, commonLabel, inputProps),
+          arr.map(({value, label}) => React.createElement(MenuItem, {
+            key: value + label,
+            value,
+            primaryText: label
+          })))
+      } else {
+        genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+      }
+    } else if(-1 != t.indexOf('number')) {
+      genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+    } else if(-1 != t.indexOf('boolean')) {
+      genInput = React.createElement(Checkbox, Object.assign({
+        label,
+        labelPosition: 'right',
+      }, common, inputProps))
+    } else {
+      genInput = <div>No Field</div>
     }
 
     return React.createElement(MaterialField, Object.assign({
+      updateOn,
       key: fullField,
       model: rrfField(entity, fullField)
     }, rrfProps), genInput)

@@ -2,29 +2,46 @@ import {Model} from "objection"
 import tv4 from 'tv4'
 import formats from 'tv4-formats'
 import {ValidationError, ModelBase} from 'objection'
+import dateformat from 'dateformat'
+import {toArray} from './util/util'
 var tv4coerce = require('tv4-coerce/main.js')
 
 tv4.addFormat(formats)
+tv4coerce.tv4.addFormat(formats)
 
 /**
  * add basic type coercetion
  */
-tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error) {
-  if (type === 'number') {
+tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error, baseSchema) {
+  const t = toArray(type)
+  if(-1 != t.indexOf('null') && data === null) {
+    return data
+  }
+
+  if (-1 != t.indexOf('number')) {
     data = parseFloat(data);
     if (!isNaN(data)) return data;
-  } else if (type === 'integer') {
+  } else if (-1 != t.indexOf('integer')) {
     data = parseInt(data);
     if (!isNaN(data)) return data;
-  } else if (type === 'string') {
+  } else if (-1 != t.indexOf('string')) {
     if (typeof data === 'number') {
       return "" + data;
     }
-    if(!data) {
+    if(!data) { // for a string, it's ok to return cast null to ''
       return ''
     }
+  } else if (-1 != t.indexOf('boolean')) {
+    return !!data
   }
 });
+
+tv4coerce.addFix(tv4coerce.errorCodes.FORMAT_CUSTOM, function(data, type, error, baseSchema) {
+  console.log('baseSchema')
+  console.log(baseSchema)
+  const t = toArray(type)
+  return dateformat(data, 'isoDate')
+})
 
 export default class OsnovaModel extends Model {
 
@@ -54,6 +71,7 @@ export default class OsnovaModel extends Model {
     let validationError = this._parseValidationError(report)
 
     if (validationError) {
+      //console.log(validationError)
       throw validationError
     }
 
