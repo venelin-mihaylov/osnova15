@@ -1,11 +1,5 @@
 "use strict"
 import React from 'react'
-import {rrfField} from "utils/Util"
-import {MUIErrorText} from "utils/Util"
-import FKSelect from 'components/FKSelect'
-import MaterialField from 'components/MaterialField'
-import TextField from 'material-ui/TextField'
-
 import AutoFields from 'components/AutoFields'
 import MatchExerciseSchema from '../../../../universal/model/schema/MatchExerciseSchema'
 import MatchExerciseRelations from '../../../../universal/model/relations/MatchExerciseRelations'
@@ -15,6 +9,7 @@ import IconButton from 'material-ui/IconButton'
 // i.e. add onExerciseCreated
 
 const MatchExerciseFormFields = ({
+  record,
   dispatch,
   form,
   entity,
@@ -37,6 +32,9 @@ const MatchExerciseFormFields = ({
             listParams: {
               filter: {
                 belongsToMatch: {
+                  params: {
+                    curId: record && record.exerciseId
+                  },
                   operator: '=',
                   value: matchId
                 }

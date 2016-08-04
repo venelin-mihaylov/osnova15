@@ -62,14 +62,13 @@ export default class CRUDService {
     return this.model.query()
   }
 
-  @decorate(logSql)
   async list({
     filter
   }) {
     let qb = this.listQuery().orderBy('id')
-    QueryFilter.filter(qb, filter, this.filterRules())
+    qb = QueryFilter.filter(qb, filter, this.filterRules())
     // TODO: pagination
-    return qb
+    return await qb
   }
 
   //@decorate(logSql)

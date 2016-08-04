@@ -9,7 +9,6 @@ export default class MatchExerciseService extends CRUDService {
   read(id) {
     return this.model.query()
       .findById(id)
-      .eager('exercise')
   }
 
   listQuery() {

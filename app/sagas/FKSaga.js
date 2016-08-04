@@ -43,7 +43,6 @@ export default function FKSaga(entity, variation) {
       yield put(act(FKAct.FK_LIST_SUCCESS, {
         records: response.data
       }))
-      yield put(act(FKAct.FK_LAST_SEARCH_TEXT, searchText))
     } catch(err) {
       yield put(act(FKAct.FK_LIST_ERROR, formatServerError(err)))
     }

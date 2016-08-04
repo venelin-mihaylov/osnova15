@@ -1,5 +1,5 @@
 import CRUDService from './CRUDService'
-import {autobind } from 'core-decorators';
+import {autobind} from 'core-decorators';
 import * as web from 'express-decorators';
 import knex from 'knex'
 
@@ -9,22 +9,18 @@ export default class CompetitorService extends CRUDService {
 
   filterRules() {
     return {
-      searchText: {
-        fn: (qb, {operator, value}) => {
-          const v = value.trim()
-          if(!v) return
+      searchText: (qb, {operator, value}) => {
+        const v = value.trim()
+        if(!v) return
 
-          return qb.andWhere(function() {
-            this.where('lastName', 'ilike', `%${v}%`).orWhere('firstName', 'ilike', `%${v}%`)
-          })
-        }
+        return qb.andWhere(function() {
+          this.where('lastName', 'ilike', `%${v}%`).orWhere('firstName', 'ilike', `%${v}%`)
+        })
       },
-      belongsToMatch: {
-        fn: (qb, {operator, value}) => {
-          return qb.whereNotIn('id', function() {
-            this.select('competitorId').from('match_competitor').where('matchId', '=', value)
-          })
-        }
+      belongsToMatch: (qb, {operator, value}) => {
+        return qb.whereNotIn('id', function() {
+          this.select('competitorId').from('match_competitor').where('matchId', '=', value)
+        })
       }
     }
   }

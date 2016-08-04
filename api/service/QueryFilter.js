@@ -32,7 +32,7 @@ export default class QueryFilter {
       if(rules.hasOwnProperty(key)) {
         qb = QueryFilter.applyRule(qb, rules[key], i)
       } else {
-        qb.andWhere(key, i.operator, i.value)
+        qb = qb.andWhere(key, i.operator, i.value)
       }
     }
     return qb
@@ -70,28 +70,11 @@ export default class QueryFilter {
    * @param {string} input.value
    */
   static applyRule(qb, rule, input) {
-
-    if(typeof rule == 'function') {
+    if(typeof rule === 'function') {
       return rule(qb, input)
+    } else {
+      throw new Error("bad filter rule")
     }
-
-    if(rule.leftJoin) {
-      const leftJoin = toArray(rule.leftJoin)
-      leftJoin.forEach(j => qb.leftJoin(j[0], j[1], j[2]))
-    }
-    if(rule.innerJoin) {
-      const innerJoin = toArray(rule.innerJoin)
-      innerJoin.forEach(j => qb.innerJoin(j[0], j[1], j[2]))
-    }
-    if(rule.where) {
-      const where = toArray(rule.where)
-      where.forEach(j => qb.andWhere(j[0], input.operator, input.value))
-    }
-    if(rule.fn) {
-      rule.fn(qb, input)
-    }
-
-    return qb
   }
 
 }
