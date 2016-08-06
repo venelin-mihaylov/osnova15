@@ -15,7 +15,7 @@ import FKAct from 'constants/FKAct'
 @connect((state, {
   FKname,
   entity,
-  variation = ''
+  variation = '1'
 }) => {
   let key = FKname ? FKname : 'FK' + entity + variation
   const redux = state[key]
@@ -29,6 +29,7 @@ export default class FKSelect extends React.Component {
     redux: {
       records: []
     },
+    variation: '1',
     reset: true
   }
 
@@ -51,7 +52,7 @@ export default class FKSelect extends React.Component {
     /**
      * variation
      */
-    variation: React.PropTypes.string.isRequired,
+    variation: React.PropTypes.string,
     /**
      * The name of the foreign key in the redux store
      */
@@ -83,6 +84,13 @@ export default class FKSelect extends React.Component {
      * onChange(id, record)
      */
     onChange: React.PropTypes.func,
+    /**
+     * onFocus
+     */
+    onFocus: React.PropTypes.func,
+    /**
+     * server request base params
+     */
     listParams: React.PropTypes.object
   }
 
@@ -119,9 +127,9 @@ export default class FKSelect extends React.Component {
       renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
       name,
       listParams,
-      onChange,
+      onChange = () => {},
       iconButtons = [],
-      onFocus,
+      onFocus = () => {},
       ...rest
     } = this.props
 
@@ -137,7 +145,7 @@ export default class FKSelect extends React.Component {
           onFocus={(e) => {
             e.target.select()
             if(!records) dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))
-            onFocus(e)
+            if(typeof onFocus === 'function') onFocus(e)
           }}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
