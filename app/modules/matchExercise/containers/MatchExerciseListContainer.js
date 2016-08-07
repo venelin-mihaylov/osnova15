@@ -6,6 +6,7 @@ import EntityList from "components/EntityList"
 import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import FKSelect from 'components/FKSelect'
+import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
 
 @connect(state => ({redux: state.matchExercise}))

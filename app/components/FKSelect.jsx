@@ -143,9 +143,14 @@ export default class FKSelect extends React.Component {
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {
+            if(typeof onFocus === 'function') {
+              if(false === onFocus(e)) {
+                return
+              }
+            }
             e.target.select()
-            if(!records) dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams}))
-            if(typeof onFocus === 'function') onFocus(e)
+            const searchText = e.target.value // value of the search, hack
+            dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
           }}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
