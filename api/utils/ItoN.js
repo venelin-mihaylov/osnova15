@@ -36,10 +36,9 @@ export default class ItoN {
   }) {
     const strEagerParam = Object.keys(eagerParam).join(',')
     let builder = model.query().findById(id)
-
     const arr = relSpec ? toArray(relSpec).map(s => s.relName) : toArray(relName)
-    arr.forEach(rel => builder.eager(`${rel}(${strEagerParam})`, eagerParam))
-    return builder
+    let eager = arr.map((rel) => `${rel}(${strEagerParam})`).join(',')
+    return builder.eager(`[${eager}]`, eagerParam)
   }
 
   static _diff({relModel, dbRows, inRows, fk}) {

@@ -28,7 +28,7 @@ const MatchExerciseFormFields = ({
         matchId: {exclude: true},
         exerciseId: {
           inputProps: {
-            renderRecord: r => r && `${r.name}`,
+            renderLabel: r => r && `${r.name}`,
             listParams: {
               filter: {
                 belongsToMatch: {

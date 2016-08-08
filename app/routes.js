@@ -74,12 +74,10 @@ export default (store) => {
         <Route name='Add new competitor' path=':matchId/competitor/:id/edit/create-competitor' action='add' component={CompetitorFormContainer}/>
 
         <Route name='List match exercises' path=':matchId/exercise' component={MatchExerciseListContainer}/>
-        <Route name='Add match exercise' path=':matchId/exercise/add' action='add' component={MatchExerciseFormContainer}/>
-        <Route name='Edit match exercise' path=':matchId/exercise/:id/edit' action='edit' component={MatchExerciseFormContainer}/>
-        <Route name='Add new exercise' path=':matchId/exercise/add/create-exercise' action='add' component={ExerciseFormContainer}/>
-        <Route name='Add new exercise' path=':matchId/exercise/:id/edit/create-exercise' action='add' component={ExerciseFormContainer}/>
+        <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={ExerciseFormContainer}/>
+        <Route name='Edit exercise' path=':matchId/exercise/:matchExerciseId/:id/edit' action='edit' component={ExerciseFormContainer}/>
 
-        <Route name='Targets' path=':matchId/target'  filterByActiveMatchId={true} component={TargetListContainer}/>
+        <Route name='Targets' path=':matchId/target' filterByActiveMatchId={true} component={TargetListContainer}/>
 
         <Route name='Add match' path='add' component={MatchFormContainer}/>
         <Route name='Edit match' staticName={true} path=':id/edit' action='edit' component={MatchFormContainer}/>

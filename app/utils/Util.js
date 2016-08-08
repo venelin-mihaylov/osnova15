@@ -151,15 +151,21 @@ function doSelectCreatedFK({
 export function calcNextPath({
   pathname,
   action,
-  id
+  id,
+  record
 }) {
+
   let matches = null
+
   if(action == 'create' || action == 'update' || action == 'cancel') {
+    if (matches = pathname.match(/(\/match\/\d+\/exercise)\/(\d+)\/(\d+)\/edit$/)) return matches[1]
+
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-competitor/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-exercise/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-target/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-competitor$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-exercise$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/create-target$/)) return matches[1]
+
   }
 
   if(action == 'add') {
@@ -167,6 +173,10 @@ export function calcNextPath({
   }
 
   if(action == 'edit') {
+    if (matches = pathname.match(/^(\/match\/\d+\/exercise)$/)) {
+      return matches[1] + toUri(id, record.exerciseId, 'edit')
+    }
+
     return pathname + toUri(id, action)
   }
 

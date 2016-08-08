@@ -28,9 +28,34 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   @autobind
-  nextPath({action, id}) {
+  nextPath({action, id, record}) {
     const {location: {pathname}} = this.props
-    return calcNextPath({pathname, action, id})
+    return calcNextPath({pathname, action, id, record})
+  }
+
+  @autobind
+  onAddClick() {
+    this.props.dispatch(push(this.nextPath({action: 'add'})))
+  }
+
+  @autobind
+  onEditClick() {
+    const {
+      dispatch,
+      withFirstSelection
+    } = this.props
+
+    withFirstSelection((record) => dispatch(push(this.nextPath({action: 'edit', id: record.id, record}))))
+  }
+
+  @autobind
+  onDeleteClick() {
+    const {
+      dispatch,
+      withFirstSelection
+    } = this.props
+
+    withFirstSelection(({id}) => dispatch(this.act(CRUDAct.DELETE_REQUESTED, {id, listParams: this.baseListParams()})))
   }
 
   addProps() {
@@ -46,9 +71,9 @@ export default class OsnovaListContainer extends React.Component {
       entity,
       act,
       boundAct,
-      onAddClick: () => dispatch(push(this.nextPath({action: 'add'}))),
-      onEditClick: () => withFirstSelection(({id}) => dispatch(push(this.nextPath({action: 'edit', id})))),
-      onDeleteClick: () => withFirstSelection(({id}, idx) => boundAct(CRUDAct.DELETE_REQUESTED, {id, listParams: this.baseListParams()})),
+      onAddClick: this.onAddClick,
+      onEditClick: this.onEditClick,
+      onDeleteClick: this.onDeleteClick,
       onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.baseListParams()),
       onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit}),
     }

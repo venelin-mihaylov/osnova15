@@ -75,7 +75,7 @@ export default class FKSelect extends React.Component {
     /**
      * labelField
      */
-    renderRecord: React.PropTypes.func,
+    renderLabel: React.PropTypes.func,
     /**
      * should we reset the store state, by default yes, start clean
      */
@@ -123,8 +123,8 @@ export default class FKSelect extends React.Component {
         records
       },
       labelField = 'id',
-      renderRecord = (r={}) => r[labelField],
-      renderList = (rs=[]) => rs.map(r => ({text: renderRecord(r), value: renderRecord(r)})),
+      renderLabel = (r={}) => r[labelField],
+      renderList = (rs=[]) => rs && rs.map(r => ({text: renderLabel(r), value: renderLabel(r)})),
       name,
       listParams,
       onChange = () => {},
@@ -139,7 +139,7 @@ export default class FKSelect extends React.Component {
           style={{width: 220 - iconButtons.length * 50}}
           openOnFocus={true}
           filter={AutoComplete.noFilter}
-          searchText={recordByFieldName[name] && renderRecord(recordByFieldName[name])}
+          searchText={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {
@@ -149,7 +149,7 @@ export default class FKSelect extends React.Component {
               }
             }
             e.target.select()
-            const searchText = e.target.value // value of the search, hack
+            const searchText = e.target.value // use the dom element to get the value
             dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
           }}
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}

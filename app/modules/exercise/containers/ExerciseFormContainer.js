@@ -36,6 +36,27 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     })
   }
 
+  addMatchExercise(record) {
+    const {params:{matchId}} = this.props
+    // if present we are adding an exercise for a match
+    if(matchId) {
+      return Object.assign({}, record, {
+        match_exercise: [{matchId}]
+      })
+    } else {
+      return record
+    }
+  }
+
+
+  onUpdate(record) {
+    return super.onUpdate(record)
+  }
+
+  onCreate(record) {
+    return super.onCreate(this.addMatchExercise(record))
+  }
+
   render() {
     const {
       dispatch,

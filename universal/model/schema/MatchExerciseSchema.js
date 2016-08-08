@@ -1,6 +1,6 @@
 const MatchExerciseSchema = {
   type: 'object',
-  required: ['exerciseId', 'matchId'],
+  required: [],
   properties: {
     id: {type: 'integer'},
     exerciseId: {type: 'integer'},

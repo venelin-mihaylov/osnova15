@@ -27,7 +27,7 @@ const MatchCompetitorFormFields = ({
         matchId: {exclude: true},
         competitorId: {
           inputProps: {
-            renderRecord: r => r && `${r.firstName} ${r.lastName}`,
+            renderLabel: r => r && `${r.firstName} ${r.lastName}`,
             listParams: {
               filter: {
                 belongsToMatch: {

@@ -16,7 +16,7 @@ export default class ExerciseService extends CRUDService {
     return {
       searchText: (qb, {operator, value}) => {
         const v = value.trim()
-        if(!v) return qb
+        if(!v) return q
 
         return qb.andWhere(function() {
           this.where('name', 'ilike', `%${v}%`)
@@ -41,8 +41,11 @@ export default class ExerciseService extends CRUDService {
 
   ItoNParams() {
     const model = this.model
-    const relName =  this.ItoNRelation
-    const relSpec = {relName}
+    const relSpec = [{
+      relName: 'exercise_target'
+    }, {
+      relName: 'match_exercise'
+    }]
 
     return {
       model,
