@@ -9,6 +9,8 @@ import rootReducer from './reducers/index'
 import rootSaga from './sagas'
 import sagaMonitor from './sagaMonitor'
 
+import {persistStore, autoRehydrate} from 'redux-persist'
+
 export default function configureStore(initialState = {}, history) {
 
   const sagaMiddleware = createSagaMiddleware({sagaMonitor})
@@ -24,6 +26,7 @@ export default function configureStore(initialState = {}, history) {
   ]
 
   const enhancers = [
+    autoRehydrate(),
     applyMiddleware(...middlewares),
     devtools(),
   ]
@@ -55,5 +58,7 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga = sagaMiddleware.run
   store.runSaga(rootSaga)
   store.close = () => store.dispatch(END)
+
+  persistStore(store)
   return store
 }
