@@ -29,6 +29,8 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
 
   render() {
     const {dispatch, params: {matchId}} = this.props
+    const addProps = this.addProps()
+    const {promiseAct} = addProps
     return <EntityList
       toolbarTitle="MatchExercises"
       toolbarProps={{
@@ -39,7 +41,12 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           hintText="Add exercise"
           onChange={(exerciseId) => {
             const record = {matchId, exerciseId}
-            dispatch(CRUDAct.act('matchExercise')(CRUDAct.CREATE_REQUESTED, {record}))
+            console.log('record')
+            console.log(record)
+            promiseAct(CRUDAct.CREATE_REQUESTED, {record}).then(created => {
+              console.log('created')
+              console.log(created)
+            })
           }}
           listParams={{
             filter: {
@@ -61,7 +68,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         render: ({data: {exercise}}) => (exercise ? `${exercise.name}` : '')
       }]}
       {...this.props}
-      {...(this.addProps())}
+      {...addProps}
     />
   }
 }

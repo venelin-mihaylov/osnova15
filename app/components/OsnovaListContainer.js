@@ -58,24 +58,32 @@ export default class OsnovaListContainer extends React.Component {
     withFirstSelection(({id}) => dispatch(this.act(CRUDAct.DELETE_REQUESTED, {id, listParams: this.baseListParams()})))
   }
 
+  @autobind
+  onRefresh() {
+    const promiseAct = CRUDAct.promiseAct(this.props.dispatch, this.constructor.entity)
+    promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()).then((records) => {
+      console.log(records)
+    })
+  }
+
+  @autobind
   addProps() {
     const {
-      dispatch,
-      withFirstSelection
+      dispatch
     } = this.props
     const act = this.act
-    const boundAct = bindActionCreators(act, dispatch)
+    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
     const entity = this.constructor.entity
 
     return {
       entity,
       act,
-      boundAct,
+      promiseAct,
       onAddClick: this.onAddClick,
       onEditClick: this.onEditClick,
       onDeleteClick: this.onDeleteClick,
-      onRefresh: () => boundAct(CRUDAct.LIST_REQUESTED, this.baseListParams()),
-      onLimitChange: (e, limit) => boundAct(CRUDAct.LIST_SET_LIMIT, {limit}),
+      onRefresh: this.onRefresh,
+      onLimitChange: (e, limit) => promiseAct(CRUDAct.LIST_SET_LIMIT, {limit}),
     }
   }
 

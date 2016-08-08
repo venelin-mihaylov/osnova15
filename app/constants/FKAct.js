@@ -1,4 +1,5 @@
 "use strict"
+
 export default class FKAct {
 
   static FK_LIST_REQUESTED = 'FK_LIST_REQUESTED'

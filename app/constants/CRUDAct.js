@@ -1,4 +1,7 @@
 "use strict"
+
+import {toActionObject} from 'utils/Util'
+
 export default class CRUDAct {
 
   static CREATE_REQUESTED = 'CREATE_REQUESTED'
@@ -50,23 +53,14 @@ export default class CRUDAct {
     return entity.toUpperCase() + '_' + action
   }
 
-  static act = entity => (actionType, rest = {}) => {
-    if(Array.isArray(rest)) {
-      return Object.assign({
-        type: CRUDAct.type(entity, actionType),
-        value: rest
-      })
-    }
-
-    if(typeof rest === 'object') {
-      return Object.assign({
-        type: CRUDAct.type(entity, actionType)
-      }, rest)
-    } else {
-      return Object.assign({
-        type: CRUDAct.type(entity, actionType),
-        value: rest
-      })
-    }
+  static promiseAct = (dispatch, entity) => (actionType, rest) => {
+    return new Promise((resolve, reject) => {
+      const _rest = Object.assign({}, rest, {resolve, reject})
+      const _action = CRUDAct.act(entity)(actionType, _rest)
+      dispatch(_action)
+    })
   }
+
+  static act = entity => (actionType, rest = {}) => toActionObject(entity, actionType, rest)
+
 }

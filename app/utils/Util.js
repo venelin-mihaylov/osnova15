@@ -1,11 +1,8 @@
 "use strict"
 import React from "react"
 import {Errors} from "react-redux-form"
-import _get from "lodash.get"
 import CRUDAct from 'constants/CRUDAct'
-import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
-import FKAct from 'constants/FKAct'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -208,4 +205,22 @@ export function mergeDeep(target, source) {
 export function toArray(o) {
   if(!o) return []
   return Array.isArray(o) ? o : [o]
+}
+
+export function toActionObject(entity, actionType, rest) {
+  if(Array.isArray(rest)) {
+    return Object.assign({
+      type: CRUDAct.type(entity, actionType),
+      value: rest
+    })
+  } else if(typeof rest === 'object') {
+    return Object.assign({
+      type: CRUDAct.type(entity, actionType)
+    }, rest)
+  } else {
+    return Object.assign({
+      type: CRUDAct.type(entity, actionType),
+      value: rest
+    })
+  }
 }

@@ -6,13 +6,15 @@ import {actions} from "react-redux-form"
 import {rrfModel, rrfField} from "utils/Util"
 import {push} from 'react-router-redux'
 import {formatServerError, camelCaseToUnderscore} from 'utils/Util'
+import { noop } from 'lodash'
+
 
 export default function CRUDSaga(entity) {
   const act = CRUDAct.act(entity)
   const type = type => CRUDAct.type(entity, type)
   const endpoint = camelCaseToUnderscore(entity)
 
-  function* read({id}) {
+  function* read({id, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${id}`,
@@ -20,12 +22,14 @@ export default function CRUDSaga(entity) {
       })
       yield put(act(CRUDAct.READ_SUCCESS, {record: response.data}))
       yield put(actions.load(rrfModel(entity), response.data))
+      yield call(resolve, response.data)
     } catch(err) {
       yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
+      yield call(reject, err)
     }
   }
 
-  function* del({id, listParams = {}}) {
+  function* del({id, listParams = {}, resolve = noop, reject = noop}) {
     try {
       yield call(axios, {
         url: `/api/${endpoint}/${id}`,
@@ -33,29 +37,34 @@ export default function CRUDSaga(entity) {
       })
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield put(act(CRUDAct.LIST_REQUESTED, {...listParams}))
+      yield call(resolve)
     } catch(err) {
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
+      yield call(reject)
     }
   }
 
-  function* create({record, nextPath}) {
+  function* create({record, nextPath, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'put',
         data: record
       })
-      yield put(act(CRUDAct.CREATE_SUCCESS, {record: response.data}))
+      const created = response.data
+      yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
       if(nextPath) yield put(push(nextPath))
+      yield call(resolve, created)
     } catch(err) {
       let err2 = formatServerError(err)
       yield put(act(CRUDAct.CREATE_ERROR, err2))
       let {fieldErrors} = err2
       yield setValidationErrors(fieldErrors)
+      yield call(reject, err)
     }
   }
 
-  function* list({page, filter}) {
+  function* list({page, filter, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
@@ -65,9 +74,12 @@ export default function CRUDSaga(entity) {
           filter: filter ? JSON.stringify(filter) : null
         }
       })
-      yield put(act(CRUDAct.LIST_SUCCESS, {records: response.data}))
+      const records = response.data
+      yield put(act(CRUDAct.LIST_SUCCESS, {records}))
+      yield call(resolve, records)
     } catch(err) {
       yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
+      yield call(reject, err)
     }
   }
 
@@ -79,20 +91,25 @@ export default function CRUDSaga(entity) {
     }
   }
 
-  function* update({record, nextPath}) {
+  function* update({record, nextPath, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
         method: 'post',
         data: record
       })
-      yield put(act(CRUDAct.UPDATE_SUCCESS, {record: response.data}))
-      if(nextPath) yield put(push(nextPath))
+      const updated = response.data
+      yield put(act(CRUDAct.UPDATE_SUCCESS, {record: updated}))
+      if(nextPath) {
+        yield put(push(nextPath))
+      }
+      yield call(resolve, updated)
     } catch(err) {
       let err2 = formatServerError(err)
       yield put(act(CRUDAct.UPDATE_ERROR, err2))
       let {fieldErrors} = err2
       yield setValidationErrors(fieldErrors)
+      yield call(reject, err)
     }
   }
 

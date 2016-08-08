@@ -82,12 +82,13 @@ export default class OsnovaFormContainer extends React.Component {
 
     const entity = this.constructor.entity
     const act = this.act
-    const boundAct = bindActionCreators(act, dispatch)
+    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
 
     return {
       entity,
-      boundAct,
       action,
+      act,
+      promiseAct,
       onSubmit: (action == 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
       onCancel: this.onCancel
