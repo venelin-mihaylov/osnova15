@@ -16,7 +16,7 @@ export default class ExerciseService extends CRUDService {
     return {
       searchText: (qb, {operator, value}) => {
         const v = value.trim()
-        if(!v) return q
+        if(!v) return qb
 
         return qb.andWhere(function() {
           this.where('name', 'ilike', `%${v}%`)
