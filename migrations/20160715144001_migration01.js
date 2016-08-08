@@ -100,7 +100,7 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
-      t.decimal('distance').notNullable()
+      t.integer('distance').notNullable()
       t.string('description').notNullable()
       t.unique(['targetId', 'exerciseId'])
     }),
