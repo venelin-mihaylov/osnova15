@@ -15,7 +15,7 @@ export default class TargetListContainer extends OsnovaListContainer {
 
 
   baseListParams() {
-    if(this.props.route.filterByActiveMatchId) {
+    if(this.props.route.matchView) {
       return {
         filter: {
           matchId: this.props.params.matchId

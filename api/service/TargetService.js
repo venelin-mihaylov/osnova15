@@ -17,7 +17,7 @@ export default class TargetService extends CRUDService {
     return {
       searchText: (qb, {operator, value}) => {
         const v = value.trim()
-        if (!v) return
+        if (!v) return qb
         return qb.where('name', 'ilike', `%${v}%`).andWhere('favourite', '=', true)
       },
       matchId: (qb, {value}) => {
