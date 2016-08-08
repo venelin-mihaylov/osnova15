@@ -40,7 +40,7 @@ export default function CRUDSaga(entity) {
       yield call(resolve)
     } catch(err) {
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
-      yield call(reject)
+      yield call(reject, err)
     }
   }
 
@@ -53,12 +53,14 @@ export default function CRUDSaga(entity) {
       })
       const created = response.data
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
-      if(nextPath) yield put(push(nextPath))
+      if(nextPath) {
+        yield put(push(nextPath))
+      }
       yield call(resolve, created)
     } catch(err) {
-      let err2 = formatServerError(err)
+      const err2 = formatServerError(err)
       yield put(act(CRUDAct.CREATE_ERROR, err2))
-      let {fieldErrors} = err2
+      const {fieldErrors} = err2
       yield setValidationErrors(fieldErrors)
       yield call(reject, err)
     }
