@@ -13,7 +13,6 @@ import styles from 'styles/components/ExerciseFormFields.css'
 
 export const ExerciseFormFields = ({
   dispatch,
-  form,
   model,
   entity,
   onClickAddTarget
@@ -22,7 +21,7 @@ export const ExerciseFormFields = ({
 
   return <div>
     <AutoFields
-      {...{form, entity, styles}}
+      {...{entity, styles}}
       jsonSchema={ExerciseSchema}
       glue={({name}) => <br key={`glue-${name}`}/>}
       overrides={{
@@ -41,7 +40,7 @@ export const ExerciseFormFields = ({
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
         <div key={`"target-${idx}`}>
           <AutoFields
-            {...{form, entity, styles}}
+            {...{entity, styles}}
             namePrefix={`${relName}[${idx}]`}
             jsonSchema={ExerciseTargetSchema}
             relations={ExerciseTargetRelations}

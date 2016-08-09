@@ -8,7 +8,6 @@ import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 
 @connect(state => ({
   redux: state.target,
-  form: state.targetForm,
   model: state.targetModel
 }))
 @autobind

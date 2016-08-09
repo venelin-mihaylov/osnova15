@@ -11,7 +11,6 @@ import {push} from 'react-router-redux'
 
 @connect(state => ({
   redux: state.exercise,
-  form: state.exerciseForm,
   model: state.exerciseModel,
   fkRecord: state.target.savedRecord
 }))
