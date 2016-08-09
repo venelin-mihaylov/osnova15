@@ -1,12 +1,13 @@
 const ExerciseSchema = {
   type: 'object',
+  //required: ['name', 'type', 'module', 'minShots', 'rangeOfficer'],
   required: ['name'],
   properties: {
     id: {type: 'integer'},
     name: {type: 'string', maxLength: 255},
     minShots: {type: 'integer', min: 1, max: 99999},
     type: {
-      type: 'integer',
+      type: ['null', 'integer'],
       enum: [1,2],
       enumProps: {
         1: 'Individual',
@@ -14,7 +15,7 @@ const ExerciseSchema = {
       }
     },
     module: {
-      type: 'integer',
+      type: ['null', 'integer'],
       enum: [1, 2, 3],
       enumProps: {
         1: 'Module 1',
