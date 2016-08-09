@@ -15,7 +15,7 @@ import {log} from 'utils/Util'
 
 
 function isChecked(props) {
-  if (utils.isMulti(props.model)) {
+  if(utils.isMulti(props.model)) {
     return (props.modelValue || [])
       .filter((item) =>
       item === props.value)
@@ -41,12 +41,19 @@ const MaterialField = createFieldClass({
     },
     ...props
   }),
-  DatePicker: ({onChange, ...props}) => ({
-    value: props.modelValue ? new Date(props.modelValue) : null,
-    name: props.name || props.model,
-    onChange: (unused, value) => onChange(dateformat(value, 'isoDate')),
-    ...props,
-  }),
+  DatePicker: ({onChange, ...props}) => {
+    let value = null
+    if(props.modelValue && props.modelValue.trim()) {
+      const msec = Date.parse(props.modelValue)
+      value = new Date(msec)
+    }
+    return {
+      value,
+      name: props.name || props.model,
+      onChange: (unused, value) => onChange(dateformat(value, 'isoDate')),
+      ...props,
+    }
+  },
   Checkbox: (props) => ({
     name: props.name || props.model,
     checked: props.defaultChecked
