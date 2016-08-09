@@ -39,7 +39,7 @@ export const ExerciseFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <div>
+        <div key={`"target-${idx}`}>
           <AutoFields
             {...{form, entity, styles}}
             namePrefix={`${relName}[${idx}]`}
