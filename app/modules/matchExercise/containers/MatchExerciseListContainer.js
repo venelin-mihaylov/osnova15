@@ -8,6 +8,7 @@ import OsnovaListContainer from 'components/OsnovaListContainer'
 import FKSelect from 'components/FKSelect'
 import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
+import axios from 'axios'
 
 @connect(state => ({redux: state.matchExercise}))
 @autobind
@@ -41,11 +42,14 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           hintText="Add exercise"
           onChange={(exerciseId) => {
             const record = {matchId, exerciseId}
-            console.log('record')
-            console.log(record)
-            promiseAct(CRUDAct.CREATE_REQUESTED, {record}).then(created => {
-              console.log('created')
-              console.log(created)
+            axios({
+              url: '/api/exercise/misc/createFavouriteExerciseForMatch',
+              method: 'post',
+              data: record
+            }).then(() => {
+              dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()))
+            }).catch(err => {
+              console.log(err)
             })
           }}
           listParams={{

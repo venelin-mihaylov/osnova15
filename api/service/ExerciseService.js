@@ -4,6 +4,7 @@ import * as web from 'express-decorators';
 import ItoN from '../utils/ItoN'
 import NotFoundException from '../exception/NotFoundException'
 import knex from 'knex'
+import _forOwn from 'lodash.forown'
 
 
 @autobind
@@ -11,6 +12,33 @@ import knex from 'knex'
 export default class ExerciseService extends CRUDService {
 
   ItoNRelation = 'exercise_target'
+
+  @web.post('/misc/createFavouriteExerciseForMatch')
+  async webCreateFavouriteExerciseForMatch(req, res) {
+    res.json(await this.createFavouriteExerciseForMatch(req.body))
+  }
+
+  async createFavouriteExerciseForMatch(input) {
+    const exercise = await this.model.query().findById(input.exerciseId).eager('exercise_target')
+    if(!exercise) {
+      throw new Error("bad input")
+    }
+
+    let json = exercise.toJSON()
+    delete json.id
+    json.favourite = false
+    for(var i = 0; i < json.exercise_target.length; i++) {
+      delete json.exercise_target[i].id
+    }
+    json.match_exercise = [{
+      matchId: input.matchId
+    }]
+
+    return await this.model.query().insertWithRelated(json).returning('*').then((result) => {
+      return result.id
+    })
+  }
+
 
   filterRules() {
     return {
