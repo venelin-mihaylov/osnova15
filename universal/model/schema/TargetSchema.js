@@ -4,7 +4,7 @@ const TargetSchema = {
 
   properties: {
     id: {type: 'integer'},
-    name: {type: 'string', minLength: 10, maxLength: 255},
+    name: {type: 'string'},
     type: {
       type: 'integer',
       enum: [1, 2],
