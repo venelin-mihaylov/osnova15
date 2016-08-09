@@ -20,24 +20,24 @@ export default function CRUDSaga(entity) {
         url: `/api/${endpoint}/${id}`,
         method: 'get'
       })
-      yield put(act(CRUDAct.READ_SUCCESS, {record: response.data}))
-      yield put(actions.load(rrfModel(entity), response.data))
-      yield call(resolve, response.data)
+      const record = response.data
+      yield put(act(CRUDAct.READ_SUCCESS, {record}))
+      yield put(actions.load(rrfModel(entity), record))
+      yield call(resolve, record)
     } catch(err) {
       yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
   }
 
-  function* del({id, listParams = {}, resolve = noop, reject = noop}) {
+  function* del({id, resolve = noop, reject = noop}) {
     try {
       yield call(axios, {
         url: `/api/${endpoint}/${id}`,
         method: 'delete'
       })
       yield put(act(CRUDAct.DELETE_SUCCESS))
-      yield put(act(CRUDAct.LIST_REQUESTED, {...listParams}))
-      yield call(resolve)
+      yield call(resolve, id)
     } catch(err) {
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       yield call(reject, err)

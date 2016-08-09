@@ -55,7 +55,13 @@ export default class OsnovaListContainer extends React.Component {
       withFirstSelection
     } = this.props
 
-    withFirstSelection(({id}) => dispatch(this.act(CRUDAct.DELETE_REQUESTED, {id, listParams: this.baseListParams()})))
+    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
+
+    withFirstSelection(({id}) => {
+      promiseAct(CRUDAct.DELETE_REQUESTED, {id}).then(() => {
+        return promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())
+      })
+    })
   }
 
   @autobind
