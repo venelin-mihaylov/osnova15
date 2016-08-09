@@ -99,7 +99,11 @@ const dataSpec = {
     weight: 1
   }),
   exercise: generate(count.exercise, {
-    name: (i) => `Exercise ${i}`
+    name: (i) => `Exercise ${i}`,
+    minShots: () => randInt(1, 100),
+    type: () => randInt(1, 2),
+    module: () => randInt(1, 3),
+    favourite: () => randInt(1, 2) == 1
   }),
   exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
