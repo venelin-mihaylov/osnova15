@@ -13,10 +13,9 @@ import {toArray} from 'utils/Util'
 export default class AutoFields extends React.Component {
 
   static propTypes = {
-    form: React.PropTypes.object.isRequired,
     entity: React.PropTypes.string.isRequired,
     jsonSchema: React.PropTypes.object.isRequired,
-    glue: React.PropTypes.oneOf([
+    glue: React.PropTypes.oneOfType([
       React.PropTypes.object,
       React.PropTypes.func
     ]),
@@ -70,7 +69,7 @@ export default class AutoFields extends React.Component {
     //const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
     const common = {required, className, defaultValue}
-    const commonLabel = {
+    const floatingLabel = {
       floatingLabelText: label,
       floatingLabelFixed: true
     }
@@ -85,9 +84,9 @@ export default class AutoFields extends React.Component {
         genInput = React.createElement(DatePicker, Object.assign({
           container: 'inline',
           autoOk: true
-        }, common, commonLabel, inputProps))
+        }, common, floatingLabel, inputProps))
       } else {
-        genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+        genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
       }
     } else if(-1 != t.indexOf('integer')) {
       if(fkProps.entity) {
@@ -95,24 +94,29 @@ export default class AutoFields extends React.Component {
           entity: fkProps.entity,
           variation: "1", // by default variation is "1"
           labelField: labelField,
-        }, common, commonLabel, inputProps))
+        }, common, floatingLabel, inputProps))
       } else if(enumProps) {
         let arr = _.isArray(enumProps) ?
           enumProps :
           Object.keys(enumProps).map(value => ({value: parseInt(value), label: enumProps[value]}))
 
+        const nullValue = React.createElement(MenuItem, {
+          key: 'nullValue',
+          value: null,
+          primaryText: ' '
+        })
         genInput = React.createElement(SelectField,
-          Object.assign({}, common, commonLabel, inputProps),
-          arr.map(({value, label}) => React.createElement(MenuItem, {
+          Object.assign({}, common, floatingLabel, inputProps),
+          [nullValue].concat(arr.map(({value, label}) => React.createElement(MenuItem, {
             key: value + label,
             value,
             primaryText: label
-          })))
+          }))))
       } else {
-        genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+        genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
       }
     } else if(-1 != t.indexOf('number')) {
-      genInput = React.createElement(TextField, Object.assign({}, common, commonLabel, inputProps))
+      genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
     } else if(-1 != t.indexOf('boolean')) {
       genInput = React.createElement(Checkbox, Object.assign({
         label,
