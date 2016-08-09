@@ -77,6 +77,9 @@ export default (store) => {
         <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={ExerciseFormContainer}/>
         <Route name='Edit exercise' path=':matchId/exercise/:matchExerciseId/:id/edit' action='edit' component={ExerciseFormContainer}/>
 
+        <Route name='Add new target' path=':matchId/exercise/add/create-target' action='add' component={TargetFormContainer}/>
+        <Route name='Add new target' path=':matchId/exercise/:matchExerciseId/:id/edit/create-target' action='add' component={TargetFormContainer}/>
+
         <Route name='Targets' path=':matchId/target' matchView={true} component={TargetListContainer}/>
 
         <Route name='Add match' path='add' component={MatchFormContainer}/>
