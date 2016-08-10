@@ -6,8 +6,11 @@ import AppLeftNav from "./AppLeftNav"
 import {connect} from "react-redux"
 import Breadcrumbs from 'react-breadcrumbs'
 import ActionType from 'constants/ActionType'
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 
+@DragDropContext(HTML5Backend)
 @connect(state => ({
   nav: state.nav
 }))
