@@ -42,7 +42,10 @@ import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme"
 
 // add css for react-datagrid
 require('react-datagrid/index.css')
+// add flexboxgrid
 require('flexboxgrid/css/flexboxgrid.css')
+// add tinycss
+require('purecss/build/tables.css')
 
 // required for material-ui to work
 injectTapEventPlugin()
