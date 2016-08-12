@@ -2,8 +2,7 @@
 import React from "react"
 import {autobind} from "core-decorators"
 import {connect} from "react-redux"
-import {search, Search, SearchColumns} from 'reactabular';
-import EasyTable from 'reactabular-easy';
+import BaseTable from 'components/BaseTable'
 import CRUDAct from 'constants/CRUDAct'
 
 @connect(state => ({redux: state.tournament}))
@@ -51,23 +50,24 @@ export default class TournamentListContainer extends React.Component {
         label: 'id',
         draggable: true,
         sortable: true,
-        resizable: true
+        resizable: true,
       }, cell: {
         property: 'id',
       },
-      width: 50,
+      width: 200,
       visible: true
     }, {
       header: {
         label: 'Name',
         draggable: true,
         sortable: true,
-        resizable: true
+        resizable: true,
       }, cell: {
         property: 'name',
-        highlight: true
+        highlight: true,
+
       },
-      width: 250,
+      width: 800,
       visible: true
     }]
   }
@@ -92,26 +92,13 @@ export default class TournamentListContainer extends React.Component {
       columns,
       query
     } = this.state
-    const cols = this.state.columns.filter(column => column.visible);
 
     return <div>
-      <div className="search-container">
-        <span>Search</span>
-        <Search
-          query={query}
-          columns={listRecords}
-          rows={listRecords}
-          onChange={query => this.setState({ query })}
-        />
-      </div>
-
-      <EasyTable
+      <BaseTable
         rows={listRecords}
         rowKey="id"
         sortingColumns={{}}
-        tableWidth={800}
-        tableHeight={400}
-        columns={cols}
+        columns={columns}
         query={query}
         classNames={{
           table: {
@@ -119,13 +106,6 @@ export default class TournamentListContainer extends React.Component {
           }
         }}
         selectedRowId="id"
-        headerExtra={
-          <SearchColumns
-            query={query}
-            columns={columns}
-            onChange={query => this.setState({ query })}
-          />
-        }
         onDragColumn={this.onDragColumn}
         onMoveColumns={this.onMoveColumns}
         onSelectRow={this.onSelectRow}
