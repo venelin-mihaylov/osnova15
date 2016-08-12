@@ -26,24 +26,6 @@ export default class TournamentListContainer extends React.Component {
     this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED))
   }
 
-  onSelectRow({ selectedRowId, selectedRow }) {
-    console.log('onSelectRow', selectedRowId, selectedRow);
-  }
-
-  onSort(sortingColumns) {
-    console.log('onSort', sortingColumns);
-  }
-
-  onRow(row, rowIndex) {
-    return {
-      className: rowIndex % 2 ? 'odd-row' : 'even-row'
-    };
-  }
-
-  onRemove(id) {
-    console.log('remove ' + id)
-  }
-
   getColumns() {
     return [{
       header: {
@@ -72,12 +54,6 @@ export default class TournamentListContainer extends React.Component {
     }]
   }
 
-  onDragColumn(width, columnIndex) {
-    console.log('onDragColumn', width, columnIndex);
-  }
-  onMoveColumns(columns) {
-    console.log('onMoveColumns', columns);
-  }
 
   render() {
 
@@ -105,12 +81,6 @@ export default class TournamentListContainer extends React.Component {
             wrapper: 'pure-table pure-table-striped'
           }
         }}
-        selectedRowId="id"
-        onDragColumn={this.onDragColumn}
-        onMoveColumns={this.onMoveColumns}
-        onSelectRow={this.onSelectRow}
-        onSort={this.onSort}
-        onRow={this.onRow}
       />
     </div>
   }

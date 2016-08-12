@@ -1,4 +1,4 @@
-import { fork, put, take, call } from 'redux-saga/effects'
+import {fork} from 'redux-saga/effects'
 
 import CRUDSaga from './CRUDSaga'
 import FKSaga from './FKSaga'
