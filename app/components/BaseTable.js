@@ -4,6 +4,7 @@ import EasyTable from 'reactabular-easy'
 import {autobind} from 'core-decorators'
 import classnames from 'classnames'
 import {log} from 'utils/Util'
+import TableToolbar from 'components/TableToolbar'
 
 import styles from 'styles/components/BaseTable.css'
 

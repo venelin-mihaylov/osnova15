@@ -19,6 +19,7 @@ export default function CRUDReducer({
     resetForm: true, // reset/load the crud form
     selectCreatedFK: false, // flag to look for newly created FK
     listError: false, // list error
+    listSelectedId: null, // list selection
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
     listFilter: null, // list filters

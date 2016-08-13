@@ -1,7 +1,7 @@
 "use strict"
 import React from "react"
 import TableToolbar from "components/TableToolbar"
-import DataGrid from 'react-datagrid'
+import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 
 const EntityList = ({
@@ -16,6 +16,7 @@ const EntityList = ({
   toolbarProps = {},
   redux: {
     listRecords,
+    listSelectedId,
     listLoading,
     listError,
     listLimit
@@ -30,7 +31,17 @@ const EntityList = ({
       limit={listLimit}
     />
     <GlobalError globalError={listError}/>
-    <DataGrid
+    <BaseTable
+      rows={listRecords}
+      rowKey="id"
+      sortingColumns={{}}
+      query={''}
+      tableWidth="100%"
+      classNames={{
+        table: {
+          wrapper: 'pure-table pure-table-striped'
+        }
+      }}
       idProperty={idProperty}
       zebraRows={false}
       dataSource={listRecords}

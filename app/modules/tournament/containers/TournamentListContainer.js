@@ -2,12 +2,13 @@
 import React from "react"
 import {autobind} from "core-decorators"
 import {connect} from "react-redux"
-import BaseTable from 'components/BaseTable'
+import EntityList from 'components/EntityList'
 import CRUDAct from 'constants/CRUDAct'
+import OsnovaListContainer from 'components/OsnovaListContainer''
 
 @connect(state => ({redux: state.tournament}))
 @autobind
-export default class TournamentListContainer extends React.Component {
+export default class TournamentListContainer extends OsnovaListContainer {
 
   static entity = 'tournament'
 
@@ -54,34 +55,32 @@ export default class TournamentListContainer extends React.Component {
     }]
   }
 
-
   render() {
 
     const {
       dispatch,
       redux: {
-        listRecords
+        listRecords,
+        listSelectedId
       }
     } = this.props
 
+    const columns = this.getColumns()
+
     const {
-      columns,
       query
     } = this.state
 
-    return <div>
-      <BaseTable
-        rows={listRecords}
-        rowKey="id"
-        sortingColumns={{}}
+    return <EntityList
         columns={columns}
-        query={query}
+        tableWidth="100%"
+        rows={listRecords}
         classNames={{
           table: {
             wrapper: 'pure-table pure-table-striped'
           }
         }}
+        {...this.addProps()}
       />
-    </div>
   }
 }
