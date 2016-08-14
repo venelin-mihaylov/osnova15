@@ -11,8 +11,6 @@ const EntityList = ({
   onLimitChange,
   onRefresh,
   toolbarTitle,
-  idProperty,
-  selectedId,
   toolbarProps = {},
   redux: {
     listRecords,
@@ -26,7 +24,7 @@ const EntityList = ({
 
   return (<div>
     <TableToolbar
-      {...{selectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      {...{listSelectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
       limit={listLimit}
     />
@@ -42,13 +40,6 @@ const EntityList = ({
           wrapper: 'pure-table pure-table-striped'
         }
       }}
-      idProperty={idProperty}
-      zebraRows={false}
-      dataSource={listRecords}
-      style={{height: 500}}
-      selected={selectedId}
-      sortInfo={null}
-      loading={listLoading}
       {...rest}
     />
   </div>)

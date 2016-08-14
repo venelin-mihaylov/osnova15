@@ -5,6 +5,7 @@ import {calcNextPath} from 'utils/Util'
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 
+@autobind
 export default class OsnovaListContainer extends React.Component {
 
   static entity = null
@@ -22,23 +23,24 @@ export default class OsnovaListContainer extends React.Component {
     this.listServerRecords()
   }
 
-  @autobind
+  onSelectRow({ selectedRowId, selectedRow }) {
+    console.log('onSelectRow', selectedRowId, selectedRow)
+    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id: selectedRowId, record: selectedRow}))
+  }
+
   listServerRecords() {
     this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, this.baseListParams()))
   }
 
-  @autobind
   nextPath({action, id, record}) {
     const {location: {pathname}} = this.props
     return calcNextPath({pathname, action, id, record})
   }
 
-  @autobind
   onAddClick() {
     this.props.dispatch(push(this.nextPath({action: 'add'})))
   }
 
-  @autobind
   onEditClick() {
     const {
       dispatch,
@@ -48,7 +50,6 @@ export default class OsnovaListContainer extends React.Component {
     withFirstSelection((record) => dispatch(push(this.nextPath({action: 'edit', id: record.id, record}))))
   }
 
-  @autobind
   onDeleteClick() {
     const {
       dispatch,
@@ -64,7 +65,6 @@ export default class OsnovaListContainer extends React.Component {
     })
   }
 
-  @autobind
   onRefresh() {
     const promiseAct = CRUDAct.promiseAct(this.props.dispatch, this.constructor.entity)
     promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()).then((records) => {
@@ -72,7 +72,6 @@ export default class OsnovaListContainer extends React.Component {
     })
   }
 
-  @autobind
   addProps() {
     const {
       dispatch
@@ -90,9 +89,7 @@ export default class OsnovaListContainer extends React.Component {
       onDeleteClick: this.onDeleteClick,
       onRefresh: this.onRefresh,
       onLimitChange: (e, limit) => promiseAct(CRUDAct.LIST_SET_LIMIT, {limit}),
+      onSelectRow: this.onSelectRow,
     }
   }
-
-
-
 }

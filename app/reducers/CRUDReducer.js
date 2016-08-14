@@ -19,7 +19,8 @@ export default function CRUDReducer({
     resetForm: true, // reset/load the crud form
     selectCreatedFK: false, // flag to look for newly created FK
     listError: false, // list error
-    listSelectedId: null, // list selection
+    listSelectedId: null, // list selection id
+    listSelectedRecord: null, // list selection record
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
     listFilter: null, // list filters
@@ -152,6 +153,16 @@ export default function CRUDReducer({
           globalError: false,
           fieldErrors: false,
           selectCreatedFK: false
+        })
+      case addPrefix(CRUDAct.LIST_SET_SELECTION):
+        return Object.assign({}, state, {
+          listSelectedId: action.id,
+          listSelectedRecord: action.record
+        })
+      case addPrefix(CRUDAct.LIST_CLEAR_SELECTION):
+        return Object.assign({}, state, {
+          listSelectedId: null,
+          listSelectedRecord: null
         })
       default:
         return state

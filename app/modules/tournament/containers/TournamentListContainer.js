@@ -4,7 +4,7 @@ import {autobind} from "core-decorators"
 import {connect} from "react-redux"
 import EntityList from 'components/EntityList'
 import CRUDAct from 'constants/CRUDAct'
-import OsnovaListContainer from 'components/OsnovaListContainer''
+import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.tournament}))
 @autobind
@@ -58,28 +58,16 @@ export default class TournamentListContainer extends OsnovaListContainer {
   render() {
 
     const {
-      dispatch,
-      redux: {
-        listRecords,
-        listSelectedId
-      }
+      dispatch
     } = this.props
 
     const columns = this.getColumns()
 
-    const {
-      query
-    } = this.state
-
     return <EntityList
         columns={columns}
         tableWidth="100%"
-        rows={listRecords}
-        classNames={{
-          table: {
-            wrapper: 'pure-table pure-table-striped'
-          }
-        }}
+        toolbarTitle="Tournaments"
+        {...this.props}
         {...this.addProps()}
       />
   }
