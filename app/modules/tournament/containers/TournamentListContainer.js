@@ -65,7 +65,6 @@ export default class TournamentListContainer extends OsnovaListContainer {
 
     return <EntityList
         columns={columns}
-        tableWidth="100%"
         toolbarTitle="Tournaments"
         {...this.props}
         {...this.addProps()}

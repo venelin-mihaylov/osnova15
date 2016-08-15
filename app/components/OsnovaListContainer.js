@@ -23,9 +23,10 @@ export default class OsnovaListContainer extends React.Component {
     this.listServerRecords()
   }
 
-  onSelectRow({ selectedRowId, selectedRow }) {
-    console.log('onSelectRow', selectedRowId, selectedRow)
-    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id: selectedRowId, record: selectedRow}))
+  onSelectRow(idx) {
+    console.log(`onSelectRow: ${idx}`)
+    const record = this.props.redux.listRecords[idx]
+    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id: record.id, record}))
   }
 
   listServerRecords() {
@@ -44,32 +45,37 @@ export default class OsnovaListContainer extends React.Component {
   onEditClick() {
     const {
       dispatch,
-      withFirstSelection
+      redux: {
+        listSelectedId: id,
+        listSelectedRecord: record
+      }
     } = this.props
 
-    withFirstSelection((record) => dispatch(push(this.nextPath({action: 'edit', id: record.id, record}))))
+    if(id) {
+      dispatch(push(this.nextPath({action: 'edit', id, record})))
+    }
   }
 
   onDeleteClick() {
     const {
       dispatch,
-      withFirstSelection
+      redux: {
+        listSelectedId: id,
+        listSelectedRecord: record
+      }
     } = this.props
 
-    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
-
-    withFirstSelection(({id}) => {
-      promiseAct(CRUDAct.DELETE_REQUESTED, {id}).then(() => {
+    if(id) {
+      const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
+      promiseAct(CRUDAct.DELETE_REQUESTED, {id, record}).then(() => {
         return promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())
       })
-    })
+    }
   }
 
   onRefresh() {
     const promiseAct = CRUDAct.promiseAct(this.props.dispatch, this.constructor.entity)
-    promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()).then((records) => {
-      console.log(records)
-    })
+    promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())
   }
 
   addProps() {

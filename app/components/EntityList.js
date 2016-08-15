@@ -12,6 +12,7 @@ const EntityList = ({
   onRefresh,
   toolbarTitle,
   toolbarProps = {},
+  redux,
   redux: {
     listRecords,
     listSelectedId,
@@ -31,15 +32,8 @@ const EntityList = ({
     <GlobalError globalError={listError}/>
     <BaseTable
       rows={listRecords}
+      selectedRowId={listSelectedId}
       rowKey="id"
-      sortingColumns={{}}
-      query={''}
-      tableWidth="100%"
-      classNames={{
-        table: {
-          wrapper: 'pure-table pure-table-striped'
-        }
-      }}
       {...rest}
     />
   </div>)
