@@ -155,10 +155,17 @@ export default function CRUDReducer({
           selectCreatedFK: false
         })
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
-        return Object.assign({}, state, {
-          listSelectedId: action.id,
-          listSelectedRecord: action.record
-        })
+        if(state.listSelectedId === action.id) {
+          return Object.assign({}, state, {
+            listSelectedId: null,
+            listSelectedRecord: null
+          })
+        } else {
+          return Object.assign({}, state, {
+            listSelectedId: action.id,
+            listSelectedRecord: action.record
+          })
+        }
       case addPrefix(CRUDAct.LIST_CLEAR_SELECTION):
         return Object.assign({}, state, {
           listSelectedId: null,
