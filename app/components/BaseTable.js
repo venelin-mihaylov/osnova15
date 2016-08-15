@@ -2,6 +2,7 @@ import React from 'react'
 import {Table, select} from 'reactabular'
 import {autobind} from 'core-decorators'
 import classNames from 'classnames'
+import { mergeClassNames } from 'reactabular-utils'
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import noop from 'lodash/noop'
@@ -12,11 +13,17 @@ import styles from 'styles/components/BaseTable.css'
 export default class BaseTable extends React.Component {
 
   static propTypes = {
-    onSelectRow: React.PropTypes.func
+    onSelectRow: React.PropTypes.func,
+    onRow: React.PropTypes.func,
+    selectedRowId: React.PropTypes.any,
+    selectedRowRecord: React.PropTypes.object,
+    selectedRowIdField: React.PropTypes.string
   }
 
-  defaultProps = {
-    onSelectRow: noop
+  static defaultProps = {
+    onSelectRow: noop,
+    selectedRowIdField: 'id',
+    onRow: () => ({})
   }
 
   constructor() {
@@ -25,39 +32,53 @@ export default class BaseTable extends React.Component {
 
   onRow(row, rowIndex) {
     const {
-      rows,
-      rowKey,
-      selectedRowId
+      selectedRowId,
+      selectedRowIdField,
+      onRow,
+
     } = this.props
-
-
-    const selected = !!find(rows, {[rowKey]: selectedRowId})
+    const { className, ...props } = onRow(row, rowIndex)
+    const selected = row[selectedRowIdField] == selectedRowId
     return {
-      className: classNames({
-        [styles.selectedRow]: selected
-      }),
+      className: mergeClassNames(className, selected && styles.selectedRow),
       selected,
-      onClick: () => this.props.onSelectRow(rowIndex)
-    }
+      onClick: () => this.selectRow(rowIndex),
+      ...props
+    };
+  }
+  selectRow(selectedRowIndex) {
+    const { selectedRowIdField, rows} = this.props;
+
+    const selected = select.row({
+      rows,
+      isSelected: (row, selectedRowId) => row[selectedRowIdField] === selectedRowId,
+      selectedRowId: rows[selectedRowIndex][selectedRowIdField]
+    });
+
+    this.props.onSelectRow({
+      selectedRowId: selected.selectedRow[selectedRowIdField],
+      selectedRow: selected.selectedRow
+    });
   }
 
   render() {
-
     const {
       columns,
       rows,
       rowKey,
-      onSelectRow,
+      onRow, // exclude
+      onSelectRow, // exclude
       selectedRowId,
+      selectedRow,
       ...rest
-    } = this.props
+    } = this.props // eslint-disable-line no-unused-vars
 
-    const selectedRowIndex = findIndex(rows, {rowKey: selectedRowId})
+    const selectedRowIndex = findIndex(rows, {[rowKey]: selectedRowId})
 
     return select.byArrowKeys({
       rows,
       selectedRowIndex,
-      onSelectRow,
+      onSelectRow: this.selectRow,
     })(<Table.Provider
       className="pure-table pure-table-striped"
       columns={columns}

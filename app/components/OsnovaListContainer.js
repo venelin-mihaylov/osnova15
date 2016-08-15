@@ -23,10 +23,9 @@ export default class OsnovaListContainer extends React.Component {
     this.listServerRecords()
   }
 
-  onSelectRow(idx) {
-    console.log(`onSelectRow: ${idx}`)
-    const record = this.props.redux.listRecords[idx]
-    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id: record.id, record}))
+  onSelectRow({selectedRowId: id, selectedRow: record}) {
+    console.log(`onSelectRow: ${id}`)
+    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id, record}))
   }
 
   listServerRecords() {

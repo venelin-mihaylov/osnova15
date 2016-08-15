@@ -16,6 +16,7 @@ const EntityList = ({
   redux: {
     listRecords,
     listSelectedId,
+    listSelectedRecord,
     listLoading,
     listError,
     listLimit
@@ -33,6 +34,7 @@ const EntityList = ({
     <BaseTable
       rows={listRecords}
       selectedRowId={listSelectedId}
+      selectedRow={listSelectedRecord}
       rowKey="id"
       {...rest}
     />
