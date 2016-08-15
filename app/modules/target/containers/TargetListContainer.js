@@ -30,11 +30,19 @@ export default class TargetListContainer extends OsnovaListContainer {
     return <EntityList
       toolbarTitle="Targets"
       columns={[{
-        name: 'id',
-        title: 'ИД'
+        header: {
+          label: 'id'
+        },
+        cell: {
+          property: 'id'
+        }
       }, {
-        name: 'name',
-        title: 'name'
+        header: {
+          label: 'name'
+        },
+        cell: {
+          property: 'name'
+        }
       }]}
       {...this.props}
       {...(this.addProps())}

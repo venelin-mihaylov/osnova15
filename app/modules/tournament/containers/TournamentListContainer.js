@@ -14,45 +14,11 @@ export default class TournamentListContainer extends OsnovaListContainer {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      columns: this.getColumns(),
-      query: {}
-    };
-
     this.act = CRUDAct.act(this.constructor.entity)
   }
 
   componentWillMount() {
     this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED))
-  }
-
-  getColumns() {
-    return [{
-      header: {
-        label: 'id',
-        draggable: true,
-        sortable: true,
-        resizable: true,
-      }, cell: {
-        property: 'id',
-      },
-      width: 200,
-      visible: true
-    }, {
-      header: {
-        label: 'Name',
-        draggable: true,
-        sortable: true,
-        resizable: true,
-      }, cell: {
-        property: 'name',
-        highlight: true,
-
-      },
-      width: 800,
-      visible: true
-    }]
   }
 
   render() {
@@ -61,10 +27,30 @@ export default class TournamentListContainer extends OsnovaListContainer {
       dispatch
     } = this.props
 
-    const columns = this.getColumns()
-
     return <EntityList
-        columns={columns}
+        columns={[{
+          header: {
+            label: 'id',
+            draggable: true,
+            sortable: true,
+            resizable: true,
+          }, cell: {
+            property: 'id',
+          },
+          width: 200
+        }, {
+          header: {
+            label: 'Name',
+            draggable: true,
+            sortable: true,
+            resizable: true,
+          }, cell: {
+            property: 'name',
+            highlight: true,
+
+          },
+          width: 800
+        }]}
         toolbarTitle="Tournaments"
         {...this.props}
         {...this.addProps()}

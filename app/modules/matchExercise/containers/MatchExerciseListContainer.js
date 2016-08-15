@@ -63,12 +63,20 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         />]
       }}
       columns={[{
-        name: 'id',
-        title: 'ИД'
+        header: {
+          label: 'id'
+        },
+        cell: {
+          property: 'id'
+        }
       }, {
-        name: 'exerciseId',
-        title: 'Exercise',
-        render: ({data: {exercise}}) => (exercise ? `${exercise.name}` : '')
+        header: {
+          label: 'Exercise'
+        },
+        cell: {
+          property: 'exercise',
+          format: ({name}) => name
+        }
       }]}
       {...this.props}
       {...addProps}

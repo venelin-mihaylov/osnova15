@@ -18,17 +18,33 @@ export default class CompetitorListContainer extends OsnovaListContainer {
     return <EntityList
       toolbarTitle="Competitors"
       columns={[{
-        name: 'id',
-        title: 'ИД'
+        header: {
+          label: 'id'
+        },
+        cell: {
+          property: 'id'
+        }
       }, {
-        name: 'firstName',
-        title: 'first name'
+        header: {
+          label: 'firstName'
+        },
+        cell: {
+          property: 'firstName'
+        }
       }, {
-        name: 'lastName',
-        title: 'last name'
+        header: {
+          label: 'lastName'
+        },
+        cell: {
+          property: 'lastName'
+        }
       }, {
-        name: 'email',
-        title: 'email'
+        header: {
+          label: 'email'
+        },
+        cell: {
+          property: 'email'
+        }
       }]}
       {...this.props}
       {...(this.addProps())}

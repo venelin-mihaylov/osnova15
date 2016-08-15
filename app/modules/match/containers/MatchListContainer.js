@@ -14,7 +14,6 @@ import ActionType from 'constants/ActionType'
   nav: state.nav
 }))
 @autobind
-@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class MatchListContainer extends OsnovaListContainer {
 
   static entity = 'match'
@@ -22,8 +21,9 @@ export default class MatchListContainer extends OsnovaListContainer {
   render() {
     const {
       dispatch,
-      withFirstSelection,
-      selectedId,
+      redux: {
+        listSelectedId
+      },
       nav: {
         activeMatchId
       }
@@ -45,20 +45,32 @@ export default class MatchListContainer extends OsnovaListContainer {
           key="enterMatch"
           label="Enter Match"
           primary={true}
-          disabled={!selectedId}
-          onClick={() => withFirstSelection(r => dispatch({type: ActionType.ENTER_MATCH, matchId: r.id}))}
+          disabled={!listSelectedId}
+          onClick={() => dispatch({type: ActionType.ENTER_MATCH, matchId: listSelectedId})}
           icon={<FontIcon className="fa fa-download"/>}
           />])
       }}
       columns={[{
-        name: 'id',
-        title: 'ИД'
+        header: {
+          label: 'id'
+        },
+        cell: {
+          property: 'id'
+        }
       }, {
-        name: 'name',
-        title: 'Име'
+        header: {
+          label: 'name'
+        },
+        cell: {
+          property: 'name'
+        }
       }, {
-        name: 'tournamentId__name',
-        title: 'Състезание'
+        header: {
+          label: 'Tournament'
+        },
+        cell: {
+          property: 'tournamentId__name'
+        }
       }]}
       {...this.props}
       {...(this.addProps())}

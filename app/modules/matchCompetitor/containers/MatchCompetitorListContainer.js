@@ -28,16 +28,28 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
     return <EntityList
       toolbarTitle="MatchCompetitors"
       columns={[{
-        name: 'id',
-        title: 'ИД'
+        header: {
+          label: 'id'
+        },
+        cell: {
+          property: 'id'
+        }
       }, {
-        name: 'competitorId',
-        title: 'Състезател',
-        render: ({data: {competitor}}) => (competitor ? `${competitor.firstName} ${competitor.lastName}` : '')
+        header: {
+          label: 'competitor'
+        },
+        cell: {
+          property: 'competitor',
+          format: ({firstName, lastName}) => `${firstName} ${lastName}`
+        }
       }, {
-        name: 'disqualified',
-        title: 'Дисквалифициран',
-        render: ({value}) => value ? 'Yes' : 'No'
+        header: {
+          label: 'disqualified'
+        },
+        cell: {
+          property: 'disqualified',
+          format: (v) => v ? 'Yes' : 'No'
+        }
       }]}
       {...this.props}
       {...(this.addProps())}
