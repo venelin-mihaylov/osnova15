@@ -82,6 +82,9 @@ export default class BaseTable extends React.Component {
     })(<Table.Provider
       className="pure-table pure-table-striped"
       columns={columns}
+      style={{
+        width: '100%'
+      }}
     >
       <Table.Header />
 

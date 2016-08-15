@@ -64,14 +64,24 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
       }}
       columns={[{
         header: {
-          label: 'id'
+          label: 'id',
+          props: {
+            style: {
+              width: 200
+            }
+          }
         },
         cell: {
           property: 'id'
         }
       }, {
         header: {
-          label: 'Exercise'
+          label: 'Exercise',
+          props: {
+            style: {
+              width: 'calc(100% - 200px)'
+            }
+          }
         },
         cell: {
           property: 'exercise',
