@@ -24,7 +24,6 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   onSelectRow({selectedRowId: id, selectedRow: record}) {
-    console.log(`onSelectRow: ${id}`)
     this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id, record}))
   }
 
@@ -68,6 +67,8 @@ export default class OsnovaListContainer extends React.Component {
       const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
       promiseAct(CRUDAct.DELETE_REQUESTED, {id, record}).then(() => {
         return promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())
+      }).then(() => {
+        return promiseAct(CRUDAct.LIST_CLEAR_SELECTION)
       })
     }
   }
