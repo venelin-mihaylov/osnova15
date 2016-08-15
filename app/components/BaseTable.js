@@ -2,7 +2,7 @@ import React from 'react'
 import {Table, select} from 'reactabular'
 import {autobind} from 'core-decorators'
 import classNames from 'classnames'
-import { mergeClassNames } from 'reactabular-utils'
+import {mergeClassNames} from 'reactabular-utils'
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import noop from 'lodash/noop'
@@ -37,7 +37,7 @@ export default class BaseTable extends React.Component {
       onRow,
 
     } = this.props
-    const { className, ...props } = onRow(row, rowIndex)
+    const {className, ...props} = onRow(row, rowIndex)
     const selected = row[selectedRowIdField] == selectedRowId
     return {
       className: mergeClassNames(className, selected && styles.selectedRow),
@@ -46,8 +46,9 @@ export default class BaseTable extends React.Component {
       ...props
     };
   }
+
   selectRow(selectedRowIndex) {
-    const { selectedRowIdField, rows} = this.props;
+    const {selectedRowIdField, rows} = this.props;
 
     const selected = select.row({
       rows,
