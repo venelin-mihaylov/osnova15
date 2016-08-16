@@ -4,6 +4,8 @@ import passport from 'passport'
 import bodyParser from 'body-parser'
 import http from 'http'
 import SocketIo from 'socket.io'
+import morgan from 'morgan'
+
 import config from '../universal/config'
 import CRUDService from './service/CRUDService'
 
@@ -44,6 +46,7 @@ const app = express()
 const server = new http.Server(app)
 
 //<editor-fold desc="Express">
+app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
