@@ -1,9 +1,9 @@
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import AutoComplete from "material-ui/AutoComplete"
-import IconButton from "material-ui/IconButton"
-import {actions} from "react-redux-form"
+import React from 'react'
+import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
+import AutoComplete from 'material-ui/AutoComplete'
+import IconButton from 'material-ui/IconButton'
+import {actions} from 'react-redux-form'
 import FKAct from 'constants/FKAct'
 
 /**
@@ -15,36 +15,22 @@ import FKAct from 'constants/FKAct'
 @connect((state, {
   FKname,
   entity,
-  variation = '1'
+  variation = '1',
 }) => {
-  let key = FKname ? FKname : 'FK' + entity + variation
+  const key = FKname || `FK${entity}${variation}`
   const redux = state[key]
-  if(!redux) throw new Error('Bad FKname for FKSelect: ' + key)
+  if(!redux) throw new Error(`Bad FKname for FKSelect: ${key}`)
   return {redux}
 })
 @autobind
 export default class FKSelect extends React.Component {
 
-  defaultProps = {
-    redux: {
-      records: []
-    },
-    variation: '1',
-    reset: true
-  }
-
-  /**
-   * @param props.entity
-   * @param props.FKName
-   * @param props.initialValue
-   * @param props.labelField
-   */
-  constructor(props) {
-    super(props)
-    this.act = FKAct.act(this.props.entity, this.props.variation)
-  }
 
   static propTypes = {
+    dispatch: React.PropTypes.func.isRequired,
+    name: React.PropTypes.string.isRequired,
+    redux: React.PropTypes.object,
+    iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
     /**
      * DB table
      */
@@ -91,18 +77,26 @@ export default class FKSelect extends React.Component {
     /**
      * server request base params
      */
-    listParams: React.PropTypes.object
+    listParams: React.PropTypes.object,
   }
 
-  loadServerRecord(id) {
-    const name = this.props.name
-    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id, name}))
+  defaultProps = {
+    redux: {
+      records: [],
+    },
+    variation: '1',
+    reset: true,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value != this.props.value) {
-      this.loadServerRecord(nextProps.value)
-    }
+  /**
+   * @param props.entity
+   * @param props.FKName
+   * @param props.initialValue
+   * @param props.labelField
+   */
+  constructor(props) {
+    super(props)
+    this.act = FKAct.act(this.props.entity, this.props.variation)
   }
 
   componentWillMount() {
@@ -114,23 +108,34 @@ export default class FKSelect extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.value !== this.props.value) {
+      this.loadServerRecord(nextProps.value)
+    }
+  }
+
+  loadServerRecord(id) {
+    const name = this.props.name
+    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id, name}))
+  }
+
   render() {
     const act = this.act
     const {
       dispatch,
       redux: {
         recordByFieldName,
-        records
+        records,
       },
       labelField = 'id',
-      renderLabel = (r={}) => r[labelField],
-      renderList = (rs=[]) => rs && rs.map(r => ({text: renderLabel(r), value: renderLabel(r)})),
+      renderLabel = (r = {}) => r[labelField],
+      renderList = (rs = []) => rs && rs.map(r => ({text: renderLabel(r), value: renderLabel(r)})),
       name,
       listParams,
       onChange = () => {},
       iconButtons = [],
       onFocus = () => {},
-      ...rest
+      ...rest,
     } = this.props
 
     return (
@@ -144,7 +149,7 @@ export default class FKSelect extends React.Component {
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {
             if(typeof onFocus === 'function') {
-              if(false === onFocus(e)) {
+              if(onFocus(e) === false) {
                 return
               }
             }
@@ -155,10 +160,13 @@ export default class FKSelect extends React.Component {
           onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
-        <IconButton iconClassName="fa fa-eraser" onClick={() => {
-          dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
-          name && dispatch(actions.change(name, null))
-        }}/>
+        <IconButton
+          iconClassName="fa fa-eraser"
+          onClick={() => {
+            dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
+            if(name) dispatch(actions.change(name, null))
+          }}
+        />
         {iconButtons.length ? iconButtons : null}
       </span>
     )
