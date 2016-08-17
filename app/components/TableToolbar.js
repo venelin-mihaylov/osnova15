@@ -1,11 +1,11 @@
-"use strict"
-import React from "react"
-import RaisedButton from "material-ui/RaisedButton"
-import Toolbar from "material-ui/Toolbar/Toolbar"
-import ToolbarGroup from "material-ui/Toolbar/ToolbarGroup"
-import ToolbarTitle from "material-ui/Toolbar/ToolbarTitle"
-import ListLimitMenu from "components/ListLimitMenu"
-import FontIcon from "material-ui/FontIcon"
+
+import React from 'react'
+import RaisedButton from 'material-ui/RaisedButton'
+import Toolbar from 'material-ui/Toolbar/Toolbar'
+import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup'
+import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle'
+import ListLimitMenu from 'components/ListLimitMenu'
+import FontIcon from 'material-ui/FontIcon'
 
 class TableToolbar extends React.Component {
 
@@ -15,7 +15,7 @@ class TableToolbar extends React.Component {
     onDeleteClick: () => {},
     onLimitChange: () => {},
     limit: 100,
-    toolbarTitle: "List"
+    toolbarTitle: 'List',
   }
 
   static propTypes = {
@@ -25,11 +25,12 @@ class TableToolbar extends React.Component {
     onLimitChange: React.PropTypes.func,
     onRefresh: React.PropTypes.func,
     limit: React.PropTypes.number,
-    toolbarTitle: React.PropTypes.string
+    toolbarTitle: React.PropTypes.string,
+    appendButtons: React.PropTypes.any,
+    listSelectedId: React.PropTypes.number
   }
 
   render() {
-
     const {
       toolbarTitle,
       onAddClick,
@@ -44,32 +45,32 @@ class TableToolbar extends React.Component {
 
     return (
       <Toolbar>
-        <ToolbarGroup firstChild={true} float="left">
+        <ToolbarGroup firstChild float="left">
           <RaisedButton
             label="add"
-            primary={true}
+            primary
             onClick={onAddClick}
-            icon={<FontIcon className="fa fa-plus"/>}
+            icon={<FontIcon className="fa fa-plus" />}
           />
           <RaisedButton
             label="edit"
-            primary={true}
+            primary
             onClick={onEditClick}
             disabled={!listSelectedId}
-            icon={<FontIcon className="fa fa-pencil"/>}
+            icon={<FontIcon className="fa fa-pencil" />}
           />
           <RaisedButton
             label="delete"
-            secondary={true}
+            secondary
             onClick={onDeleteClick}
             disabled={!listSelectedId}
-            icon={<FontIcon className="fa fa-trash"/>}
+            icon={<FontIcon className="fa fa-trash" />}
           />
           {appendButtons.length && appendButtons}
         </ToolbarGroup>
         <ToolbarGroup float="right">
-          <ToolbarTitle text={toolbarTitle}/>
-          <FontIcon className="fa fa-refresh fa-3x" onClick={onRefresh} style={{marginRight: 20}}/>
+          <ToolbarTitle text={toolbarTitle} />
+          <FontIcon className="fa fa-refresh fa-3x" onClick={onRefresh} style={{marginRight: 20}} />
           <ListLimitMenu
             onLimitChange={onLimitChange}
             limit={limit}

@@ -1,4 +1,3 @@
-"use strict"
 import React from "react"
 import Drawer from "material-ui/Drawer"
 import MenuItem from "material-ui/MenuItem"
@@ -7,7 +6,7 @@ import {IndexLink, Link} from "react-router"
 
 const activeStyle = {color: 'red'}
 
-const AppLeftNav = ({activeMatchId, onLeaveMatch, ...rest}) => {
+const AppLeftNav = ({activeMatchId, ...rest}) => {
   return (
     <Drawer {...rest}>
       <If condition={!activeMatchId}>

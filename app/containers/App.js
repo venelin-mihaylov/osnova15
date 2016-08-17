@@ -1,5 +1,4 @@
 /* @flow */
-"use strict"
 import React from "react"
 import AppTopBar from "./AppTopBar"
 import AppLeftNav from "./AppLeftNav"
@@ -10,11 +9,11 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
 
-@DragDropContext(HTML5Backend)
+@DragDropContext(HTML5Backend) // eslint-disable-line
 @connect(state => ({
   nav: state.nav
 }))
-export default class App extends React.Component {
+export default class App extends React.Component { // eslint-disable-line
   render() {
     const {
       dispatch,

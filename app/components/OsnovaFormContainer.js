@@ -1,16 +1,22 @@
 import React from 'react'
 import CRUDAct from 'constants/CRUDAct'
 import {autobind} from 'core-decorators'
-import {rrfModel} from 'utils/Util'
 import {resetFormRecord} from 'actions/resetFormRecord'
-import {push, goBack} from 'react-router-redux'
-import {bindActionCreators} from 'redux'
+import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
-import {calcNextPath} from 'utils/Util'
+import {rrfModel, calcNextPath} from 'utils/Util'
 
 @autobind
 export default class OsnovaFormContainer extends React.Component {
   static entity
+
+  static propTypes = {
+    dispatch: React.PropTypes.func,
+    redux: React.PropTypes.any,
+    route: React.PropTypes.any,
+    location: React.PropTypes.any,
+    params: React.PropTypes.any,
+  }
 
   constructor() {
     super()
@@ -28,29 +34,16 @@ export default class OsnovaFormContainer extends React.Component {
       }
     } = this.props
 
-    if(resetForm) {
+    if (resetForm) {
       this.resetForm()
 
-      if(action == 'edit') {
+      if (action === 'edit') {
         this.readServerRecord()
       }
     } else {
       // by default resetForm=false is a flash,  reset setting
       dispatch(this.act(CRUDAct.RESET_FORM, true))
     }
-  }
-
-  resetForm() {
-    this.props.dispatch(actions.reset(rrfModel(this.constructor.entity)))
-  }
-
-  readServerRecord() {
-    this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, { id: this.props.params.id}))
-  }
-
-  nextPath({action, id}) {
-    const {location: {pathname}} = this.props
-    return calcNextPath({pathname, action, id})
   }
 
   onCreate(record) {
@@ -72,6 +65,19 @@ export default class OsnovaFormContainer extends React.Component {
     dispatch(push(nextPath))
   }
 
+  nextPath({action, id}) {
+    const {location: {pathname}} = this.props
+    return calcNextPath({pathname, action, id})
+  }
+
+  resetForm() {
+    this.props.dispatch(actions.reset(rrfModel(this.constructor.entity)))
+  }
+
+  readServerRecord() {
+    this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, {id: this.props.params.id}))
+  }
+
   addProps() {
     const {
       dispatch,
@@ -89,7 +95,7 @@ export default class OsnovaFormContainer extends React.Component {
       action,
       act,
       promiseAct,
-      onSubmit: (action == 'add' ? this.onCreate : this.onUpdate),
+      onSubmit: (action === 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
       onCancel: this.onCancel
     }
