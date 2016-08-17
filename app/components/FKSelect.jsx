@@ -19,12 +19,11 @@ import FKAct from 'constants/FKAct'
 }) => {
   const key = FKname || `FK${entity}${variation}`
   const redux = state[key]
-  if(!redux) throw new Error(`Bad FKname for FKSelect: ${key}`)
+  if (!redux) throw new Error(`Bad FKname for FKSelect: ${key}`)
   return {redux}
 })
 @autobind
 export default class FKSelect extends React.Component {
-
 
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
@@ -100,16 +99,16 @@ export default class FKSelect extends React.Component {
   }
 
   componentWillMount() {
-    if(this.props.reset) {
+    if (this.props.reset) {
       this.props.dispatch(this.act(FKAct.FK_RESET))
     }
-    if(!this.props.redux.valueRecord) {
+    if (!this.props.redux.valueRecord) {
       this.loadServerRecord(this.props.value)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.value !== this.props.value) {
+    if (nextProps.value !== this.props.value) {
       this.loadServerRecord(nextProps.value)
     }
   }
@@ -142,14 +141,14 @@ export default class FKSelect extends React.Component {
       <span>
         <AutoComplete
           style={{width: 220 - iconButtons.length * 50}}
-          openOnFocus={true}
+          openOnFocus
           filter={AutoComplete.noFilter}
           searchText={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
           dataSource={renderList(records)}
           onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {
-            if(typeof onFocus === 'function') {
-              if(onFocus(e) === false) {
+            if (typeof onFocus === 'function') {
+              if (onFocus(e) === false) {
                 return
               }
             }
@@ -164,7 +163,7 @@ export default class FKSelect extends React.Component {
           iconClassName="fa fa-eraser"
           onClick={() => {
             dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
-            if(name) dispatch(actions.change(name, null))
+            if (name) dispatch(actions.change(name, null))
           }}
         />
         {iconButtons.length ? iconButtons : null}
