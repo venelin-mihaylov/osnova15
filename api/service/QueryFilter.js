@@ -1,4 +1,4 @@
-import {toArray, toJSON, isObject} from '../utils/utils'
+import {toJSON, isObject} from '../utils/utils'
 
 export default class QueryFilter {
 
@@ -21,15 +21,15 @@ export default class QueryFilter {
    * @param {object} rules
    */
   static filter(qb, input, rules) {
-    if(!input) return qb
-    rules = rules || {}
-    input = toJSON(input)
+    if (!input) return qb
+    rules = rules || {} // eslint-disable-line
+    input = toJSON(input) // eslint-disable-line
 
-    for(let key in input) {
-      if(!input.hasOwnProperty(key)) continue
+    for (const key in input) {
+      if (!input.hasOwnProperty(key)) continue
       const i = QueryFilter.formatInput(input[key])
 
-      if(rules.hasOwnProperty(key)) {
+      if (rules.hasOwnProperty(key)) {
         qb = QueryFilter.applyRule(qb, rules[key], i)
       } else {
         qb = qb.andWhere(key, i.operator, i.value)
@@ -46,14 +46,14 @@ export default class QueryFilter {
    * @returns {*}
    */
   static formatInput(input) {
-    if(!isObject(input)) {
+    if (!isObject(input)) {
       return {
         operator: QueryFilter.DEFAULT_OPERATOR,
         value: input
       }
-    } else { //isObject
-      return input
     }
+
+    return input
   }
 
   /**
@@ -70,10 +70,10 @@ export default class QueryFilter {
    * @param {string} input.value
    */
   static applyRule(qb, rule, input) {
-    if(typeof rule === 'function') {
+    if (typeof rule === 'function') {
       return rule(qb, input)
     } else {
-      throw new Error("bad filter rule")
+      throw new Error('bad filter rule')
     }
   }
 

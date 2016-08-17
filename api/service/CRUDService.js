@@ -1,4 +1,3 @@
-"use strict"
 import {autobind} from "core-decorators"
 import {throwOnError} from '../utils/utils'
 import * as web from 'express-decorators';
@@ -26,7 +25,7 @@ export default class CRUDService {
     throwOnError(req.validationErrors())
 
     const json = await this.read(req.params.id)
-    if(!json) {
+    if (!json) {
       res.status(404).json({globalError: 'Record not found'})
     } else {
       res.json(json)
@@ -71,7 +70,6 @@ export default class CRUDService {
     return await qb
   }
 
-  //@decorate(logSql)
   async create(data) {
     return this.model.query().insert(data)
   }
@@ -89,7 +87,7 @@ export default class CRUDService {
   }
 
   static factory(model) {
-    @web.controller('/' + model.tableName)
+    @web.controller(`/${model.tableName}`)
     class CRUDServiceBound extends CRUDService {}
     return new CRUDServiceBound(model)
   }

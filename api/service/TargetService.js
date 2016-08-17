@@ -1,11 +1,7 @@
 import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators';
 import * as web from 'express-decorators';
-import TargetZone from '../../universal/model/TargetZone'
-import {toArray} from '../utils/utils'
-import knex from 'knex'
 import ItoN from '../utils/ItoN'
-import NotFoundException from '../exception/NotFoundException'
 
 @autobind
 @web.controller('/target')
@@ -15,7 +11,7 @@ export default class TargetService extends CRUDService {
 
   filterRules() {
     return {
-      searchText: (qb, {operator, value}) => {
+      searchText: (qb, {value}) => {
         const v = value.trim()
         if (!v) return qb
         return qb.where('name', 'ilike', `%${v}%`).andWhere('favourite', '=', true)
@@ -33,9 +29,9 @@ export default class TargetService extends CRUDService {
     }
   }
 
-  ItoNParams() {
+  itonParams() {
     const model = this.model
-    const relName =  this.ItoNRelation
+    const relName = this.ItoNRelation
     const relSpec = {relName}
 
     return {
@@ -45,14 +41,14 @@ export default class TargetService extends CRUDService {
   }
 
   read(id) {
-    return ItoN.findByIdEagerRelation({id, ...(this.ItoNParams())})
+    return ItoN.findByIdEagerRelation({id, ...(this.itonParams())})
   }
 
   async create(input) {
     // separate validation step for ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
       input,
-      ...(this.ItoNParams())
+      ...(this.itonParams())
     })
     return this.model.query().insertWithRelated(input)
   }
@@ -61,10 +57,10 @@ export default class TargetService extends CRUDService {
     await ItoN.updateParentAndRelations({
       id,
       input,
-      ...(this.ItoNParams())
+      ...(this.itonParams())
     })
     // return updated, the easy way
-    return ItoN.findByIdEagerRelation({id, ...(this.ItoNParams())})
+    return ItoN.findByIdEagerRelation({id, ...(this.itonParams())})
   }
 
 }

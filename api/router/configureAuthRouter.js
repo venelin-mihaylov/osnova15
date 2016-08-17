@@ -1,7 +1,6 @@
-"use strict"
 import express from 'express'
 export default function configureAuthRouter(passport) {
-  var router = express.Router()
+  const router = express.Router() // eslint-disable-line
   router.post('/login', passport.authenticate('local'), function(req, res) {
     res.send({message: 'You have successfully logged in', user: req.user})
   })

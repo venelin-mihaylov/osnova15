@@ -1,6 +1,5 @@
-"use strict"
-import React from "react"
-import TableToolbar from "components/TableToolbar"
+import React from 'react'
+import TableToolbar from 'components/TableToolbar'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 
@@ -19,18 +18,17 @@ const EntityList = ({
     listSelectedRecord,
     listLoading,
     listError,
-    listLimit
+    listLimit,
   },
-  ...rest
+  ...rest,
 }) => {
-
   return (<div>
     <TableToolbar
       {...{listSelectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
       limit={listLimit}
     />
-    <GlobalError globalError={listError}/>
+    <GlobalError globalError={listError} />
     <BaseTable
       rows={listRecords}
       selectedRowId={listSelectedId}

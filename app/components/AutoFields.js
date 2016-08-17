@@ -1,5 +1,5 @@
 import React from 'react'
-import {MUIErrorText, rrfField} from 'utils/Util'
+import {toArray, rrfField} from 'utils/Util'
 import MaterialField from 'components/MaterialField'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
@@ -8,7 +8,6 @@ import DatePicker from 'material-ui/DatePicker'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import _ from 'lodash'
-import {toArray} from 'utils/Util'
 
 export default class AutoFields extends React.Component {
 
@@ -32,8 +31,28 @@ export default class AutoFields extends React.Component {
     glue: null
   }
 
+  /**
+   * if the field is a foreign key,
+   * we have to render a FKSelect
+   * @param fieldName
+   * @param relations
+   */
+  fkProps(fieldName, relations) {
+    let ret = {}
+    _.forOwn(relations, (relSpec) => {
+      if (relSpec.relation === 'BelongsToOne' && relSpec.join.fromField === fieldName) {
+        ret = {
+          entity: relSpec.join.toTable,
+          field: relSpec.join.toField
+        }
+        return false
+      }
+      return true
+    })
+    return ret
+  }
+
   renderField({
-    //form, // rrf form object
     updateOn,
     entity,
     namePrefix = '', // prefix, in case of 1:N
@@ -43,7 +62,6 @@ export default class AutoFields extends React.Component {
     schema: {
       type,
       format,
-      subtype,
       label = name,
       defaultValue,
       enumProps, // if not true
@@ -57,16 +75,15 @@ export default class AutoFields extends React.Component {
     },
     styles = {} // css styles
   }) {
-    if(exclude) return null
-    if(name == 'id') return null
+    if (exclude) return null
+    if (name === 'id') return null
 
-    if(_.endsWith(label, 'Id')) {
+    if (_.endsWith(label, 'Id')) {
       label = _.trimEnd(label, 'Id')
     }
 
     const fullField = `${namePrefix}${name}`
 
-    //const errorText = MUIErrorText(form, entity, fullField)
     const className = styles[name]
     const common = {required, className, defaultValue}
     const floatingLabel = {
@@ -77,10 +94,10 @@ export default class AutoFields extends React.Component {
     const t = toArray(type)
 
     let genInput = null
-    if(input) {
+    if (input) {
       genInput = input
-    } else if(-1 != t.indexOf('string')) {
-      if(format == 'date') {
+    } else if (t.indexOf('string') !== -1) {
+      if (format === 'date') {
         genInput = React.createElement(DatePicker, Object.assign({
           container: 'inline',
           autoOk: true
@@ -88,17 +105,17 @@ export default class AutoFields extends React.Component {
       } else {
         genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
       }
-    } else if(-1 != t.indexOf('integer')) {
-      if(fkProps.entity) {
+    } else if (t.indexOf('integer') !== -1) {
+      if (fkProps.entity) {
         genInput = React.createElement(FKSelect, Object.assign({
           entity: fkProps.entity,
-          variation: "1", // by default variation is "1"
-          labelField: labelField,
+          variation: '1', // by default variation is "1"
+          labelField
         }, common, floatingLabel, inputProps))
-      } else if(enumProps) {
-        let arr = _.isArray(enumProps) ?
+      } else if (enumProps) {
+        const arr = _.isArray(enumProps) ?
           enumProps :
-          Object.keys(enumProps).map(value => ({value: parseInt(value), label: enumProps[value]}))
+          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), label: enumProps[value]}))
 
         const nullValue = React.createElement(MenuItem, {
           key: 'nullValue',
@@ -115,9 +132,9 @@ export default class AutoFields extends React.Component {
       } else {
         genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
       }
-    } else if(-1 != t.indexOf('number')) {
+    } else if (t.indexOf('number') !== -1) {
       genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
-    } else if(-1 != t.indexOf('boolean')) {
+    } else if (t.indexOf('boolean') !== -1) {
       genInput = React.createElement(Checkbox, Object.assign({
         label,
         labelPosition: 'right',
@@ -133,26 +150,6 @@ export default class AutoFields extends React.Component {
     }, rrfProps), genInput)
   }
 
-  /**
-   * if the field is a foreign key,
-   * we have to render a FKSelect
-   * @param fieldName
-   * @param relations
-   */
-  fkProps(fieldName, relations) {
-    let ret = {}
-    _.forOwn(relations, (relSpec) => {
-      if(relSpec.relation == 'BelongsToOne' && relSpec.join.fromField == fieldName) {
-        ret = {
-          entity: relSpec.join.toTable,
-          field: relSpec.join.toField
-        }
-        return false
-      }
-    })
-    return ret
-  }
-
   render() {
     const {
       overrides,
@@ -164,14 +161,14 @@ export default class AutoFields extends React.Component {
 
     let ret = []
     _.forOwn(jsonSchema.properties, (schema, name) => {
-      if(schema.properties) return
+      if (schema.properties) return
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
-      const required = -1 != jsonSchema.required.indexOf(name)
+      const required = jsonSchema.required.indexOf(name) !== -1
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
-      let f = this.renderField(args)
-      if(f) ret.push(f)
-      if(glue) {
+      const f = this.renderField(args)
+      if (f) ret.push(f)
+      if (glue) {
         _.isFunction(glue) ? ret.push(glue(args)) : ret.push(glue)
       }
     })

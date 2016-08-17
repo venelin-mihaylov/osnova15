@@ -1,7 +1,6 @@
 import CRUDService from './CRUDService'
-import {autobind } from 'core-decorators';
-import * as web from 'express-decorators';
-import knex from 'knex'
+import {autobind} from 'core-decorators'
+import * as web from 'express-decorators'
 
 @autobind
 @web.controller('/tournament')
@@ -12,7 +11,7 @@ export default class TournamentService extends CRUDService {
       searchText: {
         fn: (qb, {value}) => {
           const v = value.trim()
-          if(!v) return
+          if (!v) return qb
           return qb.where('name', 'ilike', `%${v}%`)
         }
       }

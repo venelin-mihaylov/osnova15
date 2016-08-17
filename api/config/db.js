@@ -4,7 +4,7 @@ export const db = {
     host: 'localhost',
     user: 'tcs',
     password: 'tcs',
-    database: 'tcs'
-  }
+    database: 'tcs',
+  },
 }
 export default db

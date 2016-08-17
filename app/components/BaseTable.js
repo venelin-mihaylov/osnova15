@@ -1,10 +1,8 @@
 import React from 'react'
 import {Table, select} from 'reactabular'
 import {autobind} from 'core-decorators'
-import classNames from 'classnames'
 import {mergeClassNames} from 'reactabular-utils'
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
+import findIndex from 'lodash/findIndex'
 import noop from 'lodash/noop'
 
 import styles from 'styles/components/BaseTable.css'
@@ -13,21 +11,20 @@ import styles from 'styles/components/BaseTable.css'
 export default class BaseTable extends React.Component {
 
   static propTypes = {
+    columns: React.PropTypes.any,
+    rows: React.PropTypes.any,
+    rowKey: React.PropTypes.any,
     onSelectRow: React.PropTypes.func,
     onRow: React.PropTypes.func,
     selectedRowId: React.PropTypes.any,
     selectedRowRecord: React.PropTypes.object,
-    selectedRowIdField: React.PropTypes.string
+    selectedRowIdField: React.PropTypes.string,
   }
 
   static defaultProps = {
     onSelectRow: noop,
     selectedRowIdField: 'id',
-    onRow: () => ({})
-  }
-
-  constructor() {
-    super()
+    onRow: () => ({}),
   }
 
   onRow(row, rowIndex) {
@@ -43,23 +40,23 @@ export default class BaseTable extends React.Component {
       className: mergeClassNames(className, selected && styles.selectedRow),
       selected,
       onClick: () => this.selectRow(rowIndex),
-      ...props
-    };
+      ...props,
+    }
   }
 
   selectRow(selectedRowIndex) {
-    const {selectedRowIdField, rows} = this.props;
+    const {selectedRowIdField, rows} = this.props
 
     const selected = select.row({
       rows,
       isSelected: (row, selectedRowId) => row[selectedRowIdField] === selectedRowId,
-      selectedRowId: rows[selectedRowIndex][selectedRowIdField]
-    });
+      selectedRowId: rows[selectedRowIndex][selectedRowIdField],
+    })
 
     this.props.onSelectRow({
       selectedRowId: selected.selectedRow[selectedRowIdField],
-      selectedRow: selected.selectedRow
-    });
+      selectedRow: selected.selectedRow,
+    })
   }
 
   render() {
@@ -70,8 +67,7 @@ export default class BaseTable extends React.Component {
       onRow, // exclude
       onSelectRow, // exclude
       selectedRowId,
-      selectedRow,
-      ...rest
+      ...rest,
     } = this.props // eslint-disable-line no-unused-vars
 
     const selectedRowIndex = findIndex(rows, {[rowKey]: selectedRowId})
@@ -84,7 +80,7 @@ export default class BaseTable extends React.Component {
       className="pure-table pure-table-striped"
       columns={columns}
       style={{
-        width: '100%'
+        width: '100%',
       }}
     >
       <Table.Header />
@@ -92,7 +88,8 @@ export default class BaseTable extends React.Component {
       <Table.Body
         onRow={this.onRow}
         {...{rows, rowKey}}
-        {...rest}/>
+        {...rest}
+      />
     </Table.Provider>)
   }
 }

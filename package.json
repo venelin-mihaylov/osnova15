@@ -54,29 +54,6 @@
     }
   },
   "pre-commit": "lint:staged",
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "env": {
-      "browser": true,
-      "node": true,
-      "mocha": true
-    },
-    "rules": {
-      "max-len": 0,
-      "semi": [2, "never"],
-      "object-curly-spacing": ["error", "never"],
-      "space-in-parens": ["error", "never"],
-      "keyword-spacing": ["error", {"after": true, "before": true}]
-    },
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "./internals/webpack/webpack.test.babel.js"
-        }
-      }
-    }
-  },
   "stylelint": {
     "extends": "stylelint-config-standard",
     "rules": {
@@ -129,6 +106,7 @@
     "morgan": "^1.7.0",
     "objection": "^0.5.1",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^5.0.0",
     "piping": "^1.0.0-rc.2",
@@ -154,6 +132,7 @@
     "reactabular-utils": "^1.1.0",
     "recompose": "^0.19.0",
     "redux": "^3.5.2",
+    "redux-auth-wrapper": "^0.7.0",
     "redux-immutable": "^3.0.6",
     "redux-persist": "^3.2.2",
     "redux-saga": "^0.10.0",

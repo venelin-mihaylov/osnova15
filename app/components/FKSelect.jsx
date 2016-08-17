@@ -24,7 +24,6 @@ import FKAct from 'constants/FKAct'
 })
 @autobind
 export default class FKSelect extends React.Component {
-
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
     name: React.PropTypes.string.isRequired,

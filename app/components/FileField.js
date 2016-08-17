@@ -1,17 +1,19 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
 import FontIcon from 'material-ui/FontIcon'
-import FlatButton from 'material-ui/FlatButton';
-
+import FlatButton from 'material-ui/FlatButton'
 
 import styles from 'styles/components/FileField.css'
 
-//TODO: provide option display Error text, same as "errorText" prop for MUI
 @autobind
 export default class FileField extends React.Component {
   refInputFile = 'test'
 
   static propTypes = {
+    /**
+     * Label
+     */
+    label: React.PropTypes.string,
     /**
      * name of the field
      */
@@ -33,8 +35,8 @@ export default class FileField extends React.Component {
 
     e.preventDefault()
 
-    let reader = new FileReader()
-    let file = e.target.files[0]
+    const reader = new FileReader()
+    const file = e.target.files[0]
     reader.onloadend = () => {
       console.log('result')
       console.log(reader.result)
@@ -50,34 +52,34 @@ export default class FileField extends React.Component {
       label = name,
       value,
       onChange, // do not pass it to FileInput
-      ...rest
+      ...rest,
     } = this.props
 
-    return <div>
-
-      {value && <div><img src={value}/></div>}
-      {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
-
-      <div>
-        <FlatButton
-          label="Upload ..."
-          primary={true}
-          icon={<FontIcon className="fa fa-upload"/>}
-          onClick={() => this.refInputFile.click()}
-        />
-        <FlatButton
-          label="Clear ..."
-          secondary={true}
-          icon={<FontIcon className="fa fa-eraser"/>}
-          onClick={() => onChange('')}
-        />
-        <input id="file-input" type="file"
-               onChange={this._handleImageChange}
-               className={styles.input}
-               ref={input => this.refInputFile = input}
-               {...rest}
-        />
-      </div>
+    return (<div>
+  {value && <div><img alt="Current" src={value} /></div>}
+  {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
+    <div>
+      <FlatButton
+        label="Upload ..."
+        primary
+        icon={<FontIcon className="fa fa-upload"/>}
+        onClick={() => this.refInputFile.click() }
+      />
+      <FlatButton
+        label="Clear ..."
+        secondary
+        icon={<FontIcon className="fa fa-eraser"/>}
+        onClick={() => onChange('') }
+      />
+      <input
+        id="file-input"
+        type="file"
+        onChange={this._handleImageChange}
+        className={styles.input}
+        ref={input => (this.refInputFile = input)}
+        {...rest}
+      />
     </div>
+  </div>)
   }
 }
