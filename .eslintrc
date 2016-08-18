@@ -16,7 +16,8 @@
     "prefer-arrow-callback": 0,
     "arrow-body-style": ["error", "as-needed"],
     "func-names": 0,
-    "comma-dangle": ["error", "only-multiline"]
+    "comma-dangle": ["error", "only-multiline"],
+    "jsx-quotes": ["error", "prefer-single"]
   },
   "settings": {
     "import/resolver": {

@@ -1,4 +1,3 @@
-"use strict"
 import React from "react"
 import FKSelect from 'components/FKSelect'
 import {createFieldClass, controls, utils} from "react-redux-form"
@@ -15,11 +14,10 @@ import {log} from 'utils/Util'
 
 
 function isChecked(props) {
-  if(utils.isMulti(props.model)) {
+  if (utils.isMulti(props.model)) {
     return (props.modelValue || [])
-      .filter((item) =>
-      item === props.value)
-      .length;
+      .filter((item) => item === props.value)
+      .length
   }
 
   return !!props.modelValue;
@@ -29,28 +27,28 @@ const MaterialField = createFieldClass({
   'Connect(FKSelect)': controls.text,
   TextField: controls.text,
   FileField: controls.text,
-  AutoComplete: ({onChange, onNewRequest, searchText, ...props}) => ({
+  AutoComplete: ({onChange, onNewRequest, searchText, ...props}) => ({ // eslint-disable-line
     searchText: (() => {
       const r = props.dataSource.find((e) => e.value === props.modelValue)
-      if(!r) return ''
+      if (!r) return ''
       return r.text
     })(),
     name: props.name || props.model,
-    onNewRequest: (searchText, idx) => {
+    onNewRequest: (sT, idx) => {
       onChange(props.dataSource[idx].value)
     },
     ...props
   }),
   DatePicker: ({onChange, ...props}) => {
     let value = null
-    if(props.modelValue && props.modelValue.trim()) {
+    if (props.modelValue && props.modelValue.trim()) {
       const msec = Date.parse(props.modelValue)
       value = new Date(msec)
     }
     return {
       value,
       name: props.name || props.model,
-      onChange: (unused, value) => onChange(dateformat(value, 'isoDate')),
+      onChange: (unused, v) => onChange(dateformat(v, 'isoDate')),
       ...props,
     }
   },
@@ -82,13 +80,13 @@ const MaterialField = createFieldClass({
   })
 }, {
   componentMap: {
-    TextField: TextField,
-    Toggle: Toggle,
-    Checkbox: Checkbox,
-    FileField: FileField,
-    DatePicker: DatePicker,
-    AutoComplete: AutoComplete,
-    SelectField: SelectField,
+    TextField,
+    Toggle,
+    Checkbox,
+    FileField,
+    DatePicker,
+    AutoComplete,
+    SelectField,
     'Connect(FKSelect)': FKSelect,
   }
 })

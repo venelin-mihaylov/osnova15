@@ -1,16 +1,15 @@
-"use strict"
-import CRUDAct from "../constants/CRUDAct"
+import CRUDAct from '../constants/CRUDAct'
 
 export default function CRUDReducer({
   entity
 }) {
-  let addPrefix = type => `${entity.toUpperCase()}_${type}`
+  const addPrefix = type => `${entity.toUpperCase()}_${type}`
 
   return function CRUD(state = {
-    params: null, // params passed by the action, i.e. "{view:basic}", or "{view:extended}"
+    params: null, // params passed by the action, i.e. '{view:basic}', or '{view:extended}'
     message: null, // message to the user, i.e. record loaded/saved successfully, (not an error)
-    globalError: null, // general (field unspecific) error, say "bad input", "db error", etc.
-    fieldErrors: null, // per field error message, i.e {name: "too short", age: "required field"}
+    globalError: null, // general (field unspecific) error, say 'bad input', 'db error', etc.
+    fieldErrors: null, // per field error message, i.e {name: 'too short', age: 'required field'}
     loading: false, // are we loading from the server?
     saving: false, // are we saving to the server?
     record: null, //  currently edited record
@@ -38,7 +37,7 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           saving: false,
           savedRecord: action.record
-      })
+        })
       case addPrefix(CRUDAct.CREATE_ERROR):
         return Object.assign({}, state, {
           saving: false,
@@ -85,7 +84,7 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           params: action.params,
           loading: false,
-          globalError: action.globalError || "Error occurred",
+          globalError: action.globalError || 'Error occurred',
           record: null
         })
       case addPrefix(CRUDAct.UPDATE_REQUESTED):
@@ -106,7 +105,7 @@ export default function CRUDReducer({
           params: action.params,
           saving: false,
           record: action.record,
-          globalError: action.globalError || "Error occurred",
+          globalError: action.globalError || 'Error occurred',
           fieldErrors: action.fieldErrors
         })
       case addPrefix(CRUDAct.DELETE_REQUESTED):
@@ -126,7 +125,7 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           params: action.params,
           saving: false,
-          globalError: action.globalError || "Error occurred",
+          globalError: action.globalError || 'Error occurred',
           deleteId: action.id
         })
       case addPrefix(CRUDAct.LIST_SET_LIMIT):
@@ -155,17 +154,16 @@ export default function CRUDReducer({
           selectCreatedFK: false
         })
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
-        if(state.listSelectedId === action.id) {
+        if (state.listSelectedId === action.id) {
           return Object.assign({}, state, {
             listSelectedId: null,
             listSelectedRecord: null
           })
-        } else {
-          return Object.assign({}, state, {
-            listSelectedId: action.id,
-            listSelectedRecord: action.record
-          })
         }
+        return Object.assign({}, state, {
+          listSelectedId: action.id,
+          listSelectedRecord: action.record
+        })
       case addPrefix(CRUDAct.LIST_CLEAR_SELECTION):
         return Object.assign({}, state, {
           listSelectedId: null,

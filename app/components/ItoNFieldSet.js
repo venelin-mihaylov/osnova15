@@ -1,4 +1,3 @@
-'use strict'
 import React from 'react'
 import {rrfField} from 'utils/Util'
 import {actions} from 'react-redux-form'
@@ -24,8 +23,8 @@ export default class ItoNFieldSet extends React.Component {
     return <If condition={relData}>
       <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '1000px'}}>
         <legend>
-          <IconButton iconClassName='fa fa-plus' onClick={onAdd}/>
-          <IconButton iconClassName='fa fa-minus' onClick={onDeleteLast}/>
+          <IconButton iconClassName='fa fa-plus' onClick={onAdd} />
+          <IconButton iconClassName='fa fa-minus' onClick={onDeleteLast} />
           <h2 style={{marginRight: '10px', display: 'inline'}}>{relTitle}</h2>
         </legend>
         {relData.map((row, idx) => renderRecord({
