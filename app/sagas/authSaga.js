@@ -37,5 +37,3 @@ export default function* authSaga() {
     fork(function* watchLogout() { yield* takeEvery(Act.LOGOUT_USER_REQUESTED, logout) }),
   ]
 }
-
-
