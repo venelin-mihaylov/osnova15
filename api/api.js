@@ -11,29 +11,7 @@ import config from '../universal/config'
 
 import {Model} from 'objection'
 
-import CRUDRest from './rest/CRUDRest'
-import ExerciseRest from './rest/ExerciseRest'
-
-import Tournament from '../universal/model/Tournament'
-import TournamentService from './service/TournamentService'
-
-import Match from '../universal/model/Match'
-import MatchService from './service/MatchService'
-
-import Competitor from '../universal/model/Competitor'
-import CompetitorService from './service/CompetitorService'
-
-import MatchCompetitor from '../universal/model/MatchCompetitor'
-import MatchCompetitorService from './service/MatchCompetitorService'
-
-import Exercise from '../universal/model/Exercise'
-import ExerciseService from './service/ExerciseService'
-
-import MatchExercise from '../universal/model/MatchExercise'
-import MatchExerciseService from './service/MatchExerciseService'
-
-import Target from '../universal/model/Target'
-import TargetService from './service/TargetService'
+import mountRestApi from './rest/mountRestApi'
 
 import configureAuthRouter from './auth/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
@@ -87,15 +65,7 @@ const testMiddleware = function (req, res, next) {
   next()
 }
 
-CRUDRest.factory(new MatchService(Match), {
-  endpoint: '/match'
-}).register(app)
-CRUDRest.factory(new TournamentService(Tournament)).register(app)
-CRUDRest.factory(new MatchExerciseService(MatchExercise)).register(app)
-CRUDRest.factory(new CompetitorService(Competitor)).register(app)
-CRUDRest.factory(new MatchCompetitorService(MatchCompetitor)).register(app)
-CRUDRest.factory(new TargetService(Target)).register(app)
-new ExerciseRest(new ExerciseService(Exercise)).register(app)
+mountRestApi(app)
 
 // </editor-fold>
 app.use(renderError)
