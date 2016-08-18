@@ -1,11 +1,12 @@
 import {fork} from 'redux-saga/effects'
 
-import crudSaga from './CRUDSaga'
-import fkSaga from './FKSaga'
-import userSaga from './userSaga'
+import crudSaga from './crudSaga'
+import fkSaga from './fkSaga'
+import authSaga from './authSaga'
 
 export default function* rootSaga() {
   yield [
+    fork(authSaga),
     fork(crudSaga('tournament')),
     fork(crudSaga('match')),
     fork(crudSaga('target')),
@@ -18,6 +19,5 @@ export default function* rootSaga() {
     fork(fkSaga('competitor', '1')),
     fork(fkSaga('exercise', '1')),
     fork(fkSaga('target', '1')),
-    fork(userSaga)
   ]
 }

@@ -4,7 +4,7 @@ import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {formatServerError, mergeDeep} from 'utils/Util'
 
-export default function FKSaga(entity, variation) {
+export default function fkSaga(entity, variation) {
   const act = FKAct.act(entity, variation)
   const type = t => FKAct.prefixType(entity, variation, t)
 
@@ -48,7 +48,7 @@ export default function FKSaga(entity, variation) {
     }
   }
 
-  return function* FKSaga1() {
+  return function* fkSaga1() {
     yield [
       fork(function* watchRead() { yield* takeEvery(type(FKAct.FK_READ_REQUESTED), read) }),
       fork(function* watchList() { yield* takeEvery(type(FKAct.FK_LIST_REQUESTED), list) }),

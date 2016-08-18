@@ -8,7 +8,7 @@ const LoginPage = ({dispatch, ...rest}) => <div>
   <LoginForm
     onSubmit={model => {
       console.log(model)
-      dispatch(Object.assign({type: Act.LOGIN_USER_REQUESTED}, model))
+      dispatch({type: Act.LOGIN_USER_REQUESTED, ...model})
     }}
     {...rest}
   />

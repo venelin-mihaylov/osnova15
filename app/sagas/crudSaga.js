@@ -14,9 +14,9 @@ export default function CRUDSaga(entity) {
   const endpoint = camelCaseToUnderscore(entity)
 
   function* setValidationErrors(fieldErrors) {
-    if(!fieldErrors) return
-    for(let k in fieldErrors) {
-      if(!fieldErrors.hasOwnProperty(k)) continue
+    if (!fieldErrors) return
+    for (const k in fieldErrors) {
+      if (!fieldErrors.hasOwnProperty(k)) continue
       yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
     }
   }
@@ -116,6 +116,7 @@ export default function CRUDSaga(entity) {
 
   return function* CRUDSaga1() {
     yield [
+      fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchList() { yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list) }),
       fork(function* watchCreate() { yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create) }),
