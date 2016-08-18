@@ -1,8 +1,6 @@
-import {autobind} from "core-decorators"
+import {autobind} from 'core-decorators'
 import {throwOnError} from '../utils/utils'
-import * as web from 'express-decorators';
-import {logSql} from '../utils/utils'
-import {decorate} from 'core-decorators'
+import * as web from 'express-decorators'
 import QueryFilter from './QueryFilter'
 
 @autobind

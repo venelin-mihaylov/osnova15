@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 import http from 'http'
 import SocketIo from 'socket.io'
 import morgan from 'morgan'
+import expressJwt from 'express-jwt'
 
 import config from '../universal/config'
 
@@ -31,11 +32,17 @@ import MatchExerciseService from './service/MatchExerciseService'
 import Target from '../universal/model/Target'
 import TargetService from './service/TargetService'
 
-import configureAuthRouter from './router/configureAuthRouter'
+import configureAuthRouter from './auth/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
 import expressValidator from 'express-validator'
 import {renderError} from './utils/utils'
+
+import configJwt from './config/jwt'
+import {configureGenerateToken} from './auth/jwt'
+
+const authenticate = expressJwt({secret: configJwt.secret})
+const generateToken = configureGenerateToken(configJwt)
 
 
 // Give the connection to objection.
@@ -70,7 +77,7 @@ app.use(passport.session())
 // </editor-fold>
 
 // <editor-fold desc="API endpoint">
-app.use('/auth', configureAuthRouter(passport))
+app.use('/auth', configureAuthRouter(passport, generateToken))
 
 new TournamentService(Tournament).register(app)
 

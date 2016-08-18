@@ -77,6 +77,10 @@ const count = {
 
 const dataSpec = {
 
+  users: [{
+    email: 'v@v.com',
+    password: '123asd'
+  }],
   tournament: generate(count.tournament, {
     name: (i) => `Tournament ${i}`
   }),
