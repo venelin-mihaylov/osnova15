@@ -3,7 +3,6 @@ import {autobind} from 'core-decorators'
 import * as web from 'express-decorators'
 
 @autobind
-@web.controller('/tournament')
 export default class TournamentService extends CRUDService {
 
   filterRules() {

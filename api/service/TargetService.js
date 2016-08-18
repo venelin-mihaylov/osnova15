@@ -1,10 +1,8 @@
 import CRUDService from './CRUDService'
-import {autobind} from 'core-decorators';
-import * as web from 'express-decorators';
+import {autobind} from 'core-decorators'
 import ItoN from '../utils/ItoN'
 
 @autobind
-@web.controller('/target')
 export default class TargetService extends CRUDService {
 
   ItoNRelation = 'target_zone'

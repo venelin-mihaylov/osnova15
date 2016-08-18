@@ -1,22 +1,11 @@
 import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators';
-import * as web from 'express-decorators';
 import ItoN from '../utils/ItoN'
-import NotFoundException from '../exception/NotFoundException'
-import knex from 'knex'
-import _forOwn from 'lodash.forown'
-
 
 @autobind
-@web.controller('/exercise')
 export default class ExerciseService extends CRUDService {
 
   ItoNRelation = 'exercise_target'
-
-  @web.post('/misc/createFavouriteExerciseForMatch')
-  async webCreateFavouriteExerciseForMatch(req, res) {
-    res.json(await this.createFavouriteExerciseForMatch(req.body))
-  }
 
   async createFavouriteExerciseForMatch(input) {
     const exercise = await this.model.query().findById(input.exerciseId).eager('exercise_target')

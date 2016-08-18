@@ -4,14 +4,14 @@ import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from 'react-redux-form'
 import {push} from 'react-router-redux'
-import {rrfModel, rrfField, formatServerError, camelCaseToUnderscore} from 'utils/Util'
+import {rrfModel, rrfField, formatServerError} from 'utils/Util'
+import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
 
-
-export default function CRUDSaga(entity) {
+export default function CRUDSaga(entity, params = {}) {
   const act = CRUDAct.act(entity)
   const type = t => CRUDAct.type(entity, t)
-  const endpoint = camelCaseToUnderscore(entity)
+  const endpoint = params.endpoint || snakeCase(entity)
 
   function* setValidationErrors(fieldErrors) {
     if (!fieldErrors) return

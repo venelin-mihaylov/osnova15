@@ -11,6 +11,9 @@ import config from '../universal/config'
 
 import {Model} from 'objection'
 
+import CRUDRest from './rest/CRUDRest'
+import ExerciseRest from './rest/ExerciseRest'
+
 import Tournament from '../universal/model/Tournament'
 import TournamentService from './service/TournamentService'
 
@@ -52,7 +55,7 @@ const app = express()
 const server = new http.Server(app)
 
 // <editor-fold desc="Express">
-app.use(morgan('combined'))
+app.use(morgan('tiny'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -79,17 +82,20 @@ app.use(passport.session())
 // <editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport, generateToken))
 
-new TournamentService(Tournament).register(app)
+const testMiddleware = function (req, res, next) {
+  console.log('huurraaay')
+  next()
+}
 
-new MatchService(Match).register(app)
-new MatchExerciseService(MatchExercise).register(app)
-
-new CompetitorService(Competitor).register(app)
-new MatchCompetitorService(MatchCompetitor).register(app)
-
-new ExerciseService(Exercise).register(app)
-
-new TargetService(Target).register(app)
+CRUDRest.factory(new MatchService(Match), {
+  endpoint: '/match'
+}).register(app)
+CRUDRest.factory(new TournamentService(Tournament)).register(app)
+CRUDRest.factory(new MatchExerciseService(MatchExercise)).register(app)
+CRUDRest.factory(new CompetitorService(Competitor)).register(app)
+CRUDRest.factory(new MatchCompetitorService(MatchCompetitor)).register(app)
+CRUDRest.factory(new TargetService(Target)).register(app)
+new ExerciseRest(new ExerciseService(Exercise)).register(app)
 
 // </editor-fold>
 app.use(renderError)

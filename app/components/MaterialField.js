@@ -23,9 +23,25 @@ function isChecked(props) {
   return !!props.modelValue;
 }
 
+function getTextValue(value) {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return `${value}`;
+  }
+
+  return '';
+}
+
 const MaterialField = createFieldClass({
   'Connect(FKSelect)': controls.text,
-  TextField: controls.text,
+  TextField: (props) => ({
+    value: props.updateOn === 'change'
+    && !props.defaultValue
+    && !props.hasOwnProperty('value')
+      ? getTextValue(props.modelValue)
+      : props.value,
+    name: props.name || props.model,
+    ...props,
+  }),
   FileField: controls.text,
   AutoComplete: ({onChange, onNewRequest, searchText, ...props}) => ({ // eslint-disable-line
     searchText: (() => {
