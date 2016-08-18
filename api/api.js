@@ -60,12 +60,9 @@ app.use(passport.session())
 // <editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport, generateToken))
 
-const testMiddleware = function (req, res, next) {
-  console.log('huurraaay')
-  next()
-}
-
-mountRestApi(app)
+mountRestApi(app, {
+  authenticate
+})
 
 // </editor-fold>
 app.use(renderError)

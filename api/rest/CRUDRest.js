@@ -7,9 +7,22 @@ export default class CRUDRest {
    * @type {CRUDService}
    */
   service = null
+  middleware = null
 
-  constructor(service) {
+  constructor(service, middleware) {
     this.service = service
+    this.middleware = middleware
+  }
+
+  @web.use
+  async webMiddleware(req, res, next) {
+    console.log('webMiddleware')
+    console.log(this.middleware)
+    if (this.middleware) {
+      this.middleware(req, res, next)
+    } else {
+      next()
+    }
   }
 
   @web.get('/')
@@ -56,12 +69,13 @@ export default class CRUDRest {
    * @param {CRUDService} service
    * @param options {object}
    * @param options.endpoint {string}
+   * @param options.middleware {function}
    * @returns {CRUDRest}
    */
   static factory(service, options = {}) {
     const endpoint = options.endpoint || `/${snakeCase(service.model.tableName)}`
     @web.controller(endpoint)
     class CRUDRestBound extends CRUDRest {}
-    return new CRUDRestBound(service)
+    return new CRUDRestBound(service, options.middleware)
   }
 }

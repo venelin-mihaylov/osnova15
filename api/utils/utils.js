@@ -16,7 +16,9 @@ export function renderValidationErrors(validationErrors, res) {
 }
 
 export function renderError(err, req, res, next) {
-  if (err instanceof ValidationError) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('invalid token...');
+  } else if (err instanceof ValidationError) {
     console.log(err)
     res.status(422).json({
       globalError: 'Invalid data',
@@ -30,6 +32,7 @@ export function renderError(err, req, res, next) {
     console.log(err)
     res.status(500).json(err.message)
   }
+  next()
 }
 
 export function throwOnError(errors = []) {
