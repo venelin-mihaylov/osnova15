@@ -1,12 +1,11 @@
-"use strict"
-import {combineReducers} from "redux"
-import {routerReducer as routing} from "react-router-redux"
-import CRUDReducer from "./CRUDReducer"
-import FKReducer from "./FKReducer"
-import user from "./user"
-import nav from "./nav"
+import {combineReducers} from 'redux'
+import {routerReducer as routing} from 'react-router-redux'
+import CRUDReducer from './CRUDReducer'
+import FKReducer from './FKReducer'
+import user from './user'
+import nav from './nav'
 import misc from './misc'
-import {modelReducer, formReducer} from "react-redux-form"
+import {modelReducer, formReducer} from 'react-redux-form'
 
 // Combine reducers with routeReducer which keeps track of
 // router statee

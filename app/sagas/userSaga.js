@@ -1,27 +1,21 @@
-import { fork, put, take, call } from 'redux-saga/effects'
+import {fork, put, call} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
-import ActionType from 'constants/ActionType'
+import Act from 'constants/Act'
 import {push} from 'react-router-redux'
 import axios from 'axios'
 
-
 export default function userSaga() {
-
-  function* doUserLogin(action) {
+  function* doUserLogin(data) {
     try {
-      const {email, password} = action
       const response = yield call(axios, {
         url: '/api/auth/login',
         method: 'post',
-        data: {
-          email: email,
-          password: password
-        }
+        data
       })
-      yield put({type: ActionType.LOGIN_USER_SUCCESS, response})
+      yield put({type: Act.LOGIN_USER_SUCCESS, response})
       yield put(push('/'))
     } catch (err) {
-      yield put({type: ActionType.LOGIN_USER_ERROR})
+      yield put({type: Act.LOGIN_USER_ERROR})
     }
   }
   function* doUserLogout() {
@@ -30,18 +24,17 @@ export default function userSaga() {
         url: '/api/auth/logout',
         method: 'post'
       })
-      yield put({type: ActionType.LOGOUT_USER_SUCCESS})
+      yield put({type: Act.LOGOUT_USER_SUCCESS})
       yield put(push('/'))
     } catch (err) {
-      yield put({type: ActionType.LOGOUT_USER_ERROR})
+      yield put({type: Act.LOGOUT_USER_ERROR})
     }
   }
 
-  return function* userSaga() {
+  return function* userSaga1() {
     yield [
-      fork(function* watchLogin() {yield* takeEvery(ActionType.LOGIN_USER_REQUESTED), doUserLogin}),
-      fork(function* watchLogout() {yield* takeEvery(ActionType.LOGOUT_USER_REQUESTED), doUserLogin}),
+      fork(function* watchLogin() { yield* takeEvery(Act.LOGIN_USER_REQUESTED, doUserLogin) }),
+      fork(function* watchLogout() { yield* takeEvery(Act.LOGOUT_USER_REQUESTED, doUserLogout) }),
     ]
   }
-
 }

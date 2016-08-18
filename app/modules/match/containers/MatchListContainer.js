@@ -7,7 +7,7 @@ import HasSelectionHOC from 'hoc/HasSelectionHOC'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
-import ActionType from 'constants/ActionType'
+import Act from 'constants/Act'
 
 @connect(state => ({
   redux: state.match,
@@ -37,7 +37,7 @@ export default class MatchListContainer extends OsnovaListContainer {
             key="exitMatch"
             label="Leave Match"
             primary={true}
-            onClick={() => dispatch({type: ActionType.EXIT_MATCH})}
+            onClick={() => dispatch({type: Act.EXIT_MATCH})}
             icon={<FontIcon className="fa fa-upload"/>}
           />]
           :
@@ -46,7 +46,7 @@ export default class MatchListContainer extends OsnovaListContainer {
           label="Enter Match"
           primary={true}
           disabled={!listSelectedId}
-          onClick={() => dispatch({type: ActionType.ENTER_MATCH, matchId: listSelectedId})}
+          onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: listSelectedId})}
           icon={<FontIcon className="fa fa-download"/>}
           />])
       }}

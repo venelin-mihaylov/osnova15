@@ -1,20 +1,19 @@
-"use strict"
-import ActionType from "constants/ActionType"
+import Act from 'constants/Act'
 
 export default function nav(state = {
   leftNavOpen: true,
   activeMatchId: null
 }, action = {}) {
   switch (action.type) {
-    case ActionType.TOGGLE_LEFT_NAV:
+    case Act.TOGGLE_LEFT_NAV:
       return Object.assign({}, state, {
         leftNavOpen: !state.leftNavOpen
       })
-    case ActionType.ENTER_MATCH:
+    case Act.ENTER_MATCH:
       return Object.assign({}, state, {
         activeMatchId: action.matchId
       })
-    case ActionType.EXIT_MATCH:
+    case Act.EXIT_MATCH:
       return Object.assign({}, state, {
         activeMatchId: null
       })

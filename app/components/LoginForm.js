@@ -1,45 +1,44 @@
-import React from "react"
-import TextField from "material-ui/TextField"
-import RaisedButton from "material-ui/RaisedButton"
-import MaterialField from "components/MaterialField"
-import {Form} from "react-redux-form"
+import React from 'react'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import MaterialField from 'components/MaterialField'
+import {Form} from 'react-redux-form'
 
-export default class LoginForm extends React.Component {
+const LoginForm = ({onSubmit}) => (
+  <div>
+    <Form model='loginUser' onSubmit={onSubmit}>
+      <MaterialField model='loginUser.email'>
+        <TextField
+          required
+          floatingLabelText='Email'
+          floatingLabelFixed
+        />
+      </MaterialField>
 
-  render() {
-    const {
-      onSubmit
-    } = this.props
+      <br />
 
-    return (
-      <div>
-        <Form model="loginUser" onSubmit={onSubmit}>
-          <MaterialField model="loginUser.email">
-            <TextField
-              required
-              floatingTextLabel="Email"
-            />
-          </MaterialField>
+      <MaterialField model='loginUser.password'>
+        <TextField
+          type='password'
+          required
+          floatingLabelText='Password'
+          floatingLabelFixed
+        />
+      </MaterialField>
 
-          <br/>
+      <br />
 
-          <MaterialField model="loginUser.password">
-            <TextField
-              type="password"
-              required
-              floatingTextLabel="Password"
-            />
-          </MaterialField>
+      <RaisedButton
+        type='submit'
+        label='Login'
+        primary
+      />
+    </Form>
+  </div>
+)
 
-          <br/>
-
-          <RaisedButton
-            type="submit"
-            label="Login"
-            primary={true}
-          />
-        </Form>
-      </div>
-    )
-  }
+LoginForm.propTypes = {
+  onSubmit: React.PropTypes.func.isRequired
 }
+
+export default LoginForm

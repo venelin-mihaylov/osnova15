@@ -7,26 +7,25 @@ import SocketIo from 'socket.io'
 import morgan from 'morgan'
 
 import config from '../universal/config'
-import CRUDService from './service/CRUDService'
 
 import {Model} from 'objection'
 
-import Tournament from "../universal/model/Tournament"
+import Tournament from '../universal/model/Tournament'
 import TournamentService from './service/TournamentService'
 
-import Match from "../universal/model/Match"
+import Match from '../universal/model/Match'
 import MatchService from './service/MatchService'
 
-import Competitor from "../universal/model/Competitor"
+import Competitor from '../universal/model/Competitor'
 import CompetitorService from './service/CompetitorService'
 
-import MatchCompetitor from "../universal/model/MatchCompetitor"
+import MatchCompetitor from '../universal/model/MatchCompetitor'
 import MatchCompetitorService from './service/MatchCompetitorService'
 
-import Exercise from "../universal/model/Exercise"
+import Exercise from '../universal/model/Exercise'
 import ExerciseService from './service/ExerciseService'
 
-import MatchExercise from "../universal/model/MatchExercise"
+import MatchExercise from '../universal/model/MatchExercise'
 import MatchExerciseService from './service/MatchExerciseService'
 
 import Target from '../universal/model/Target'
@@ -45,7 +44,7 @@ Model.knex(knex)
 const app = express()
 const server = new http.Server(app)
 
-//<editor-fold desc="Express">
+// <editor-fold desc="Express">
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -62,15 +61,15 @@ app.use(session({
     maxAge: 60000
   }
 }))
-//</editor-fold>
+// </editor-fold>
 
-//<editor-fold desc="Passport.js">
+// <editor-fold desc="Passport.js">
 configurePassport(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-//</editor-fold>
+// </editor-fold>
 
-//<editor-fold desc="API endpoint">
+// <editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
 
 new TournamentService(Tournament).register(app)
@@ -85,10 +84,10 @@ new ExerciseService(Exercise).register(app)
 
 new TargetService(Target).register(app)
 
-//</editor-fold>
+// </editor-fold>
 app.use(renderError)
 
-//<editor-fold desc="Bind to port">
+// <editor-fold desc="Bind to port">
 if (!config.apiPort) {
   console.error('==>     ERROR: No PORT environment variable has been specified')
   process.exit()
@@ -101,9 +100,9 @@ const runnable = app.listen(config.apiPort, (err) => {
   console.info('----\n==> 🌎  API is running on port %s', config.apiPort)
   console.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort)
 })
-//</editor-fold>
+// </editor-fold>
 
-//<editor-fold desc="Socket.IO">
+// <editor-fold desc="Socket.IO">
 const io = new SocketIo(server)
 const bufferSize = 100
 const messageBuffer = new Array(bufferSize)
@@ -130,4 +129,4 @@ io.on('connection', (socket) => {
   })
 })
 io.listen(runnable)
-//</editor-fold>
+// </editor-fold>

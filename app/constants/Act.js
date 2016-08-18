@@ -1,34 +1,25 @@
 export default class Act {
 
-  static ADD_FAVOURITE_EXERCISE_TO_MATCH_REQUESTED = 'ADD_FAVOURITE_EXERCISE_TO_MATCH_REQUESTED'
-  static ADD_FAVOURITE_EXERCISE_TO_MATCH_SUCCESS = 'ADD_FAVOURITE_EXERCISE_TO_MATCH_SUCCESS'
-  static ADD_FAVOURITE_EXERCISE_TO_MATCH_ERROR = 'ADD_FAVOURITE_EXERCISE_TO_MATCH_ERROR'
+  static TOGGLE_LEFT_NAV: 'TOGGLE_LEFT_NAV'
+  static TOGGLE_LOGIN_MODE: 'TOGGLE_LOGIN_MODE'
 
-  /**
-   *
-   * @param {string} entity
-   * @param {string} action
-   * @returns {*}
-   */
-  static type(entity, action) {
-    return `${entity.toUpperCase()}_${action}`
-  }
+  static ENTER_MATCH: 'ENTER_MATCH'
+  static EXIT_MATCH: 'EXIT_MATCH'
 
-  static act = entity => (actionType, rest = {}) => {
-    if (Array.isArray(rest)) {
-      return Object.assign({
-        type: Act.type(entity, actionType),
-        value: rest,
-      })
-    }
-    if (typeof rest === 'object') {
-      return Object.assign({
-        type: Act.type(entity, actionType),
-      }, rest)
-    }
-    return Object.assign({
-      type: Act.type(entity, actionType),
-      value: rest,
-    })
-  }
+  static LOGIN_USER_REQUESTED: 'LOGIN_USER_REQUESTED'
+  static LOGIN_USER_START: 'LOGIN_USER_START'
+  static LOGIN_USER_SUCCESS: 'LOGIN_USER_SUCCESS'
+  static LOGIN_USER_ERROR: 'LOGIN_USER_ERROR'
+
+  static SIGNUP_USER_START: 'SIGNUP_USER_START'
+  static SIGNUP_USER_SUCCESS: 'SIGNUP_USER_SUCCESS'
+  static SIGNUP_USER_ERROR: 'SIGNUP_USER_ERROR'
+
+  static LOGOUT_USER_REQUESTED: 'LOGOUT_USER_REQUESTED'
+  static LOGOUT_USER_START: 'LOGOUT_USER_START'
+  static LOGOUT_USER_SUCCESS: 'LOGOUT_USER_SUCCESS'
+  static LOGOUT_USER_ERROR: 'LOGOUT_USER_ERROR'
+
+  MATCH_ADD_CREATED_COMPETITOR: 'MATCH_DO_ADD_CREATED_COMPETITOR'
+
 }

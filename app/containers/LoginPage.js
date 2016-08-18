@@ -1,28 +1,21 @@
-"use strict"
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import ActionType from 'constants/ActionType'
+import React from 'react'
+import {connect} from 'react-redux'
+import Act from 'constants/Act'
 import LoginForm from 'components/LoginForm'
 
-//TODO: Cleanup
+const LoginPage = ({dispatch, ...rest}) => <div>
+  <h1>Login</h1>
+  <LoginForm
+    onSubmit={model => {
+      console.log(model)
+      dispatch(Object.assign({type: Act.LOGIN_USER_REQUESTED}, model))
+    }}
+    {...rest}
+  />
+</div>
 
-@connect(state => ({user: state.user}))
-@autobind
-export default class LoginPage extends React.Component {
-
-  render() {
-    const {
-      dispatch,
-      ...rest
-    } = this.props
-    return (
-      <div>
-        <h1>Login</h1>
-        <LoginForm
-          onSubmit={model => dispatch(Object.assign({type: ActionType.LOGIN_USER_REQUESTED}, model))}
-          {...rest}
-        />
-      </div>)
-  }
+LoginPage.propTypes = {
+  dispatch: React.PropTypes.func
 }
+
+export default connect(state => ({user: state.user}))(LoginPage)

@@ -1,18 +1,25 @@
 import CRUDAct from 'constants/CRUDAct'
-import { fork, put, take, call, select } from 'redux-saga/effects'
+import {fork, put, call} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
-import {actions} from "react-redux-form"
-import {rrfModel, rrfField} from "utils/Util"
+import {actions} from 'react-redux-form'
 import {push} from 'react-router-redux'
-import {formatServerError, camelCaseToUnderscore} from 'utils/Util'
-import { noop } from 'lodash'
+import {rrfModel, rrfField, formatServerError, camelCaseToUnderscore} from 'utils/Util'
+import noop from 'lodash/noop'
 
 
 export default function CRUDSaga(entity) {
   const act = CRUDAct.act(entity)
-  const type = type => CRUDAct.type(entity, type)
+  const type = t => CRUDAct.type(entity, t)
   const endpoint = camelCaseToUnderscore(entity)
+
+  function* setValidationErrors(fieldErrors) {
+    if(!fieldErrors) return
+    for(let k in fieldErrors) {
+      if(!fieldErrors.hasOwnProperty(k)) continue
+      yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
+    }
+  }
 
   function* read({id, resolve = noop, reject = noop}) {
     try {
@@ -24,7 +31,7 @@ export default function CRUDSaga(entity) {
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
       yield put(actions.load(rrfModel(entity), record))
       yield call(resolve, record)
-    } catch(err) {
+    } catch (err) {
       yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
@@ -38,7 +45,7 @@ export default function CRUDSaga(entity) {
       })
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield call(resolve, id)
-    } catch(err) {
+    } catch (err) {
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
@@ -53,11 +60,11 @@ export default function CRUDSaga(entity) {
       })
       const created = response.data
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
-      if(nextPath) {
+      if (nextPath) {
         yield put(push(nextPath))
       }
       yield call(resolve, created)
-    } catch(err) {
+    } catch (err) {
       const err2 = formatServerError(err)
       yield put(act(CRUDAct.CREATE_ERROR, err2))
       const {fieldErrors} = err2
@@ -72,24 +79,16 @@ export default function CRUDSaga(entity) {
         url: `/api/${endpoint}`,
         method: 'get',
         params: {
-          page: page,
+          page,
           filter: filter ? JSON.stringify(filter) : null
         }
       })
       const records = response.data
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
-    } catch(err) {
+    } catch (err) {
       yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
       yield call(reject, err)
-    }
-  }
-
-  function* setValidationErrors(fieldErrors) {
-    if(!fieldErrors) return
-    for(let k in fieldErrors) {
-      if(!fieldErrors.hasOwnProperty(k)) continue
-      yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
     }
   }
 
@@ -102,26 +101,26 @@ export default function CRUDSaga(entity) {
       })
       const updated = response.data
       yield put(act(CRUDAct.UPDATE_SUCCESS, {record: updated}))
-      if(nextPath) {
+      if (nextPath) {
         yield put(push(nextPath))
       }
       yield call(resolve, updated)
-    } catch(err) {
-      let err2 = formatServerError(err)
+    } catch (err) {
+      const err2 = formatServerError(err)
       yield put(act(CRUDAct.UPDATE_ERROR, err2))
-      let {fieldErrors} = err2
+      const {fieldErrors} = err2
       yield setValidationErrors(fieldErrors)
       yield call(reject, err)
     }
   }
 
-  return function* CRUDSaga() {
+  return function* CRUDSaga1() {
     yield [
-      fork(function* watchRead() {yield* takeEvery(type(CRUDAct.READ_REQUESTED), read)}),
-      fork(function* watchList() {yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list)}),
-      fork(function* watchCreate() {yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create)}),
-      fork(function* watchUpdate() {yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update)}),
-      fork(function* watchDelete() {yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), del)})
+      fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
+      fork(function* watchList() { yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list) }),
+      fork(function* watchCreate() { yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create) }),
+      fork(function* watchUpdate() { yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update) }),
+      fork(function* watchDelete() { yield* takeEvery(type(CRUDAct.DELETE_REQUESTED), del) })
     ]
   }
 }
