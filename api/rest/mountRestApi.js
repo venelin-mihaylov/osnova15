@@ -37,5 +37,3 @@ export default function mountRestApi(app, {
   CRUDRest.factory(new TargetService(Target)).register(app)
   new ExerciseRest(new ExerciseService(Exercise)).register(app)
 }
-
-

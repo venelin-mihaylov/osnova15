@@ -39,7 +39,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 60000
+    maxAge: 60000,
+    rolling: true
   }
 }))
 // </editor-fold>
