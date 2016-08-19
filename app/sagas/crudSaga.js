@@ -1,4 +1,5 @@
 import CRUDAct from 'constants/CRUDAct'
+import Act from 'constants/Act'
 import {fork, put, call} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
@@ -8,7 +9,7 @@ import {rrfModel, rrfField, formatServerError} from 'utils/Util'
 import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
 
-export default function CRUDSaga(entity, params = {}) {
+export default function crudSaga(entity, params = {}) {
   const act = CRUDAct.act(entity)
   const type = t => CRUDAct.type(entity, t)
   const endpoint = params.endpoint || snakeCase(entity)
@@ -87,6 +88,9 @@ export default function CRUDSaga(entity, params = {}) {
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
     } catch (err) {
+      if (err.status === 401) {
+        yield put({type: Act.AUTH_REQUIRED})
+      }
       yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
@@ -114,7 +118,7 @@ export default function CRUDSaga(entity, params = {}) {
     }
   }
 
-  return function* CRUDSaga1() {
+  return function* crudSaga1() {
     yield [
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),

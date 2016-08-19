@@ -1,32 +1,39 @@
-import React from "react"
-import Drawer from "material-ui/Drawer"
-import MenuItem from "material-ui/MenuItem"
-import {IndexLink, Link} from "react-router"
-
+import React from 'react'
+import Drawer from 'material-ui/Drawer'
+import MenuItem from 'material-ui/MenuItem'
+import {IndexLink, Link} from 'react-router'
 
 const activeStyle = {color: 'red'}
 
-const AppLeftNav = ({activeMatchId, ...rest}) => {
+const AppLeftNav = ({activeMatchId, authenticated, ...rest}) => {
+  if (!authenticated) {
+    return (<Drawer {...rest}>
+      <MenuItem>
+        <IndexLink to='/' {...{activeStyle}}>Home</IndexLink>
+      </MenuItem>
+    </Drawer>)
+  }
+
   return (
     <Drawer {...rest}>
       <If condition={!activeMatchId}>
         <MenuItem>
-          <IndexLink to="/" {...{activeStyle}}>Home</IndexLink>
+          <IndexLink to='/' {...{activeStyle}}>Home</IndexLink>
         </MenuItem>
         <MenuItem>
-          <Link to="/tournament" {...{activeStyle}}>Tournaments</Link>
+          <Link to='/tournament' {...{activeStyle}}>Tournaments</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/competitor" {...{activeStyle}}>Competitors</Link>
+          <Link to='/competitor' {...{activeStyle}}>Competitors</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/exercise" {...{activeStyle}}>Exercises</Link>
+          <Link to='/exercise' {...{activeStyle}}>Exercises</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/match" {...{activeStyle}}>Matches</Link>
+          <Link to='/match' {...{activeStyle}}>Matches</Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/target" {...{activeStyle}}>Targets</Link>
+          <Link to='/target' {...{activeStyle}}>Targets</Link>
         </MenuItem>
       </If>
       <If condition={activeMatchId}>
@@ -46,4 +53,10 @@ const AppLeftNav = ({activeMatchId, ...rest}) => {
     </Drawer>
   )
 }
+
+AppLeftNav.propTypes = {
+  authenticated: React.PropTypes.bool,
+  activeMatchId: React.PropTypes.number,
+}
+
 export default AppLeftNav

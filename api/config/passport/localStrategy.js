@@ -13,6 +13,7 @@ const localStrategy = new LocalStrategy({
       }
       if (password === users[0].password) {
         return done(null, {
+          id: users[0].id,
           email: users[0].email,
         })
       }

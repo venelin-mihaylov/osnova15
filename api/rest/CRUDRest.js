@@ -10,6 +10,8 @@ export default class CRUDRest {
   middleware = null
 
   constructor(service, middleware) {
+    console.log('constructor')
+    console.log(middleware)
     this.service = service
     this.middleware = middleware
   }
@@ -73,6 +75,7 @@ export default class CRUDRest {
    * @returns {CRUDRest}
    */
   static factory(service, options = {}) {
+    console.log(options)
     const endpoint = options.endpoint || `/${snakeCase(service.model.tableName)}`
     @web.controller(endpoint)
     class CRUDRestBound extends CRUDRest {}

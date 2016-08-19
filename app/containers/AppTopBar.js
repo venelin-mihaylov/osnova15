@@ -1,7 +1,5 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import {connect} from 'react-redux'
-import {push} from 'react-router-redux'
 import Act from 'constants/Act'
 import RaisedButton from 'material-ui/RaisedButton'
 import {ToolbarGroup} from 'material-ui/Toolbar'
@@ -10,6 +8,8 @@ import FontIcon from 'material-ui/FontIcon'
 const AppTopBar = ({
   dispatch,
   onLeaveMatch,
+  onClickLogin,
+  onClickLogout,
   activeMatchId,
   user: {
     authenticated
@@ -30,13 +30,13 @@ const AppTopBar = ({
             label='Logout'
             labelPosition='before'
             icon={<FontIcon className='fa fa-sign-out' />}
-            onClick={() => dispatch({type: Act.LOGOUT_USER_REQUESTED})}
+            onClick={onClickLogout}
           />
           :
           <RaisedButton
             label='Login'
             labelPosition='before'
-            onClick={() => dispatch(push('/login'))}
+            onClick={onClickLogin}
             icon={<FontIcon className='fa fa-sign-in' />}
           />
         }
@@ -47,10 +47,12 @@ const AppTopBar = ({
 />)
 
 AppTopBar.propTypes = {
+  onClickLogin: React.PropTypes.func,
+  onClickLogout: React.PropTypes.func,
   onLeaveMatch: React.PropTypes.func,
   activeMatchId: React.PropTypes.number,
   user: React.PropTypes.object,
   dispatch: React.PropTypes.func
 }
 
-export default connect((state) => ({user: state.user}))(AppTopBar)
+export default AppTopBar

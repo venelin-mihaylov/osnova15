@@ -5,7 +5,6 @@ import bodyParser from 'body-parser'
 import http from 'http'
 import SocketIo from 'socket.io'
 import morgan from 'morgan'
-import expressJwt from 'express-jwt'
 
 import config from '../universal/config'
 
@@ -18,13 +17,7 @@ import configurePassport from './config/passport/configurePassport'
 import knex from './config/knex'
 import expressValidator from 'express-validator'
 import {renderError} from './utils/utils'
-
-import configJwt from './config/jwt'
-import {configureGenerateToken} from './auth/jwt'
-
-const authenticate = expressJwt({secret: configJwt.secret})
-const generateToken = configureGenerateToken(configJwt)
-
+import authMiddleware from './config/passport/authMiddleware'
 
 // Give the connection to objection.
 Model.knex(knex)
@@ -58,10 +51,10 @@ app.use(passport.session())
 // </editor-fold>
 
 // <editor-fold desc="API endpoint">
-app.use('/auth', configureAuthRouter(passport, generateToken))
+app.use('/auth', configureAuthRouter(passport))
 
 mountRestApi(app, {
-  authenticate
+  authMiddleware
 })
 
 // </editor-fold>

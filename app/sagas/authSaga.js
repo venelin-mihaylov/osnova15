@@ -5,14 +5,14 @@ import {push} from 'react-router-redux'
 import axios from 'axios'
 
 function* login(data) {
-  console.log('login')
   try {
     const response = yield call(axios, {
       url: '/api/auth/login',
       method: 'post',
       data
     })
-    yield put({type: Act.LOGIN_USER_SUCCESS, response})
+    const user = response.data
+    yield put({type: Act.LOGIN_USER_SUCCESS, user})
     yield put(push('/'))
   } catch (err) {
     yield put({type: Act.LOGIN_USER_ERROR})
@@ -31,8 +31,15 @@ function* logout() {
   }
 }
 
+function* authRequired() {
+  yield put({type: Act.LOGOUT_USER_SUCCESS})
+  yield put(push('/login'))
+  yield put({type: Act.FLASH_MESSAGE_START, message: 'Please login'})
+}
+
 export default function* authSaga() {
   yield [
+    fork(function* watchLogin() { yield* takeEvery(Act.AUTH_REQUIRED, authRequired) }),
     fork(function* watchLogin() { yield* takeEvery(Act.LOGIN_USER_REQUESTED, login) }),
     fork(function* watchLogout() { yield* takeEvery(Act.LOGOUT_USER_REQUESTED, logout) }),
   ]
