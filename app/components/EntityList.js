@@ -9,6 +9,7 @@ const EntityList = ({
   onDeleteClick,
   onLimitChange,
   onRefresh,
+  toolbarShow,
   toolbarTitle,
   toolbarProps = {},
   redux,
@@ -16,31 +17,35 @@ const EntityList = ({
     listRecords,
     listSelectedId,
     listSelectedRecord,
-    listLoading,
     listError,
     listLimit,
   },
   ...rest,
-}) => {
-  return (<div>
+}) => (<div>
+  <If condition={toolbarShow}>
     <TableToolbar
       {...{listSelectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
       limit={listLimit}
     />
-    <GlobalError globalError={listError} />
-    <BaseTable
-      rows={listRecords}
-      selectedRowId={listSelectedId}
-      selectedRow={listSelectedRecord}
-      rowKey="id"
-      {...rest}
-    />
-  </div>)
-}
+  </If>
+  <GlobalError globalError={listError} />
+  <BaseTable
+    rows={listRecords}
+    selectedRowId={listSelectedId}
+    selectedRow={listSelectedRecord}
+    rowKey='id'
+    {...rest}
+  />
+</div>)
 
 EntityList.propTypes = {
   toolbarTitle: React.PropTypes.string.isRequired,
+  toolbarShow: React.PropTypes.bool
+}
+
+EntityList.defaultProps = {
+  toolbarShow: true
 }
 
 export default EntityList

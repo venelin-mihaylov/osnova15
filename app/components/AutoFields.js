@@ -128,10 +128,10 @@ export default class AutoFields extends React.Component {
         })
         genInput = React.createElement(SelectField,
           Object.assign({}, common, floatingLabel, inputProps),
-          [nullValue].concat(arr.map(({value, l}) => React.createElement(MenuItem, {
-            key: value + l,
+          [nullValue].concat(arr.map(({value, label}) => React.createElement(MenuItem, { // eslint-disable-line
+            key: value + label,
             value,
-            primaryText: l
+            primaryText: label
           }))))
       } else {
         genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))

@@ -1,4 +1,3 @@
-"use strict"
 import React from "react"
 import {autobind} from "core-decorators"
 import {connect} from "react-redux"
@@ -8,27 +7,31 @@ import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.target}))
 @autobind
-@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class TargetListContainer extends OsnovaListContainer {
 
   static entity = 'target'
 
-
   baseListParams() {
-    if(this.props.route.matchView) {
+    if (this.props.route.matchView) {
       return {
         filter: {
           matchId: this.props.params.matchId
         }
       }
     }
-
     return {}
   }
 
   render() {
-    return <EntityList
-      toolbarTitle="Targets"
+    const {
+      route: {
+        matchView
+      }
+    } = this.props
+
+    return (<EntityList
+      toolbarShow={!matchView}
+      toolbarTitle='Targets'
       columns={[{
         header: {
           label: 'id'
@@ -46,6 +49,6 @@ export default class TargetListContainer extends OsnovaListContainer {
       }]}
       {...this.props}
       {...(this.addProps())}
-    />
+    />)
   }
 }
