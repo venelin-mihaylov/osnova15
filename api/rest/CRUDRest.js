@@ -10,16 +10,12 @@ export default class CRUDRest {
   middleware = null
 
   constructor(service, middleware) {
-    console.log('constructor')
-    console.log(middleware)
     this.service = service
     this.middleware = middleware
   }
 
   @web.use
   async webMiddleware(req, res, next) {
-    console.log('webMiddleware')
-    console.log(this.middleware)
     if (this.middleware) {
       this.middleware(req, res, next)
     } else {
@@ -75,7 +71,6 @@ export default class CRUDRest {
    * @returns {CRUDRest}
    */
   static factory(service, options = {}) {
-    console.log(options)
     const endpoint = options.endpoint || `/${snakeCase(service.model.tableName)}`
     @web.controller(endpoint)
     class CRUDRestBound extends CRUDRest {}
