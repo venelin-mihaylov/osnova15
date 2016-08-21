@@ -5,24 +5,24 @@ import FontIcon from 'material-ui/FontIcon'
 const DefaultFormButtons = props => (
   <div>
     <RaisedButton
-      label="Submit"
+      label='Submit'
       primary
-      type="submit"
-      icon={<FontIcon className="fa fa-database" />}
+      type='submit'
+      icon={<FontIcon className='fa fa-database' />}
       style={{margin: 5}}
     />
     <RaisedButton
-      label="Reset"
+      label='Reset'
       secondary
-      icon={<FontIcon className="fa fa-eraser" />}
+      icon={<FontIcon className='fa fa-eraser' />}
       onClick={props.onReset}
       style={{margin: 5}}
     />
     <RaisedButton
-      label="Cancel"
+      label='Cancel'
       secondary
       onClick={props.onCancel}
-      icon={<FontIcon className="fa fa-times" />}
+      icon={<FontIcon className='fa fa-times' />}
       style={{margin: 5}}
     />
   </div>
