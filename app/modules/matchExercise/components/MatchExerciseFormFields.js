@@ -1,4 +1,3 @@
-"use strict"
 import React from 'react'
 import AutoFields from 'components/AutoFields'
 import MatchExerciseSchema from '../../../../universal/model/schema/MatchExerciseSchema'
@@ -40,7 +39,7 @@ const MatchExerciseFormFields = ({
                 }
               }
             },
-            iconButtons: [<IconButton key="exercise-plus" iconClassName="fa fa-user-plus" onClick={onClickAddExercise}/>]
+            iconButtons: [<IconButton key='exercise-plus' iconClassName='fa fa-user-plus' onClick={onClickAddExercise}/>]
           }
         }
       }}

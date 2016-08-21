@@ -1,14 +1,11 @@
-"use strict"
-import React from "react"
-import {autobind} from "core-decorators"
-import {connect} from "react-redux"
-import EntityList from "components/EntityList"
-import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import React from 'react'
+import {autobind} from 'core-decorators'
+import {connect} from 'react-redux'
+import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.matchCompetitor}))
 @autobind
-@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
   static entity = 'matchCompetitor'
@@ -25,8 +22,8 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
   }
 
   render() {
-    return <EntityList
-      toolbarTitle="MatchCompetitors"
+    return (<EntityList
+      toolbarTitle='MatchCompetitors'
       columns={[{
         header: {
           label: 'id'
@@ -53,6 +50,6 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
       }]}
       {...this.props}
       {...(this.addProps())}
-    />
+    />)
   }
 }

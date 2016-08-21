@@ -1,4 +1,3 @@
-'use strict'
 import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
@@ -62,7 +61,7 @@ class ExerciseFormContainer extends OsnovaFormContainer {
       location: {pathname}
     } = this.props
 
-    return <EntityFormWrapper
+    return (<EntityFormWrapper
       FormFieldsComponent={ExerciseFormFields}
       {...this.props}
       {...(this.addProps())}
@@ -71,7 +70,7 @@ class ExerciseFormContainer extends OsnovaFormContainer {
         dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, {value: {fkFieldName}}))
         dispatch(push(`${pathname}/create-target`))
       }}
-    />
+    />)
   }
 }
 export default ExerciseFormContainer

@@ -1,9 +1,7 @@
-"use strict"
-import React from "react"
-import {autobind} from "core-decorators"
-import {connect} from "react-redux"
-import EntityList from "components/EntityList"
-import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import React from 'react'
+import {autobind} from 'core-decorators'
+import {connect} from 'react-redux'
+import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import RaisedButton from 'material-ui/RaisedButton'
 import FontIcon from 'material-ui/FontIcon'
@@ -29,25 +27,25 @@ export default class MatchListContainer extends OsnovaListContainer {
       }
     } = this.props
 
-    return <EntityList
-      toolbarTitle="Matches"
+    return (<EntityList
+      toolbarTitle='Matches'
       toolbarProps={{
         appendButtons: (activeMatchId ?
           [<RaisedButton
-            key="exitMatch"
-            label="Leave Match"
-            primary={true}
+            key='exitMatch'
+            label='Leave Match'
+            primary
             onClick={() => dispatch({type: Act.EXIT_MATCH})}
-            icon={<FontIcon className="fa fa-upload"/>}
+            icon={<FontIcon className='fa fa-upload' />}
           />]
           :
           [<RaisedButton
-          key="enterMatch"
-          label="Enter Match"
-          primary={true}
-          disabled={!listSelectedId}
-          onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: listSelectedId})}
-          icon={<FontIcon className="fa fa-download"/>}
+            key='enterMatch'
+            label='Enter Match'
+            primary
+            disabled={!listSelectedId}
+            onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: listSelectedId})}
+            icon={<FontIcon className='fa fa-download' />}
           />])
       }}
       columns={[{
@@ -74,6 +72,6 @@ export default class MatchListContainer extends OsnovaListContainer {
       }]}
       {...this.props}
       {...(this.addProps())}
-    />
+    />)
   }
 }

@@ -1,9 +1,8 @@
-"use strict"
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import EntityFormWrapper from "components/EntityFormWrapper"
-import MatchCompetitorFormFields from "modules/matchCompetitor/components/MatchCompetitorFormFields"
+import React from 'react'
+import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
+import EntityFormWrapper from 'components/EntityFormWrapper'
+import MatchCompetitorFormFields from 'modules/matchCompetitor/components/MatchCompetitorFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 import {selectCreatedFK} from 'utils/Util'
 import CRUDAct from 'constants/CRUDAct'
@@ -55,7 +54,7 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       dispatch,
       location: {pathname}
     } = this.props
-    return <EntityFormWrapper
+    return (<EntityFormWrapper
       FormFieldsComponent={MatchCompetitorFormFields}
       {...this.props}
       {...(this.addProps())}
@@ -64,7 +63,7 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
         dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, true))
         dispatch(push(`${pathname}/create-competitor`))
       }}
-    />
+    />)
   }
 }
 export default MatchCompetitorFormContainer

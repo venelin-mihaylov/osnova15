@@ -1,4 +1,3 @@
-"use strict"
 import React from 'react'
 import AutoFields from 'components/AutoFields'
 import MatchCompetitorSchema from '../../../../universal/model/schema/MatchCompetitorSchema'
@@ -9,38 +8,42 @@ import IconButton from 'material-ui/IconButton'
 // i.e. add onCompetitorCreated
 
 const MatchCompetitorFormFields = ({
-  dispatch,
-  form,
   entity,
-  model,
   onClickAddCompetitor,
-  resetForm,
   params: {matchId}
-}) => (
-  <div>
-    <AutoFields
-      {...{form, entity}}
-      jsonSchema={MatchCompetitorSchema}
-      relations={MatchCompetitorRelations}
-      glue={({name}) => <br key={`glue-${name}`}/>}
-      overrides={{
-        matchId: {exclude: true},
-        competitorId: {
-          inputProps: {
-            renderLabel: r => r && `${r.firstName} ${r.lastName}`,
-            listParams: {
-              filter: {
-                belongsToMatch: {
-                  operator: '=',
-                  value: matchId
-                }
+}) => (<div>
+  <AutoFields
+    {...{entity}}
+    jsonSchema={MatchCompetitorSchema}
+    relations={MatchCompetitorRelations}
+    glue={({name}) => <br key={`glue-${name}`} />}
+    overrides={{
+      matchId: {exclude: true},
+      competitorId: {
+        inputProps: {
+          renderLabel: r => r && `${r.firstName} ${r.lastName}`,
+          listParams: {
+            filter: {
+              belongsToMatch: {
+                operator: '=',
+                value: matchId
               }
-            },
-            iconButtons: [<IconButton key="user-plus" iconClassName="fa fa-user-plus" onClick={onClickAddCompetitor}/>]
-          }
+            }
+          },
+          iconButtons: [<IconButton key='user-plus' iconClassName='fa fa-user-plus' onClick={onClickAddCompetitor} />]
         }
-      }}
-    />
-  </div>
-);
-export default MatchCompetitorFormFields;
+      }
+    }}
+  />
+</div>)
+
+MatchCompetitorFormFields.propTypes = {
+  dispatch: React.PropTypes.func,
+  entity: React.PropTypes.string,
+  model: React.PropTypes.string,
+  onClickAddCompetitor: React.PropTypes.func,
+  resetForm: React.PropTypes.func,
+  params: React.PropTypes.any,
+}
+
+export default MatchCompetitorFormFields

@@ -1,4 +1,3 @@
-'use strict'
 import React from 'react'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
@@ -21,11 +20,11 @@ export const TargetFormFields = ({
 
   const relName = 'target_zone'
 
-  return <div>
+  return (<div>
     <AutoFields
       {...{form, entity}}
       jsonSchema={TargetSchema}
-      glue={<br/>}
+      glue={<br />}
       overrides={{
         favourite: {
           inputProps: {
@@ -34,7 +33,7 @@ export const TargetFormFields = ({
           }
         },
         image: {
-          input: <FileField accept=".png,.jpg" label="Target Image" placeholder="Image"/>
+          input: <FileField accept='.png,.jpg' label='Target Image' placeholder='Image' />
         }
       }}
     />
@@ -55,11 +54,11 @@ export const TargetFormFields = ({
               }
             }}
           />
-          <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
+          <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)} />
         </div>
       )}
     />
-  </div>
+  </div>)
 }
 
 export default TargetFormFields

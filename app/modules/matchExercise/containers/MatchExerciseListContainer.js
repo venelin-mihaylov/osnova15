@@ -1,9 +1,7 @@
-"use strict"
-import React from "react"
-import {autobind} from "core-decorators"
-import {connect} from "react-redux"
-import EntityList from "components/EntityList"
-import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import React from 'react'
+import {autobind} from 'core-decorators'
+import {connect} from 'react-redux'
+import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import FKSelect from 'components/FKSelect'
 import CRUDAct from 'constants/CRUDAct'
@@ -11,7 +9,6 @@ import axios from 'axios'
 
 @connect(state => ({redux: state.matchExercise}))
 @autobind
-@HasSelectionHOC({dataProp: 'redux.listRecords'})
 export default class MatchExerciseListContainer extends OsnovaListContainer {
 
   static entity = 'matchExercise'
@@ -31,25 +28,22 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
     const {dispatch, params: {matchId}} = this.props
     const addProps = this.addProps()
     const {promiseAct} = addProps
-    return <EntityList
-      toolbarTitle="MatchExercises"
+    return (<EntityList
+      toolbarTitle='MatchExercises'
       toolbarProps={{
         appendButtons: [<FKSelect
-          entity="exercise"
-          variation="1"
-          labelField="name"
-          hintText="Add exercise"
+          entity='exercise'
+          variation='1'
+          labelField='name'
+          hintText='Add exercise'
           onChange={(exerciseId) => {
             const record = {matchId, exerciseId}
             axios({
               url: '/api/exercise/misc/createFavouriteExerciseForMatch',
               method: 'post',
               data: record
-            }).then(() => {
-              dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()))
-            }).catch(err => {
-              console.log(err)
-            })
+            }).then(() => dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())))
+              .catch(err => console.log(err))
           }}
           listParams={{
             filter: {
@@ -90,6 +84,6 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
       }]}
       {...this.props}
       {...addProps}
-    />
+    />)
   }
 }

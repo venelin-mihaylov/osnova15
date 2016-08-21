@@ -1,9 +1,8 @@
-"use strict"
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import EntityFormWrapper from "components/EntityFormWrapper"
-import TournamentFormFields from "modules/tournament/components/TournamentFormFields"
+import React from 'react'
+import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
+import EntityFormWrapper from 'components/EntityFormWrapper'
+import TournamentFormFields from 'modules/tournament/components/TournamentFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 
 @connect(state => ({

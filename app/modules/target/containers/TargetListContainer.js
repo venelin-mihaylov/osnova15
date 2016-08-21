@@ -1,8 +1,7 @@
-import React from "react"
-import {autobind} from "core-decorators"
-import {connect} from "react-redux"
-import EntityList from "components/EntityList"
-import HasSelectionHOC from 'hoc/HasSelectionHOC'
+import React from 'react'
+import {autobind} from 'core-decorators'
+import {connect} from 'react-redux'
+import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.target}))

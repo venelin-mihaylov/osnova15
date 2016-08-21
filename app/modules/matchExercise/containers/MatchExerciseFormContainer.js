@@ -1,9 +1,8 @@
-"use strict"
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import EntityFormWrapper from "components/EntityFormWrapper"
-import MatchExerciseFormFields from "modules/matchExercise/components/MatchExerciseFormFields"
+import React from 'react'
+import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
+import EntityFormWrapper from 'components/EntityFormWrapper'
+import MatchExerciseFormFields from 'modules/matchExercise/components/MatchExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 import {selectCreatedFK} from 'utils/Util'
 import {push} from 'react-router-redux'
@@ -54,8 +53,6 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
       dispatch,
       location: {pathname}
     } = this.props
-    const entity = this.constructor.entity
-
     return (<EntityFormWrapper
       FormFieldsComponent={MatchExerciseFormFields}
       {...this.props}
@@ -65,7 +62,6 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
         dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, true))
         dispatch(push(`${pathname}/create-exercise`))
       }}
-
     />)
   }
 }
