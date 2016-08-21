@@ -39,7 +39,6 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 6000000,
     rolling: true
   }
 }))
