@@ -17,14 +17,13 @@ export default class BaseTable extends React.Component {
     onSelectRow: React.PropTypes.func,
     onRow: React.PropTypes.func,
     selectedRowId: React.PropTypes.any,
-    selectedRowRecord: React.PropTypes.object,
     selectedRowIdField: React.PropTypes.string,
   }
 
   static defaultProps = {
+    onRow: () => ({}),
     onSelectRow: noop,
     selectedRowIdField: 'id',
-    onRow: () => ({}),
   }
 
   onRow(row, rowIndex) {
@@ -49,7 +48,6 @@ export default class BaseTable extends React.Component {
 
     const selected = select.row({
       rows,
-      isSelected: (row, selectedRowId) => row[selectedRowIdField] === selectedRowId,
       selectedRowId: rows[selectedRowIndex][selectedRowIdField],
     })
 
@@ -64,20 +62,19 @@ export default class BaseTable extends React.Component {
       columns,
       rows,
       rowKey,
-      onRow, // exclude
-      onSelectRow, // exclude
+      onRow, // eslint-disable-line
+      onSelectRow, // eslint-disable-line
       selectedRowId,
       ...rest,
     } = this.props // eslint-disable-line no-unused-vars
 
     const selectedRowIndex = findIndex(rows, {[rowKey]: selectedRowId})
-
     return select.byArrowKeys({
       rows,
       selectedRowIndex,
       onSelectRow: this.selectRow,
     })(<Table.Provider
-      className="pure-table pure-table-striped"
+      className='pure-table pure-table-striped'
       columns={columns}
       style={{
         width: '100%',

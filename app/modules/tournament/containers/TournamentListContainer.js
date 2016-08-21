@@ -23,27 +23,25 @@ export default class TournamentListContainer extends OsnovaListContainer {
   render() {
     return (<EntityList
       columns={[{
+        property: 'id',
+        width: 200,
         header: {
           label: 'id',
-          draggable: true,
-          sortable: true,
-          resizable: true,
-        }, cell: {
-          property: 'id',
+          property: 'id'
         },
-        width: 200
+        cell: {
+          property: 'id'
+        }
       }, {
+        property: 'name',
+        width: 800,
         header: {
-          label: 'Name',
-          draggable: true,
-          sortable: true,
-          resizable: true,
-        }, cell: {
-          property: 'name',
-          highlight: true,
-
+          label: 'name',
+          property: 'name'
         },
-        width: 800
+        cell: {
+          property: 'name'
+        }
       }]}
       toolbarTitle='Tournaments'
       {...this.props}
