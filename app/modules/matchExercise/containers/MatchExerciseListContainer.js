@@ -57,6 +57,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         />]
       }}
       columns={[{
+        property: 'id',
         header: {
           label: 'id',
           props: {
@@ -69,6 +70,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           property: 'id'
         }
       }, {
+        property: 'exercise',
         header: {
           label: 'Exercise',
           props: {

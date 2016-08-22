@@ -32,6 +32,7 @@ export default class TargetListContainer extends OsnovaListContainer {
       toolbarShow={!matchView}
       toolbarTitle='Targets'
       columns={[{
+        property: 'id',
         header: {
           label: 'id'
         },
@@ -39,6 +40,7 @@ export default class TargetListContainer extends OsnovaListContainer {
           property: 'id'
         }
       }, {
+        property: 'name',
         header: {
           label: 'name'
         },

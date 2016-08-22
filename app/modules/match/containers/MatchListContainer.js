@@ -49,25 +49,19 @@ export default class MatchListContainer extends OsnovaListContainer {
           />])
       }}
       columns={[{
+        property: 'id',
         header: {
           label: 'id'
         },
-        cell: {
-          property: 'id'
-        }
       }, {
+        property: 'name',
         header: {
           label: 'name'
         },
-        cell: {
-          property: 'name'
-        }
       }, {
+        property: 'tournamentId__name',
         header: {
           label: 'Tournament'
-        },
-        cell: {
-          property: 'tournamentId__name'
         }
       }]}
       {...this.props}

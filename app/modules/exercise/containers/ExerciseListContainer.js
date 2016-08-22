@@ -14,18 +14,14 @@ export default class ExerciseListContainer extends OsnovaListContainer {
     return (<EntityList
       toolbarTitle='Exercises'
       columns={[{
+        property: 'id',
         header: {
           label: 'id'
-        },
-        cell: {
-          property: 'id'
         }
       }, {
+        property: 'name',
         header: {
           label: 'name'
-        },
-        cell: {
-          property: 'name'
         }
       }]}
       {...this.props}

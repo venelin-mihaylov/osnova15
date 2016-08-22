@@ -6,8 +6,7 @@ import MatchFormFields from 'modules/match/components/MatchFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 
 @connect(state => ({
-  redux: state.match,
-  createdCompetitor: state.competitor.savedRecord
+  redux: state.match
 }))
 @autobind
 class MatchFormContainer extends OsnovaFormContainer {

@@ -16,6 +16,7 @@ const EntityForm = ({
   redux: {
     record,
     globalError,
+    fieldErrors,
     saving,
     loading,
     resetForm,
@@ -29,7 +30,7 @@ const EntityForm = ({
     <Saving {...{saving}} />
     <Loading {...{loading}} />
     <If condition={!loading}>
-      <GlobalError {...{globalError}} />
+      <GlobalError {...{fieldErrors, globalError}} />
       <Form {...{onSubmit}} model={rrfModel(entity)}>
         <FormFieldsComponent {...{record, form, model, entity, dispatch, resetForm}} {...rest} />
         <DefaultFormButtons {...{onReset, onCancel}} />

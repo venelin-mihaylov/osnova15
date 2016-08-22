@@ -56,54 +56,53 @@ export default (store) => {
 
   return (
     <Route name='Home' path='/' component={App}>
-      <IndexRoute component={HomePage}/>
-      <Route name='Login' path='login' component={LoginPage}/>
+      <IndexRoute component={HomePage} />
+      <Route name='Login' path='login' component={LoginPage} />
       <Route name='Tournaments' path='tournament' component={ContentContainer}>
-        <IndexRoute component={TournamentListContainer}/>
-        <Route name='Add tournament' path='add' action='add' component={TournamentFormContainer}/>
-        <Route name='Edit tournament' staticName={true} path=':id/edit' action='edit' component={TournamentFormContainer}/>
+        <IndexRoute component={TournamentListContainer} />
+        <Route name='Add tournament' path='add' action='add' component={TournamentFormContainer} />
+        <Route name='Edit tournament' staticName path=':id/edit' action='edit' component={TournamentFormContainer} />
       </Route>
       <Route name='Matches' path='match' component={ContentContainer}>
-        <IndexRoute component={MatchListContainer}/>
-        <Route name='Match view' path=':matchId/view' component={MatchViewContainer}/>
-        
-        <Route name='List match competitors' path=':matchId/competitor' component={MatchCompetitorListContainer}/>
-        <Route name='Add match competitor' path=':matchId/competitor/add' action='add' component={MatchCompetitorFormContainer}/>
-        <Route name='Edit match competitor' path=':matchId/competitor/:id/edit' action='edit' component={MatchCompetitorFormContainer}/>
-        <Route name='Add new competitor' path=':matchId/competitor/add/create-competitor' action='add' component={CompetitorFormContainer}/>
-        <Route name='Add new competitor' path=':matchId/competitor/:id/edit/create-competitor' action='add' component={CompetitorFormContainer}/>
+        <IndexRoute component={MatchListContainer} />
+        <Route name='Match view' path=':matchId/view' component={MatchViewContainer} />
+        <Route name='List match competitors' path=':matchId/competitor' component={MatchCompetitorListContainer} />
+        <Route name='Add match competitor' path=':matchId/competitor/add' action='add' component={MatchCompetitorFormContainer} />
+        <Route name='Edit match competitor' path=':matchId/competitor/:id/edit' action='edit' component={MatchCompetitorFormContainer} />
+        <Route name='Add new competitor' path=':matchId/competitor/add/create-competitor' action='add' component={CompetitorFormContainer} />
+        <Route name='Add new competitor' path=':matchId/competitor/:id/edit/create-competitor' action='add' component={CompetitorFormContainer} />
 
-        <Route name='List match exercises' path=':matchId/exercise' component={MatchExerciseListContainer}/>
-        <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={ExerciseFormContainer}/>
-        <Route name='Edit exercise' path=':matchId/exercise/:matchExerciseId/:id/edit' action='edit' component={ExerciseFormContainer}/>
+        <Route name='List match exercises' path=':matchId/exercise' component={MatchExerciseListContainer} />
+        <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={ExerciseFormContainer} />
+        <Route name='Edit exercise' path=':matchId/exercise/:matchExerciseId/:id/edit' action='edit' component={ExerciseFormContainer} />
 
-        <Route name='Add new target' path=':matchId/exercise/add/create-target' action='add' component={TargetFormContainer}/>
-        <Route name='Add new target' path=':matchId/exercise/:matchExerciseId/:id/edit/create-target' action='add' component={TargetFormContainer}/>
+        <Route name='Add new target' path=':matchId/exercise/add/create-target' action='add' component={TargetFormContainer} />
+        <Route name='Add new target' path=':matchId/exercise/:matchExerciseId/:id/edit/create-target' action='add' component={TargetFormContainer} />
 
-        <Route name='Targets' path=':matchId/target' matchView={true} component={TargetListContainer}/>
+        <Route name='Targets' path=':matchId/target' matchView component={TargetListContainer} />
 
-        <Route name='Add match' path='add' component={MatchFormContainer}/>
-        <Route name='Edit match' staticName={true} path=':id/edit' action='edit' component={MatchFormContainer}/>
+        <Route name='Add match' path='add' action='add' component={MatchFormContainer} />
+        <Route name='Edit match' staticName path=':id/edit' action='edit' component={MatchFormContainer} />
       </Route>
 
       <Route name='Exercises' path='exercise' component={ContentContainer}>
-        <IndexRoute component={ExerciseListContainer}/>
-        <Route name='Add exercise' path='add' action='add' component={ExerciseFormContainer}/>
-        <Route name='Edit exercise' staticName={true} path=':id/edit' action='edit' component={ExerciseFormContainer}/>
-        <Route name='Add new target' path='add/create-target' action='add' component={TargetFormContainer}/>
-        <Route name='Add new target' path=':id/edit/create-target' action='add' component={TargetFormContainer}/>
+        <IndexRoute component={ExerciseListContainer} />
+        <Route name='Add exercise' path='add' action='add' component={ExerciseFormContainer} />
+        <Route name='Edit exercise' staticName path=':id/edit' action='edit' component={ExerciseFormContainer} />
+        <Route name='Add new target' path='add/create-target' action='add' component={TargetFormContainer} />
+        <Route name='Add new target' path=':id/edit/create-target' action='add' component={TargetFormContainer} />
       </Route>
 
       <Route name='Competitors' path='competitor' component={ContentContainer}>
-        <IndexRoute component={CompetitorListContainer}/>
-        <Route name='Add competitor' path='add' action='add' component={CompetitorFormContainer}/>
-        <Route name='Edit competitor' staticName={true} path=':id/edit' action='edit' component={CompetitorFormContainer}/>
+        <IndexRoute component={CompetitorListContainer} />
+        <Route name='Add competitor' path='add' action='add' component={CompetitorFormContainer} />
+        <Route name='Edit competitor' staticName path=':id/edit' action='edit' component={CompetitorFormContainer} />
       </Route>
 
       <Route name='Targets' path='target' component={ContentContainer}>
-        <IndexRoute component={TargetListContainer}/>
-        <Route name='Add target' path='add' action='add' component={TargetFormContainer}/>
-        <Route name='Edit target' staticName={true} path=':id/edit' action='edit' component={TargetFormContainer}/>
+        <IndexRoute component={TargetListContainer} />
+        <Route name='Add target' path='add' action='add' component={TargetFormContainer} />
+        <Route name='Edit target' staticName path=':id/edit' action='edit' component={TargetFormContainer} />
       </Route>
 
     </Route>
