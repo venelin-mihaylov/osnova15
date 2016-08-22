@@ -2,7 +2,6 @@ import React from 'react'
 import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
-import CRUDAct from 'constants/CRUDAct'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 
 @connect(state => ({redux: state.tournament}))
@@ -11,17 +10,9 @@ export default class TournamentListContainer extends OsnovaListContainer {
 
   static entity = 'tournament'
 
-  constructor(props) {
-    super(props)
-    this.act = CRUDAct.act(this.constructor.entity)
-  }
-
-  componentWillMount() {
-    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED))
-  }
-
   render() {
     return (<EntityList
+      toolbarTitle='Tournaments'
       columns={[{
         property: 'id',
         width: 200,
@@ -43,9 +34,8 @@ export default class TournamentListContainer extends OsnovaListContainer {
           property: 'name'
         }
       }]}
-      toolbarTitle='Tournaments'
       {...this.props}
-      {...this.addProps()}
+      {...(this.addProps())}
     />)
   }
 }

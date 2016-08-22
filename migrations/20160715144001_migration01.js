@@ -41,7 +41,7 @@ exports.up = function(knex, Promise) {
       t.integer('countExercises')
       t.integer('countSquads')
       t.integer('minShots')
-      t.integer('tournamentId').notNullable().references('id').inTable('tournament').onDelete('CASCADE')
+      t.integer('tournamentId').references('id').inTable('tournament').onDelete('CASCADE')
     }),
     knex.schema.createTable('match_competitor', function(t) {
       t.increments('id').primary()

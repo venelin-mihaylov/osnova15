@@ -1,4 +1,3 @@
-
 import React from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
 import Toolbar from 'material-ui/Toolbar/Toolbar'
@@ -45,32 +44,32 @@ class TableToolbar extends React.Component {
 
     return (
       <Toolbar>
-        <ToolbarGroup firstChild float="left">
+        <ToolbarGroup firstChild float='left'>
           <RaisedButton
-            label="add"
+            label='add'
             primary
             onClick={onAddClick}
-            icon={<FontIcon className="fa fa-plus" />}
+            icon={<FontIcon className='fa fa-plus' />}
           />
           <RaisedButton
-            label="edit"
+            label='edit'
             primary
             onClick={onEditClick}
             disabled={!listSelectedId}
-            icon={<FontIcon className="fa fa-pencil" />}
+            icon={<FontIcon className='fa fa-pencil' />}
           />
           <RaisedButton
-            label="delete"
+            label='delete'
             secondary
             onClick={onDeleteClick}
             disabled={!listSelectedId}
-            icon={<FontIcon className="fa fa-trash" />}
+            icon={<FontIcon className='fa fa-trash' />}
           />
           {appendButtons.length && appendButtons}
         </ToolbarGroup>
-        <ToolbarGroup float="right">
+        <ToolbarGroup float='right'>
           <ToolbarTitle text={toolbarTitle} />
-          <FontIcon className="fa fa-refresh fa-3x" onClick={onRefresh} style={{marginRight: 20}} />
+          <FontIcon className='fa fa-refresh fa-3x' onClick={onRefresh} style={{marginRight: 20}} />
           <ListLimitMenu
             onLimitChange={onLimitChange}
             limit={limit}

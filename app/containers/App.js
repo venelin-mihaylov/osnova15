@@ -46,12 +46,12 @@ const App = ({
     />
     {children}
   </div>
-  <Snackbar
+  {flashMessage && <Snackbar
     open={flash}
     message={flashMessage}
     autoHideDuration={flashDuration}
     onRequestClose={() => dispatch({type: Act.FLASH_MESSAGE_END})}
-  />
+  />}
 </div>)
 
 App.propTypes = {

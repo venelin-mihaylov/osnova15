@@ -4,23 +4,23 @@ import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 
 const EntityList = ({
+  columns,
   onAddClick,
   onEditClick,
   onDeleteClick,
   onLimitChange,
   onRefresh,
+  onSelectRow,
   toolbarShow,
   toolbarTitle,
   toolbarProps = {},
-  redux,
+  redux, // eslint-disable-line no-unused-vars
   redux: {
     listRecords,
     listSelectedId,
-    listSelectedRecord,
     listError,
     listLimit,
-  },
-  ...rest,
+  }
 }) => (<div>
   <If condition={toolbarShow}>
     <TableToolbar
@@ -33,15 +33,23 @@ const EntityList = ({
   <BaseTable
     rows={listRecords}
     selectedRowId={listSelectedId}
-    selectedRow={listSelectedRecord}
-    rowKey='id'
-    {...rest}
+    columns={columns}
+    onSelectRow={onSelectRow}
   />
 </div>)
 
 EntityList.propTypes = {
+  columns: React.PropTypes.any.isRequired,
+  redux: React.PropTypes.any.isRequired,
+  onAddClick: React.PropTypes.func,
+  onEditClick: React.PropTypes.func,
+  onDeleteClick: React.PropTypes.func,
+  onLimitChange: React.PropTypes.func,
+  onRefresh: React.PropTypes.func,
+  onSelectRow: React.PropTypes.func,
   toolbarTitle: React.PropTypes.string.isRequired,
-  toolbarShow: React.PropTypes.bool
+  toolbarShow: React.PropTypes.bool,
+  toolbarProps: React.PropTypes.any,
 }
 
 EntityList.defaultProps = {

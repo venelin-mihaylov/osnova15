@@ -12,7 +12,7 @@ export default class MatchService extends CRUDService {
   list({filter}) { // eslint-disable-line
     return this.model.query()
       .select('matches.*', 'tournament.name as tournamentId__name')
-      .join('tournament', 'matches.tournamentId', 'tournament.id')
+      .leftJoin('tournament', 'matches.tournamentId', 'tournament.id')
   }
 
 }

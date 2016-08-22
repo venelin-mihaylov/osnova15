@@ -26,7 +26,7 @@ import FKAct from 'constants/FKAct'
 export default class FKSelect extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
-    name: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string,
     redux: React.PropTypes.object,
     iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
     /**

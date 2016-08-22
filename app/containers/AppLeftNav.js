@@ -41,6 +41,9 @@ const AppLeftNav = ({activeMatchId, authenticated, ...rest}) => {
           <Link to={`/match/${activeMatchId}/view`} {...{activeStyle}}>Details</Link>
         </MenuItem>
         <MenuItem>
+          <Link to={`/match/${activeMatchId}/tournament`} {...{activeStyle}}>Tournaments</Link>
+        </MenuItem>
+        <MenuItem>
           <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Competitors</Link>
         </MenuItem>
         <MenuItem>

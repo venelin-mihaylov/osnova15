@@ -11,18 +11,19 @@ import styles from 'styles/components/BaseTable.css'
 export default class BaseTable extends React.Component {
 
   static propTypes = {
-    columns: React.PropTypes.any,
-    rows: React.PropTypes.any,
-    rowKey: React.PropTypes.any,
-    onSelectRow: React.PropTypes.func,
+    columns: React.PropTypes.any.isRequired,
+    rows: React.PropTypes.any.isRequired,
+    rowKey: React.PropTypes.string.isRequired,
+    onSelectRow: React.PropTypes.func.isRequired,
     onRow: React.PropTypes.func,
-    selectedRowId: React.PropTypes.any,
-    selectedRowIdField: React.PropTypes.string,
+    selectedRowId: React.PropTypes.any.isRequired,
+    selectedRowIdField: React.PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     onRow: () => ({}),
     onSelectRow: noop,
+    rowKey: 'id',
     selectedRowIdField: 'id',
   }
 
@@ -34,7 +35,7 @@ export default class BaseTable extends React.Component {
 
     } = this.props
     const {className, ...props} = onRow(row, rowIndex)
-    const selected = row[selectedRowIdField] == selectedRowId
+    const selected = row[selectedRowIdField] === selectedRowId
     return {
       className: mergeClassNames(className, selected && styles.selectedRow),
       selected,
@@ -65,10 +66,11 @@ export default class BaseTable extends React.Component {
       onRow, // eslint-disable-line
       onSelectRow, // eslint-disable-line
       selectedRowId,
+      selectedRowIdField,
       ...rest,
     } = this.props // eslint-disable-line no-unused-vars
 
-    const selectedRowIndex = findIndex(rows, {[rowKey]: selectedRowId})
+    const selectedRowIndex = findIndex(rows, {[selectedRowIdField]: selectedRowId})
     return select.byArrowKeys({
       rows,
       selectedRowIndex,

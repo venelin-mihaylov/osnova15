@@ -41,11 +41,11 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
           format: ({firstName, lastName}) => `${firstName} ${lastName}`
         }
       }, {
+        property: 'disqualified',
         header: {
           label: 'disqualified'
         },
         cell: {
-          property: 'disqualified',
           format: (v) => (v ? 'Yes' : 'No')
         }
       }]}
