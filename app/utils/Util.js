@@ -1,8 +1,8 @@
-"use strict"
 import React from "react"
 import {Errors} from "react-redux-form"
 import CRUDAct from 'constants/CRUDAct'
 import {actions} from 'react-redux-form'
+import {push} from 'react-router-redux'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -26,18 +26,18 @@ export const defaultErrorMessages = {
  * @constructor
  */
 export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMessages) {
-  if(!fieldName) {
+  if (!fieldName) {
     return null
   }
   const key = fieldName.replace(/\[|\]\./g, '.')
   const field = form.fields[key]
-  if(!field) return null
-  if(!field.errors) return null
+  if (!field) return null
+  if (!field.errors) return null
 
   const fieldErrors = field.errors
   let error = false
   for (let k in fieldErrors) {
-    if(!fieldErrors.hasOwnProperty(k)) continue
+    if (!fieldErrors.hasOwnProperty(k)) continue
     error = error || fieldErrors[k]
   }
   if (!error) {
@@ -52,16 +52,16 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
 
 export function formatServerError(err) {
   console.log(err)
-  if(err.status == 500) {
+  if (err.status === 500) {
     return {
       globalError: 'Internal server error'
     }
-  } else if(err.status == 404) {
+  } else if (err.status === 404) {
     return {
       globalError: err.data.globalError
     }
 
-  } else if(err.status == 422) { // validation
+  } else if (err.status === 422) { // validation
     return err.data
   } else { // default
     return {
@@ -76,7 +76,7 @@ export function formatServerError(err) {
  * @returns {string}
  */
 export function ucfirst(string) {
-  if(!string) return ''
+  if (!string) return ''
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
@@ -90,12 +90,12 @@ export function camelCaseToUnderscore(string) {
 
 export function log(o) {
   console.log(o)
-  return o;
+  return o
 }
 
 export function toUri() {
   let arr = []
-  for(let i = 0; i < arguments.length; i++) {
+  for (let i = 0; i < arguments.length; i++) {
     arr.push(arguments[i])
   }
   return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
@@ -108,7 +108,7 @@ export function selectCreatedFK({
   fkParams
 
 }) {
-  if(!select) return
+  if (!select) return
   doSelectCreatedFK({
     dispatch,
     entity,
@@ -130,9 +130,9 @@ function doSelectCreatedFK({
     relationType,
     relationName,
   }) => {
-    if(!fkRecord) return
+    if (!fkRecord) return
 
-    if(relationType == 'belongsToOne') {
+    if (relationType === 'belongsToOne') {
       dispatch(actions.change(rrfField(entity, fkFieldName), fkRecord.id))
     } else if(relationType == 'hasMany') {
       let r = {[fkFieldName]: fkRecord.id}

@@ -37,7 +37,10 @@ const App = ({
     {...{activeMatchId, user, dispatch}}
     onClickLogin={() => dispatch(push('/login'))}
     onClickLogout={() => dispatch({type: Act.LOGOUT_USER_REQUESTED})}
-    onLeaveMatch={() => dispatch({type: Act.EXIT_MATCH})}
+    onLeaveMatch={() => {
+      dispatch({type: Act.EXIT_MATCH})
+      dispatch(push('/match'))
+    }}
   />
   <div style={{marginLeft: leftNavOpen ? '270px' : 10}}>
     <Breadcrumbs

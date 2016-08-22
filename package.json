@@ -92,6 +92,7 @@
     "fontfaceobserver": "^1.7.1",
     "fsevents": "^1.0.14",
     "history": "^2.1.0",
+    "html-pdf": "^2.1.0",
     "http-proxy": "^1.13.3",
     "immutable": "^3.8.1",
     "knex": "^0.11.5",
