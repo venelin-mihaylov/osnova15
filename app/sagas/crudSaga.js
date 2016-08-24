@@ -15,7 +15,9 @@ export default function crudSaga(entity, params = {}) {
   const endpoint = params.endpoint || snakeCase(entity)
 
   function* setValidationErrors(fieldErrors) {
-    if (!fieldErrors) return
+    if (!fieldErrors) {
+      return
+    }
     for (const k in fieldErrors) {
       if (!fieldErrors.hasOwnProperty(k)) continue
       yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
@@ -33,6 +35,9 @@ export default function crudSaga(entity, params = {}) {
       yield put(actions.load(rrfModel(entity), record))
       yield call(resolve, record)
     } catch (err) {
+      if (err.status === 401) {
+        yield put({type: Act.AUTH_REQUIRED})
+      }
       yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
@@ -47,6 +52,9 @@ export default function crudSaga(entity, params = {}) {
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield call(resolve, id)
     } catch (err) {
+      if (err.status === 401) {
+        yield put({type: Act.AUTH_REQUIRED})
+      }
       yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
@@ -66,6 +74,9 @@ export default function crudSaga(entity, params = {}) {
       }
       yield call(resolve, created)
     } catch (err) {
+      if (err.status === 401) {
+        yield put({type: Act.AUTH_REQUIRED})
+      }
       const err2 = formatServerError(err)
       yield put(act(CRUDAct.CREATE_ERROR, err2))
       const {fieldErrors} = err2
@@ -110,6 +121,9 @@ export default function crudSaga(entity, params = {}) {
       }
       yield call(resolve, updated)
     } catch (err) {
+      if (err.status === 401) {
+        yield put({type: Act.AUTH_REQUIRED})
+      }
       const err2 = formatServerError(err)
       yield put(act(CRUDAct.UPDATE_ERROR, err2))
       const {fieldErrors} = err2

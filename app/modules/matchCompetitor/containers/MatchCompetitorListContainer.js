@@ -28,9 +28,6 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         property: 'id',
         header: {
           label: 'id'
-        },
-        cell: {
-          property: 'id'
         }
       }, {
         property: 'competitor',
