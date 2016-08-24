@@ -155,14 +155,26 @@ export default function CRUDReducer({
         })
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
         if (state.listSelectedId === action.id) {
+          let listRecords = action.records
+          if (Array.isArray(action.records && action.records)) {
+            listRecords = action.records.map(r => {
+              if (r.selected) {
+                const {selected, ...ret} = r // eslint-disable-line no-unused-vars
+                return ret
+              }
+              return r
+            })
+          }
           return Object.assign({}, state, {
             listSelectedId: null,
-            listSelectedRecord: null
+            listSelectedRecord: null,
+            listRecords
           })
         }
         return Object.assign({}, state, {
           listSelectedId: action.id,
-          listSelectedRecord: action.record
+          listSelectedRecord: action.record,
+          listRecords: action.records
         })
       case addPrefix(CRUDAct.LIST_CLEAR_SELECTION):
         return Object.assign({}, state, {

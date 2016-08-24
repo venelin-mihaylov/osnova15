@@ -55,6 +55,7 @@ export default class BaseTable extends React.Component {
     this.props.onSelectRow({
       selectedRowId: selected.selectedRow[selectedRowIdField],
       selectedRow: selected.selectedRow,
+      rows: selected.rows
     })
   }
 

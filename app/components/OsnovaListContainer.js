@@ -24,8 +24,8 @@ export default class OsnovaListContainer extends React.Component {
     this.listServerRecords()
   }
 
-  onSelectRow({selectedRowId: id, selectedRow: record}) {
-    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id, record}))
+  onSelectRow({selectedRowId: id, selectedRow: record, rows: records}) {
+    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id, record, records}))
   }
 
   onAddClick() {
