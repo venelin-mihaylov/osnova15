@@ -18,39 +18,36 @@ const AppLeftNav = ({activeMatchId, authenticated, ...rest}) => {
     <Drawer {...rest}>
       <If condition={!activeMatchId}>
         <MenuItem>
-          <IndexLink to='/' {...{activeStyle}}>Home</IndexLink>
+          <IndexLink to='/' {...{activeStyle}}><span>Home</span></IndexLink>
         </MenuItem>
         <MenuItem>
-          <Link to='/tournament' {...{activeStyle}}>Tournaments</Link>
+          <Link to='/tournament' {...{activeStyle}}><span>Tournaments</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to='/competitor' {...{activeStyle}}>Competitors</Link>
+          <Link to='/competitor' {...{activeStyle}}><span>Competitors</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to='/exercise' {...{activeStyle}}>Exercises</Link>
+          <Link to='/exercise' {...{activeStyle}}><span>Exercises</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to='/match' {...{activeStyle}}>Matches</Link>
+          <Link to='/match' {...{activeStyle}}><span>Matches</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to='/target' {...{activeStyle}}>Targets</Link>
+          <Link to='/target' {...{activeStyle}}><span>Targets</span></Link>
         </MenuItem>
       </If>
       <If condition={activeMatchId}>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/view`} {...{activeStyle}}>Details</Link>
+          <Link to={`/match/${activeMatchId}/view`} {...{activeStyle}}><span>Details</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/tournament`} {...{activeStyle}}>Tournaments</Link>
+          <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}><span>Competitors</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/competitor`} {...{activeStyle}}>Competitors</Link>
+          <Link to={`/match/${activeMatchId}/exercise`} {...{activeStyle}}><span>Exercises</span></Link>
         </MenuItem>
         <MenuItem>
-          <Link to={`/match/${activeMatchId}/exercise`} {...{activeStyle}}>Exercises</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to={`/match/${activeMatchId}/target`} {...{activeStyle}}>Targets</Link>
+          <Link to={`/match/${activeMatchId}/target`} {...{activeStyle}}><span>Targets</span></Link>
         </MenuItem>
       </If>
     </Drawer>

@@ -33,8 +33,9 @@ function* logout() {
 
 function* authRequired() {
   yield put({type: Act.LOGOUT_USER_SUCCESS})
-  yield put(push('/login'))
+  yield put({type: Act.EXIT_MATCH})
   yield put({type: Act.FLASH_MESSAGE_START, message: 'Please login'})
+  yield put(push('/login'))
 }
 
 export default function* authSaga() {

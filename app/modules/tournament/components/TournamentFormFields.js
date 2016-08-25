@@ -1,12 +1,17 @@
-"use strict"
 import React from 'react'
 import TournamentSchema from '../../../../universal/model/schema/TournamentSchema'
 import AutoFields from 'components/AutoFields'
 
-const TournamentFormFields = ({form, entity}) => (
+const TournamentFormFields = ({entity}) => (
   <AutoFields
-    {...{form, entity}}
+    {...{entity}}
+    glue={({name}) => <br key={`glue-${name}`} />}
     jsonSchema={TournamentSchema}
   />
-);
-export default TournamentFormFields;
+)
+
+TournamentFormFields.propTypes = {
+  entity: React.PropTypes.string.isRequired
+}
+
+export default TournamentFormFields

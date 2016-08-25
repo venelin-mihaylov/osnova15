@@ -16,7 +16,7 @@ export default class BaseTable extends React.Component {
     rowKey: React.PropTypes.string.isRequired,
     onSelectRow: React.PropTypes.func.isRequired,
     onRow: React.PropTypes.func,
-    selectedRowId: React.PropTypes.any.isRequired,
+    selectedRowId: React.PropTypes.number,
     selectedRowIdField: React.PropTypes.string.isRequired,
   }
 
@@ -87,7 +87,8 @@ export default class BaseTable extends React.Component {
 
       <Table.Body
         onRow={this.onRow}
-        {...{rows, rowKey}}
+        rows={rows}
+        rowKey={rowKey}
         {...rest}
       />
     </Table.Provider>)

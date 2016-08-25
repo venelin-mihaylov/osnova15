@@ -37,8 +37,9 @@ export default function crudSaga(entity, params = {}) {
     } catch (err) {
       if (err.status === 401) {
         yield put({type: Act.AUTH_REQUIRED})
+      } else {
+        yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       }
-      yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
   }
@@ -54,8 +55,9 @@ export default function crudSaga(entity, params = {}) {
     } catch (err) {
       if (err.status === 401) {
         yield put({type: Act.AUTH_REQUIRED})
+      } else {
+        yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       }
-      yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
   }
@@ -76,11 +78,12 @@ export default function crudSaga(entity, params = {}) {
     } catch (err) {
       if (err.status === 401) {
         yield put({type: Act.AUTH_REQUIRED})
+      } else {
+        const err2 = formatServerError(err)
+        yield put(act(CRUDAct.CREATE_ERROR, err2))
+        const {fieldErrors} = err2
+        yield setValidationErrors(fieldErrors)
       }
-      const err2 = formatServerError(err)
-      yield put(act(CRUDAct.CREATE_ERROR, err2))
-      const {fieldErrors} = err2
-      yield setValidationErrors(fieldErrors)
       yield call(reject, err)
     }
   }
@@ -101,8 +104,9 @@ export default function crudSaga(entity, params = {}) {
     } catch (err) {
       if (err.status === 401) {
         yield put({type: Act.AUTH_REQUIRED})
+      } else {
+        yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
       }
-      yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
       yield call(reject, err)
     }
   }
@@ -123,11 +127,12 @@ export default function crudSaga(entity, params = {}) {
     } catch (err) {
       if (err.status === 401) {
         yield put({type: Act.AUTH_REQUIRED})
+      } else {
+        const err2 = formatServerError(err)
+        yield put(act(CRUDAct.UPDATE_ERROR, err2))
+        const {fieldErrors} = err2
+        yield setValidationErrors(fieldErrors)
       }
-      const err2 = formatServerError(err)
-      yield put(act(CRUDAct.UPDATE_ERROR, err2))
-      const {fieldErrors} = err2
-      yield setValidationErrors(fieldErrors)
       yield call(reject, err)
     }
   }

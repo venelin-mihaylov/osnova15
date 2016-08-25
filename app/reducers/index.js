@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 import {routerReducer as routing} from 'react-router-redux'
-import CRUDReducer from './CRUDReducer'
-import FKReducer from './FKReducer'
+import crudReducer from './CRUDReducer'
+import fkReducer from './FKReducer'
 import user from './user'
 import nav from './nav'
 import misc from './misc'
@@ -20,36 +20,36 @@ const rootReducer = combineReducers({
   user,
   misc,
 
-  tournament: CRUDReducer({entity: 'tournament'}),
+  tournament: crudReducer({entity: 'tournament'}),
   tournamentModel: modelReducer('tournamentModel', {}),
   tournamentForm: formReducer('tournamentModel', {}),
 
-  FKtournament1: FKReducer('tournament', '1'),
-  FKcompetitor1: FKReducer('competitor', '1'),
-  FKexercise1: FKReducer('exercise', '1'),
-  FKtarget1: FKReducer('target', '1'),
+  FKtournament1: fkReducer('tournament', '1'),
+  FKcompetitor1: fkReducer('competitor', '1'),
+  FKexercise1: fkReducer('exercise', '1'),
+  FKtarget1: fkReducer('target', '1'),
 
-  match: CRUDReducer({entity: 'match'}),
+  match: crudReducer({entity: 'match'}),
   matchModel: modelReducer('matchModel'),
   matchForm: formReducer('matchModel'),
 
-  competitor: CRUDReducer({entity: 'competitor'}),
+  competitor: crudReducer({entity: 'competitor'}),
   competitorModel: modelReducer('competitorModel', {}),
   competitorForm: formReducer('competitorModel', {}),
 
-  matchCompetitor: CRUDReducer({entity: 'matchCompetitor'}),
+  matchCompetitor: crudReducer({entity: 'matchCompetitor'}),
   matchCompetitorModel: modelReducer('matchCompetitorModel', {}),
   matchCompetitorForm: formReducer('matchCompetitorModel', {}),
 
-  exercise: CRUDReducer({entity: 'exercise'}),
+  exercise: crudReducer({entity: 'exercise'}),
   exerciseModel: modelReducer('exerciseModel', {}),
   exerciseForm: formReducer('exerciseModel', {}),
 
-  matchExercise: CRUDReducer({entity: 'matchExercise'}),
+  matchExercise: crudReducer({entity: 'matchExercise'}),
   matchExerciseModel: modelReducer('matchExerciseModel', {}),
   matchExerciseForm: formReducer('matchExerciseModel', {}),
 
-  target: CRUDReducer({entity: 'target'}),
+  target: crudReducer({entity: 'target'}),
   targetModel: modelReducer('targetModel'),
   targetForm: formReducer('targetModel'),
 

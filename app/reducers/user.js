@@ -52,7 +52,7 @@ export default function user(state = {
       return Object.assign({}, state, {
         loading: false,
         authenticated: false,
-        user: action.user
+        user: {}
       })
     case Act.LOGOUT_USER_ERROR:
       return Object.assign({}, state, {

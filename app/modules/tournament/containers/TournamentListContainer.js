@@ -4,11 +4,13 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 
-@connect(state => ({redux: state.tournament}))
+const entity = 'tournament'
+
+@connect(state => ({redux: state[entity]}))
 @autobind
 export default class TournamentListContainer extends OsnovaListContainer {
 
-  static entity = 'tournament'
+  static entity = entity
 
   render() {
     return (<EntityList

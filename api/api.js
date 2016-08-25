@@ -1,3 +1,4 @@
+require('dotenv').config({silent: true});
 import express from 'express'
 import session from 'express-session'
 import passport from 'passport'
@@ -7,6 +8,7 @@ import SocketIo from 'socket.io'
 import morgan from 'morgan'
 
 import config from '../universal/config'
+import pg from 'pg'
 
 import {Model} from 'objection'
 
@@ -14,12 +16,20 @@ import mountRestApi from './rest/mountRestApi'
 
 import configureAuthRouter from './auth/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
-import knex from './config/knex'
+
 import expressValidator from 'express-validator'
 import {renderError} from './utils/utils'
 import authMiddleware from './config/passport/authMiddleware'
+import configurePgSession from 'connect-pg-simple'
+import Knex from 'knex'
+
+const pgSession = configurePgSession(session)
 
 // Give the connection to objection.
+const knex = Knex({ // eslint-disable-line new-cap
+  client: 'pg',
+  connection: process.env.DATABASE_URL
+})
 Model.knex(knex)
 
 const app = express()
@@ -33,7 +43,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }))
 app.use(expressValidator())
 app.use(session({
-  secret: 'react and redux rule!!!!',
+  store: new pgSession({ // eslint-disable-line new-cap
+    pg,                                       // Use global pg-module
+    conString: process.env.DATABASE_URL, // Connect using something else than default DATABASE_URL env variable
+  }),
+  secret: process.env.SESSION_SECRET,
   resave: false,
   name: 'sessionId',
   saveUninitialized: false,

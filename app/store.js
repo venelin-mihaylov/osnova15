@@ -1,13 +1,14 @@
 /**
  * Create the store with asynchronously loaded reducers
  */
-import { createStore, applyMiddleware, compose } from 'redux'
-import { routerMiddleware } from 'react-router-redux'
+import {createStore, applyMiddleware, compose} from 'redux'
+import {routerMiddleware} from 'react-router-redux'
 import createSagaMiddleware, {END} from 'redux-saga'
-import thunk from "redux-thunk"
+import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import rootSaga from './sagas'
 import sagaMonitor from './sagaMonitor'
+import createLogger from 'redux-logger'
 
 import {persistStore, autoRehydrate} from 'redux-persist'
 
@@ -25,6 +26,11 @@ export default function configureStore(initialState = {}, history) {
     routerMiddleware(history),
   ]
 
+  if (process.env.NODE_ENV === 'development') {
+    const logger = createLogger()
+    middlewares.push(logger)
+  }
+
   const enhancers = [
     autoRehydrate(),
     applyMiddleware(...middlewares),
@@ -36,8 +42,6 @@ export default function configureStore(initialState = {}, history) {
     initialState,
     compose(...enhancers)
   )
-
-
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
