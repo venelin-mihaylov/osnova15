@@ -47,6 +47,8 @@ require('flexboxgrid/css/flexboxgrid.css')
 // add tinycss
 require('purecss/build/tables.css')
 
+require('semantic-ui-css/semantic.css')
+
 // required for material-ui to work
 injectTapEventPlugin()
 

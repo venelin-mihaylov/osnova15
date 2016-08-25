@@ -1,4 +1,3 @@
-'use strict'
 import React from 'react'
 import {Form} from 'react-redux-form'
 import {rrfModel} from 'utils/Util'
