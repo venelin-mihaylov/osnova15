@@ -102,13 +102,9 @@ export default class AutoFields extends React.Component {
         genInput = <Input />
       }
     } else if (t.indexOf('integer') !== -1) {
-      if (fkProps.entity) {
-        genInput = React.createElement(FKSelect, Object.assign({
-          entity: fkProps.entity,
-          variation: '1', // by default variation is "1"
-          labelField
-        }, common, inputProps))
-      } else if (enumProps) {
+      if (fkProps.entity) { // FK
+        genInput = <FKSelect entity={fkProps.entity} variation='1' labelField={labelField} />
+      } else if (enumProps) { // value map
         const options = isArray(enumProps) ?
           enumProps :
           Object.keys(enumProps).map(value => ({value: parseInt(value, 10), text: enumProps[value]}))
@@ -118,7 +114,7 @@ export default class AutoFields extends React.Component {
           text: ''
         })
         genInput = <Dropdown selection options={options} />
-      } else {
+      } else { // number
         genInput = <Input />
       }
     } else if (t.indexOf('number') !== -1) {

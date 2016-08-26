@@ -14,7 +14,12 @@ const SUIField = createFieldClass({
     onChange: (v) => onChange(v ? v.format() : null),
     ...props,
   }),
-  Dropdown: controls.select,
+  Dropdown: ({onChange, ...props}) => ({
+    name: props.name || props.model,
+    value: props.modelValue,
+    onChange: (e, value) => onChange(value),
+    ...props,
+  }),
 }, {
   componentMap: {
     Input,

@@ -26,7 +26,7 @@ import {Dropdown} from 'stardust'
 @autobind
 export default class FKSelect extends React.Component {
   static propTypes = {
-    dispatch: React.PropTypes.func.isRequired,
+    dispatch: React.PropTypes.func,
     name: React.PropTypes.string,
     redux: React.PropTypes.object,
     iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
@@ -144,7 +144,7 @@ export default class FKSelect extends React.Component {
           search
           selection
           loading={loading}
-          text={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
+          //text={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
           options={renderList(records)}
           onSearchChange={(e, searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {

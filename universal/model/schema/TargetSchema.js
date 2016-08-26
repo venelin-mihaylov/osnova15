@@ -9,11 +9,14 @@ const TargetSchema = {
       type: 'integer',
       enum: [1, 2],
       enumProps: {
-        '1': 'Test',
-        '2': 'Test 2'
+        1: 'Test',
+        2: 'Test 2'
       }
     },
-    weight: {type: 'number', default: 1},
+    weight: {
+      type: ['null', 'number'],
+      default: 1
+    },
     favourite: {type: 'boolean'},
     image: {type: 'string'},
   }

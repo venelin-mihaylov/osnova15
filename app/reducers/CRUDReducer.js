@@ -155,7 +155,7 @@ export default function CRUDReducer({
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
         if (state.listSelectedId === action.id) {
           let listRecords = action.records
-          if (Array.isArray(action.records && action.records.length > 0)) {
+          if (Array.isArray(action.records) && action.records.length > 0) {
             listRecords = action.records.map(r => {
               if (r.selected) {
                 const {selected, ...ret} = r // eslint-disable-line no-unused-vars
