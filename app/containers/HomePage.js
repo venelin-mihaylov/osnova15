@@ -18,14 +18,21 @@ import SUIField from 'components/SUIField'
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
-    return (<div>
+    return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
       <RRForm className='ui form' model='tournamentModel' onSubmit={(model) => console.log(model)}>
-        <Form.Field label='Name'>
-          <SUIField model='tournamentModel.name'>
-            <Input />
-          </SUIField>
-        </Form.Field>
+        <Form.Fields evenlyDivided>
+          <Form.Field label='Name'>
+            <SUIField model='tournamentModel.name'>
+              <Input />
+            </SUIField>
+          </Form.Field>
+          <Form.Field label='Description'>
+            <SUIField model='tournamentModel.description'>
+              <Input />
+            </SUIField>
+          </Form.Field>
+        </Form.Fields>
         <Button type='submit'>Submit</Button>
       </RRForm>
     </div>)

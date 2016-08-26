@@ -1,4 +1,3 @@
-"use strict"
 import React from 'react'
 import AutoFields from 'components/AutoFields'
 import CompetitorSchema from '../../../../universal/model/schema/CompetitorSchema'
@@ -14,12 +13,12 @@ export const CompetitorFormFields = ({
     <AutoFields
       {...{entity}}
       jsonSchema={CompetitorSchema}
-      glue={({name}) => <br key={`glue-${name}`}/>}
+      glue={({name}) => <br key={`glue-${name}`} />}
       overrides={{
         country: {
           input: <AutoComplete
-            floatingLabelText="Country"
-            floatingLabelFixed={true}
+            floatingLabelText='Country'
+            floatingLabelFixed
             {...CountryAutoCompleteProps}
           />
         }

@@ -20,18 +20,17 @@ const EntityForm = ({
     loading,
     resetForm,
   },
-  form,
   model,
   FormFieldsComponent,
   ...rest,
 }) => (
-  <div>
+  <div style={{paddingRight: '10px'}}>
     <Saving {...{saving}} />
     <Loading {...{loading}} />
     <If condition={!loading}>
       <GlobalError {...{fieldErrors, globalError}} />
-      <Form {...{onSubmit}} model={rrfModel(entity)}>
-        <FormFieldsComponent {...{record, form, model, entity, dispatch, resetForm}} {...rest} />
+      <Form className='ui form' {...{onSubmit}} model={rrfModel(entity)}>
+        <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
         <DefaultFormButtons {...{onReset, onCancel}} />
       </Form>
     </If>

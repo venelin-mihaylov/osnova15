@@ -25,10 +25,10 @@ function isChecked(props) {
 
 function getTextValue(value) {
   if (typeof value === 'string' || typeof value === 'number') {
-    return `${value}`;
+    return `${value}`
   }
 
-  return '';
+  return ''
 }
 
 const MaterialField = createFieldClass({

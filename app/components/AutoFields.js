@@ -1,10 +1,12 @@
 import React from 'react'
 import {toArray, rrfField} from 'utils/Util'
-import MaterialField from 'components/MaterialField'
+import SUIField from 'components/SUIField'
+import {Form, Input, Dropdown} from 'stardust'
+
 import TextField from 'material-ui/TextField'
+import DatePicker from 'react-datepicker'
 import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect' // eslint-disable-line
-import DatePicker from 'material-ui/DatePicker'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import forOwn from 'lodash/forOwn'
@@ -89,11 +91,7 @@ export default class AutoFields extends React.Component {
     const fullField = `${namePrefix}${name}`
 
     const className = styles[name]
-    const common = {required, className, defaultValue}
-    const floatingLabel = {
-      floatingLabelText: label,
-      floatingLabelFixed: true
-    }
+    const common = {className}
 
     const t = toArray(type)
 
@@ -102,12 +100,20 @@ export default class AutoFields extends React.Component {
       genInput = input
     } else if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        genInput = React.createElement(DatePicker, Object.assign({
-          container: 'inline',
-          autoOk: true
-        }, common, floatingLabel, inputProps))
+        genInput = (<Form.Field label={label}>
+          <SUIField model={rrfField(entity, fullField)}>
+            <DatePicker
+              dateFormat='YYYY/MM/DD'
+              isClearable
+            />
+          </SUIField>
+        </Form.Field>)
       } else {
-        genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
+        genInput = (<Form.Field label={label}>
+          <SUIField model={rrfField(entity, fullField)}>
+            <Input />
+          </SUIField>
+        </Form.Field>)
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) {
@@ -115,29 +121,30 @@ export default class AutoFields extends React.Component {
           entity: fkProps.entity,
           variation: '1', // by default variation is "1"
           labelField
-        }, common, floatingLabel, inputProps))
+        }, common, inputProps))
       } else if (enumProps) {
-        const arr = isArray(enumProps) ?
+        const options = isArray(enumProps) ?
           enumProps :
-          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), label: enumProps[value]}))
+          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), tetx: enumProps[value]}))
 
-        const nullValue = React.createElement(MenuItem, {
-          key: 'nullValue',
-          value: null,
-          primaryText: ' '
-        })
-        genInput = React.createElement(SelectField,
-          Object.assign({}, common, floatingLabel, inputProps),
-          [nullValue].concat(arr.map(({value, label}) => React.createElement(MenuItem, { // eslint-disable-line
-            key: value + label,
-            value,
-            primaryText: label
-          }))))
+        genInput = (<Form.Field label={label}>
+          <SUIField model={rrfField(entity, fullField)}>
+            <Dropdown selection options={options} />
+          </SUIField>
+        </Form.Field>)
       } else {
-        genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
+        genInput = (<Form.Field label={label}>
+          <SUIField model={rrfField(entity, fullField)}>
+            <Input />
+          </SUIField>
+        </Form.Field>)
       }
     } else if (t.indexOf('number') !== -1) {
-      genInput = React.createElement(TextField, Object.assign({}, common, floatingLabel, inputProps))
+      genInput = (<Form.Field label={label}>
+        <SUIField model={rrfField(entity, fullField)}>
+          <Input />
+        </SUIField>
+      </Form.Field>)
     } else if (t.indexOf('boolean') !== -1) {
       genInput = React.createElement(Checkbox, Object.assign({
         label,
@@ -147,7 +154,7 @@ export default class AutoFields extends React.Component {
       genInput = <div>No Field</div>
     }
 
-    return React.createElement(MaterialField, Object.assign({
+    return React.createElement(SUIField, Object.assign({
       updateOn,
       key: fullField,
       model: rrfField(entity, fullField)
