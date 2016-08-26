@@ -1,12 +1,8 @@
 import React from 'react'
 import AutoFields from 'components/AutoFields'
 import CompetitorSchema from '../../../../universal/model/schema/CompetitorSchema'
-import AutoComplete from 'material-ui/AutoComplete'
-import CountryAutoCompleteProps from 'props/CountryAutoCompleteProps'
 
 export const CompetitorFormFields = ({
-  record,
-  dispatch,
   entity
 }) => (
   <div>
@@ -14,16 +10,12 @@ export const CompetitorFormFields = ({
       {...{entity}}
       jsonSchema={CompetitorSchema}
       glue={({name}) => <br key={`glue-${name}`} />}
-      overrides={{
-        country: {
-          input: <AutoComplete
-            floatingLabelText='Country'
-            floatingLabelFixed
-            {...CountryAutoCompleteProps}
-          />
-        }
-      }}
     />
   </div>
 )
+
+CompetitorFormFields.propTypes = {
+  entity: React.PropTypes.string,
+}
+
 export default CompetitorFormFields

@@ -3,12 +3,9 @@ import {toArray, rrfField} from 'utils/Util'
 import SUIField from 'components/SUIField'
 import {Form, Input, Dropdown} from 'stardust'
 
-import TextField from 'material-ui/TextField'
 import DatePicker from 'react-datepicker'
 import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect' // eslint-disable-line
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import forOwn from 'lodash/forOwn'
 import trimEnd from 'lodash/trimEnd'
 import endsWith from 'lodash/endsWith'
@@ -100,20 +97,9 @@ export default class AutoFields extends React.Component {
       genInput = input
     } else if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        genInput = (<Form.Field label={label}>
-          <SUIField model={rrfField(entity, fullField)}>
-            <DatePicker
-              dateFormat='YYYY/MM/DD'
-              isClearable
-            />
-          </SUIField>
-        </Form.Field>)
+        genInput = <DatePicker dateFormat='YYYY/MM/DD' isClearable />
       } else {
-        genInput = (<Form.Field label={label}>
-          <SUIField model={rrfField(entity, fullField)}>
-            <Input />
-          </SUIField>
-        </Form.Field>)
+        genInput = <Input />
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) {
@@ -131,25 +117,12 @@ export default class AutoFields extends React.Component {
           value: null,
           text: ''
         })
-
-        genInput = (<Form.Field label={label}>
-          <SUIField model={rrfField(entity, fullField)}>
-            <Dropdown selection options={options} />
-          </SUIField>
-        </Form.Field>)
+        genInput = <Dropdown selection options={options} />
       } else {
-        genInput = (<Form.Field label={label}>
-          <SUIField model={rrfField(entity, fullField)}>
-            <Input />
-          </SUIField>
-        </Form.Field>)
+        genInput = <Input />
       }
     } else if (t.indexOf('number') !== -1) {
-      genInput = (<Form.Field label={label}>
-        <SUIField model={rrfField(entity, fullField)}>
-          <Input />
-        </SUIField>
-      </Form.Field>)
+      genInput = <Input />
     } else if (t.indexOf('boolean') !== -1) {
       genInput = React.createElement(Checkbox, Object.assign({
         label,
@@ -159,11 +132,16 @@ export default class AutoFields extends React.Component {
       genInput = <div>No Field</div>
     }
 
-    return React.createElement(SUIField, Object.assign({
-      updateOn,
-      key: fullField,
-      model: rrfField(entity, fullField)
-    }, rrfProps), genInput)
+    return (<Form.Field label={label}>
+      <SUIField
+        model={rrfField(entity, fullField)}
+        key={fullField}
+        {...updateOn}
+        {...rrfProps}
+      >
+        {genInput}
+      </SUIField>
+    </Form.Field>)
   }
 
   render() {

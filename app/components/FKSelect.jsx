@@ -5,6 +5,7 @@ import AutoComplete from 'material-ui/AutoComplete'
 import IconButton from 'material-ui/IconButton'
 import {actions} from 'react-redux-form'
 import FKAct from 'constants/FKAct'
+import {Dropdown} from 'stardust'
 
 /**
  * Provides a foreign key select combo.
@@ -122,6 +123,7 @@ export default class FKSelect extends React.Component {
     const {
       dispatch,
       redux: {
+        loading,
         recordByFieldName,
         records,
       },
@@ -130,7 +132,6 @@ export default class FKSelect extends React.Component {
       renderList = (rs = []) => rs && rs.map(r => ({text: renderLabel(r), value: renderLabel(r)})),
       name,
       listParams,
-      onChange = () => {},
       iconButtons = [],
       onFocus = () => {},
       ...rest,
@@ -138,13 +139,14 @@ export default class FKSelect extends React.Component {
 
     return (
       <span>
-        <AutoComplete
-          style={{width: 220 - iconButtons.length * 50}}
-          openOnFocus
-          filter={AutoComplete.noFilter}
-          searchText={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
-          dataSource={renderList(records)}
-          onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
+
+        <Dropdown
+          search
+          selection
+          loading={loading}
+          text={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
+          options={renderList(records)}
+          onSearchChange={(e, searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
           onFocus={(e) => {
             if (typeof onFocus === 'function') {
               if (onFocus(e) === false) {
@@ -155,18 +157,29 @@ export default class FKSelect extends React.Component {
             const searchText = e.target.value // use the dom element to get the value
             dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
           }}
-          onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
           {...rest}
         />
-        <IconButton
-          iconClassName="fa fa-eraser"
-          onClick={() => {
-            dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
-            if (name) dispatch(actions.change(name, null))
-          }}
-        />
-        {iconButtons.length ? iconButtons : null}
       </span>
     )
   }
 }
+
+// <AutoComplete
+//   style={{width: 220 - iconButtons.length * 50}}
+//   openOnFocus
+//   filter={AutoComplete.noFilter}
+//   searchText={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
+//   dataSource={renderList(records)}
+//   onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
+//   onFocus=
+//     onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
+//   {...rest}
+// />
+// <IconButton
+// iconClassName="fa fa-eraser"
+// onClick={() => {
+//   dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
+//   if (name) dispatch(actions.change(name, null))
+// }}
+// />
+// {iconButtons.length ? iconButtons : null}

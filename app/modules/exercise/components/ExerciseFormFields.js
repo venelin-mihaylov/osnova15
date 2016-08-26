@@ -1,10 +1,10 @@
-'use strict'
 import React from 'react'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import IconButton from 'material-ui/IconButton'
 import AutoFields from 'components/AutoFields'
+import {Form} from 'stardust'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
@@ -38,7 +38,7 @@ export const ExerciseFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <div key={`"target-${idx}`}>
+        <Form.Fields key={`"target-${idx}`} evenlyDivided>
           <AutoFields
             {...{entity, styles}}
             namePrefix={`${relName}[${idx}]`}
@@ -47,19 +47,10 @@ export const ExerciseFormFields = ({
             overrides={{
               exerciseId: {
                 exclude: true
-              },
-              targetId: {
-                inputProps: {
-                  iconButtons: [<IconButton key="add" iconClassName="fa fa-plus" onClick={() => {
-                    const fkFieldName = `${relName}[${idx}]targetId`
-                    onClickAddTarget({fkFieldName})
-                  }}/>]
-                }
               }
             }}
           />
-          <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)}/>
-        </div>
+        </Form.Fields>
       )}
     />
   </div>

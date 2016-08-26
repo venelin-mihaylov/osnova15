@@ -1,5 +1,4 @@
-"use strict"
-import FKAct from "../constants/FKAct"
+import FKAct from 'constants/FKAct'
 export default function FKReducer(entity, variation) {
   return function (state = {
     loading: false,
@@ -8,7 +7,7 @@ export default function FKReducer(entity, variation) {
     recordByFieldName: [],
     lastSearchText: null
   }, action = {}) {
-    const type = type => FKAct.prefixType(entity, variation, type)
+    const type = (t) => FKAct.prefixType(entity, variation, t)
     let ret = null
 
     switch (action.type) {

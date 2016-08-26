@@ -21,7 +21,7 @@ export default class ItoNFieldSet extends React.Component {
     const onDeleteLast = () => dispatch(actions.remove(rrfField(entity, `${relName}[]`), relData.length - 1))
 
     return <If condition={relData}>
-      <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '1000px'}}>
+      <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
         <legend>
           <IconButton iconClassName='fa fa-plus' onClick={onAdd} />
           <IconButton iconClassName='fa fa-minus' onClick={onDeleteLast} />
