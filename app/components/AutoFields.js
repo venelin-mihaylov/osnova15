@@ -125,7 +125,12 @@ export default class AutoFields extends React.Component {
       } else if (enumProps) {
         const options = isArray(enumProps) ?
           enumProps :
-          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), tetx: enumProps[value]}))
+          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), text: enumProps[value]}))
+
+        options.unshift({
+          value: null,
+          text: ''
+        })
 
         genInput = (<Form.Field label={label}>
           <SUIField model={rrfField(entity, fullField)}>
