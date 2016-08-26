@@ -132,7 +132,7 @@ export default class AutoFields extends React.Component {
       <SUIField
         model={rrfField(entity, fullField)}
         key={fullField}
-        {...updateOn}
+        updateOn={updateOn}
         {...rrfProps}
       >
         {genInput}
@@ -151,7 +151,7 @@ export default class AutoFields extends React.Component {
 
     let ret = []
     forOwn(jsonSchema.properties, (schema, name) => {
-      if (schema.properties) return
+      if (schema.properties) return // embedded object
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = jsonSchema.required.indexOf(name) !== -1
