@@ -6,6 +6,7 @@ import FileField from 'components/FileField'
 import moment from 'moment'
 
 const SUIField = createFieldClass({
+  'Connect(FKSelect)': controls.text,
   FileField: controls.text,
   Input: controls.text,
   DatePicker: ({onChange, ...props}) => ({

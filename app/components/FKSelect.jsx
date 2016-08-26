@@ -5,7 +5,7 @@ import AutoComplete from 'material-ui/AutoComplete'
 import IconButton from 'material-ui/IconButton'
 import {actions} from 'react-redux-form'
 import FKAct from 'constants/FKAct'
-import {Dropdown} from 'stardust'
+import {Dropdown, Icon} from 'stardust'
 
 /**
  * Provides a foreign key select combo.
@@ -96,6 +96,9 @@ export default class FKSelect extends React.Component {
   constructor(props) {
     super(props)
     this.act = FKAct.act(this.props.entity, this.props.variation)
+    this.state = {
+      searchText: ''
+    }
   }
 
   componentWillMount() {
@@ -129,37 +132,45 @@ export default class FKSelect extends React.Component {
       },
       labelField = 'id',
       renderLabel = (r = {}) => r[labelField],
-      renderList = (rs = []) => rs && rs.map(r => ({text: renderLabel(r), value: renderLabel(r)})),
+      renderList = (rs = []) => rs && rs.map(r => ({text: renderLabel(r), value: r.id})),
       name,
       listParams,
       iconButtons = [],
-      onFocus = () => {},
+      onChange,
+      onFocus = () => {
+      },
       ...rest,
     } = this.props
 
     return (
-      <span>
-
-        <Dropdown
-          search
-          selection
-          loading={loading}
-          //text={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
-          options={renderList(records)}
-          onSearchChange={(e, searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
-          onFocus={(e) => {
-            if (typeof onFocus === 'function') {
-              if (onFocus(e) === false) {
-                return
-              }
+      <Dropdown
+        name={name}
+        search
+        selection
+        loading={loading}
+        text={recordByFieldName[name] ? renderLabel(recordByFieldName[name]) : this.state.searchText}
+        options={renderList(records)}
+        onSearchChange={(e, searchText) => {
+          dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+          this.setState({
+            searchText
+          })
+        }}
+        onFocus={(e) => {
+          if (typeof onFocus === 'function') {
+            if (onFocus(e) === false) {
+              return
             }
-            e.target.select()
-            const searchText = e.target.value // use the dom element to get the value
-            dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
-          }}
-          {...rest}
-        />
-      </span>
+          }
+          e.target.select()
+          const searchText = e.target.value // use the dom element to get the value
+          dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+        }}
+        {...rest}
+        onChange={(e, value) => {
+          onChange(value)
+        }}
+      />
     )
   }
 }
