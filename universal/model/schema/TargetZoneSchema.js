@@ -7,8 +7,6 @@ const TargetZoneSchema = {
     name: {type: 'string', minLength: 2, maxLength: 255},
     width: {type: 'number'},
     height: {type: 'number'},
-    weight: {type: 'number'},
-    score: {type: 'integer'},
     targetId: {type: 'integer'}
   }
 }

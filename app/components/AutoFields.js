@@ -1,10 +1,9 @@
 import React from 'react'
 import {toArray, rrfField} from 'utils/Util'
 import SUIField from 'components/SUIField'
-import {Form, Input, Dropdown} from 'stardust'
+import {Form, Input, Dropdown, Checkbox} from 'stardust'
 
 import DatePicker from 'react-datepicker'
-import Checkbox from 'material-ui/Checkbox'
 import FKSelect from 'components/FKSelect' // eslint-disable-line
 import forOwn from 'lodash/forOwn'
 import trimEnd from 'lodash/trimEnd'
@@ -40,7 +39,7 @@ export default class AutoFields extends React.Component {
    * @param fieldName
    * @param relations
    */
-  fkProps(fieldName, relations) {
+  static fkProps(fieldName, relations) {
     let ret = {}
     forOwn(relations, (relSpec) => {
       if (relSpec.relation === 'BelongsToOne' && relSpec.join.fromField === fieldName) {
@@ -55,7 +54,7 @@ export default class AutoFields extends React.Component {
     return ret
   }
 
-  renderField({
+  static renderField({
     updateOn,
     entity,
     namePrefix = '', // prefix, in case of 1:N
@@ -71,6 +70,8 @@ export default class AutoFields extends React.Component {
       labelField = 'id', // FK prop
     },
     options: {
+      append = null,
+      wrapWithFormField = true,
       input = null, // completely override input component
       inputProps = {}, // add/override input component props
       rrfProps = {}, // add/override react-redux-form component props
@@ -102,8 +103,8 @@ export default class AutoFields extends React.Component {
         genInput = <Input />
       }
     } else if (t.indexOf('integer') !== -1) {
-      if (fkProps.entity) { // FK
-        genInput = <FKSelect entity={fkProps.entity} variation='1' labelField={labelField} />
+      if (fkProps.entity) { // foreign key
+        genInput = <FKSelect entity={fkProps.entity} variation='1' labelField={labelField} {...inputProps} />
       } else if (enumProps) { // value map
         const options = isArray(enumProps) ?
           enumProps :
@@ -122,41 +123,43 @@ export default class AutoFields extends React.Component {
     } else if (t.indexOf('boolean') !== -1) {
       genInput = React.createElement(Checkbox, Object.assign({
         label,
-        labelPosition: 'right',
       }, common, inputProps))
     } else {
       genInput = <div>No Field</div>
     }
 
-    return (<Form.Field label={label}>
-      <SUIField
-        model={rrfField(entity, fullField)}
-        key={fullField}
-        updateOn={updateOn}
-        {...rrfProps}
-      >
-        {genInput}
-      </SUIField>
-    </Form.Field>)
+    const suiField = (<SUIField
+      model={rrfField(entity, fullField)}
+      key={fullField}
+      updateOn={updateOn}
+      {...rrfProps}
+    >
+      {genInput}
+      {append}
+    </SUIField>)
+
+    if (!wrapWithFormField) {
+      return suiField
+    } else { // eslint-disable-line
+      return (<Form.Field label={label}>{suiField}</Form.Field>)
+    }
   }
 
-  render() {
-    const {
-      overrides,
-      jsonSchema,
-      relations,
-      glue,
-      ...rest // the rest is passed to every field
-    } = this.props
-
-    let ret = []
+  static renderFields({
+    overrides,
+    jsonSchema,
+    relations,
+    glue,
+    ...rest // the rest is passed to every field
+  }) {
+    const ret = []
     forOwn(jsonSchema.properties, (schema, name) => {
       if (schema.properties) return // embedded object
       const options = overrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = jsonSchema.required.indexOf(name) !== -1
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
-      const f = this.renderField(args)
+      const f = AutoFields.renderField(args)
       if (f) ret.push(f)
       if (glue) {
         if (isFunction(glue)) {
@@ -166,7 +169,11 @@ export default class AutoFields extends React.Component {
         }
       }
     })
+    return ret
+  }
 
-    return <span>{ret}</span>
+  render() {
+    const fields = AutoFields.renderFields(this.props)
+    return <span>{fields}</span>
   }
 }

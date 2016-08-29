@@ -1,4 +1,4 @@
-require('dotenv').config({silent: true});
+require('dotenv').config({silent: true})
 import express from 'express'
 import session from 'express-session'
 import passport from 'passport'

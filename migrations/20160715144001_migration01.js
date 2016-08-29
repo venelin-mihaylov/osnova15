@@ -81,7 +81,6 @@ exports.up = function(knex, Promise) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.integer('type') // valueMap
-      t.decimal('weight') // valueMap
       t.boolean('favourite').notNullable().default(false)
       t.text('image') //base64 image data, easiest to handle
 
@@ -92,8 +91,6 @@ exports.up = function(knex, Promise) {
       t.string('name').notNullable()
       t.decimal('width').notNullable()
       t.decimal('height').notNullable()
-      t.decimal('score').notNullable()
-      t.decimal('weight', 3).notNullable().default(1)
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
     }),
     knex.schema.createTable('exercise_target', function(t) {
@@ -101,6 +98,8 @@ exports.up = function(knex, Promise) {
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
       t.integer('distance').notNullable()
+      t.decimal('weight', 3).notNullable().default(1)
+      t.decimal('score').notNullable()
       t.string('description').notNullable()
       t.unique(['targetId', 'exerciseId'])
     }),

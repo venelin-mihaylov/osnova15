@@ -1,5 +1,6 @@
 import React from 'react'
 import TableToolbar from 'components/TableToolbar'
+import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 
@@ -23,7 +24,7 @@ const EntityList = ({
   }
 }) => (<div>
   <If condition={toolbarShow}>
-    <TableToolbar
+    <TableToolbar2
       {...{listSelectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
       limit={listLimit}

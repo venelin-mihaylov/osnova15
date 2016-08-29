@@ -135,7 +135,6 @@ export default class FKSelect extends React.Component {
       renderList = (rs = []) => rs && rs.map(r => ({text: renderLabel(r), value: r.id})),
       name,
       listParams,
-      iconButtons = [],
       onChange,
       onFocus = () => {
       },

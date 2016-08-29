@@ -8,6 +8,7 @@ import TargetZoneSchema from '../../../../universal/model/schema/TargetZoneSchem
 import TargetZoneRelations from '../../../../universal/model/relations/TargetZoneRelations'
 import AutoFields from 'components/AutoFields'
 import FileField from 'components/FileField'
+import {Form} from 'stardust'
 
 import styles from 'styles/components/TargetFormFields.css'
 
@@ -37,25 +38,26 @@ export const TargetFormFields = ({
         }
       }}
     />
-    <br/>
+    <br />
     <ItoNFieldSet
       {...{entity, model, relName, dispatch}}
       relTitle='Target Zones'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <div key={idx}>
-          <AutoFields
-            {...{form, entity, styles}}
-            namePrefix={`${relName}[${idx}]`}
-            jsonSchema={TargetZoneSchema}
-            relations={TargetZoneRelations}
-            overrides={{
+        <Form.Fields key={idx} evenlyDivided>
+          {AutoFields.renderFields({
+            form,
+            entity,
+            styles,
+            namePrefix: `${relName}[${idx}]`,
+            jsonSchema: TargetZoneSchema,
+            relations: TargetZoneRelations,
+            overrides: {
               targetId: {
                 exclude: true
               }
-            }}
-          />
-          <IconButton iconClassName='fa fa-minus' onClick={() => onDeleteByIndex(idx)} />
-        </div>
+            }
+          })}
+        </Form.Fields>
       )}
     />
   </div>)

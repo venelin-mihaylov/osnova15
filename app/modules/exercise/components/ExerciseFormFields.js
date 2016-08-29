@@ -23,7 +23,7 @@ export const ExerciseFormFields = ({
     <AutoFields
       {...{entity, styles}}
       jsonSchema={ExerciseSchema}
-      glue={({name}) => <br key={`glue-${name}`}/>}
+      glue={({name}) => <br key={`glue-${name}`} />}
       overrides={{
         favourite: {
           inputProps: {

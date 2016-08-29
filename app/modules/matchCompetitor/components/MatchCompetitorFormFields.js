@@ -2,7 +2,7 @@ import React from 'react'
 import AutoFields from 'components/AutoFields'
 import MatchCompetitorSchema from '../../../../universal/model/schema/MatchCompetitorSchema'
 import MatchCompetitorRelations from '../../../../universal/model/relations/MatchCompetitorRelations'
-import IconButton from 'material-ui/IconButton'
+import {Button, Icon} from 'stardust'
 
 // after person create, we need to be able to get the latest created competitor
 // i.e. add onCompetitorCreated
@@ -30,8 +30,8 @@ const MatchCompetitorFormFields = ({
               }
             }
           },
-          iconButtons: [<IconButton key='user-plus' iconClassName='fa fa-user-plus' onClick={onClickAddCompetitor} />]
-        }
+        },
+        append: [<Button onClick={onClickAddCompetitor}>Add user</Button>]
       }
     }}
   />

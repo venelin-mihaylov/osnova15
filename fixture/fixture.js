@@ -1,5 +1,5 @@
+require('dotenv').config({silent: true})
 import sqlFixtures from 'sql-fixtures'
-import dbConfig from '../api/config/db'
 import _range from 'lodash.range'
 import _ from 'lodash'
 
@@ -97,10 +97,8 @@ const dataSpec = {
   target_zone: generateItoN(count.target, count.target_zone_max, {
     targetId: ({parentIdx}) => `target:${parentIdx}`,
     name: () => 'Zone ' + randInt(1, 100),
-    score: () => randInt(1, 100),
     width: () => randInt(1, 10),
     height: () => randInt(1, 10),
-    weight: 1
   }),
   exercise: generate(count.exercise, {
     name: (i) => `Exercise ${i}`,
@@ -112,6 +110,8 @@ const dataSpec = {
   exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
     targetId: ({nIdx}) => `target:${nIdx}`,
+    score: () => randInt(1, 100),
+    weight: 1,
     distance: () => randInt(1, 100),
     description: () => 'Exercise target ' + randInt(1, 100)
   }),
@@ -132,6 +132,11 @@ const dataSpec = {
 
 const options = {
   showWarning: true
+}
+
+const dbConfig = {
+  client: 'pg',
+  connection: process.env.DATABASE_URL
 }
 
 sqlFixtures.create(dbConfig, dataSpec, options, function (err, result) {

@@ -13,10 +13,6 @@ const TargetSchema = {
         2: 'Test 2'
       }
     },
-    weight: {
-      type: ['null', 'number'],
-      default: 1
-    },
     favourite: {type: 'boolean'},
     image: {type: 'string'},
   }
