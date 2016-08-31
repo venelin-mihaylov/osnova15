@@ -1,11 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
-import AutoComplete from 'material-ui/AutoComplete'
-import IconButton from 'material-ui/IconButton'
-import {actions} from 'react-redux-form'
 import FKAct from 'constants/FKAct'
-import {Dropdown, Icon} from 'stardust'
+import {Dropdown} from 'stardust'
 
 /**
  * Provides a foreign key select combo.
@@ -102,10 +99,13 @@ export default class FKSelect extends React.Component {
   }
 
   componentWillMount() {
+    this.setState({
+      searchText: ''
+    })
     if (this.props.reset) {
       this.props.dispatch(this.act(FKAct.FK_RESET))
     }
-    if (!this.props.redux.valueRecord) {
+    if (!this.props.redux.valueRecord && this.props.value) {
       this.loadServerRecord(this.props.value)
     }
   }
@@ -141,36 +141,34 @@ export default class FKSelect extends React.Component {
       ...rest,
     } = this.props
 
-    return (
-      <Dropdown
-        name={name}
-        search
-        selection
-        loading={loading}
-        text={recordByFieldName[name] ? renderLabel(recordByFieldName[name]) : this.state.searchText}
-        options={renderList(records)}
-        onSearchChange={(e, searchText) => {
-          dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
-          this.setState({
-            searchText
-          })
-        }}
-        onFocus={(e) => {
-          if (typeof onFocus === 'function') {
-            if (onFocus(e) === false) {
-              return
-            }
+    return (<Dropdown
+      name={name}
+      search
+      selection
+      loading={loading}
+      text={recordByFieldName[name] ? renderLabel(recordByFieldName[name]) : this.state.searchText}
+      options={renderList(records)}
+      onSearchChange={(e, searchText) => {
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+        this.setState({
+          searchText
+        })
+      }}
+      onFocus={(e) => {
+        if (typeof onFocus === 'function') {
+          if (onFocus(e) === false) {
+            return
           }
-          e.target.select()
-          const searchText = e.target.value // use the dom element to get the value
-          dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
-        }}
-        {...rest}
-        onChange={(e, value) => {
-          onChange(value)
-        }}
-      />
-    )
+        }
+        e.target.select()
+        const searchText = e.target.value // use the dom element to get the value
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+      }}
+      {...rest}
+      onChange={(e, value) => {
+        onChange(value)
+      }}
+    />)
   }
 }
 

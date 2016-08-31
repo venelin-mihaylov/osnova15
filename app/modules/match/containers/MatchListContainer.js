@@ -3,8 +3,7 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import RaisedButton from 'material-ui/RaisedButton'
-import FontIcon from 'material-ui/FontIcon'
+import {Button, Icon} from 'stardust'
 import Act from 'constants/Act'
 
 @connect(state => ({
@@ -31,22 +30,23 @@ export default class MatchListContainer extends OsnovaListContainer {
       toolbarTitle='Matches'
       toolbarProps={{
         appendButtons: (activeMatchId ?
-          [<RaisedButton
+          <Button
+            className='primary icon labeled'
             key='exitMatch'
-            label='Leave Match'
-            primary
             onClick={() => dispatch({type: Act.EXIT_MATCH})}
-            icon={<FontIcon className='fa fa-upload' />}
-          />]
+          >
+            <Icon name='upload' />
+            Exit
+          </Button>
           :
-          [<RaisedButton
+          <Button
+            className='primary icon labeled'
             key='enterMatch'
-            label='Enter Match'
-            primary
-            disabled={!listSelectedId}
             onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: listSelectedId})}
-            icon={<FontIcon className='fa fa-download' />}
-          />])
+          >
+            <Icon name='download' />
+            Enter
+          </Button>)
       }}
       columns={[{
         property: 'id',

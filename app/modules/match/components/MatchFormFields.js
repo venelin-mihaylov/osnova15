@@ -12,7 +12,6 @@ export const MatchFormFields = ({
       {...{entity}}
       jsonSchema={MatchSchema}
       relations={MatchRelations}
-      glue={({name}) => <br key={`glue-${name}`} />}
     />
   </div>
 )

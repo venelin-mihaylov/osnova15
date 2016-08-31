@@ -1,8 +1,9 @@
 import React from 'react' // eslint-disable-line
 import {createFieldClass, controls} from 'react-redux-form'
-import {Input, Dropdown} from 'stardust'
+import {Input, Dropdown, Checkbox} from 'stardust'
 import DatePicker from 'react-datepicker'
 import FileField from 'components/FileField'
+import CountrySelect from 'components/CountrySelect'
 import moment from 'moment'
 
 const SUIField = createFieldClass({
@@ -15,18 +16,27 @@ const SUIField = createFieldClass({
     onChange: (v) => onChange(v ? v.format() : null),
     ...props,
   }),
+  CountrySelect: ({onChange, ...props}) => ({
+    name: props.name || props.model,
+    value: props.modelValue,
+    onChange: (e, value) => onChange(value),
+    ...props,
+  }),
   Dropdown: ({onChange, ...props}) => ({
     name: props.name || props.model,
     value: props.modelValue,
     onChange: (e, value) => onChange(value),
     ...props,
   }),
+  Checkbox: controls.checkbox
 }, {
   componentMap: {
     Input,
     DatePicker,
     Dropdown,
     FileField,
+    Checkbox,
+    CountrySelect
   }
 })
 

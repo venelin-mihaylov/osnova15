@@ -17,10 +17,10 @@ export default class FKAct {
   static FK_LAST_SEARCH_TEXT = 'FK_LAST_SEARCH_TEXT'
 
   static create(object) {
-    let ret = {}
-    for (let action in this) {
-      if (typeof action === "string") {
-        let g = `${object.toUpperCase()}_${action}`
+    const ret = {}
+    for (const action in this) {
+      if (typeof action === 'string') {
+        const g = `${object.toUpperCase()}_${action}`
         ret[g] = g
       }
     }
@@ -39,15 +39,15 @@ export default class FKAct {
   }
 
   static act = (entity, variation) => (actionType, rest = {}) => {
-    if(typeof rest == 'object') {
-      return Object.assign({
-        type: FKAct.prefixType(entity, variation, actionType)
-      }, rest)
-    } else {
+    if (typeof rest === 'object') {
       return {
         type: FKAct.prefixType(entity, variation, actionType),
-        value: rest
+        ...rest
       }
+    }
+    return {
+      type: FKAct.prefixType(entity, variation, actionType),
+      value: rest
     }
   }
 }

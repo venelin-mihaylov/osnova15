@@ -1,6 +1,6 @@
 const TargetZoneSchema = {
   type: 'object',
-  required: ['name', 'score', 'width', 'height', 'weight'],
+  required: ['name', 'width', 'height'],
 
   properties: {
     id: {type: 'integer'},

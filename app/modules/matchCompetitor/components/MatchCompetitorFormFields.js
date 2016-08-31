@@ -16,7 +16,6 @@ const MatchCompetitorFormFields = ({
     {...{entity}}
     jsonSchema={MatchCompetitorSchema}
     relations={MatchCompetitorRelations}
-    glue={({name}) => <br key={`glue-${name}`} />}
     overrides={{
       matchId: {exclude: true},
       competitorId: {
@@ -31,7 +30,7 @@ const MatchCompetitorFormFields = ({
             }
           },
         },
-        append: [<Button onClick={onClickAddCompetitor}>Add user</Button>]
+        append: [<Button className='icon' onClick={onClickAddCompetitor}><Icon name='add user' /></Button>]
       }
     }}
   />

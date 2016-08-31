@@ -54,6 +54,19 @@ export default class AutoFields extends React.Component {
     return ret
   }
 
+  static enumToOptions(enumProps) {
+    const options = isArray(enumProps) ?
+      enumProps :
+      Object.keys(enumProps).map(value => ({value: parseInt(value, 10), text: enumProps[value]}))
+
+    options.unshift({
+      value: null,
+      text: ''
+    })
+
+    return options
+  }
+
   static renderField({
     updateOn,
     entity,
@@ -75,6 +88,7 @@ export default class AutoFields extends React.Component {
       input = null, // completely override input component
       inputProps = {}, // add/override input component props
       rrfProps = {}, // add/override react-redux-form component props
+      formFieldProps = {}, // add/override Form.Field props
       exclude = false // exclude field
     },
     styles = {} // css styles
@@ -92,38 +106,60 @@ export default class AutoFields extends React.Component {
     const common = {className}
 
     const t = toArray(type)
+    let wrap = true
 
     let genInput = null
     if (input) {
       genInput = input
     } else if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        genInput = <DatePicker dateFormat='YYYY/MM/DD' isClearable />
+        genInput = React.createElement(DatePicker, {
+          isClearable: true,
+          dateFormat: 'YYYY/MM/DD',
+          ...common,
+          ...inputProps,
+        })
       } else {
-        genInput = <Input />
+        genInput = React.createElement(Input, {
+          ...common,
+          ...inputProps,
+        })
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
-        genInput = <FKSelect entity={fkProps.entity} variation='1' labelField={labelField} {...inputProps} />
-      } else if (enumProps) { // value map
-        const options = isArray(enumProps) ?
-          enumProps :
-          Object.keys(enumProps).map(value => ({value: parseInt(value, 10), text: enumProps[value]}))
-
-        options.unshift({
-          value: null,
-          text: ''
+        genInput = React.createElement(FKSelect, {
+          entity: fkProps.entity,
+          variation: '1',
+          labelField,
+          ...common,
+          ...inputProps
         })
-        genInput = <Dropdown selection options={options} />
+      } else if (enumProps) { // value map
+        const options = AutoFields.enumToOptions(enumProps)
+        genInput = React.createElement(Dropdown, {
+          selection: true,
+          options,
+          ...common,
+          ...inputProps
+        })
       } else { // number
-        genInput = <Input />
+        genInput = React.createElement(Input, {
+          ...common,
+          ...inputProps,
+        })
       }
     } else if (t.indexOf('number') !== -1) {
-      genInput = <Input />
+      genInput = React.createElement(Input, {
+        ...common,
+        ...inputProps,
+      })
     } else if (t.indexOf('boolean') !== -1) {
-      genInput = React.createElement(Checkbox, Object.assign({
+      wrap = false
+      genInput = React.createElement(Checkbox, {
         label,
-      }, common, inputProps))
+        ...common,
+        ...inputProps
+      })
     } else {
       genInput = <div>No Field</div>
     }
@@ -138,11 +174,15 @@ export default class AutoFields extends React.Component {
       {append}
     </SUIField>)
 
-    if (!wrapWithFormField) {
+    wrap = wrap && wrapWithFormField
+    if (!wrap) {
       return suiField
-    } else { // eslint-disable-line
-      return (<Form.Field label={label}>{suiField}</Form.Field>)
     }
+
+    return React.createElement(Form.Field, {
+      label,
+      ...formFieldProps
+    }, suiField)
   }
 
   static renderFields({

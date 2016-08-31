@@ -25,7 +25,6 @@ export const TargetFormFields = ({
     <AutoFields
       {...{form, entity}}
       jsonSchema={TargetSchema}
-      glue={<br />}
       overrides={{
         favourite: {
           inputProps: {

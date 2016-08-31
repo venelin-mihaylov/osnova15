@@ -1,6 +1,7 @@
 import React from 'react'
 import AutoFields from 'components/AutoFields'
 import CompetitorSchema from '../../../../universal/model/schema/CompetitorSchema'
+import CountrySelect from 'components/CountrySelect'
 
 export const CompetitorFormFields = ({
   entity
@@ -9,7 +10,11 @@ export const CompetitorFormFields = ({
     <AutoFields
       {...{entity}}
       jsonSchema={CompetitorSchema}
-      glue={({name}) => <br key={`glue-${name}`} />}
+      overrides={{
+        country: {
+          input: <CountrySelect />
+        }
+      }}
     />
   </div>
 )

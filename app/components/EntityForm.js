@@ -31,7 +31,7 @@ const EntityForm = ({
       <GlobalError {...{fieldErrors, globalError}} />
       <Form className='ui form' {...{onSubmit}} model={rrfModel(entity)}>
         <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
-        <DefaultFormButtons {...{onReset, onCancel}} />
+        <DefaultFormButtons {...{onReset, onCancel, saving, loading}} />
       </Form>
     </If>
   </div>

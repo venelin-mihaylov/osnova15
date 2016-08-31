@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import FKSelect from 'components/FKSelect'
+import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
 
@@ -42,7 +43,9 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
               url: '/api/exercise/misc/createFavouriteExerciseForMatch',
               method: 'post',
               data: record
-            }).then(() => dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())))
+            })
+              .then(() => dispatch(FKAct.act('exercise', '1')(FKAct.FK_RESET)))
+              .then(() => dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())))
               .catch(err => console.log(err))
           }}
           listParams={{

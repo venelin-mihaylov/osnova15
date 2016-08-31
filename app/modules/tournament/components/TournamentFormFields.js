@@ -5,7 +5,6 @@ import AutoFields from 'components/AutoFields'
 const TournamentFormFields = ({entity}) => (
   <AutoFields
     {...{entity}}
-    glue={({name}) => <br key={`glue-${name}`} />}
     jsonSchema={TournamentSchema}
   />
 )

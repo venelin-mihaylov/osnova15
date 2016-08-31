@@ -22,7 +22,6 @@ const MatchExerciseFormFields = ({
       {...{form, entity}}
       jsonSchema={MatchExerciseSchema}
       relations={MatchExerciseRelations}
-      glue={({name}) => <br key={`glue-${name}`}/>}
       overrides={{
         matchId: {exclude: true},
         exerciseId: {

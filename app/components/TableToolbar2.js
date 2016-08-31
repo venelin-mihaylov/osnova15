@@ -1,5 +1,6 @@
 import React from 'react'
 import {Grid, Button, Icon} from 'stardust'
+import classNames from 'classnames'
 
 class TableToolbar2 extends React.Component {
 
@@ -41,17 +42,50 @@ class TableToolbar2 extends React.Component {
       appendButtons = []
     } = this.props
 
-    const ret = (<Grid>
+    const ret = (<Grid style={{marginBottom: 5, marginTop: 5}}>
       <Grid.Column key={1} width={13}>
-        <Button className='positive' onClick={onAddClick} ><Icon name='add'/>Add</Button>
-        <Button className='secondary' onClick={onEditClick}><Icon name='edit'/>Edit</Button>
-        <Button className='negative' onClick={onDeleteClick}><Icon name='erase'/>Delete</Button>
-        {appendButtons.length > 0 && appendButtons}
+        <Button
+          className={classNames({
+            positive: true,
+            icon: true,
+            labeled: true,
+          })}
+          onClick={onAddClick}
+        >
+          <Icon name='add' />
+          Add
+        </Button>
+        <Button
+          className={classNames({
+            icon: true,
+            labeled: true,
+            disabled: !listSelectedId
+          })}
+          onClick={onEditClick}
+        >
+          <Icon name='edit' />
+          Edit
+        </Button>
+        <Button
+          className={classNames({
+            negative: true,
+            icon: true,
+            labeled: true,
+            disabled: !listSelectedId
+          })}
+          onClick={onDeleteClick}
+        >
+          <Icon name='erase' />
+          Delete
+        </Button>
+        {appendButtons && appendButtons}
       </Grid.Column>
-      <Grid.Column width={2}><div style={{paddingTop: 8}}>{toolbarTitle}</div></Grid.Column>
+      <Grid.Column width={2}>
+        <div style={{paddingTop: 8}}>{toolbarTitle}</div>
+      </Grid.Column>
       <Grid.Column width={1}>
         <Button className='icon' onClick={onRefresh}>
-          <Icon className='repeat'/>
+          <Icon className='repeat' />
         </Button>
       </Grid.Column>
     </Grid>)
