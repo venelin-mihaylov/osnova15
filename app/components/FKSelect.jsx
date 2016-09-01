@@ -76,7 +76,7 @@ export default class FKSelect extends React.Component {
     listParams: React.PropTypes.object,
   }
 
-  defaultProps = {
+  static defaultProps = {
     redux: {
       records: [],
     },
