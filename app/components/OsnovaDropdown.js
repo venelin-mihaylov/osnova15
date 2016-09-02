@@ -9,8 +9,6 @@ export default class OsnovaDropdown extends Dropdown {
   })
 
   getMenuOptions = () => {
-    console.log('getMenuOptions')
-
     const {multiple, search, allowAdditions, additionPosition, additionLabel, options, filter} = this.props
     const {searchQuery, value} = this.state
 
@@ -24,12 +22,8 @@ export default class OsnovaDropdown extends Dropdown {
     // filter by search query
     if (search && searchQuery) {
       if (_.isFunction(filter)) {
-        console.log('filter')
-        console.log(filter)
         filteredOptions = filter(filteredOptions, searchQuery)
       } else {
-        console.log('no filter')
-        console.log(filter)
         const re = new RegExp(_.escapeRegExp(searchQuery), 'i')
         filteredOptions = _.filter(filteredOptions, (opt) => re.test(opt.text))
       }

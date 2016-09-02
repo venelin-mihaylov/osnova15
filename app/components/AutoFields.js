@@ -86,6 +86,7 @@ export default class AutoFields extends React.Component {
       append = null,
       wrapWithFormField = true,
       input = null, // completely override input component
+      inputEl = null, // override input component type
       inputProps = {}, // add/override input component props
       rrfProps = {}, // add/override react-redux-form component props
       formFieldProps = {}, // add/override Form.Field props
@@ -113,21 +114,21 @@ export default class AutoFields extends React.Component {
       genInput = input
     } else if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        genInput = React.createElement(DatePicker, {
+        genInput = React.createElement(inputEl || DatePicker, {
           isClearable: true,
           dateFormat: 'YYYY/MM/DD',
           ...common,
           ...inputProps,
         })
       } else {
-        genInput = React.createElement(Input, {
+        genInput = React.createElement(inputEl || Input, {
           ...common,
           ...inputProps,
         })
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
-        genInput = React.createElement(FKSelect, {
+        genInput = React.createElement(inputEl || FKSelect, {
           entity: fkProps.entity,
           variation: '1',
           labelField,
@@ -136,26 +137,26 @@ export default class AutoFields extends React.Component {
         })
       } else if (enumProps) { // value map
         const options = AutoFields.enumToOptions(enumProps)
-        genInput = React.createElement(Dropdown, {
+        genInput = React.createElement(inputEl || Dropdown, {
           selection: true,
           options,
           ...common,
           ...inputProps
         })
       } else { // number
-        genInput = React.createElement(Input, {
+        genInput = React.createElement(inputEl || Input, {
           ...common,
           ...inputProps,
         })
       }
     } else if (t.indexOf('number') !== -1) {
-      genInput = React.createElement(Input, {
+      genInput = React.createElement(inputEl || Input, {
         ...common,
         ...inputProps,
       })
     } else if (t.indexOf('boolean') !== -1) {
       wrap = false
-      genInput = React.createElement(Checkbox, {
+      genInput = React.createElement(inputEl || Checkbox, {
         label,
         ...common,
         ...inputProps

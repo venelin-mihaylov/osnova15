@@ -8,9 +8,9 @@ export default function fkSaga(entity, variation) {
   const act = FKAct.act(entity, variation)
   const type = t => FKAct.prefixType(entity, variation, t)
 
-  function* read({id, name}) {
+  function* read({name, id}) {
     if (!id) {
-      yield put(act(FKAct.FK_READ_SUCCESS, {valueRecord: null}))
+      yield put(act(FKAct.FK_READ_SUCCESS, {name, valueRecord: null}))
       return
     }
 
@@ -20,19 +20,19 @@ export default function fkSaga(entity, variation) {
         method: 'get'
       })
       yield put(act(FKAct.FK_READ_SUCCESS, {
-        id,
         name,
+        id,
         record: response.data
       }))
     } catch (err) {
-      yield put(act(FKAct.FK_READ_ERROR, formatServerError(err)))
+      yield put(act(FKAct.FK_READ_ERROR, {name, ...formatServerError(err)}))
     }
   }
 
   /**
    *
    */
-  function* list({listParams, searchText}) {
+  function* list({name, listParams, searchText}) {
     try {
       const params = mergeDeep(listParams || {}, searchText ? {filter: {searchText}} : {})
       const response = yield call(axios, {
@@ -41,10 +41,11 @@ export default function fkSaga(entity, variation) {
         params
       })
       yield put(act(FKAct.FK_LIST_SUCCESS, {
+        name,
         records: response.data
       }))
     } catch (err) {
-      yield put(act(FKAct.FK_LIST_ERROR, formatServerError(err)))
+      yield put(act(FKAct.FK_LIST_ERROR, {name, ...formatServerError(err)}))
     }
   }
 

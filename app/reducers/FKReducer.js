@@ -1,67 +1,81 @@
 import FKAct from 'constants/FKAct'
-export default function FKReducer(entity, variation) {
-  return function (state = {
-    loading: false,
-    globalError: null,
-    records: [],
-    recordByFieldName: [],
-    lastSearchText: null
-  }, action = {}) {
-    const type = (t) => FKAct.prefixType(entity, variation, t)
-    let ret = null
+import isObject from 'lodash/isObject'
+const stateByField = {
+  loading: false,
+  globalError: null,
+  records: [],
+  valueRecord: null,
+  lastSearchText: null
+}
 
-    switch (action.type) {
-      case type(FKAct.FK_LIST_REQUESTED):
-        return Object.assign({}, state, {
+export default function FKReducer(entity, variation) {
+  return function (state = {}, action = {}) {
+    const prefix = (t) => FKAct.prefixType(entity, variation, t)
+
+    const {name, type, ...act} = action
+
+    const curFieldState = isObject(state) && state[name] || stateByField
+    let newFieldState = null
+
+    switch (type) {
+      case prefix(FKAct.FK_LIST_REQUESTED):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: true
         })
-      case type(FKAct.FK_LIST_SUCCESS):
-        return Object.assign({}, state, {
+        break
+      case prefix(FKAct.FK_LIST_SUCCESS):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: false,
-          records: action.records
+          records: act.records
         })
-      case type(FKAct.FK_LIST_ERROR):
-        return Object.assign({}, state, {
+        break
+      case prefix(FKAct.FK_LIST_ERROR):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: false,
           records: [],
-          globalError: action.globalError
+          globalError: act.globalError
         })
-      case type(FKAct.FK_READ_REQUESTED):
-        return Object.assign({}, state, {
+        break
+      case prefix(FKAct.FK_READ_REQUESTED):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: true,
         })
-      case type(FKAct.FK_READ_SUCCESS):
-        ret = Object.assign({}, state, {
-          loading: false
+        break
+      case prefix(FKAct.FK_READ_SUCCESS):
+        newFieldState = Object.assign({}, curFieldState, {
+          loading: false,
+          valueRecord: act.record
         })
-        ret.recordByFieldName[action.name] = action.record
-        return ret
-      case type(FKAct.FK_READ_ERROR):
-        return Object.assign({}, state, {
+        break
+      case prefix(FKAct.FK_READ_ERROR):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: false,
           globalError: action.globalError
         })
-      case type(FKAct.FK_RESET):
-        return Object.assign({}, state, {
+        break
+      case prefix(FKAct.FK_RESET):
+        newFieldState = Object.assign({}, curFieldState, {
           loading: false,
           records: [],
-          recordByFieldName: [],
+          valueRecord: null,
           globalError: false
         })
-      case type(FKAct.FK_CLEAR_SELECTION):
-        ret = Object.assign({}, state)
-        delete ret.recordByFieldName[action.value]
-        return ret
-      case type(FKAct.FK_PRELOAD_RECORD):
-        ret = Object.assign({}, state)
-        ret.recordByFieldName[action.name] = action.record
-        return ret
-      case type(FKAct.FK_LAST_SEARCH_TEXT):
-        return Object.assign({}, state, {
-          lastSearchText: action.value,
+        break
+      case prefix(FKAct.FK_CLEAR_SELECTION):
+        newFieldState = Object.assign({}, curFieldState, {
+          valueRecord: null
         })
+        break
+      case prefix(FKAct.FK_PRELOAD_RECORD):
+        newFieldState = Object.assign({}, curFieldState, {
+          valueRecord: act.record
+        })
+        break
       default:
-        return state
+        newFieldState = curFieldState
     }
+    const newState = Object.assign({}, state)
+    newState[name] = newFieldState
+    return newState
   }
 }

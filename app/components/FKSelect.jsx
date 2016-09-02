@@ -14,18 +14,18 @@ import {Dropdown} from 'stardust'
   FKname,
   entity,
   variation = '1',
+  name,
 }) => {
   const key = FKname || `FK${entity}${variation}`
-  const redux = state[key]
-  if (!redux) throw new Error(`Bad FKname for FKSelect: ${key}`)
+  const redux = state[key][name] || {}
   return {redux}
 })
 @autobind
 export default class FKSelect extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
-    name: React.PropTypes.string,
     redux: React.PropTypes.object,
+    name: React.PropTypes.string,
     iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
     /**
      * DB table
@@ -103,7 +103,7 @@ export default class FKSelect extends React.Component {
       searchText: ''
     })
     if (this.props.reset) {
-      this.props.dispatch(this.act(FKAct.FK_RESET))
+      this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
     }
     if (!this.props.redux.valueRecord && this.props.value) {
       this.loadServerRecord(this.props.value)
@@ -127,7 +127,7 @@ export default class FKSelect extends React.Component {
       dispatch,
       redux: {
         loading,
-        recordByFieldName,
+        valueRecord,
         records,
       },
       labelField = 'id',
@@ -146,10 +146,10 @@ export default class FKSelect extends React.Component {
       search
       selection
       loading={loading}
-      text={recordByFieldName[name] ? renderLabel(recordByFieldName[name]) : this.state.searchText}
+      text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
       options={renderList(records)}
       onSearchChange={(e, searchText) => {
-        dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
         this.setState({
           searchText
         })
@@ -162,7 +162,7 @@ export default class FKSelect extends React.Component {
         }
         e.target.select()
         const searchText = e.target.value // use the dom element to get the value
-        dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
       }}
       {...rest}
       onChange={(e, value) => {
@@ -171,23 +171,3 @@ export default class FKSelect extends React.Component {
     />)
   }
 }
-
-// <AutoComplete
-//   style={{width: 220 - iconButtons.length * 50}}
-//   openOnFocus
-//   filter={AutoComplete.noFilter}
-//   searchText={recordByFieldName[name] && renderLabel(recordByFieldName[name])}
-//   dataSource={renderList(records)}
-//   onUpdateInput={(searchText) => dispatch(act(FKAct.FK_LIST_REQUESTED, {listParams, searchText}))}
-//   onFocus=
-//     onNewRequest={(X, idx) => onChange(records[idx].id, records[idx])}
-//   {...rest}
-// />
-// <IconButton
-// iconClassName="fa fa-eraser"
-// onClick={() => {
-//   dispatch(act(FKAct.FK_CLEAR_SELECTION, name))
-//   if (name) dispatch(actions.change(name, null))
-// }}
-// />
-// {iconButtons.length ? iconButtons : null}
