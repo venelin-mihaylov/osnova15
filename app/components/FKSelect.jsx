@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import FKAct from 'constants/FKAct'
 import {Dropdown} from 'stardust'
+import isFunction from 'lodash/isFunction'
 
 /**
  * Provides a foreign key select combo.
@@ -102,9 +103,9 @@ export default class FKSelect extends React.Component {
     this.setState({
       searchText: ''
     })
-    if (this.props.reset) {
-      this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
-    }
+    // if (this.props.reset) {
+      // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
+    // }
     if (!this.props.redux.valueRecord && this.props.value) {
       this.loadServerRecord(this.props.value)
     }
@@ -136,8 +137,7 @@ export default class FKSelect extends React.Component {
       name,
       listParams,
       onChange,
-      onFocus = () => {
-      },
+      onFocus = () => {},
       ...rest,
     } = this.props
 
@@ -155,12 +155,9 @@ export default class FKSelect extends React.Component {
         })
       }}
       onFocus={(e) => {
-        if (typeof onFocus === 'function') {
-          if (onFocus(e) === false) {
-            return
-          }
+        if (isFunction(onFocus) && onFocus(e) === false) {
+          return
         }
-        e.target.select()
         const searchText = e.target.value // use the dom element to get the value
         dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
       }}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import AutoFields from 'components/AutoFields'
-import {Form} from 'stardust'
+import {Form, Icon, Button} from 'stardust'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
@@ -34,6 +34,16 @@ export const ExerciseFormFields = ({
             jsonSchema: ExerciseTargetSchema,
             relations: ExerciseTargetRelations,
             overrides: {
+              targetId: {
+                inputProps: {
+                  listParams: {
+                    filter: {
+                      favourite: true
+                    }
+                  }
+                },
+                append: [<Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>],
+              },
               exerciseId: {
                 exclude: true
               }
@@ -44,4 +54,12 @@ export const ExerciseFormFields = ({
     />
   </div>)
 }
+
+ExerciseFormFields.PropTypes = {
+  dispatch: React.PropTypes.func,
+  model: React.PropTypes.string,
+  entity: React.PropTypes.string,
+  onClickAddTarget: React.PropTypes.func
+}
+
 export default ExerciseFormFields

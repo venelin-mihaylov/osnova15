@@ -35,17 +35,16 @@ class ExerciseFormContainer extends OsnovaFormContainer {
   }
 
   addMatchExercise(record) {
-    const {params:{matchId}} = this.props
+    const {params: {matchId}} = this.props
     // if present we are adding an exercise for a match
-    if(matchId) {
+    if (matchId) {
       return Object.assign({}, record, {
         match_exercise: [{matchId}]
       })
-    } else {
-      return record
     }
-  }
 
+    return record
+  }
 
   onUpdate(record) {
     return super.onUpdate(record)
@@ -65,7 +64,7 @@ class ExerciseFormContainer extends OsnovaFormContainer {
       FormFieldsComponent={ExerciseFormFields}
       {...this.props}
       {...(this.addProps())}
-      onClickAddTarget={({fkFieldName}) => {
+      onClickAddTarget={fkFieldName => () => {
         dispatch(this.act(CRUDAct.RESET_FORM, false))
         dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, {value: {fkFieldName}}))
         dispatch(push(`${pathname}/create-target`))

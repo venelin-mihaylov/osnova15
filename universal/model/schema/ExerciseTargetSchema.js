@@ -7,7 +7,7 @@ const ExerciseTargetSchema = {
     targetId: {type: 'integer', labelField: 'name'},
     distance: {type: 'number'},
     weight: {type: 'number'},
-    score: {type: 'integer', label: 'Score123'},
+    score: {type: 'integer'},
     description: {type: 'string'}
   }
 }
