@@ -1,6 +1,6 @@
 const ExerciseTargetSchema = {
   type: 'object',
-  required: ['targetId', 'distance', 'description'],
+  required: ['targetId', 'distance', 'weight', 'score'],
   properties: {
     id: {type: 'integer'},
     exerciseId: {type: 'integer'},

@@ -100,7 +100,7 @@ exports.up = function(knex, Promise) {
       t.integer('distance').notNullable()
       t.decimal('weight', 3).notNullable().default(1)
       t.decimal('score').notNullable()
-      t.string('description').notNullable()
+      t.string('description')
       t.unique(['targetId', 'exerciseId'])
     }),
   ])
