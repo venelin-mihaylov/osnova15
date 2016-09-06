@@ -26,7 +26,7 @@ export const ExerciseFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <Form.Group key={idx} widths='equal'>
+        <Form.Group key={idx} inline>
           {AutoFields.renderFields({
             entity,
             styles,
@@ -34,6 +34,27 @@ export const ExerciseFormFields = ({
             jsonSchema: ExerciseTargetSchema,
             relations: ExerciseTargetRelations,
             overrides: {
+              distance: {
+                inputProps: {
+                  style: {
+                    width: 50
+                  }
+                }
+              },
+              weight: {
+                inputProps: {
+                  style: {
+                    width: 50
+                  }
+                }
+              },
+              score: {
+                inputProps: {
+                  style: {
+                    width: 50
+                  }
+                }
+              },
               targetId: {
                 inputProps: {
                   listParams: {

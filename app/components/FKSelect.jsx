@@ -141,33 +141,30 @@ export default class FKSelect extends React.Component {
       ...rest,
     } = this.props
 
-    return (<div style={{display: 'inline-block'}}>
-      <Dropdown
-        name={name}
-        search
-        selection
-        loading={loading}
-        text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
-        options={renderList(records)}
-        onSearchChange={(e, searchText) => {
-          dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
-          this.setState({
-            searchText
-          })
-        }}
-        onFocus={(e) => {
-          if (isFunction(onFocus) && onFocus(e) === false) {
-            return
-          }
-          const searchText = e.target.value // use the dom element to get the value
-          dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
-        }}
-        {...rest}
-        onChange={(e, value) => {
-          onChange(value)
-        }}
-      />
-      <Button className='icon'><Icon name='erase' /></Button>
-    </div>)
+    return (<Dropdown
+      name={name}
+      search
+      selection
+      loading={loading}
+      text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
+      options={renderList(records)}
+      onSearchChange={(e, searchText) => {
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
+        this.setState({
+          searchText
+        })
+      }}
+      onFocus={(e) => {
+        if (isFunction(onFocus) && onFocus(e) === false) {
+          return
+        }
+        const searchText = e.target.value // use the dom element to get the value
+        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
+      }}
+      {...rest}
+      onChange={(e, value) => {
+        onChange(value)
+      }}
+    />)
   }
 }
