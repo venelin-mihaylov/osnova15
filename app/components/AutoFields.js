@@ -180,10 +180,10 @@ export default class AutoFields extends React.Component {
       return suiField
     }
 
-    return React.createElement(Form.Field, {
-      label,
-      ...formFieldProps
-    }, suiField)
+    return (<Form.Field {...formFieldProps}>
+      <label>{label}</label>
+      {suiField}
+    </Form.Field>)
   }
 
   static renderFields({
