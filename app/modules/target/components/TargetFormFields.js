@@ -42,7 +42,7 @@ export const TargetFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Target Zones'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <Form.Fields key={idx} evenlyDivided>
+        <Form.Group key={idx} widths='equal'>
           {AutoFields.renderFields({
             form,
             entity,
@@ -56,7 +56,7 @@ export const TargetFormFields = ({
               }
             }
           })}
-        </Form.Fields>
+        </Form.Group>
       )}
     />
   </div>)

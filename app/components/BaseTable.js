@@ -27,7 +27,7 @@ export default class BaseTable extends React.Component {
     selectedRowIdField: 'id',
   }
 
-  onRow(row, rowIndex) {
+  onRow(row, {rowIndex}) {
     const {
       selectedRowId,
       selectedRowIdField,

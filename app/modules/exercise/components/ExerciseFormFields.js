@@ -26,7 +26,7 @@ export const ExerciseFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <Form.Fields key={idx} evenlyDivided>
+        <Form.Group key={idx} widths='equal'>
           {AutoFields.renderFields({
             entity,
             styles,
@@ -49,7 +49,7 @@ export const ExerciseFormFields = ({
               }
             }
           })}
-        </Form.Fields>
+        </Form.Group>
       )}
     />
   </div>)
