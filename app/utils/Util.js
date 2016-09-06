@@ -1,8 +1,7 @@
-import React from "react"
-import {Errors} from "react-redux-form"
+import React from 'react'
+import {Errors, actions} from 'react-redux-form'
 import CRUDAct from 'constants/CRUDAct'
-import {actions} from 'react-redux-form'
-import {push} from 'react-router-redux'
+import FKAct from 'constants/FKAct'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -12,8 +11,8 @@ export function rrfField(entity, field) {
 }
 
 export const defaultErrorMessages = {
-  length: "Field is too short.",
-  required: "Field is required."
+  length: 'Field is too short.',
+  required: 'Field is required.'
 }
 
 /**
@@ -36,7 +35,7 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
 
   const fieldErrors = field.errors
   let error = false
-  for (let k in fieldErrors) {
+  for (const k in fieldErrors) {
     if (!fieldErrors.hasOwnProperty(k)) continue
     error = error || fieldErrors[k]
   }
@@ -44,10 +43,10 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
     return null
   }
 
-  return <Errors
+  return (<Errors
     model={rrfField(dbTable, fieldName)}
     messages={messages}
-  />
+  />)
 }
 
 export function formatServerError(err) {
@@ -94,11 +93,43 @@ export function log(o) {
 }
 
 export function toUri() {
-  let arr = []
+  const arr = []
   for (let i = 0; i < arguments.length; i++) {
     arr.push(arguments[i])
   }
   return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
+}
+
+function doSelectCreatedFK({
+  dispatch,
+  entity,
+  fkParams
+}) {
+  fkParams.forEach(({
+    fkEntity,
+    fkVariation = '1',
+    fkRecord,
+    fkFieldName,
+    relationType,
+    relationName,
+  }) => {
+    if (!fkRecord) return
+
+    if (relationType === 'belongsToOne') {
+      dispatch(actions.change(rrfField(entity, fkFieldName), fkRecord.id))
+      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {
+        name: fkFieldName,
+        record: fkRecord
+      }))
+    } else if (relationType === 'hasMany') {
+      const r = {[fkFieldName]: fkRecord.id}
+      dispatch(actions.push(rrfField(entity, relationName), r))
+    } else {
+      throw new Error(`Bad relation type: ${relationType}`)
+    }
+    // reset the foreign key entity store state, to clear the created record
+    dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
+  })
 }
 
 export function selectCreatedFK({
@@ -118,32 +149,6 @@ export function selectCreatedFK({
   dispatch(CRUDAct.act(entity)(CRUDAct.RESET_FORM, true))
 }
 
-function doSelectCreatedFK({
-  dispatch,
-  entity,
-  fkParams
-}) {
-  fkParams.forEach(({
-    fkEntity,
-    fkRecord,
-    fkFieldName,
-    relationType,
-    relationName,
-  }) => {
-    if (!fkRecord) return
-
-    if (relationType === 'belongsToOne') {
-      dispatch(actions.change(rrfField(entity, fkFieldName), fkRecord.id))
-    } else if(relationType == 'hasMany') {
-      let r = {[fkFieldName]: fkRecord.id}
-      dispatch(actions.push(rrfField(entity, relationName), r))
-    } else {
-      throw new Error("Bad relation type: " + relationType)
-    }
-    // reset the foreign key entity store state, to clear the created record
-    dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
-  })
-}
 
 export function calcNextPath({
   pathname,
@@ -151,10 +156,9 @@ export function calcNextPath({
   id,
   record
 }) {
-
   let matches = null
 
-  if(action == 'create' || action == 'update' || action == 'cancel') {
+  if (action === 'create' || action === 'update' || action === 'cancel') {
     if (matches = pathname.match(/(\/match\/\d+\/exercise)\/(\d+)\/(\d+)\/edit$/)) return matches[1]
 
     if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
@@ -162,14 +166,13 @@ export function calcNextPath({
     if (matches = pathname.match(/(.*)\/create-competitor$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-exercise$/)) return matches[1]
     if (matches = pathname.match(/(.*)\/create-target$/)) return matches[1]
-
   }
 
-  if(action == 'add') {
-    return pathname + '/add'
+  if (action === 'add') {
+    return `${pathname}/add`
   }
 
-  if(action == 'edit') {
+  if (action === 'edit') {
     if (matches = pathname.match(/^(\/match\/\d+\/exercise)$/)) {
       return matches[1] + toUri(id, record.exerciseId, 'edit')
     }
@@ -186,41 +189,42 @@ export function isObject(item) {
 }
 
 export function mergeDeep(target, source) {
-  let output = Object.assign({}, target);
+  const output = Object.assign({}, target)
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach(key => {
       if (isObject(source[key])) {
-        if (!(key in target))
-          Object.assign(output, { [key]: source[key] });
-        else
-          output[key] = mergeDeep(target[key], source[key]);
+        if (!(key in target)) {
+          Object.assign(output, {[key]: source[key]})
+        } else {
+          output[key] = mergeDeep(target[key], source[key])
+        }
       } else {
-        Object.assign(output, { [key]: source[key] });
+        Object.assign(output, {[key]: source[key]})
       }
-    });
+    })
   }
-  return output;
+  return output
 }
 
 export function toArray(o) {
-  if(!o) return []
+  if (!o) return []
   return Array.isArray(o) ? o : [o]
 }
 
 export function toActionObject(entity, actionType, rest) {
-  if(Array.isArray(rest)) {
+  if (Array.isArray(rest)) {
     return Object.assign({
       type: CRUDAct.type(entity, actionType),
       value: rest
     })
-  } else if(typeof rest === 'object') {
+  } else if (typeof rest === 'object') {
     return Object.assign({
       type: CRUDAct.type(entity, actionType)
     }, rest)
-  } else {
-    return Object.assign({
-      type: CRUDAct.type(entity, actionType),
-      value: rest
-    })
   }
+
+  return Object.assign({
+    type: CRUDAct.type(entity, actionType),
+    value: rest
+  })
 }

@@ -106,6 +106,8 @@ export default class FKSelect extends React.Component {
     // if (this.props.reset) {
     // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
     // }
+    console.log('mount value')
+    console.log(this.props.value)
     if (!this.props.redux.valueRecord && this.props.value) {
       this.loadServerRecord(this.props.value)
     }
@@ -113,6 +115,7 @@ export default class FKSelect extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
+      console.log(`loading data for ${nextProps.value}`)
       this.loadServerRecord(nextProps.value)
     }
   }

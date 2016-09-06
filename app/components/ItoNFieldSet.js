@@ -27,7 +27,7 @@ export default class ItoNFieldSet extends React.Component {
           <IconButton iconClassName='fa fa-minus' onClick={onDeleteLast} />
           <h2 style={{marginRight: '10px', display: 'inline'}}>{relTitle}</h2>
         </legend>
-        {relData.map((row, idx) => renderRecord({
+        {relData && relData.map((row, idx) => renderRecord({
           row,
           idx,
           relName,
