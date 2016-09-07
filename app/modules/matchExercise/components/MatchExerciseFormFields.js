@@ -25,21 +25,19 @@ const MatchExerciseFormFields = ({
       overrides={{
         matchId: {exclude: true},
         exerciseId: {
-          inputProps: {
-            renderLabel: r => r && `${r.name}`,
-            listParams: {
-              filter: {
-                belongsToMatch: {
-                  params: {
-                    curId: record && record.exerciseId
-                  },
-                  operator: '=',
-                  value: matchId
-                }
+          renderLabel: r => r && `${r.name}`,
+          listParams: {
+            filter: {
+              belongsToMatch: {
+                params: {
+                  curId: record && record.exerciseId
+                },
+                operator: '=',
+                value: matchId
               }
-            },
-            iconButtons: [<IconButton key='exercise-plus' iconClassName='fa fa-user-plus' onClick={onClickAddExercise}/>]
-          }
+            }
+          },
+          iconButtons: [<IconButton key='exercise-plus' iconClassName='fa fa-user-plus' onClick={onClickAddExercise} />]
         }
       }}
     />

@@ -19,16 +19,14 @@ const MatchCompetitorFormFields = ({
     overrides={{
       matchId: {exclude: true},
       competitorId: {
-        inputProps: {
-          renderLabel: r => r && `${r.firstName} ${r.lastName}`,
-          listParams: {
-            filter: {
-              belongsToMatch: {
-                operator: '=',
-                value: matchId
-              }
+        renderLabel: r => r && `${r.firstName} ${r.lastName}`,
+        listParams: {
+          filter: {
+            belongsToMatch: {
+              operator: '=',
+              value: matchId
             }
-          },
+          }
         },
         append: [<Button className='icon' onClick={onClickAddCompetitor}><Icon name='add user' /></Button>]
       }

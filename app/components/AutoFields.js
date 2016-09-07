@@ -87,12 +87,12 @@ export default class AutoFields extends React.Component {
       wrapWithFormField = true,
       input = null, // completely override input component
       inputEl = null, // override input component type
-      inputProps = {}, // add/override input component props
       rrfProps = {}, // add/override react-redux-form component props
       formFieldProps = {}, // add/override Form.Field props
-      exclude = false // exclude field
+      exclude = false, // exclude field
+      ...inputProps
     },
-    styles = {} // css styles
+    styles = {}, // css styles,
   }) {
     if (exclude) return null
     if (name === 'id') return null
@@ -100,6 +100,10 @@ export default class AutoFields extends React.Component {
     if (endsWith(label, 'Id')) {
       label = trimEnd(label, 'Id') // eslint-disable-line
     }
+
+    console.log('inputProps')
+    console.log(name)
+    console.log(inputProps)
 
     const fullField = `${namePrefix}${name}`
 

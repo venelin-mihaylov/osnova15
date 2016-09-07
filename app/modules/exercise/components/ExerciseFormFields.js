@@ -35,32 +35,24 @@ export const ExerciseFormFields = ({
             relations: ExerciseTargetRelations,
             overrides: {
               distance: {
-                inputProps: {
-                  style: {
-                    width: 50
-                  }
+                style: {
+                  width: 80
                 }
               },
               weight: {
-                inputProps: {
-                  style: {
-                    width: 50
-                  }
+                style: {
+                  width: 80
                 }
               },
               score: {
-                inputProps: {
-                  style: {
-                    width: 50
-                  }
+                style: {
+                  width: 80
                 }
               },
               targetId: {
-                inputProps: {
-                  listParams: {
-                    filter: {
-                      favourite: true
-                    }
+                listParams: {
+                  filter: {
+                    favourite: true
                   }
                 },
                 append: [<Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>],

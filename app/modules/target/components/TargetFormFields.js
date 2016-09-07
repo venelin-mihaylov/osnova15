@@ -26,12 +26,6 @@ export const TargetFormFields = ({
       {...{form, entity}}
       jsonSchema={TargetSchema}
       overrides={{
-        favourite: {
-          inputProps: {
-            checkedIcon: <ActionFavorite />,
-            uncheckedIcon: <ActionFavoriteBorder />
-          }
-        },
         image: {
           input: <FileField accept='.png,.jpg' label='Target Image' placeholder='Image' />
         }
