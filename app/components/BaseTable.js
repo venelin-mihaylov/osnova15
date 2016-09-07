@@ -10,6 +10,8 @@ import styles from 'styles/components/BaseTable.css'
 @autobind
 export default class BaseTable extends React.Component {
 
+
+
   static propTypes = {
     columns: React.PropTypes.any.isRequired,
     rows: React.PropTypes.any.isRequired,
@@ -25,6 +27,14 @@ export default class BaseTable extends React.Component {
     onSelectRow: noop,
     rowKey: 'id',
     selectedRowIdField: 'id',
+  }
+
+  constructor() {
+    super()
+    this.setState({
+      sortBy: 'id',
+      sortDirection: 'asc'
+    })
   }
 
   onRow(row, {rowIndex}) {
@@ -56,6 +66,13 @@ export default class BaseTable extends React.Component {
       selectedRowId: selected.selectedRow[selectedRowIdField],
       selectedRow: selected.selectedRow,
       rows: selected.rows
+    })
+  }
+
+  sort(sortBy, sortDirection) {
+    this.setState({
+      sortBy,
+      sortDirection
     })
   }
 

@@ -51,6 +51,10 @@ require('semantic-ui-css/semantic.css')
 
 require('react-datepicker/dist/react-datepicker.css')
 
+require('ag-grid/dist/styles/ag-grid.css')
+
+require('ag-grid/dist/styles/theme-fresh.css')
+
 // required for material-ui to work
 injectTapEventPlugin()
 

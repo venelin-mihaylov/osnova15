@@ -10,15 +10,59 @@
  */
 
 import React from 'react'
-import CountrySelect from 'components/CountrySelect'
-import OsnovaDropdown from 'components/OsnovaDropdown'
-import {Flag} from 'stardust'
+import BaseTable from 'components/BaseTable'
+import {autobind} from 'core-decorators'
 
+@autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
+  constructor() {
+    super()
+    this.state = {
+      sortBy: null,
+      sortDirection: null
+    }
+  }
+
   render() {
+    const {
+      sortBy,
+      sortDirection
+    } = this.state
+
+    const sortHeader = this.sortHeader(sortBy, sortDirection)
+
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
+      <BaseTable
+        columns={[{
+          property: 'id',
+          width: 200,
+          header: {
+            label: 'id',
+            property: 'id',
+            format: (name) => sortHeader(name),
+          },
+          cell: {
+            property: 'id'
+          }
+        }, {
+          property: 'name',
+          width: 800,
+          header: {
+            label: 'name',
+            format: (name) => sortHeader(name),
+            property: 'name'
+          },
+          cell: {
+            property: 'name'
+          }
+        }]}
+        rows={[{
+          id: 1,
+          name: 'test1'
+        }]}
+      />
     </div>)
   }
 }

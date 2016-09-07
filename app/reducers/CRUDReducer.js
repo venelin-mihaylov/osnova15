@@ -23,6 +23,8 @@ export default function CRUDReducer({
     listLoading: false, // are loading the list from the server
     listRecords: [], // list record
     listFilter: null, // list filters
+    listSortBy: null, // list sortBy
+    listSortDirection: null, //
     listPage: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {

@@ -101,10 +101,6 @@ export default class AutoFields extends React.Component {
       label = trimEnd(label, 'Id') // eslint-disable-line
     }
 
-    console.log('inputProps')
-    console.log(name)
-    console.log(inputProps)
-
     const fullField = `${namePrefix}${name}`
 
     const className = styles[name]
