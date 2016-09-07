@@ -12,6 +12,7 @@
 import React from 'react'
 import BaseTable from 'components/BaseTable'
 import {autobind} from 'core-decorators'
+import ListSort from 'utils/ListSort'
 
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -30,7 +31,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
       sortDirection
     } = this.state
 
-    const sortHeader = this.sortHeader(sortBy, sortDirection)
+    const sortHeader = ListSort.sortHeader('tournament', sortBy, sortDirection)
 
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>

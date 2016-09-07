@@ -1,6 +1,6 @@
 import CRUDAct from 'constants/CRUDAct'
 import Act from 'constants/Act'
-import {fork, put, call} from 'redux-saga/effects'
+import {fork, put, call, select} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from 'react-redux-form'
@@ -88,15 +88,22 @@ export default function crudSaga(entity, params = {}) {
     }
   }
 
-  function* list({page, filter, resolve = noop, reject = noop}) {
+  function* list({
+    resolve = noop,
+    reject = noop
+  }) {
+    const listParams = select((state) => ({
+      offset: state[entity].listOffset,
+      limit: state[entity].listLimit,
+      sortBy: state[entity].listSortBy,
+      filter: state[entity].listFilter ? JSON.stringify(state[entity].listFilter) : null,
+      sortDirection: state[entity].listSortDirection,
+    }))
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'get',
-        params: {
-          page,
-          filter: filter ? JSON.stringify(filter) : null
-        }
+        params: listParams
       })
       const records = response.data
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
@@ -141,6 +148,7 @@ export default function crudSaga(entity, params = {}) {
     yield [
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
+      fork(function* watchListSort() { yield* takeEvery(type(CRUDAct.LIST_SORT), list) }),
       fork(function* watchList() { yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list) }),
       fork(function* watchCreate() { yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create) }),
       fork(function* watchUpdate() { yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update) }),

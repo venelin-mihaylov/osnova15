@@ -1,7 +1,8 @@
 import CRUDAct from '../constants/CRUDAct'
 
 export default function CRUDReducer({
-  entity
+  entity,
+  variation
 }) {
   const addPrefix = type => `${entity.toUpperCase()}_${type}`
 
@@ -25,7 +26,7 @@ export default function CRUDReducer({
     listFilter: null, // list filters
     listSortBy: null, // list sortBy
     listSortDirection: null, //
-    listPage: 1, // list page
+    listOffset: 1, // list page
     listLimit: 100 // list limit
   }, action = {}) {
     const {type} = action
@@ -46,13 +47,12 @@ export default function CRUDReducer({
           globalError: action.globalError,
           fieldErrors: action.fieldErrors
         })
+
       case addPrefix(CRUDAct.LIST_REQUESTED):
         return Object.assign({}, state, {
           params: action.params,
           listLoading: true,
-          listError: null,
-          listPage: action.page,
-          listFilter: action.filter
+          listError: null
         })
       case addPrefix(CRUDAct.LIST_SUCCESS):
         return Object.assign({}, state, {
@@ -133,9 +133,18 @@ export default function CRUDReducer({
         return Object.assign({}, state, {
           listLimit: action.limit
         })
-      case addPrefix(CRUDAct.LIST_SET_PAGE):
+      case addPrefix(CRUDAct.LIST_SET_OFFSET):
         return Object.assign({}, state, {
-          listPage: action.page
+          listOffset: action.offset
+        })
+      case addPrefix(CRUDAct.LIST_SET_SORT):
+        return Object.assign({}, state, {
+          listSortBy: action.sortBy,
+          listSortDirection: action.sortDirection
+        })
+      case addPrefix(CRUDAct.LIST_SET_FILTER):
+        return Object.assign({}, state, {
+          listFilter: Object.assign({}, state.listFilter, action.filters)
         })
       case addPrefix(CRUDAct.RESET_FORM):
         return Object.assign({}, state, {

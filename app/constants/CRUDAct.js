@@ -23,11 +23,17 @@ export default class CRUDAct {
   static LIST_ERROR = 'LIST_ERROR'
 
   static LIST_SET_LIMIT = 'LIST_SET_LIMIT'
-  static LIST_SET_PAGE = 'LIST_SET_PAGE' // triggers LIST_REQUESTED, which initiates server data retrieval
+
+  static LIST_SET_OFFSET = 'LIST_SET_OFFSET' // triggers LIST_REQUESTED, which initiates server data retrieval
+
   static LIST_SET_SELECTION = 'LIST_SET_SELECTION'
   static LIST_CLEAR_SELECTION = 'LIST_CLEAR_SELECTION'
 
-  static LIST_SORT_REQUESTED = 'LIST_SORT_REQUESTED'
+  static LIST_SET_SORT = 'LIST_SET_SORT'
+
+  static LIST_SET_FILTERS = 'LIST_SET_FILTERS'
+  static LIST_SET_FILTER = 'LIST_SET_FILTER'
+  static LIST_CLEAR_FILTER = 'LIST_CLEAR_FILTER'
 
   static RESET_FORM = 'RESET_FORM'
   static RESET = 'RESET'
