@@ -1,5 +1,3 @@
-"use strict"
-
 import {toActionObject} from 'utils/Util'
 
 export default class CRUDAct {
