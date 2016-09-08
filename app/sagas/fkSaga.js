@@ -2,11 +2,12 @@ import FKAct from 'constants/FKAct'
 import {fork, put, call} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
-import {formatServerError, mergeDeep} from 'utils/Util'
+import {formatServerError, mergeDeep, act as _act, prefixType} from 'utils/Util'
+import curry from 'lodash/curry'
 
 export default function fkSaga(entity, variation) {
-  const act = FKAct.act(entity, variation)
-  const type = t => FKAct.prefixType(entity, variation, t)
+  const act = curry(_act)(entity, variation)
+  const type = curry(prefixType)(entity, variation)
 
   function* read({name, id}) {
     if (!id) {

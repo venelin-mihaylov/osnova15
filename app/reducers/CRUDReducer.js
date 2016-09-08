@@ -1,10 +1,12 @@
 import CRUDAct from '../constants/CRUDAct'
+import {prefixType} from 'utils/Util'
+import curry from 'lodash/curry'
 
 export default function CRUDReducer({
   entity,
-  variation
+  variation = '1'
 }) {
-  const addPrefix = type => `${entity.toUpperCase()}_${type}`
+  const addPrefix = curry(prefixType)(entity, variation)
 
   return function CRUD(state = {
     params: null, // params passed by the action, i.e. '{view:basic}', or '{view:extended}'
@@ -18,16 +20,6 @@ export default function CRUDReducer({
     deleteId: null, // id to delete / deleted id
     resetForm: true, // reset/load the crud form
     selectCreatedFK: false, // flag to look for newly created FK
-    listError: false, // list error
-    listSelectedId: null, // list selection id
-    listSelectedRecord: null, // list selection record
-    listLoading: false, // are loading the list from the server
-    listRecords: [], // list record
-    listFilter: null, // list filters
-    listSortBy: null, // list sortBy
-    listSortDirection: null, //
-    listOffset: 1, // list page
-    listLimit: 100 // list limit
   }, action = {}) {
     const {type} = action
 
@@ -46,25 +38,6 @@ export default function CRUDReducer({
           saving: false,
           globalError: action.globalError,
           fieldErrors: action.fieldErrors
-        })
-
-      case addPrefix(CRUDAct.LIST_REQUESTED):
-        return Object.assign({}, state, {
-          params: action.params,
-          listLoading: true,
-          listError: null
-        })
-      case addPrefix(CRUDAct.LIST_SUCCESS):
-        return Object.assign({}, state, {
-          listLoading: false,
-          listRecords: action.records,
-          listError: null
-        })
-      case addPrefix(CRUDAct.LIST_ERROR):
-        return Object.assign({}, state, {
-          listLoading: false,
-          listError: action.globalError,
-          listRecords: []
         })
       case addPrefix(CRUDAct.READ_REQUESTED):
         return Object.assign({}, state, {
@@ -129,31 +102,6 @@ export default function CRUDReducer({
           globalError: action.globalError || 'Error occurred',
           deleteId: action.id
         })
-      case addPrefix(CRUDAct.LIST_SET_LIMIT):
-        return Object.assign({}, state, {
-          listLimit: action.limit
-        })
-      case addPrefix(CRUDAct.LIST_SET_OFFSET):
-        return Object.assign({}, state, {
-          listOffset: action.offset
-        })
-      case addPrefix(CRUDAct.LIST_SET_SORT):
-        return Object.assign({}, state, {
-          listSortBy: action.sortBy,
-          listSortDirection: action.sortDirection
-        })
-      case addPrefix(CRUDAct.LIST_SET_FILTER):
-        return Object.assign({}, state, {
-          listFilter: Object.assign({}, state.listFilter, action.filters)
-        })
-      case addPrefix(CRUDAct.RESET_FORM):
-        return Object.assign({}, state, {
-          resetForm: action.value,
-        })
-      case addPrefix(CRUDAct.SELECT_CREATED_FK_RECORD):
-        return Object.assign({}, state, {
-          selectCreatedFK: action.value
-        })
       case addPrefix(CRUDAct.RESET):
         return Object.assign({}, state, {
           saving: false,
@@ -162,34 +110,6 @@ export default function CRUDReducer({
           globalError: false,
           fieldErrors: false,
           selectCreatedFK: false
-        })
-      case addPrefix(CRUDAct.LIST_SET_SELECTION):
-        if (state.listSelectedId === action.id) {
-          let listRecords = action.records
-          if (Array.isArray(action.records) && action.records.length > 0) {
-            listRecords = action.records.map(r => {
-              if (r.selected) {
-                const {selected, ...ret} = r // eslint-disable-line no-unused-vars
-                return ret
-              }
-              return r
-            })
-          }
-          return Object.assign({}, state, {
-            listSelectedId: null,
-            listSelectedRecord: null,
-            listRecords
-          })
-        }
-        return Object.assign({}, state, {
-          listSelectedId: action.id,
-          listSelectedRecord: action.record,
-          listRecords: action.records
-        })
-      case addPrefix(CRUDAct.LIST_CLEAR_SELECTION):
-        return Object.assign({}, state, {
-          listSelectedId: null,
-          listSelectedRecord: null
         })
       default:
         return state

@@ -65,8 +65,8 @@ class ExerciseFormContainer extends OsnovaFormContainer {
       {...this.props}
       {...(this.addProps())}
       onClickAddTarget={fkFieldName => () => {
-        dispatch(this.act(CRUDAct.RESET_FORM, false))
-        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, {value: {fkFieldName}}))
+        this.props.act(CRUDAct.RESET_FORM, false)
+        this.props.act(CRUDAct.SELECT_CREATED_FK_RECORD, {value: {fkFieldName}})
         dispatch(push(`${pathname}/create-target`))
       }}
     />)

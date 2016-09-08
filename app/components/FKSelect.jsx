@@ -4,6 +4,8 @@ import {autobind} from 'core-decorators'
 import FKAct from 'constants/FKAct'
 import {Dropdown, Button, Icon} from 'stardust'
 import isFunction from 'lodash/isFunction'
+import {act, promiseAct} from 'utils/Util'
+import curry from 'lodash/curry'
 
 /**
  * Provides a foreign key select combo.
@@ -93,7 +95,6 @@ export default class FKSelect extends React.Component {
    */
   constructor(props) {
     super(props)
-    this.act = FKAct.act(this.props.entity, this.props.variation)
     this.state = {
       searchText: ''
     }
@@ -106,6 +107,9 @@ export default class FKSelect extends React.Component {
     // if (this.props.reset) {
     // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
     // }
+    this.act = curry(act)(this.props.entity, this.props.variation)
+    this.props.promiseAct = curry(promiseAct)(this.props.entity, this.props.variation)
+
     this.loadServerRecord(this.props.value)
   }
 
@@ -118,13 +122,11 @@ export default class FKSelect extends React.Component {
 
   loadServerRecord(id) {
     const name = this.props.name
-    this.props.dispatch(this.act(FKAct.FK_READ_REQUESTED, {id, name}))
+    this.props.promiseAct(FKAct.FK_READ_REQUESTED, {id, name})
   }
 
   render() {
-    const act = this.act
     const {
-      dispatch,
       redux: {
         loading,
         valueRecord,
@@ -149,7 +151,7 @@ export default class FKSelect extends React.Component {
       text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
       options={renderList(records)}
       onSearchChange={(e, searchText) => {
-        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
+        this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
         this.setState({
           searchText
         })
@@ -159,7 +161,7 @@ export default class FKSelect extends React.Component {
           return
         }
         const searchText = e.target.value // use the dom element to get the value
-        dispatch(act(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText}))
+        this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
       }}
       {...rest}
       onChange={(e, value) => {

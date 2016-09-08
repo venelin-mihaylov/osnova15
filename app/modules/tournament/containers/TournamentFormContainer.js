@@ -2,16 +2,16 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
-import TournamentFormFields from 'modules/tournament/components/TournamentFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
+import TournamentFormFields from 'modules/tournament/components/TournamentFormFields'
+import {mapAct, mapCrudStateToProps} from 'utils/Util'
 
-@connect(state => ({
-  redux: state.tournament,
-  form: state.tournamentForm
-}))
+const entity = 'tournament'
+const variation = '1'
+
+@connect(mapCrudStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 class TournamentFormContainer extends OsnovaFormContainer {
-  static entity = 'tournament'
 
   render() {
     return (<EntityFormWrapper

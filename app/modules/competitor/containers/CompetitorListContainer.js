@@ -3,12 +3,17 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
+import {mapAct, mapListStateToProps} from 'utils/Util'
 
-@connect(state => ({redux: state.competitor}))
+const entity = 'tournament'
+const variation = '1'
+
+@connect(mapListStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 export default class CompetitorListContainer extends OsnovaListContainer {
 
-  static entity = 'competitor'
+  static entity = entity
+  static variation = variation
 
   render() {
     return (<EntityList

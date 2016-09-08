@@ -1,5 +1,3 @@
-"use strict"
-
 export default class FKAct {
 
   static FK_LIST_REQUESTED = 'FK_LIST_REQUESTED'
@@ -15,39 +13,4 @@ export default class FKAct {
   static FK_RESET = 'FK_RESET'
 
   static FK_LAST_SEARCH_TEXT = 'FK_LAST_SEARCH_TEXT'
-
-  static create(object) {
-    const ret = {}
-    for (const action in this) {
-      if (typeof action === 'string') {
-        const g = `${object.toUpperCase()}_${action}`
-        ret[g] = g
-      }
-    }
-    return ret
-  }
-
-  /**
-   *
-   * @param {string} entity
-   * @param {string} variation
-   * @param {string} action
-   * @returns {*}
-   */
-  static prefixType(entity, variation, action) {
-    return entity.toUpperCase() + '_' + variation.toUpperCase() + '_' + action
-  }
-
-  static act = (entity, variation) => (actionType, rest = {}) => {
-    if (typeof rest === 'object') {
-      return {
-        type: FKAct.prefixType(entity, variation, actionType),
-        ...rest
-      }
-    }
-    return {
-      type: FKAct.prefixType(entity, variation, actionType),
-      value: rest
-    }
-  }
 }

@@ -26,7 +26,7 @@ class TableToolbar2 extends React.Component {
     limit: React.PropTypes.number,
     toolbarTitle: React.PropTypes.string,
     appendButtons: React.PropTypes.any,
-    listSelectedId: React.PropTypes.number
+    selectedId: React.PropTypes.number
   }
 
   render() {
@@ -37,7 +37,7 @@ class TableToolbar2 extends React.Component {
       onDeleteClick,
       limit,
       onLimitChange,
-      listSelectedId,
+      selectedId,
       onRefresh,
       appendButtons = []
     } = this.props
@@ -59,7 +59,7 @@ class TableToolbar2 extends React.Component {
           className={classNames({
             icon: true,
             labeled: true,
-            disabled: !listSelectedId
+            disabled: !selectedId
           })}
           onClick={onEditClick}
         >
@@ -71,7 +71,7 @@ class TableToolbar2 extends React.Component {
             negative: true,
             icon: true,
             labeled: true,
-            disabled: !listSelectedId
+            disabled: !selectedId
           })}
           onClick={onDeleteClick}
         >

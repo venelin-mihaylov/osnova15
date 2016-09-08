@@ -4,7 +4,7 @@ import {getDisplayName} from 'recompose'
 import _get from 'lodash.get'
 
 export default function HasSelectionHOC({
-  dataProp = 'redux.listRecords',
+  dataProp = 'redux.records',
   idProperty = 'id'
 }) {
 

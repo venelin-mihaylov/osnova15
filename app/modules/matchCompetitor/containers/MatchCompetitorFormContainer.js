@@ -59,8 +59,8 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       {...this.props}
       {...(this.addProps())}
       onClickAddCompetitor={() => {
-        dispatch(this.act(CRUDAct.RESET_FORM, false))
-        dispatch(this.act(CRUDAct.SELECT_CREATED_FK_RECORD, true))
+        this.props.act(CRUDAct.RESET_FORM, false)
+        this.props.act(CRUDAct.SELECT_CREATED_FK_RECORD, true)
         dispatch(push(`${pathname}/create-competitor`))
       }}
     />)

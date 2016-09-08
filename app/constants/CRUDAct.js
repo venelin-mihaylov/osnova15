@@ -1,5 +1,3 @@
-import {toActionObject} from 'utils/Util'
-
 export default class CRUDAct {
 
   static CREATE_REQUESTED = 'CREATE_REQUESTED'
@@ -31,44 +29,12 @@ export default class CRUDAct {
 
   static LIST_SET_SORT = 'LIST_SET_SORT'
 
-  static LIST_SET_FILTERS = 'LIST_SET_FILTERS'
   static LIST_SET_FILTER = 'LIST_SET_FILTER'
-  static LIST_CLEAR_FILTER = 'LIST_CLEAR_FILTER'
 
   static RESET_FORM = 'RESET_FORM'
   static RESET = 'RESET'
 
   static SELECT_CREATED_FK_RECORD = 'SELECT_CREATED_FK_RECORD'
 
-  static create(object) {
-    let ret = {}
-    for (let action in this) {
-      if (typeof action === "string") {
-        let g = `${object.toUpperCase()}_${action}`
-        ret[g] = g
-      }
-    }
-    return ret
-  }
-
-  /**
-   *
-   * @param {string} entity
-   * @param {string} action
-   * @returns {*}
-     */
-  static type(entity, action) {
-    return entity.toUpperCase() + '_' + action
-  }
-
-  static promiseAct = (dispatch, entity) => (actionType, rest) => {
-    return new Promise((resolve, reject) => {
-      const _rest = Object.assign({}, rest, {resolve, reject})
-      const _action = CRUDAct.act(entity)(actionType, _rest)
-      dispatch(_action)
-    })
-  }
-
-  static act = entity => (actionType, rest = {}) => toActionObject(entity, actionType, rest)
 
 }

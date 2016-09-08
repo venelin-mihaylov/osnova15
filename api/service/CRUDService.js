@@ -13,15 +13,29 @@ export default class CRUDService {
   filterRules() {
   }
 
+  sortRules() {
+
+  }
+
   listQuery() {
-    return this.model.query().orderBy('id')
+    return this.model.query()
+  }
+
+  calcOrderBy(sortBy, sortDirection) {
+    if(!sortBy) {
+      return ['id', 'asc'] // base default
+    }
+    return [sortBy, sortDirection]
   }
 
   async list({
+    sortBy,
+    sortDirection,
     filter
   }) {
     let qb = this.listQuery()
     qb = QueryFilter.filter(qb, filter, this.filterRules())
+    qb.orderBy(...this.calcOrderBy(sortBy, sortDirection))
     // TODO: pagination
     return await qb
   }

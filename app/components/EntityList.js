@@ -17,23 +17,23 @@ const EntityList = ({
   toolbarProps = {},
   redux, // eslint-disable-line no-unused-vars
   redux: {
-    listRecords,
-    listSelectedId,
-    listError,
-    listLimit,
+    records,
+    selectedId,
+    globalError,
+    limit,
   }
 }) => (<div>
   <If condition={toolbarShow}>
     <TableToolbar2
-      {...{listSelectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      {...{selectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
       {...toolbarProps}
-      limit={listLimit}
+      limit={limit}
     />
   </If>
-  <GlobalError globalError={listError} />
+  <GlobalError globalError={globalError} />
   <BaseTable
-    rows={listRecords}
-    selectedRowId={listSelectedId}
+    rows={records}
+    selectedRowId={selectedId}
     columns={columns}
     onSelectRow={onSelectRow}
   />

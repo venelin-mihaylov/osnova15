@@ -7,17 +7,19 @@ import {push} from 'react-router-redux'
 @autobind
 export default class OsnovaListContainer extends React.Component {
 
-  static entity = null
-
   static propTypes = {
+    entity: React.PropTypes.string,
+    variation: React.PropTypes.string,
     dispatch: React.PropTypes.func,
-    redux: React.PropTypes.any,
+    redux: React.PropTypes.shape({
+      limit: React.PropTypes.number,
+      offset: React.PropTypes.number,
+      sortBy: React.PropTypes.string,
+      sortDirection: React.PropTypes.string
+    }),
     location: React.PropTypes.any,
-  }
-
-  constructor() {
-    super()
-    this.act = CRUDAct.act(this.constructor.entity)
+    act: React.PropTypes.func,
+    promiseAct: React.PropTypes.func,
   }
 
   componentWillMount() {
@@ -25,7 +27,7 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   onSelectRow({selectedRowId: id, selectedRow: record, rows: records}) {
-    this.props.dispatch(this.act(CRUDAct.LIST_SET_SELECTION, {id, record, records}))
+    this.props.act(CRUDAct.LIST_SET_SELECTION, {id, record, records})
   }
 
   onAddClick() {
@@ -36,7 +38,7 @@ export default class OsnovaListContainer extends React.Component {
     const {
       dispatch,
       redux: {
-        listSelectedId: id,
+        selectedId: id,
         listSelectedRecord: record
       }
     } = this.props
@@ -48,24 +50,21 @@ export default class OsnovaListContainer extends React.Component {
 
   onDeleteClick() {
     const {
-      dispatch,
       redux: {
-        listSelectedId: id,
+        selectedId: id,
         listSelectedRecord: record
       }
     } = this.props
 
     if (id) {
-      const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
-      promiseAct(CRUDAct.DELETE_REQUESTED, {id, record})
-        .then(() => promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams()))
-        .then(() => promiseAct(CRUDAct.LIST_CLEAR_SELECTION))
+      this.props.promiseAct(CRUDAct.DELETE_REQUESTED, {id, record})
+        .then(() => this.props.promiseAct(CRUDAct.LIST_REQUESTED))
+        .then(() => this.props.promiseAct(CRUDAct.LIST_CLEAR_SELECTION))
     }
   }
 
   onRefresh() {
-    const promiseAct = CRUDAct.promiseAct(this.props.dispatch, this.constructor.entity)
-    promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())
+    this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
   baseListParams() {
@@ -73,7 +72,7 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   listServerRecords() {
-    this.props.dispatch(this.act(CRUDAct.LIST_REQUESTED, this.baseListParams()))
+    this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
   nextPath({action, id, record}) {
@@ -82,22 +81,12 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   addProps() {
-    const {
-      dispatch
-    } = this.props
-    const act = this.act
-    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
-    const entity = this.constructor.entity
-
     return {
-      entity,
-      act,
-      promiseAct,
       onAddClick: this.onAddClick,
       onEditClick: this.onEditClick,
       onDeleteClick: this.onDeleteClick,
       onRefresh: this.onRefresh,
-      onLimitChange: (e, limit) => promiseAct(CRUDAct.LIST_SET_LIMIT, {limit}),
+      onLimitChange: (e, limit) => this.props.act(CRUDAct.LIST_SET_LIMIT, limit),
       onSelectRow: this.onSelectRow,
     }
   }

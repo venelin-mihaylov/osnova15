@@ -3,7 +3,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Toolbar from 'material-ui/Toolbar/Toolbar'
 import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup'
 import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle'
-import ListLimitMenu from 'components/ListLimitMenu'
 import FontIcon from 'material-ui/FontIcon'
 
 class TableToolbar extends React.Component {
@@ -26,7 +25,7 @@ class TableToolbar extends React.Component {
     limit: React.PropTypes.number,
     toolbarTitle: React.PropTypes.string,
     appendButtons: React.PropTypes.any,
-    listSelectedId: React.PropTypes.number
+    selectedId: React.PropTypes.number
   }
 
   render() {
@@ -37,7 +36,7 @@ class TableToolbar extends React.Component {
       onDeleteClick,
       limit,
       onLimitChange,
-      listSelectedId,
+      selectedId,
       onRefresh,
       appendButtons = []
     } = this.props
@@ -55,14 +54,14 @@ class TableToolbar extends React.Component {
             label='edit'
             primary
             onClick={onEditClick}
-            disabled={!listSelectedId}
+            disabled={!selectedId}
             icon={<FontIcon className='fa fa-pencil' />}
           />
           <RaisedButton
             label='delete'
             secondary
             onClick={onDeleteClick}
-            disabled={!listSelectedId}
+            disabled={!selectedId}
             icon={<FontIcon className='fa fa-trash' />}
           />
           {appendButtons.length && appendButtons}
@@ -70,7 +69,7 @@ class TableToolbar extends React.Component {
         <ToolbarGroup float='right'>
           <ToolbarTitle text={toolbarTitle} />
           <FontIcon className='fa fa-refresh fa-3x' onClick={onRefresh} style={{marginRight: 20}} />
-          <ListLimitMenu
+          <limitMenu
             onLimitChange={onLimitChange}
             limit={limit}
           />

@@ -1,5 +1,8 @@
 import FKAct from 'constants/FKAct'
 import isObject from 'lodash/isObject'
+import {prefixType} from 'utils/Util'
+import curry from 'lodash/curry'
+
 const stateByField = {
   loading: false,
   globalError: null,
@@ -8,10 +11,9 @@ const stateByField = {
   lastSearchText: null
 }
 
-export default function FKReducer(entity, variation) {
+export default function FKReducer(entity, variation = '1') {
   return function (state = {}, action = {}) {
-    const prefix = (t) => FKAct.prefixType(entity, variation, t)
-
+    const prefix = curry(prefixType)(entity, variation)
     const {name, type, ...act} = action
 
     const curFieldState = isObject(state) && state[name] || stateByField

@@ -3,7 +3,7 @@ import MenuItem from 'material-ui/MenuItem'
 import IconMenu from 'material-ui/IconMenu'
 import FontIcon from 'material-ui/FontIcon'
 
-const ListLimitMenu = props => (
+const limitMenu = props => (
   <IconMenu
     onChange={props.onLimitChange}
     value={props.limit}
@@ -16,9 +16,9 @@ const ListLimitMenu = props => (
   </IconMenu>
 )
 
-ListLimitMenu.propTypes = {
+limitMenu.propTypes = {
   onLimitChange: React.PropTypes.func.isRequired,
   limit: React.PropTypes.number.isRequired
 }
 
-export default ListLimitMenu
+export default limitMenu

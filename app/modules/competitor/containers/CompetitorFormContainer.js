@@ -1,17 +1,20 @@
-"use strict"
-import React from "react"
-import {connect} from "react-redux"
-import {autobind} from "core-decorators"
-import EntityFormWrapper from "components/EntityFormWrapper"
-import CompetitorFormFields from "modules/competitor/components/CompetitorFormFields"
-import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
+import React from 'react'
+import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
+import EntityFormWrapper from 'components/EntityFormWrapper'
+import OsnovaFormContainer from 'components/OsnovaFormContainer'
+import {mapAct, mapCrudStateToProps} from 'utils/Util'
+import CompetitorFormFields from 'modules/competitor/components/CompetitorFormFields'
 
-@connect(state => ({
-  redux: state.competitor
-}))
+const entity = 'competitor'
+const variation = '1'
+
+@connect(mapCrudStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 class CompetitorFormContainer extends OsnovaFormContainer {
-  static entity = 'competitor'
+
+  static entity = entity
+  static variation = variation
 
   render() {
     return (<EntityFormWrapper

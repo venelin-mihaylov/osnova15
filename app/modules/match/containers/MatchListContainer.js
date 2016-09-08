@@ -19,7 +19,7 @@ export default class MatchListContainer extends OsnovaListContainer {
     const {
       dispatch,
       redux: {
-        listSelectedId
+        selectedId
       },
       nav: {
         activeMatchId
@@ -42,7 +42,7 @@ export default class MatchListContainer extends OsnovaListContainer {
           <Button
             className='primary icon labeled'
             key='enterMatch'
-            onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: listSelectedId})}
+            onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: selectedId})}
           >
             <Icon name='download' />
             Enter

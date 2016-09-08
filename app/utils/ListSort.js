@@ -3,12 +3,13 @@ import CRUDAct from 'constants/CRUDAct'
 
 export default class ListSort {
 
-  static sort(entity, fieldName, sortBy, sortDirection) {
-    CRUDAct.act(entity)(CRUDAct.LIST_SORT_REQUESTED)
-    this.setState({
-      sortBy: fieldName,
-      sortDirection: this.nextSortDirection(sortDirection)
+  static sort(act, sortBy, curSortDirection) {
+    const sortDirection = ListSort.nextSortDirection(curSortDirection)
+    act(CRUDAct.LIST_SET_SORT, {
+      sortDirection,
+      sortBy: sortDirection ? sortBy : null,
     })
+    act(CRUDAct.LIST_REQUESTED)
   }
 
   static fieldSortDirection(fieldName, sortBy, sortDirection) {
@@ -43,8 +44,8 @@ export default class ListSort {
     return <span>&nbsp;</span>
   }
 
-  static sortHeader = (entity, sortBy, sortDirection) => (fieldName, header = fieldName) => {
-    const onClick = () => ListSort.sort(entity, fieldName, sortBy, sortDirection)
+  static sortHeader(act, sortBy, sortDirection, fieldName, header = fieldName) {
+    const onClick = () => ListSort.sort(act, fieldName, sortDirection)
     const thumb = ListSort.renderSortThumbnail(fieldName, sortBy, sortDirection)
     return <div onClick={onClick}>{thumb}&nbsp;{header}</div>
   }

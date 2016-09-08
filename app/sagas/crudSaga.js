@@ -5,13 +5,15 @@ import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from 'react-redux-form'
 import {push} from 'react-router-redux'
-import {rrfModel, rrfField, formatServerError} from 'utils/Util'
+import {rrfModel, rrfField, formatServerError, act as _act, prefixType, listStatePath} from 'utils/Util'
 import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
+import curry from 'lodash/curry'
+import pick from 'lodash/pick'
 
-export default function crudSaga(entity, params = {}) {
-  const act = CRUDAct.act(entity)
-  const type = t => CRUDAct.type(entity, t)
+export default function crudSaga(entity, variation = '1', params = {}) {
+  const act = curry(_act)(entity, variation)
+  const type = curry(prefixType)(entity, variation)
   const endpoint = params.endpoint || snakeCase(entity)
 
   function* setValidationErrors(fieldErrors) {
@@ -92,13 +94,18 @@ export default function crudSaga(entity, params = {}) {
     resolve = noop,
     reject = noop
   }) {
-    const listParams = select((state) => ({
-      offset: state[entity].listOffset,
-      limit: state[entity].listLimit,
-      sortBy: state[entity].listSortBy,
-      filter: state[entity].listFilter ? JSON.stringify(state[entity].listFilter) : null,
-      sortDirection: state[entity].listSortDirection,
-    }))
+    const listParams = yield select(state => pick(state[listStatePath(entity, variation)], [
+      'offset',
+      'limit',
+      'sortBy',
+      'sortDirection',
+      'filter'
+    ]))
+
+    if (listParams.filter) {
+      listParams.filter = JSON.stringify(listParams.filter)
+    }
+
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,

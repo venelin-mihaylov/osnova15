@@ -8,24 +8,21 @@ import {rrfModel, calcNextPath} from 'utils/Util'
 
 @autobind
 export default class OsnovaFormContainer extends React.Component {
-  static entity
 
   static propTypes = {
+    entity: React.PropTypes.string,
+    variation: React.PropTypes.string,
     dispatch: React.PropTypes.func,
     redux: React.PropTypes.any,
     route: React.PropTypes.any,
     location: React.PropTypes.any,
     params: React.PropTypes.any,
-  }
-
-  constructor() {
-    super()
-    this.act = CRUDAct.act(this.constructor.entity)
+    act: React.PropTypes.func,
+    promiseAct: React.PropTypes.func,
   }
 
   componentWillMount() {
     const {
-      dispatch,
       redux: {
         resetForm
       },
@@ -42,20 +39,18 @@ export default class OsnovaFormContainer extends React.Component {
       }
     } else {
       // by default resetForm=false is a flash,  reset setting
-      dispatch(this.act(CRUDAct.RESET_FORM, true))
+      this.props.act(CRUDAct.RESET_FORM, true)
     }
   }
 
   onCreate(record) {
-    const {dispatch} = this.props
     const nextPath = this.nextPath({action: 'create'})
-    dispatch(this.act(CRUDAct.CREATE_REQUESTED, {record, nextPath}))
+    this.props.act(CRUDAct.CREATE_REQUESTED, {record, nextPath})
   }
 
   onUpdate(record) {
-    const {dispatch} = this.props
     const nextPath = this.nextPath({action: 'update'})
-    dispatch(this.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath}))
+    this.props.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath})
   }
 
   onCancel() {
@@ -71,35 +66,27 @@ export default class OsnovaFormContainer extends React.Component {
   }
 
   resetForm() {
-    this.props.dispatch(actions.reset(rrfModel(this.constructor.entity)))
+    this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
   }
 
   readServerRecord() {
-    this.props.dispatch(this.act(CRUDAct.READ_REQUESTED, {id: this.props.params.id}))
+    this.props.act(CRUDAct.READ_REQUESTED, {id: this.props.params.id})
   }
 
   addProps() {
     const {
+      entity,
       dispatch,
       route: {
         action
       }
     } = this.props
 
-    const entity = this.constructor.entity
-    const act = this.act
-    const promiseAct = CRUDAct.promiseAct(dispatch, this.constructor.entity)
-
     return {
-      entity,
       action,
-      act,
-      promiseAct,
       onSubmit: (action === 'add' ? this.onCreate : this.onUpdate),
       onReset: () => dispatch(resetFormRecord(entity)),
       onCancel: this.onCancel
     }
   }
-
-
 }

@@ -2,6 +2,8 @@ import React from 'react'
 import {Errors, actions} from 'react-redux-form'
 import CRUDAct from 'constants/CRUDAct'
 import FKAct from 'constants/FKAct'
+import curry from 'lodash/curry'
+import {bindActionCreators} from 'redux'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -59,13 +61,11 @@ export function formatServerError(err) {
     return {
       globalError: err.data.globalError
     }
-
   } else if (err.status === 422) { // validation
     return err.data
-  } else { // default
-    return {
-      globalError: 'General server error'
-    }
+  }
+  return {
+    globalError: 'General server error'
   }
 }
 
@@ -84,7 +84,7 @@ export function ucfirst(string) {
  * @param {string} string
  */
 export function camelCaseToUnderscore(string) {
-  return string.split(/([A-Z])/).reduce((acc, cur) => acc + (cur.toUpperCase() == cur ? '_' + cur.toLowerCase() : cur), '')
+  return string.split(/([A-Z])/).reduce((acc, cur) => acc + (cur.toUpperCase() === cur ? '_' + cur.toLowerCase() : cur), '')
 }
 
 export function log(o) {
@@ -92,12 +92,44 @@ export function log(o) {
   return o
 }
 
-export function toUri() {
+export function toUri(...args) {
   const arr = []
-  for (let i = 0; i < arguments.length; i++) {
-    arr.push(arguments[i])
+  for (let i = 0; i < args.length; i++) {
+    arr.push(args[i])
   }
-  return arr.reduce((acc, cur) => acc + (cur ? '/' + cur : ''), '')
+  return arr.reduce((acc, cur) => acc + (cur ? `/${cur}` : ''), '')
+}
+
+export function prefixType(entity, variation, type) {
+  const e = entity.toUpperCase()
+  const v = variation.toUpperCase()
+  return `${e}_${v}_${type}`
+}
+
+export function act(entity, variation, actionType, rest = {}) {
+  if (Array.isArray(rest)) {
+    return Object.assign({
+      type: prefixType(entity, variation, actionType),
+      value: rest
+    })
+  } else if (typeof rest === 'object') {
+    return Object.assign({
+      type: prefixType(entity, variation, actionType)
+    }, rest)
+  }
+
+  return Object.assign({
+    type: CRUDAct.prefixType(entity, actionType),
+    value: rest
+  })
+}
+
+export function promiseAct(dispatch, entity, variation, actionType, rest = {}) {
+  return new Promise((resolve, reject) => {
+    const rest2 = Object.assign({}, rest, {resolve, reject})
+    const action = act(entity, variation, actionType, rest2)
+    dispatch(action)
+  })
 }
 
 function doSelectCreatedFK({
@@ -128,7 +160,7 @@ function doSelectCreatedFK({
       throw new Error(`Bad relation type: ${relationType}`)
     }
     // reset the foreign key entity store state, to clear the created record
-    dispatch(CRUDAct.act(fkEntity)(CRUDAct.RESET))
+    dispatch(act(fkEntity, null, CRUDAct.RESET))
   })
 }
 
@@ -145,8 +177,8 @@ export function selectCreatedFK({
     entity,
     fkParams
   })
-  dispatch(CRUDAct.act(entity)(CRUDAct.SELECT_CREATED_FK_RECORD, false))
-  dispatch(CRUDAct.act(entity)(CRUDAct.RESET_FORM, true))
+  dispatch(act(entity, CRUDAct.SELECT_CREATED_FK_RECORD, false))
+  dispatch(act(entity, CRUDAct.RESET_FORM, true))
 }
 
 
@@ -159,13 +191,13 @@ export function calcNextPath({
   let matches = null
 
   if (action === 'create' || action === 'update' || action === 'cancel') {
-    if (matches = pathname.match(/(\/match\/\d+\/exercise)\/(\d+)\/(\d+)\/edit$/)) return matches[1]
+    if (matches = pathname.match(/(\/match\/\d+\/exercise)\/(\d+)\/(\d+)\/edit$/)) return matches[1] // eslint-disable-line
 
-    if (matches = pathname.match(/(.*)\/add$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-competitor$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-exercise$/)) return matches[1]
-    if (matches = pathname.match(/(.*)\/create-target$/)) return matches[1]
+    if (matches = pathname.match(/(.*)\/add$/)) return matches[1] // eslint-disable-line
+    if (matches = pathname.match(/(.*)\/(\d+)\/edit$/)) return matches[1] // eslint-disable-line
+    if (matches = pathname.match(/(.*)\/create-competitor$/)) return matches[1] // eslint-disable-line
+    if (matches = pathname.match(/(.*)\/create-exercise$/)) return matches[1] // eslint-disable-line
+    if (matches = pathname.match(/(.*)\/create-target$/)) return matches[1] // eslint-disable-line
   }
 
   if (action === 'add') {
@@ -173,19 +205,18 @@ export function calcNextPath({
   }
 
   if (action === 'edit') {
-    if (matches = pathname.match(/^(\/match\/\d+\/exercise)$/)) {
+    if (matches = pathname.match(/^(\/match\/\d+\/exercise)$/)) { // eslint-disable-line
       return matches[1] + toUri(id, record.exerciseId, 'edit')
     }
 
     return pathname + toUri(id, action)
   }
 
-  console.log('no rule for next path')
-  return pathname
+  throw new Error('no rule for next path')
 }
 
 export function isObject(item) {
-  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null)
 }
 
 export function mergeDeep(target, source) {
@@ -211,20 +242,38 @@ export function toArray(o) {
   return Array.isArray(o) ? o : [o]
 }
 
-export function toActionObject(entity, actionType, rest) {
-  if (Array.isArray(rest)) {
-    return Object.assign({
-      type: CRUDAct.type(entity, actionType),
-      value: rest
-    })
-  } else if (typeof rest === 'object') {
-    return Object.assign({
-      type: CRUDAct.type(entity, actionType)
-    }, rest)
-  }
+export function listStatePath(entity, variation = '1') {
+  return `${entity}List${variation}`
+}
 
-  return Object.assign({
-    type: CRUDAct.type(entity, actionType),
-    value: rest
+export function crudStatePath(entity, variation = '1') {
+  return `${entity}Crud${variation}`
+}
+
+export function mapAct(entity, variation = '1') {
+  return (dispatch) => ({
+    dispatch,
+    act: bindActionCreators(curry(act)(entity, variation), dispatch),
+    promiseAct: curry(promiseAct)(dispatch, entity, variation)
+  })
+}
+
+export function fkStatePath(entity, variation) {
+  return `${entity}Fk${variation}`
+}
+
+export function mapListStateToProps(entity, variation) {
+  return state => ({
+    entity,
+    variation,
+    redux: state[listStatePath(entity, variation)]
+  })
+}
+
+export function mapCrudStateToProps(entity, variation) {
+  return state => ({
+    entity,
+    variation,
+    redux: state[crudStatePath(entity, variation)]
   })
 }
