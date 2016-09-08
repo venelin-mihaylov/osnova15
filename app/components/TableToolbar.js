@@ -4,6 +4,7 @@ import Toolbar from 'material-ui/Toolbar/Toolbar'
 import ToolbarGroup from 'material-ui/Toolbar/ToolbarGroup'
 import ToolbarTitle from 'material-ui/Toolbar/ToolbarTitle'
 import FontIcon from 'material-ui/FontIcon'
+import TablePagination from 'components/TablePagination'
 
 class TableToolbar extends React.Component {
 

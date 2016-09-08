@@ -95,7 +95,7 @@ export default function crudSaga(entity, variation = '1', params = {}) {
     reject = noop
   }) {
     const listParams = yield select(state => pick(state[listStatePath(entity, variation)], [
-      'offset',
+      'page',
       'limit',
       'sortBy',
       'sortDirection',

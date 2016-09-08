@@ -31,6 +31,8 @@ export default class CRUDService {
   async list({
     sortBy,
     sortDirection,
+    page,
+    limit,
     filter
   }) {
     let qb = this.listQuery()

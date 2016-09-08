@@ -19,7 +19,7 @@ export default function listReducer({
     filter: null, // list filters
     sortBy: null, // list sortBy
     sortDirection: null, //
-    offset: 0, // list page
+    page: 1, // list page
     limit: 100 // list limit
   }, action = {}) {
     const {type} = action
@@ -47,9 +47,9 @@ export default function listReducer({
         return Object.assign({}, state, {
           limit: action.value
         })
-      case addPrefix(CRUDAct.LIST_SET_OFFSET):
+      case addPrefix(CRUDAct.LIST_SET_PAGE):
         return Object.assign({}, state, {
-          offset: action.value
+          page: action.value
         })
       case addPrefix(CRUDAct.LIST_SET_SORT):
         return Object.assign({}, state, {

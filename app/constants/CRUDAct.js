@@ -22,7 +22,7 @@ export default class CRUDAct {
 
   static LIST_SET_LIMIT = 'LIST_SET_LIMIT'
 
-  static LIST_SET_OFFSET = 'LIST_SET_OFFSET' // triggers LIST_REQUESTED, which initiates server data retrieval
+  static LIST_SET_PAGE = 'LIST_SET_PAGE' // triggers LIST_REQUESTED, which initiates server data retrieval
 
   static LIST_SET_SELECTION = 'LIST_SET_SELECTION'
   static LIST_CLEAR_SELECTION = 'LIST_CLEAR_SELECTION'

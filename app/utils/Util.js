@@ -119,7 +119,7 @@ export function act(entity, variation, actionType, rest = {}) {
   }
 
   return Object.assign({
-    type: CRUDAct.prefixType(entity, actionType),
+    type: prefixType(entity, variation, actionType),
     value: rest
   })
 }

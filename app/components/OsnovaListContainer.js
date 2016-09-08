@@ -13,7 +13,7 @@ export default class OsnovaListContainer extends React.Component {
     dispatch: React.PropTypes.func,
     redux: React.PropTypes.shape({
       limit: React.PropTypes.number,
-      offset: React.PropTypes.number,
+      page: React.PropTypes.number,
       sortBy: React.PropTypes.string,
       sortDirection: React.PropTypes.string
     }),
@@ -80,11 +80,26 @@ export default class OsnovaListContainer extends React.Component {
     return calcNextPath({pathname, action, id, record})
   }
 
+  onNextPage() {
+    this.props.act(CRUDAct.LIST_SET_PAGE, this.props.redux.page + 1)
+    this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
+  onPrevPage() {
+    const {redux: {page}} = this.props
+    if (page > 1) {
+      this.props.act(CRUDAct.LIST_SET_PAGE, page - 1)
+      this.props.act(CRUDAct.LIST_REQUESTED)
+    }
+  }
+
   addProps() {
     return {
       onAddClick: this.onAddClick,
       onEditClick: this.onEditClick,
       onDeleteClick: this.onDeleteClick,
+      onNextPage: this.onNextPage,
+      onPrevPage: this.onPrevPage,
       onRefresh: this.onRefresh,
       onLimitChange: (e, limit) => this.props.act(CRUDAct.LIST_SET_LIMIT, limit),
       onSelectRow: this.onSelectRow,

@@ -2,7 +2,7 @@ import CRUDAct from '../constants/CRUDAct'
 import {prefixType} from 'utils/Util'
 import curry from 'lodash/curry'
 
-export default function CRUDReducer({
+export default function crudReducer({
   entity,
   variation = '1'
 }) {

@@ -1,5 +1,6 @@
 import React from 'react'
 import TableToolbar from 'components/TableToolbar'
+import TablePagination from 'components/TablePagination'
 import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
@@ -10,6 +11,8 @@ const EntityList = ({
   onEditClick,
   onDeleteClick,
   onLimitChange,
+  onNextPage,
+  onPrevPage,
   onRefresh,
   onSelectRow,
   toolbarShow,
@@ -20,6 +23,7 @@ const EntityList = ({
     records,
     selectedId,
     globalError,
+    page,
     limit,
   }
 }) => (<div>
@@ -37,6 +41,11 @@ const EntityList = ({
     columns={columns}
     onSelectRow={onSelectRow}
   />
+  <TablePagination
+    onNextPage={onNextPage}
+    onPrevPage={onPrevPage}
+    page={page}
+  />
 </div>)
 
 EntityList.propTypes = {
@@ -46,6 +55,8 @@ EntityList.propTypes = {
   onEditClick: React.PropTypes.func,
   onDeleteClick: React.PropTypes.func,
   onLimitChange: React.PropTypes.func,
+  onNextPage: React.PropTypes.func,
+  onPrevPage: React.PropTypes.func,
   onRefresh: React.PropTypes.func,
   onSelectRow: React.PropTypes.func,
   toolbarTitle: React.PropTypes.string.isRequired,

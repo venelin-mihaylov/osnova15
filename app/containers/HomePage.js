@@ -12,8 +12,7 @@
 import React from 'react'
 import BaseTable from 'components/BaseTable'
 import {autobind} from 'core-decorators'
-import ListSort from 'utils/ListSort'
-import curry from 'lodash/curry'
+import TablePagination from 'components/TablePagination'
 
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -27,13 +26,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   }
 
   render() {
-    const {
-      sortBy,
-      sortDirection
-    } = this.state
-
-    const sortHeader = curry(ListSort.sortHeader)('tournament', '1', sortBy, sortDirection)
-
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
       <BaseTable
@@ -43,7 +35,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
           header: {
             label: 'id',
             property: 'id',
-            format: (name) => sortHeader(name),
           },
           cell: {
             property: 'id'
@@ -53,7 +44,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
           width: 800,
           header: {
             label: 'name',
-            format: (name) => sortHeader(name),
             property: 'name'
           },
           cell: {
@@ -64,6 +54,13 @@ export default class HomePage extends React.Component { // eslint-disable-line r
           id: 1,
           name: 'test1'
         }]}
+      />
+      <TablePagination
+        countPages={10}
+        page={1}
+        onSetPage={() => null}
+        onNextPage={() => null}
+        onPrevPage={() => null}
       />
     </div>)
   }
