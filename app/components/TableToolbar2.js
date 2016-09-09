@@ -18,7 +18,7 @@ const TableToolbar2 = ({
   onPrevPage,
   appendButtons = []
 }) => (<Grid style={{marginBottom: 5, marginTop: 5}}>
-  <Grid.Column key={1} width={11}>
+  <Grid.Column key={1} width={8}>
     <Button
       className={classNames({
         positive: true,
@@ -58,7 +58,7 @@ const TableToolbar2 = ({
   <Grid.Column width={2}>
     <div style={{paddingTop: 8}}>{toolbarTitle}</div>
   </Grid.Column>
-  <Grid.Column width={3}>
+  <Grid.Column width={6}>
     <TablePagination {...{page, onNextPage, onPrevPage}} />
     <Button className='basic icon' onClick={onRefresh}>
       <Icon name='repeat' size='large' />

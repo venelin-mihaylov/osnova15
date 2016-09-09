@@ -2,9 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import FKAct from 'constants/FKAct'
-import {Dropdown, Button, Icon} from 'stardust'
+import {Dropdown} from 'stardust'
 import isFunction from 'lodash/isFunction'
-import {act, promiseAct} from 'utils/Util'
+import {fkStatePath, mapActFromProps} from 'utils/Util'
 import curry from 'lodash/curry'
 
 /**
@@ -14,19 +14,22 @@ import curry from 'lodash/curry'
  * {onChange,onBlur} a redux-form event handler is called, which gets the new value and saves it in redux-form
  */
 @connect((state, {
-  FKname,
   entity,
   variation = '1',
   name,
 }) => {
-  const key = FKname || `FK${entity}${variation}`
-  const redux = state[key][name] || {}
+  const redux = state[fkStatePath(entity, variation)][name] || {}
+  if (!redux) {
+    throw new Error(`No state for ${entity}:${variation}`)
+  }
   return {redux}
-})
+}, mapActFromProps)
 @autobind
 export default class FKSelect extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func,
+    act: React.PropTypes.func,
+    promiseAct: React.PropTypes.func,
     redux: React.PropTypes.object,
     name: React.PropTypes.string,
     iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
@@ -107,9 +110,6 @@ export default class FKSelect extends React.Component {
     // if (this.props.reset) {
     // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
     // }
-    this.act = curry(act)(this.props.entity, this.props.variation)
-    this.props.promiseAct = curry(promiseAct)(this.props.entity, this.props.variation)
-
     this.loadServerRecord(this.props.value)
   }
 

@@ -6,10 +6,8 @@ import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps} from 'utils/Util'
 import CRUDAct from 'constants/CRUDAct'
 
-
 const entity = 'matchCompetitor'
 const variation = '1'
-
 @connect(mapListStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 export default class MatchCompetitorListContainer extends OsnovaListContainer {
@@ -23,6 +21,7 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         }
       }
     })
+    super.componentWillMount()
   }
 
   render() {

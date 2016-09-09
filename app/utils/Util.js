@@ -258,6 +258,16 @@ export function mapAct(entity, variation = '1') {
   })
 }
 
+export function mapActFromProps() {
+  return (dispatch, ownProps) => {
+    return {
+      dispatch,
+      act: bindActionCreators(curry(act)(ownProps.entity, ownProps.variation), dispatch),
+      promiseAct: curry(promiseAct)(dispatch, ownProps.entity, ownProps.variation)
+    }
+  }
+}
+
 export function fkStatePath(entity, variation) {
   return `${entity}Fk${variation}`
 }

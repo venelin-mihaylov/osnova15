@@ -7,53 +7,60 @@ import FKSelect from 'components/FKSelect'
 import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
+import {mapAct, mapListStateToProps, act} from 'utils/Util'
 
-@connect(state => ({redux: state.matchExercise}))
+const entity = 'matchExercise'
+const variation = '1'
+@connect(mapListStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 export default class MatchExerciseListContainer extends OsnovaListContainer {
-
-  static entity = 'matchExercise'
-
-  baseListParams() {
-    return {
-      filter: {
+  componentWillMount() {
+    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {
+      value: {
         matchId: {
           operator: '=',
           value: this.props.params.matchId
         }
       }
-    }
+    })
+    super.componentWillMount()
+  }
+
+  onSelectFavouriteExercise(exerciseId) {
+    const {
+      dispatch,
+      promiseAct,
+      params: {
+        matchId
+      }
+    } = this.props
+    const record = {matchId, exerciseId}
+    axios({
+      url: '/api/exercise/misc/createFavouriteExerciseForMatch',
+      method: 'post',
+      data: record
+    }).then(() => promiseAct(CRUDAct.LIST_REQUESTED))
+      .then(() => dispatch(act('exercise', '1')(FKAct.FK_RESET)))
+      .catch(err => console.log(err))
   }
 
   render() {
-    const {dispatch, params: {matchId}} = this.props
-    const addProps = this.addProps()
-    const {promiseAct} = addProps
     return (<EntityList
       toolbarTitle='MatchExercises'
       toolbarProps={{
         appendButtons: [<FKSelect
+          key='addFavouriteExercise'
           entity='exercise'
           variation='1'
           labelField='name'
           hintText='Add exercise'
-          onChange={(exerciseId) => {
-            const record = {matchId, exerciseId}
-            axios({
-              url: '/api/exercise/misc/createFavouriteExerciseForMatch',
-              method: 'post',
-              data: record
-            })
-              .then(() => dispatch(FKAct.act('exercise', '1')(FKAct.FK_RESET)))
-              .then(() => dispatch(promiseAct(CRUDAct.LIST_REQUESTED, this.baseListParams())))
-              .catch(err => console.log(err))
-          }}
+          onChange={this.onSelectFavouriteExercise}
           listParams={{
             filter: {
               favourite: true,
               belongsToMatch: {
                 operator: '=',
-                value: matchId
+                value: this.props.params.matchId
               }
             }
           }}
@@ -88,7 +95,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         }
       }]}
       {...this.props}
-      {...addProps}
+      {...(this.addProps())}
     />)
   }
 }
