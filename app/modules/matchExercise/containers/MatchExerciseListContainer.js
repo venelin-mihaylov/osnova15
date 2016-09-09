@@ -34,13 +34,13 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         matchId
       }
     } = this.props
+    dispatch(act('exercise', '1', FKAct.FK_RESET))
     const record = {matchId, exerciseId}
     axios({
       url: '/api/exercise/misc/createFavouriteExerciseForMatch',
       method: 'post',
       data: record
     }).then(() => promiseAct(CRUDAct.LIST_REQUESTED))
-      .then(() => dispatch(act('exercise', '1')(FKAct.FK_RESET)))
       .catch(err => console.log(err))
   }
 

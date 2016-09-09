@@ -147,6 +147,7 @@ export default class FKSelect extends React.Component {
       name={name}
       search
       selection
+      selectOnBlur={false}
       loading={loading}
       text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
       options={renderList(records)}
