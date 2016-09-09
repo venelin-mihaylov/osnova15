@@ -5,7 +5,7 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps} from 'utils/Util'
 
-const entity = 'tournament'
+const entity = 'competitor'
 const variation = '1'
 
 @connect(mapListStateToProps(entity, variation), mapAct(entity, variation))

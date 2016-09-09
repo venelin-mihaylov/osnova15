@@ -28,40 +28,6 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
-      <BaseTable
-        columns={[{
-          property: 'id',
-          width: 200,
-          header: {
-            label: 'id',
-            property: 'id',
-          },
-          cell: {
-            property: 'id'
-          }
-        }, {
-          property: 'name',
-          width: 800,
-          header: {
-            label: 'name',
-            property: 'name'
-          },
-          cell: {
-            property: 'name'
-          }
-        }]}
-        rows={[{
-          id: 1,
-          name: 'test1'
-        }]}
-      />
-      <TablePagination
-        countPages={10}
-        page={1}
-        onSetPage={() => null}
-        onNextPage={() => null}
-        onPrevPage={() => null}
-      />
     </div>)
   }
 }

@@ -262,11 +262,12 @@ export function fkStatePath(entity, variation) {
   return `${entity}Fk${variation}`
 }
 
-export function mapListStateToProps(entity, variation) {
+export function mapListStateToProps(entity, variation, next = () => {}) {
   return state => ({
     entity,
     variation,
-    redux: state[listStatePath(entity, variation)]
+    redux: state[listStatePath(entity, variation)],
+    ...(next(state))
   })
 }
 

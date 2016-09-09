@@ -5,15 +5,16 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {Button, Icon} from 'stardust'
 import Act from 'constants/Act'
+import {mapAct, mapListStateToProps} from 'utils/Util'
+import curry from 'lodash/curry'
+import ListSort from 'utils/ListSort'
 
-@connect(state => ({
-  redux: state.match,
-  nav: state.nav
-}))
+const entity = 'match'
+const variation = '1'
+
+@connect(mapListStateToProps(entity, variation, s => ({nav: s.nav})), mapAct(entity, variation))
 @autobind
 export default class MatchListContainer extends OsnovaListContainer {
-
-  static entity = 'match'
 
   render() {
     const {
