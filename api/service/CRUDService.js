@@ -35,9 +35,13 @@ export default class CRUDService {
     limit,
     filter
   }) {
+    const offset = limit * (page - 1)
     let qb = this.listQuery()
     qb = QueryFilter.filter(qb, filter, this.filterRules())
-    qb.orderBy(...this.calcOrderBy(sortBy, sortDirection))
+    qb
+      .orderBy(...this.calcOrderBy(sortBy, sortDirection))
+      .offset(offset)
+      .limit(limit)
     // TODO: pagination
     return await qb
   }
