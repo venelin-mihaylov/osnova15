@@ -4,7 +4,8 @@ import curry from 'lodash/curry'
 
 export default function listReducer({
   entity,
-  variation = '1'
+  variation = '1',
+  baseFilter = {}
 }) {
   const addPrefix = curry(prefixType)(entity, variation)
 
@@ -16,7 +17,8 @@ export default function listReducer({
     selectedId: null, // list selection id
     selectedRecord: null, // list selection record
     records: [], // list record
-    filter: null, // list filters
+    baseFilter, // filter applied to all queries
+    filter: {}, // list filters
     sortBy: null, // list sortBy
     sortDirection: null, //
     page: 1, // list page
@@ -59,6 +61,10 @@ export default function listReducer({
       case addPrefix(CRUDAct.LIST_SET_FILTER):
         return Object.assign({}, state, {
           filter: Object.assign({}, state.filter, action.value)
+        })
+      case addPrefix(CRUDAct.LIST_SET_BASE_FILTER):
+        return Object.assign({}, state, {
+          filter: Object.assign({}, state.baseFilter, action.value)
         })
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
         if (state.selectedId === action.id) {

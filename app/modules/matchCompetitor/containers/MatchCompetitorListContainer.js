@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps} from 'utils/Util'
-import curry from 'lodash/curry'
-import ListSort from 'utils/ListSort'
+import CRUDAct from 'constants/CRUDAct'
+
 
 const entity = 'matchCompetitor'
 const variation = '1'
@@ -14,15 +14,15 @@ const variation = '1'
 @autobind
 export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
-  baseListParams() {
-    return {
-      filter: {
+  componentWillMount() {
+    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {
+      value: {
         matchId: {
           operator: '=',
           value: this.props.params.matchId
         }
       }
-    }
+    })
   }
 
   render() {

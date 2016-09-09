@@ -29,6 +29,7 @@ export default class CRUDAct {
 
   static LIST_SET_SORT = 'LIST_SET_SORT'
 
+  static LIST_SET_BASE_FILTER = 'LIST_SET_BASE_FILTER'
   static LIST_SET_FILTER = 'LIST_SET_FILTER'
 
   static RESET_FORM = 'RESET_FORM'

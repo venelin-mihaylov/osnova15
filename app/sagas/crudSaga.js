@@ -11,10 +11,10 @@ import noop from 'lodash/noop'
 import curry from 'lodash/curry'
 import pick from 'lodash/pick'
 
-export default function crudSaga(entity, variation = '1', params = {}) {
+export default function crudSaga(entity, variation = '1', options = {}) {
   const act = curry(_act)(entity, variation)
   const type = curry(prefixType)(entity, variation)
-  const endpoint = params.endpoint || snakeCase(entity)
+  const endpoint = options.endpoint || snakeCase(entity)
 
   function* setValidationErrors(fieldErrors) {
     if (!fieldErrors) {
@@ -94,23 +94,26 @@ export default function crudSaga(entity, variation = '1', params = {}) {
     resolve = noop,
     reject = noop
   }) {
-    const listParams = yield select(state => pick(state[listStatePath(entity, variation)], [
+    const params = yield select(state => pick(state[listStatePath(entity, variation)], [
       'page',
       'limit',
       'sortBy',
       'sortDirection',
+      'baseFilter',
       'filter'
     ]))
 
-    if (listParams.filter) {
-      listParams.filter = JSON.stringify(listParams.filter)
+    const baseFilter = params.baseFilter
+    delete params.baseFilter
+    if (baseFilter || params.filter) {
+      params.filter = JSON.stringify(Object.assign({}, params.filter, baseFilter))
     }
 
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'get',
-        params: listParams
+        params
       })
       const records = response.data
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
