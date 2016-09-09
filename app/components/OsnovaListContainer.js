@@ -93,6 +93,12 @@ export default class OsnovaListContainer extends React.Component {
     }
   }
 
+  onLimitChange(e, limit) {
+    console.log('onLimitChange')
+    this.props.act(CRUDAct.LIST_SET_LIMIT, limit)
+    this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
   addProps() {
     return {
       onAddClick: this.onAddClick,
@@ -101,7 +107,7 @@ export default class OsnovaListContainer extends React.Component {
       onNextPage: this.onNextPage,
       onPrevPage: this.onPrevPage,
       onRefresh: this.onRefresh,
-      onLimitChange: (e, limit) => this.props.act(CRUDAct.LIST_SET_LIMIT, limit),
+      onLimitChange: this.onLimitChange,
       onSelectRow: this.onSelectRow,
     }
   }

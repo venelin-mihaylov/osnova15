@@ -22,7 +22,7 @@ export default class CRUDService {
   }
 
   calcOrderBy(sortBy, sortDirection) {
-    if(!sortBy) {
+    if (!sortBy) {
       return ['id', 'asc'] // base default
     }
     return [sortBy, sortDirection]
@@ -38,11 +38,9 @@ export default class CRUDService {
     const offset = limit * (page - 1)
     let qb = this.listQuery()
     qb = QueryFilter.filter(qb, filter, this.filterRules())
-    qb
-      .orderBy(...this.calcOrderBy(sortBy, sortDirection))
+    qb.orderBy(...this.calcOrderBy(sortBy, sortDirection))
       .offset(offset)
       .limit(limit)
-    // TODO: pagination
     return await qb
   }
 

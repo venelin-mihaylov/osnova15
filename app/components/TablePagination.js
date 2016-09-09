@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TablePagination = ({page, onPrevPage, onNextPage}) => (<div className='ui pagination menu'>
+const TablePagination = ({page, onPrevPage, onNextPage}) => (<div className='ui pagination menu' style={{marginRight: 5, marginLeft: 5}}>
   <a className='icon item' onClick={onPrevPage}>
     <i className='left chevron icon'></i>
   </a>

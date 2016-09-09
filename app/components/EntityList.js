@@ -1,5 +1,4 @@
 import React from 'react'
-import TableToolbar from 'components/TableToolbar'
 import TablePagination from 'components/TablePagination'
 import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
@@ -29,9 +28,20 @@ const EntityList = ({
 }) => (<div>
   <If condition={toolbarShow}>
     <TableToolbar2
-      {...{selectedId, onAddClick, onEditClick, onDeleteClick, onLimitChange, onRefresh, toolbarTitle}}
+      {...{
+        toolbarTitle,
+        selectedId,
+        onAddClick,
+        onEditClick,
+        onDeleteClick,
+        onRefresh,
+        limit,
+        onLimitChange,
+        page,
+        onNextPage,
+        onPrevPage,
+      }}
       {...toolbarProps}
-      limit={limit}
     />
   </If>
   <GlobalError globalError={globalError} />
@@ -40,11 +50,6 @@ const EntityList = ({
     selectedRowId={selectedId}
     columns={columns}
     onSelectRow={onSelectRow}
-  />
-  <TablePagination
-    onNextPage={onNextPage}
-    onPrevPage={onPrevPage}
-    page={page}
   />
 </div>)
 
@@ -55,6 +60,7 @@ EntityList.propTypes = {
   onEditClick: React.PropTypes.func,
   onDeleteClick: React.PropTypes.func,
   onLimitChange: React.PropTypes.func,
+  page: React.PropTypes.number,
   onNextPage: React.PropTypes.func,
   onPrevPage: React.PropTypes.func,
   onRefresh: React.PropTypes.func,

@@ -20,7 +20,7 @@ export default function listReducer({
     sortBy: null, // list sortBy
     sortDirection: null, //
     page: 1, // list page
-    limit: 100 // list limit
+    limit: 2 // list limit
   }, action = {}) {
     const {type} = action
 
