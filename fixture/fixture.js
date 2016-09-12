@@ -88,7 +88,7 @@ const dataSpec = {
     firstName: () => firstNames[randInt(0, firstNames.length - 1)],
     lastName: () => lastNames[randInt(0, lastNames.length - 1)],
     email: (i, r) => r.firstName + '@' + r.lastName + '.com',
-    country: 'Bulgaria',
+    country: 'bg',
     birthDate: new Date()
   }),
   target: generate(count.target, {

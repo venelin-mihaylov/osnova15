@@ -10,9 +10,8 @@
  */
 
 import React from 'react'
-import BaseTable from 'components/BaseTable'
 import {autobind} from 'core-decorators'
-import TablePagination from 'components/TablePagination'
+import {Form, Message, Button} from 'stardust'
 
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -28,6 +27,25 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
+      <Form error>
+        <Form.Input label='Email' placeholder='joe@schmoe.com' />
+        <Message
+          error
+          header='Action Forbidden'
+          content='You can only sign up for an account once with a given e-mail address.'
+        />
+        <Message
+          error
+          header='Action Forbidden'
+          content='You can only sign up for an account once with a given e-mail address.'
+        />
+        <Message
+          error
+          header='Action Forbidden'
+          content='You can only sign up for an account once with a given e-mail address.'
+        />
+        <Button>Submit</Button>
+      </Form>
     </div>)
   }
 }
