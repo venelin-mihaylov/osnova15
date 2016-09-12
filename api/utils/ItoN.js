@@ -7,16 +7,16 @@ import NotFoundException from '../exception/NotFoundException'
 export default class ItoN {
 
   static _rethrowValidationErrors(err, relName, i) {
-    let data = {}
-    for(let f in err.data) {
-      if(!err.data.hasOwnProperty(f)) continue
+    const data = {}
+    for (const f in err.data) {
+      if (!err.data.hasOwnProperty(f)) continue
       data[`${relName}[${i}].${f}`] = err.data[f]
     }
     throw new ValidationError(data)
   }
 
   static _handleException(err, relName, i) {
-    if(err instanceof ValidationError) {
+    if (err instanceof ValidationError) {
       console.log('rethrow')
       ItoN._rethrowValidationErrors(err, relName, i)
     } else {
@@ -30,14 +30,17 @@ export default class ItoN {
     model,
     relName,
     relSpec,
+    builder = null,
     eagerParam = {
-      orderBy: builder => builder.orderBy('id')
+      orderBy: b => b.orderBy('id')
     }
   }) {
     const strEagerParam = Object.keys(eagerParam).join(',')
-    let builder = model.query().findById(id)
+    if (!builder) {
+      builder = model.query().findById(id)
+    }
     const arr = relSpec ? toArray(relSpec).map(s => s.relName) : toArray(relName)
-    let eager = arr.map((rel) => `${rel}(${strEagerParam})`).join(',')
+    const eager = arr.map((rel) => `${rel}(${strEagerParam})`).join(',')
     return builder.eager(`[${eager}]`, eagerParam)
   }
 
@@ -45,15 +48,15 @@ export default class ItoN {
     // in input, not in db -> insert
     // in input, in db -> update
     // not in input, in db -> delete
-    let op = {
+    const op = {
       insert: [],
       update: [],
       del: []
     }
 
-    let keep = []
+    const keep = []
     inRows.forEach(inRow => {
-      const dbRow = dbRows.find(dbRow => dbRow.id == inRow.id)
+      const dbRow = dbRows.find(r => r.id === inRow.id)
       if (dbRow) {
         // in input, in db -> update
         keep.push(dbRow.id)
@@ -117,7 +120,7 @@ export default class ItoN {
       relSpec
     })
 
-    for(let i = 0; i < arrRelSpec.length; i++) {
+    for (let i = 0; i < arrRelSpec.length; i++) {
       const {
         relModel,
         relName,

@@ -4,6 +4,7 @@ import CRUDAct from 'constants/CRUDAct'
 import FKAct from 'constants/FKAct'
 import curry from 'lodash/curry'
 import {bindActionCreators} from 'redux'
+import get from 'lodash/get'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -292,4 +293,16 @@ export function mapCrudStateToProps(entity, variation, next = () => {}) {
     redux: state[crudStatePath(entity, variation)],
     ...(next(state))
   })
+}
+
+export function formatEnum(schema, field) {
+  const en = get(schema, ['properties', field, 'enumProps'])
+  if (!en) {
+    return null
+  }
+  return (v) => en[v]
+}
+
+export function formatBool(v) {
+  return v ? 'Yes' : 'No'
 }

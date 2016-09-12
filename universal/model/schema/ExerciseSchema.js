@@ -8,7 +8,7 @@ const ExerciseSchema = {
     minShots: {type: 'integer', min: 1, max: 99999},
     type: {
       type: ['null', 'integer'],
-      enum: [1,2],
+      enum: [1, 2],
       enumProps: {
         1: 'Individual',
         2: 'Team'

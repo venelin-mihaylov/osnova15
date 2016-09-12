@@ -79,6 +79,14 @@ export default class ExerciseService extends CRUDService {
     return this.model.query().insertWithRelated(input)
   }
 
+  listQuery() {
+    const b = ItoN.findByIdEagerRelation({
+      builder: this.model.query(),
+      ...(this.iToNParams())
+    })
+    console.log(b)
+  }
+
   async update(id, input) {
     await ItoN.updateParentAndRelations({
       id,

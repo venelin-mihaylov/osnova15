@@ -17,7 +17,7 @@ export default function FKReducer(entity, variation = '1') {
     const {name, type, ...act} = action
 
     const curFieldState = isObject(state) && state[name] || stateByField
-    let newFieldState = null
+    let newFieldState
 
     switch (type) {
       case prefix(FKAct.FK_LIST_REQUESTED):

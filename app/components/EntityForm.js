@@ -27,7 +27,7 @@ const EntityForm = ({
 }) => (<div style={{paddingRight: '10px'}}>
   <Saving {...{saving}} />
   <Loading {...{loading}} />
-  <If condition={!loading}> // eslint-disable-line
+  <If condition={!loading}>
     <GlobalError {...{fieldErrors, globalError}} />
     <Form
       className={cx({
