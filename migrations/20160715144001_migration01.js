@@ -12,10 +12,10 @@ exports.up = function(knex, Promise) {
       t.string('firstName').notNullable()
       t.string('lastName').notNullable()
       t.string('nickName')
-      t.date('birthDate').notNullable()
+      t.date('birthDate')
       t.string('email').notNullable()
       t.string('phone')
-      t.string('country').notNullable()
+      t.string('country')
       t.string('club')
     }),
     knex.schema.createTable('tournament', function(t) {

@@ -107,6 +107,7 @@
     "lodash.isequal": "^4.2.0",
     "lodash.isstring": "^4.0.1",
     "lodash.range": "^3.1.5",
+    "log4js": "^0.6.38",
     "material-ui": "^0.15.4",
     "moment": "^2.14.1",
     "morgan": "^1.7.0",

@@ -4,26 +4,26 @@ import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
 import ExerciseFormFields from 'modules/exercise/components/ExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
-import {selectCreatedFK} from 'utils/Util'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
+import {mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath} from 'utils/Util'
 
-@connect(state => ({
-  redux: state.exercise,
-  model: state.exerciseModel,
-  fkRecord: state.target.savedRecord
-}))
+const entity = 'exercise'
+const variation = '1'
+
+@connect(mapCrudStateToProps(entity, variation, state => ({
+  fkRecord: state[crudStatePath('target')].savedRecord,
+  model: state.targetModel
+})), mapAct(entity, variation))
 @autobind
 class ExerciseFormContainer extends OsnovaFormContainer {
-  static entity = 'exercise'
-
-
   componentWillMount() {
     super.componentWillMount()
 
     selectCreatedFK({
       dispatch: this.props.dispatch,
-      entity: this.constructor.entity,
+      entity: this.props.entity,
+      variation: this.props.variation,
       select: this.props.redux.selectCreatedFK,
       fkParams: [{
         fkEntity: 'target',

@@ -39,7 +39,7 @@ export default class OsnovaListContainer extends React.Component {
       dispatch,
       redux: {
         selectedId: id,
-        listSelectedRecord: record
+        selectedRecord: record
       }
     } = this.props
 
@@ -52,7 +52,7 @@ export default class OsnovaListContainer extends React.Component {
     const {
       redux: {
         selectedId: id,
-        listSelectedRecord: record
+        selectedRecord: record
       }
     } = this.props
 

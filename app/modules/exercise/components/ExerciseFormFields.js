@@ -68,7 +68,7 @@ export const ExerciseFormFields = ({
   </div>)
 }
 
-ExerciseFormFields.PropTypes = {
+ExerciseFormFields.propTypes = {
   dispatch: React.PropTypes.func,
   model: React.PropTypes.string,
   entity: React.PropTypes.string,

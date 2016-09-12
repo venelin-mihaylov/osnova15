@@ -8,8 +8,7 @@ const options = countries.all
   .map(c => ({
     value: c.alpha2.toLowerCase(),
     name: c.name,
-    text: c.name,
-    children: <Flag name={c.alpha2.toLowerCase()} style={{marginLeft: 5}} />
+    text: c.name
   }))
 
 const CountrySelect = (props) => (<OsnovaDropdown

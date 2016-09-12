@@ -4,27 +4,26 @@ import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
 import MatchCompetitorFormFields from 'modules/matchCompetitor/components/MatchCompetitorFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import {selectCreatedFK} from 'utils/Util'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
+import {mapAct, mapCrudStateToProps, crudStatePath, selectCreatedFK} from 'utils/Util'
 
-@connect(state => ({
-  redux: state.matchCompetitor,
-  model: state.matchCompetitorModel,
-  form: state.matchCompetitorForm,
-  fkRecord: state.competitor.savedRecord
-}))
+const entity = 'matchCompetitor'
+const variation = '1'
+
+@connect(mapCrudStateToProps(entity, variation, state => ({
+  fkRecord: state[crudStatePath('competitor')].savedRecord
+})), mapAct(entity, variation))
 @autobind
 class MatchCompetitorFormContainer extends OsnovaFormContainer {
-
-  static entity = 'matchCompetitor'
 
   componentWillMount() {
     super.componentWillMount()
 
     selectCreatedFK({
       dispatch: this.props.dispatch,
-      entity: this.constructor.entity,
+      entity: this.props.entity,
+      variation: this.props.variation,
       select: this.props.redux.selectCreatedFK,
       fkParams: [{
         fkEntity: 'competitor',

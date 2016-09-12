@@ -42,6 +42,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       } else {
         yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
       }
+      console.log(err)
+      console.log(err.stack)
       yield call(reject, err)
     }
   }
@@ -60,6 +62,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       } else {
         yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
       }
+      console.log(err)
+      console.log(err.stack)
       yield call(reject, err)
     }
   }
@@ -86,6 +90,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
         const {fieldErrors} = err2
         yield setValidationErrors(fieldErrors)
       }
+      console.log(err)
+      console.log(err.stack)
       yield call(reject, err)
     }
   }
@@ -124,6 +130,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       } else {
         yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
       }
+      console.log(err)
+      console.log(err.stack)
       yield call(reject, err)
     }
   }
@@ -150,6 +158,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
         const {fieldErrors} = err2
         yield setValidationErrors(fieldErrors)
       }
+      console.log(err)
+      console.log(err.stack)
       yield call(reject, err)
     }
   }

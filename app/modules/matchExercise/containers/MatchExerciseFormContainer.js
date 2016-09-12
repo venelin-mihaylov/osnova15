@@ -4,26 +4,26 @@ import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
 import MatchExerciseFormFields from 'modules/matchExercise/components/MatchExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import {selectCreatedFK} from 'utils/Util'
 import {push} from 'react-router-redux'
 import CRUDAct from 'constants/CRUDAct'
+import {mapAct, mapCrudStateToProps, crudStatePath, selectCreatedFK} from 'utils/Util'
 
-@connect(state => ({
-  redux: state.matchExercise,
-  model: state.matchExerciseModel,
-  fkRecord: state.exercise.savedRecord
-}))
+const entity = 'matchExercise'
+const variation = '1'
+
+@connect(mapCrudStateToProps(entity, variation, state => ({
+  fkRecord: state[crudStatePath('exercise')].savedRecord
+})), mapAct(entity, variation))
 @autobind
 class MatchExerciseFormContainer extends OsnovaFormContainer {
-
-  static entity = 'matchExercise'
 
   componentWillMount() {
     super.componentWillMount()
 
     selectCreatedFK({
       dispatch: this.props.dispatch,
-      entity: this.constructor.entity,
+      entity: this.props.entity,
+      variation: this.props.variation,
       select: this.props.redux.selectCreatedFK,
       fkParams: [{
         fkEntity: 'exercise',

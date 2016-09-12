@@ -67,6 +67,7 @@ export default class OsnovaFormContainer extends React.Component {
 
   resetForm() {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
+    // this.props.act(CRUDAct.RESET, true)
   }
 
   readServerRecord() {

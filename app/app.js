@@ -54,6 +54,11 @@ require('react-datepicker/dist/react-datepicker.css')
 // required for material-ui to work
 injectTapEventPlugin()
 
+// do not swallow exceptions
+process.on('unhandledRejection', function (error) {
+  console.error('UNHANDLED REJECTION', error.stack)
+})
+
 ReactDOM.render(
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>

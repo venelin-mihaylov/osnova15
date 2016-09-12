@@ -1,6 +1,6 @@
 const CompetitorSchema = {
   type: 'object',
-  required: ['firstName', 'lastName', 'email', 'birthDate', 'country'],
+  required: ['firstName', 'lastName', 'email'],
   properties: {
     id: {type: 'integer'},
     globalId: {type: 'string', maxLength: 255},

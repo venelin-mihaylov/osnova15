@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import MatchCompetitorSchema from "./schema/MatchCompetitorSchema"
+import MatchCompetitorSchema from './schema/MatchCompetitorSchema'
 import MatchCompetitorRelations from './relations/MatchCompetitorRelations'
 import {toObjectionRelations} from './util/util'
 

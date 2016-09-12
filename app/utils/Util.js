@@ -107,6 +107,9 @@ export function prefixType(entity, variation, type) {
 }
 
 export function act(entity, variation, actionType, rest = {}) {
+  console.log('act')
+  console.log(actionType)
+  console.log(rest)
   if (Array.isArray(rest)) {
     return Object.assign({
       type: prefixType(entity, variation, actionType),
@@ -149,10 +152,10 @@ function doSelectCreatedFK({
 
     if (relationType === 'belongsToOne') {
       dispatch(actions.change(rrfField(entity, fkFieldName), fkRecord.id))
-      dispatch(FKAct.act(fkEntity, fkVariation)(FKAct.FK_PRELOAD_RECORD, {
-        name: fkFieldName,
-        record: fkRecord
-      }))
+      // dispatch(act(fkEntity, fkVariation, FKAct.FK_PRELOAD_RECORD, {
+      //   name: fkFieldName,
+      //   record: fkRecord
+      // }))
     } else if (relationType === 'hasMany') {
       const r = {[fkFieldName]: fkRecord.id}
       dispatch(actions.push(rrfField(entity, relationName), r))
@@ -160,13 +163,14 @@ function doSelectCreatedFK({
       throw new Error(`Bad relation type: ${relationType}`)
     }
     // reset the foreign key entity store state, to clear the created record
-    dispatch(act(fkEntity, null, CRUDAct.RESET))
+    dispatch(act(fkEntity, fkVariation, CRUDAct.RESET))
   })
 }
 
 export function selectCreatedFK({
   dispatch,
   entity,
+  variation,
   select,
   fkParams
 
@@ -177,8 +181,8 @@ export function selectCreatedFK({
     entity,
     fkParams
   })
-  dispatch(act(entity, CRUDAct.SELECT_CREATED_FK_RECORD, false))
-  dispatch(act(entity, CRUDAct.RESET_FORM, true))
+  dispatch(act(entity, variation, CRUDAct.SELECT_CREATED_FK_RECORD, false))
+  dispatch(act(entity, variation, CRUDAct.RESET_FORM, true))
 }
 
 
@@ -281,10 +285,11 @@ export function mapListStateToProps(entity, variation, next = () => {}) {
   })
 }
 
-export function mapCrudStateToProps(entity, variation) {
+export function mapCrudStateToProps(entity, variation, next = () => {}) {
   return state => ({
     entity,
     variation,
-    redux: state[crudStatePath(entity, variation)]
+    redux: state[crudStatePath(entity, variation)],
+    ...(next(state))
   })
 }

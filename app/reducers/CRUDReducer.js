@@ -102,6 +102,10 @@ export default function crudReducer({
           globalError: action.globalError || 'Error occurred',
           deleteId: action.id
         })
+      case addPrefix(CRUDAct.RESET_FORM):
+        return Object.assign({}, state, {
+          resetForm: action.value,
+        })
       case addPrefix(CRUDAct.RESET):
         return Object.assign({}, state, {
           saving: false,
@@ -110,6 +114,10 @@ export default function crudReducer({
           globalError: false,
           fieldErrors: false,
           selectCreatedFK: false
+        })
+      case addPrefix(CRUDAct.SELECT_CREATED_FK_RECORD):
+        return Object.assign({}, state, {
+          selectCreatedFK: action.value
         })
       default:
         return state
