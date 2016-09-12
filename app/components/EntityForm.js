@@ -5,6 +5,7 @@ import DefaultFormButtons from 'components/DefaultFormButtons'
 import Loading from 'components/Loading'
 import GlobalError from 'components/GlobalError'
 import Saving from 'components/Saving'
+import cx from 'classnames'
 
 const EntityForm = ({
   dispatch,
@@ -23,17 +24,35 @@ const EntityForm = ({
   model,
   FormFieldsComponent,
   ...rest,
-}) => (
-  <div style={{paddingRight: '10px'}}>
-    <Saving {...{saving}} />
-    <Loading {...{loading}} />
-    <If condition={!loading}>
-      <GlobalError {...{fieldErrors, globalError}} />
-      <Form className='ui form' {...{onSubmit}} model={rrfModel(entity)}>
-        <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
-        <DefaultFormButtons {...{onReset, onCancel, saving, loading}} />
-      </Form>
-    </If>
-  </div>
-)
+}) => (<div style={{paddingRight: '10px'}}>
+  <Saving {...{saving}} />
+  <Loading {...{loading}} />
+  <If condition={!loading}> // eslint-disable-line
+    <GlobalError {...{fieldErrors, globalError}} />
+    <Form
+      className={cx({
+        ui: true,
+        form: true,
+        error: false
+      })}
+      model={rrfModel(entity)}
+      {...{onSubmit}}
+    >
+      <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
+      <DefaultFormButtons {...{onReset, onCancel, saving, loading}} />
+    </Form>
+  </If>
+</div>)
+
+EntityForm.propTypes = {
+  dispatch: React.PropTypes.func,
+  onSubmit: React.PropTypes.func,
+  onReset: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
+  entity: React.PropTypes.string,
+  redux: React.PropTypes.shape,
+  model: React.PropTypes.object,
+  FormFieldsComponent: React.PropTypes.element
+}
+
 export default EntityForm
