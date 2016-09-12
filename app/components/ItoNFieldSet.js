@@ -36,5 +36,4 @@ export default class ItoNFieldSet extends React.Component {
       </fieldset>
     </If>
   }
-
 }

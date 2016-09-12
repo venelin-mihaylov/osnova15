@@ -41,6 +41,7 @@ export default function FKReducer(entity, variation = '1') {
       case prefix(FKAct.FK_READ_REQUESTED):
         newFieldState = Object.assign({}, curFieldState, {
           loading: true,
+          valueRecord: null,
         })
         break
       case prefix(FKAct.FK_READ_SUCCESS):

@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps} from 'utils/Util'
-import curry from 'lodash/curry'
-import ListSort from 'utils/ListSort'
 
 const entity = 'target'
 const variation = '1'
