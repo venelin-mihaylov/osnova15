@@ -124,9 +124,9 @@ export default class MatchListContainer extends OsnovaListContainer {
         cell: {
           property: 'rangeMaster',
           format: (v, {rowData}) => (<div>
-            <div>rangeMaster: {rowData.rangeMaster || '-'}</div>
-            <div>statMaster: {rowData.statMaster || '-'}</div>
-            <div>matchDirector: {rowData.matchDirector || '-'}</div>
+            <div>rangeMaster: {rowData.rangeMaster || 'N/A'}</div>
+            <div>statMaster: {rowData.statMaster || 'N/A'}</div>
+            <div>matchDirector: {rowData.matchDirector || 'N/A'}</div>
           </div>)
         }
       }, {

@@ -31,6 +31,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         property: 'num',
         header: {
           label: 'num'
+        },
+        props: {
+          width: 50
         }
       }, {
         property: 'competitor',
@@ -39,6 +42,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         },
         cell: {
           format: ({country}) => formatCountry(country)
+        },
+        props: {
+          width: 200
         }
       }, {
         property: 'competitor',
@@ -61,7 +67,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         header: {
           label: 'Squad'
         },
-
+        props: {
+          width: 20
+        }
       }, {
         property: 'gun',
         header: {
@@ -73,7 +81,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         header: {
           label: 'Caliber'
         },
-
+        props: {
+          width: 50
+        }
       }, {
         property: 'team',
         header: {
