@@ -5,6 +5,12 @@ import * as web from 'express-decorators';
 @autobind
 @web.controller('/competitor')
 export default class CompetitorService extends CRUDService {
+
+  sortRules() {
+    return {
+    }
+  }
+
   filterRules() {
     return {
       searchText: (qb, {value}) => {

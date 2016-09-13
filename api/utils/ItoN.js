@@ -29,7 +29,7 @@ export default class ItoN {
     relName,
     relSpec,
     eagerParam = {
-      orderById: b => b.orderBy('id')
+      orderById: b => b.sort('id')
     }
   }) {
     const strEagerParam = Object.keys(eagerParam).join(',')

@@ -11,21 +11,38 @@ export default class CRUDService {
   }
 
   filterRules() {
+    return {}
   }
 
   sortRules() {
+    return {}
+  }
 
+  defaultSort(qb) {
+    return qb.orderBy('id', 'asc')
   }
 
   listQuery() {
     return this.model.query()
   }
 
-  calcOrderBy(sortBy, sortDirection) {
+  sort(qb, sortBy, sortDirection) {
     if (!sortBy) {
-      return ['id', 'asc'] // base default
+      return this.defaultSort(qb)
     }
-    return [sortBy, sortDirection]
+
+    const sortRules = this.sortRules()
+    if (sortRules[sortBy]) {
+      return sortRules[sortBy](qb, sortBy, sortDirection)
+    }
+
+    return qb.sort(sortBy, sortDirection)
+  }
+
+  paginate(qb, page, limit) {
+    const offset = limit * (page - 1)
+    qb.offset(offset).limit(limit)
+    return qb
   }
 
   async list({
@@ -35,12 +52,10 @@ export default class CRUDService {
     limit,
     filter
   }) {
-    const offset = limit * (page - 1)
     let qb = this.listQuery()
     qb = QueryFilter.filter(qb, filter, this.filterRules())
-    qb.orderBy(...this.calcOrderBy(sortBy, sortDirection))
-      .offset(offset)
-      .limit(limit)
+    qb = this.sort(qb, sortBy, sortDirection)
+    qb = this.paginate(qb, page, limit)
     return await qb
   }
 
