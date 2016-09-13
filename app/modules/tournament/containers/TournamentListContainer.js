@@ -4,8 +4,6 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps} from 'utils/Util'
-import curry from 'lodash/curry'
-import ListSort from 'utils/ListSort'
 
 const entity = 'tournament'
 const variation = '1'
@@ -14,16 +12,7 @@ const variation = '1'
 @autobind
 export default class TournamentListContainer extends OsnovaListContainer {
   render() {
-    const {
-      act,
-      redux: {
-        sortBy,
-        sortDirection
-      }
-    } = this.props
-
-    const sortHeader = curry(ListSort.sortHeader)(act, sortBy, sortDirection)
-
+    const sortable = this.curriedSortable()
     return (<EntityList
       toolbarTitle='Tournaments'
       columns={[{
@@ -32,7 +21,7 @@ export default class TournamentListContainer extends OsnovaListContainer {
         header: {
           label: 'id',
           property: 'id',
-          format: (name) => sortHeader(name),
+          transforms: [sortable]
         },
         cell: {
           property: 'id'
@@ -43,7 +32,7 @@ export default class TournamentListContainer extends OsnovaListContainer {
         header: {
           label: 'name',
           property: 'name',
-          format: (name) => sortHeader(name),
+          transforms: [sortable]
         },
         cell: {
           property: 'name'

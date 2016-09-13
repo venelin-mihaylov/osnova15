@@ -14,11 +14,11 @@ export default class CRUDService {
     return {}
   }
 
-  sortRules() {
+  orderByRules() {
     return {}
   }
 
-  defaultSort(qb) {
+  defaultOrderBy(qb) {
     return qb.orderBy('id', 'asc')
   }
 
@@ -26,17 +26,17 @@ export default class CRUDService {
     return this.model.query()
   }
 
-  sort(qb, sortBy, sortDirection) {
-    if (!sortBy) {
-      return this.defaultSort(qb)
+  orderBy(qb, orderBy, orderDirection) {
+    if (!orderBy) {
+      return this.defaultOrderBy(qb)
     }
 
-    const sortRules = this.sortRules()
-    if (sortRules[sortBy]) {
-      return sortRules[sortBy](qb, sortBy, sortDirection)
+    const rules = this.orderByRules()
+    if (rules[orderBy]) {
+      return rules[orderBy](qb, orderBy, orderDirection)
     }
 
-    return qb.sort(sortBy, sortDirection)
+    return qb.orderBy(orderBy, orderDirection)
   }
 
   paginate(qb, page, limit) {
@@ -46,15 +46,15 @@ export default class CRUDService {
   }
 
   async list({
-    sortBy,
-    sortDirection,
+    orderBy,
+    orderDirection,
     page,
     limit,
     filter
   }) {
     let qb = this.listQuery()
     qb = QueryFilter.filter(qb, filter, this.filterRules())
-    qb = this.sort(qb, sortBy, sortDirection)
+    qb = this.orderBy(qb, orderBy, orderDirection)
     qb = this.paginate(qb, page, limit)
     return await qb
   }

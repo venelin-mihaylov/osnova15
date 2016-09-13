@@ -13,12 +13,14 @@ const variation = '1'
 @autobind
 export default class CompetitorListContainer extends OsnovaListContainer {
   render() {
+    const sortable = this.curriedSortable()
     return (<EntityList
       toolbarTitle='Competitors'
       columns={[{
         property: 'country',
         header: {
-          label: 'Country'
+          label: 'Country',
+          transforms: [sortable]
         },
         cell: {
           format: formatCountry
@@ -36,7 +38,8 @@ export default class CompetitorListContainer extends OsnovaListContainer {
       }, {
         property: 'email',
         header: {
-          label: 'email'
+          label: 'email',
+          transforms: [sortable]
         },
       }, {
         property: 'phone',

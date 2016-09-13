@@ -3,6 +3,8 @@ import {autobind} from 'core-decorators'
 import CRUDAct from 'constants/CRUDAct'
 import {calcNextPath} from 'utils/Util'
 import {push} from 'react-router-redux'
+import ListSort from 'utils/ListSort'
+import curry from 'lodash/curry'
 
 @autobind
 export default class OsnovaListContainer extends React.Component {
@@ -14,8 +16,8 @@ export default class OsnovaListContainer extends React.Component {
     redux: React.PropTypes.shape({
       limit: React.PropTypes.number,
       page: React.PropTypes.number,
-      sortBy: React.PropTypes.string,
-      sortDirection: React.PropTypes.string
+      orderBy: React.PropTypes.string,
+      orderDirection: React.PropTypes.string
     }),
     location: React.PropTypes.any,
     act: React.PropTypes.func,
@@ -33,6 +35,8 @@ export default class OsnovaListContainer extends React.Component {
   onAddClick() {
     this.props.dispatch(push(this.nextPath({action: 'add'})))
   }
+
+
 
   onEditClick() {
     const {
@@ -94,9 +98,20 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   onLimitChange(e, limit) {
-    console.log('onLimitChange')
     this.props.act(CRUDAct.LIST_SET_LIMIT, limit)
     this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
+  curriedSortable() {
+    const {
+      act,
+      redux: {
+        orderBy,
+        orderDirection
+      }
+    } = this.props
+
+    return curry(ListSort.sortable)(act, orderBy, orderDirection)
   }
 
   addProps() {

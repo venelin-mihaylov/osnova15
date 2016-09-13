@@ -6,8 +6,9 @@ import * as web from 'express-decorators';
 @web.controller('/competitor')
 export default class CompetitorService extends CRUDService {
 
-  sortRules() {
+  orderByRules() {
     return {
+
     }
   }
 

@@ -19,8 +19,8 @@ export default class HomePage extends React.Component { // eslint-disable-line r
   constructor() {
     super()
     this.state = {
-      sortBy: null,
-      sortDirection: null
+      orderBy: null,
+      orderDirection: null
     }
   }
 

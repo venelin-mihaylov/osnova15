@@ -32,8 +32,8 @@ export default class BaseTable extends React.Component {
   constructor() {
     super()
     this.setState({
-      sortBy: 'id',
-      sortDirection: 'asc'
+      orderBy: 'id',
+      orderDirection: 'asc'
     })
   }
 
@@ -69,10 +69,10 @@ export default class BaseTable extends React.Component {
     })
   }
 
-  sort(sortBy, sortDirection) {
+  sort(orderBy, orderDirection) {
     this.setState({
-      sortBy,
-      sortDirection
+      orderBy,
+      orderDirection
     })
   }
 

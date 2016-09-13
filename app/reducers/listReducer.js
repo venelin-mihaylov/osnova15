@@ -19,8 +19,8 @@ export default function listReducer({
     records: [], // list record
     baseFilter, // filter applied to all queries
     filter: {}, // list filters
-    sortBy: null, // list sortBy
-    sortDirection: null, //
+    orderBy: null, // list orderBy
+    orderDirection: null, //
     page: 1, // list page
     limit: 100 // list limit
   }, action = {}) {
@@ -55,8 +55,8 @@ export default function listReducer({
         })
       case addPrefix(CRUDAct.LIST_SET_SORT):
         return Object.assign({}, state, {
-          sortBy: action.sortBy,
-          sortDirection: action.sortDirection
+          orderBy: action.orderBy,
+          orderDirection: action.orderDirection
         })
       case addPrefix(CRUDAct.LIST_SET_FILTER):
         return Object.assign({}, state, {
