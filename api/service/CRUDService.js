@@ -22,7 +22,7 @@ export default class CRUDService {
     return qb.orderBy('id', 'asc')
   }
 
-  listQuery() {
+  listQuery(variation) { // eslint-disable-line
     return this.model.query()
   }
 
@@ -46,13 +46,14 @@ export default class CRUDService {
   }
 
   async list({
+    variation,
     orderBy,
     orderDirection,
     page,
     limit,
     filter
   }) {
-    let qb = this.listQuery()
+    let qb = this.listQuery(variation)
     qb = QueryFilter.filter(qb, filter, this.filterRules())
     qb = this.orderBy(qb, orderBy, orderDirection)
     qb = this.paginate(qb, page, limit)
