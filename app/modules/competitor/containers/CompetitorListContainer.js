@@ -28,12 +28,14 @@ export default class CompetitorListContainer extends OsnovaListContainer {
       }, {
         property: 'firstName',
         header: {
-          label: 'firstName'
+          label: 'firstName',
+          transforms: [sortable]
         },
       }, {
         property: 'lastName',
         header: {
-          label: 'lastName'
+          label: 'lastName',
+          transforms: [sortable]
         }
       }, {
         property: 'email',

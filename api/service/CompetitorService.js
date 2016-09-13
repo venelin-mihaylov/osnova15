@@ -8,7 +8,12 @@ export default class CompetitorService extends CRUDService {
 
   orderByRules() {
     return {
-
+      firstName: (qb, orderBy, orderDirection) => qb
+        .orderBy('lastName', orderDirection)
+        .orderBy('firstName', orderDirection),
+      lastName: (qb, orderBy, orderDirection) => qb
+        .orderBy('lastName', orderDirection)
+        .orderBy('firstName', orderDirection),
     }
   }
 
