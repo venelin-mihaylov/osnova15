@@ -127,6 +127,7 @@ export default class OsnovaListContainer extends React.Component {
       'onEditClick',
       'onDeleteClick',
       'onNextPage',
+      'onPrevPage',
       'onRefresh',
       'onLimitChange',
       'onSelectRow'

@@ -4,31 +4,6 @@ import ItoN from '../utils/ItoN'
 
 @autobind
 export default class ExerciseService extends CRUDService {
-
-  ItoNRelation = 'exercise_target'
-
-  async createFavouriteExerciseForMatch(input) {
-    const exercise = await this.model.query().findById(input.exerciseId).eager('exercise_target')
-    if (!exercise) {
-      throw new Error('bad input')
-    }
-
-    const json = exercise.toJSON()
-    delete json.id
-    json.favourite = false
-    for (let i = 0; i < json.exercise_target.length; i++) {
-      delete json.exercise_target[i].id
-    }
-    json.match_exercise = [{
-      matchId: input.matchId,
-    }]
-
-    return await this.model.query()
-      .insertWithRelated(json)
-      .returning('*')
-      .then(result => result.id)
-  }
-
   defaultOrderBy(qb) {
     return qb
       .orderBy('favourite', 'desc')
@@ -74,6 +49,8 @@ export default class ExerciseService extends CRUDService {
     const model = this.model
     const relSpec = [{
       relName: 'exercise_target'
+    }, {
+      relName: 'match_exercise'
     }]
 
     return {
@@ -104,4 +81,27 @@ export default class ExerciseService extends CRUDService {
     // return updated, the easy way
     return this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
   }
+
+  async createFavouriteExerciseForMatch(input) {
+    const exercise = await this.model.query().findById(input.exerciseId).eager('exercise_target')
+    if (!exercise) {
+      throw new Error('bad input')
+    }
+
+    const json = exercise.toJSON()
+    delete json.id
+    json.favourite = false
+    for (let i = 0; i < json.exercise_target.length; i++) {
+      delete json.exercise_target[i].id
+    }
+    json.match_exercise = [{
+      matchId: input.matchId,
+    }]
+
+    return await this.model.query()
+      .insertWithRelated(json)
+      .returning('*')
+      .then(result => result.id)
+  }
+
 }

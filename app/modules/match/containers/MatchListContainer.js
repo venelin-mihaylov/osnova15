@@ -72,6 +72,9 @@ export default class MatchListContainer extends OsnovaListContainer {
         header: {
           label: 'name'
         },
+        props: {
+          width: 200
+        },
       }, {
         property: 'discipline',
         header: {

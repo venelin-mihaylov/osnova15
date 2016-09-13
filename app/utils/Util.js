@@ -211,7 +211,7 @@ export function calcNextPath({
 
   if (action === 'edit') {
     if (matches = pathname.match(/^(\/match\/\d+\/exercise)$/)) { // eslint-disable-line
-      return matches[1] + toUri(id, record.exerciseId, 'edit')
+      return matches[1] + toUri(record.match_exercise[0].id, record.id, 'edit')
     }
 
     return pathname + toUri(id, action)

@@ -55,8 +55,8 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           listParams={{
             filter: {
               favourite: true,
-              belongsToMatch: {
-                operator: 'notIn',
+              matchId: {
+                operator: '<>',
                 value: this.props.params.matchId
               }
             }
