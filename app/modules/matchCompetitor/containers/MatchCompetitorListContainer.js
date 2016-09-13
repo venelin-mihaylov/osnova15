@@ -12,16 +12,13 @@ const variation = '1'
 @autobind
 export default class MatchCompetitorListContainer extends OsnovaListContainer {
 
-  componentWillMount() {
-    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {
-      value: {
-        matchId: {
-          operator: '=',
-          value: this.props.params.matchId
-        }
+  baseFilter() {
+    return {
+      matchId: {
+        operator: '=',
+        value: this.props.params.matchId
       }
-    })
-    super.componentWillMount()
+    }
   }
 
   render() {

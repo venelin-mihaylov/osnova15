@@ -5,6 +5,7 @@ import {calcNextPath} from 'utils/Util'
 import {push} from 'react-router-redux'
 import ListSort from 'utils/ListSort'
 import curry from 'lodash/curry'
+import pick from 'lodash/pick'
 
 @autobind
 export default class OsnovaListContainer extends React.Component {
@@ -25,6 +26,7 @@ export default class OsnovaListContainer extends React.Component {
   }
 
   componentWillMount() {
+    this.applyBaseFilter()
     this.listServerRecords()
   }
 
@@ -35,8 +37,6 @@ export default class OsnovaListContainer extends React.Component {
   onAddClick() {
     this.props.dispatch(push(this.nextPath({action: 'add'})))
   }
-
-
 
   onEditClick() {
     const {
@@ -71,19 +71,6 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
-  baseListParams() {
-    return {}
-  }
-
-  listServerRecords() {
-    this.props.act(CRUDAct.LIST_REQUESTED)
-  }
-
-  nextPath({action, id, record}) {
-    const {location: {pathname}} = this.props
-    return calcNextPath({pathname, action, id, record})
-  }
-
   onNextPage() {
     this.props.act(CRUDAct.LIST_SET_PAGE, this.props.redux.page + 1)
     this.props.act(CRUDAct.LIST_REQUESTED)
@@ -102,6 +89,15 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
+  nextPath({action, id, record}) {
+    const {location: {pathname}} = this.props
+    return calcNextPath({pathname, action, id, record})
+  }
+
+  listServerRecords() {
+    this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
   curriedSortable() {
     const {
       act,
@@ -114,16 +110,26 @@ export default class OsnovaListContainer extends React.Component {
     return curry(ListSort.sortable)(act, orderBy, orderDirection)
   }
 
-  addProps() {
-    return {
-      onAddClick: this.onAddClick,
-      onEditClick: this.onEditClick,
-      onDeleteClick: this.onDeleteClick,
-      onNextPage: this.onNextPage,
-      onPrevPage: this.onPrevPage,
-      onRefresh: this.onRefresh,
-      onLimitChange: this.onLimitChange,
-      onSelectRow: this.onSelectRow,
+  baseFilter() {
+    return {}
+  }
+
+  applyBaseFilter() {
+    const filter = this.baseFilter()
+    if (filter) {
+      this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {value: filter})
     }
+  }
+
+  addProps() {
+    return pick(this, [
+      'onAddClick',
+      'onEditClick',
+      'onDeleteClick',
+      'onNextPage',
+      'onRefresh',
+      'onLimitChange',
+      'onSelectRow'
+    ])
   }
 }

@@ -45,14 +45,20 @@ export default class ExerciseService extends CRUDService {
           this.where('name', 'ilike', `%${v}%`)
         })
       },
-      belongsToMatch: (qb, {value, params}) => qb.andWhere(function () {
-        this.whereNotIn('id', function () {
-          this.select('exerciseId')
-            .from('match_exercise')
-            .where('matchId', '=', value)
-        })
-        if (params && params.curId) {
-          this.orWhere('id', '=', params.curId)
+      matchId: (qb, {value, operator}) => qb.andWhere(function () {
+        if (operator === '=') {
+          this.whereIn('id', function () {
+            this.select('exerciseId')
+              .from('match_exercise')
+              .where('matchId', '=', value)
+          })
+        }
+        if (operator === '<>') {
+          this.whereNotIn('id', function () {
+            this.select('exerciseId')
+              .from('match_exercise')
+              .where('matchId', '=', value)
+          })
         }
       }),
     }

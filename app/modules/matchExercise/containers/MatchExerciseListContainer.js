@@ -9,21 +9,18 @@ import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
 import {mapAct, mapListStateToProps, act} from 'utils/Util'
 
-const entity = 'matchExercise'
+const entity = 'exercise'
 const variation = '1'
 @connect(mapListStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 export default class MatchExerciseListContainer extends OsnovaListContainer {
-  componentWillMount() {
-    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {
-      value: {
-        matchId: {
-          operator: '=',
-          value: this.props.params.matchId
-        }
+  baseFilter() {
+    return {
+      matchId: {
+        operator: '=',
+        value: this.props.params.matchId
       }
-    })
-    super.componentWillMount()
+    }
   }
 
   onSelectFavouriteExercise(exerciseId) {
@@ -46,7 +43,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
 
   render() {
     return (<EntityList
-      toolbarTitle='MatchExercises'
+      toolbarTitle='Match Exercises'
       toolbarProps={{
         appendButtons: [<FKSelect
           key='addFavouriteExercise'
@@ -59,7 +56,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
             filter: {
               favourite: true,
               belongsToMatch: {
-                operator: '=',
+                operator: 'notIn',
                 value: this.props.params.matchId
               }
             }
@@ -80,7 +77,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           property: 'id'
         }
       }, {
-        property: 'exercise',
+        property: 'name',
         header: {
           label: 'Exercise',
           props: {
@@ -88,10 +85,6 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
               width: 'calc(100% - 200px)'
             }
           }
-        },
-        cell: {
-          property: 'exercise',
-          format: ({name}) => name
         }
       }]}
       {...this.props}
