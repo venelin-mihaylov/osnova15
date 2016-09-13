@@ -9,11 +9,16 @@ export default class MatchService extends CRUDService {
       .findById(id)
   }
 
+  defaultOrderBy(qb) {
+    return qb
+      .orderBy('startDate', 'desc')
+      .orderBy('id', 'asc')
+  }
+
   listQuery() { // eslint-disable-line
     return this.model.query()
       .select('matches.*', 'tournament.name as tournamentId__name')
       .leftJoin('tournament', 'matches.tournamentId', 'tournament.id')
-      .orderBy('id')
   }
 }
 

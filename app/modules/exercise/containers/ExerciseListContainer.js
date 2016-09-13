@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
-import {mapAct, mapListStateToProps, formatEnum, formatBool} from 'utils/Util'
+import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
 import {Icon} from 'stardust'
 
 const entity = 'exercise'
@@ -55,7 +55,7 @@ export default class ExerciseListContainer extends OsnovaListContainer {
           }
         },
         header: {
-          label: 'Min shots'
+          label: '#Shots'
         }
       }, {
         property: 'module',

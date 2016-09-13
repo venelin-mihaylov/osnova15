@@ -29,6 +29,12 @@ export default class ExerciseService extends CRUDService {
       .then(result => result.id)
   }
 
+  defaultOrderBy(qb) {
+    return qb
+      .orderBy('favourite', 'desc')
+      .orderBy('name', 'asc')
+  }
+
   filterRules() {
     return {
       searchText: (qb, {value}) => {
