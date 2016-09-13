@@ -5,6 +5,7 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import {mapAct, mapListStateToProps, formatEnum, formatBool} from 'utils/Util'
+import {Icon} from 'stardust'
 
 const entity = 'exercise'
 const variation = '1'
@@ -17,11 +18,16 @@ export default class ExerciseListContainer extends OsnovaListContainer {
       toolbarTitle='Exercises'
       columns={[{
         property: 'favourite',
+        props: {
+          style: {
+            width: 20
+          }
+        },
         header: {
-          label: 'favourite'
+          label: 'Fav'
         },
         cell: {
-          format: formatBool
+          format: v => v && <Icon name='heart' size='large' />
         }
       }, {
         property: 'name',
@@ -30,24 +36,39 @@ export default class ExerciseListContainer extends OsnovaListContainer {
         }
       }, {
         property: 'type',
+        props: {
+          style: {
+            width: 100
+          }
+        },
         header: {
           label: 'Type'
         },
         cell: {
-          format: formatEnum(ExerciseSchema, 'type')
+          format: formatEnum(ExerciseSchema)
         }
       }, {
         property: 'minShots',
+        props: {
+          style: {
+            width: 20
+          }
+        },
         header: {
           label: 'Min shots'
         }
       }, {
         property: 'module',
+        props: {
+          style: {
+            width: 100
+          }
+        },
         header: {
-          label: 'module'
+          label: 'Module'
         },
         cell: {
-          format: formatEnum(ExerciseSchema, 'module')
+          format: formatEnum(ExerciseSchema)
         }
       }, {
         property: 'exercise_target',
@@ -55,13 +76,11 @@ export default class ExerciseListContainer extends OsnovaListContainer {
           label: 'Targets'
         },
         cell: {
-          format: (v) => {
-            console.log(v)
-            return 'Targets ...'
+          format: (targets) => {
+            if (!targets) return null
+            return targets.map(t => <div>{t.distance} - {t.weight} - {t.score}</div>)
           }
         }
-
-
       }]}
       {...this.props}
       {...(this.addProps())}

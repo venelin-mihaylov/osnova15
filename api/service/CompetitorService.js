@@ -11,7 +11,7 @@ export default class CompetitorService extends CRUDService {
         const v = value.trim()
         if (!v) return qb
 
-        return qb.andWhere(function() {
+        return qb.andWhere(function () {
           this.where('lastName', 'ilike', `%${v}%`).orWhere('firstName', 'ilike', `%${v}%`)
         })
       },

@@ -3,9 +3,8 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import {mapAct, mapListStateToProps} from 'utils/Util'
-import {countries} from 'country-data'
-import {Flag} from 'stardust'
+import {mapAct, mapListStateToProps, formatCountry} from 'utils/Util'
+
 
 const entity = 'competitor'
 const variation = '1'
@@ -17,27 +16,18 @@ export default class CompetitorListContainer extends OsnovaListContainer {
     return (<EntityList
       toolbarTitle='Competitors'
       columns={[{
-        property: 'firstName',
-        header: {
-          label: 'firstName'
-        },
-      }, {
         property: 'country',
         header: {
           label: 'Country'
         },
         cell: {
-          format: (value) => {
-            if (value) {
-              const c = countries[value.toUpperCase()]
-              return (<span>
-                <Flag name={value} />
-                {c && c.name}
-              </span>)
-            }
-            return null
-          }
+          format: formatCountry
         }
+      }, {
+        property: 'firstName',
+        header: {
+          label: 'firstName'
+        },
       }, {
         property: 'lastName',
         header: {

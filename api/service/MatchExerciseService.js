@@ -5,8 +5,7 @@ import {autobind} from 'core-decorators'
 export default class MatchExerciseService extends CRUDService {
 
   read(id) {
-    return this.model.query()
-      .findById(id)
+    return this.model.query().findById(id)
   }
 
   listQuery() {

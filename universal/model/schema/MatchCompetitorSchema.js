@@ -1,6 +1,6 @@
 const MatchCompetitorSchema = {
   type: 'object',
-  required: ['competitorId', 'matchId',  'division', 'caliber', 'gun'],
+  required: ['competitorId', 'matchId', 'division', 'caliber', 'gun'],
   properties: {
     id: {type: 'integer'},
     matchId: {type: 'integer'},

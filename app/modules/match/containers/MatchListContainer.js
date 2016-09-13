@@ -5,9 +5,8 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {Button, Icon} from 'stardust'
 import Act from 'constants/Act'
-import {mapAct, mapListStateToProps} from 'utils/Util'
-import curry from 'lodash/curry'
-import ListSort from 'utils/ListSort'
+import {mapAct, mapListStateToProps, formatDate, formatEnum, formatCountry} from 'utils/Util'
+import MatchSchema from '../../../../universal/model/schema/MatchSchema'
 
 const entity = 'match'
 const variation = '1'
@@ -54,16 +53,90 @@ export default class MatchListContainer extends OsnovaListContainer {
         header: {
           label: 'id'
         },
+        props: {
+          width: 20
+        }
+      }, {
+        property: 'country',
+        header: {
+          label: 'Country'
+        },
+        cell: {
+          format: formatCountry
+        },
+        props: {
+          width: 200
+        },
       }, {
         property: 'name',
         header: {
           label: 'name'
         },
       }, {
+        property: 'discipline',
+        header: {
+          label: 'discipline'
+        },
+        cell: {
+          format: formatEnum(MatchSchema)
+        },
+        props: {
+          width: 200
+        },
+      }, {
+        property: 'type',
+        header: {
+          label: 'type'
+        },
+        cell: {
+          format: formatEnum(MatchSchema)
+        },
+        props: {
+          width: 150
+        },
+      }, {
+        property: 'startDate',
+        header: {
+          label: 'Start date'
+        },
+        cell: {
+          format: formatDate
+        },
+        props: {
+          width: 120
+        },
+      }, {
+        property: 'endDate',
+        header: {
+          label: 'End date'
+        },
+        cell: {
+          format: formatDate
+        },
+        props: {
+          width: 120
+        },
+      }, {
+        property: 'rangeMaster',
+        header: {
+          label: 'Masters'
+        },
+        cell: {
+          property: 'rangeMaster',
+          format: (v, {rowData}) => (<div>
+            <div>rangeMaster: {rowData.rangeMaster || '-'}</div>
+            <div>statMaster: {rowData.statMaster || '-'}</div>
+            <div>matchDirector: {rowData.matchDirector || '-'}</div>
+          </div>)
+        }
+      }, {
         property: 'tournamentId__name',
         header: {
           label: 'Tournament'
-        }
+        },
+        props: {
+          width: 200
+        },
       }]}
       {...this.props}
       {...(this.addProps())}

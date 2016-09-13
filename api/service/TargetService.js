@@ -37,8 +37,14 @@ export default class TargetService extends CRUDService {
     }
   }
 
+  listQuery() {
+    return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
+  }
+
   read(id) {
-    return ItoN.findByIdEagerRelation({id, ...(this.itonParams())})
+    return this.model.query()
+      .findById(id)
+      .eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
   async create(input) {
@@ -57,7 +63,6 @@ export default class TargetService extends CRUDService {
       ...(this.itonParams())
     })
     // return updated, the easy way
-    return ItoN.findByIdEagerRelation({id, ...(this.itonParams())})
+    this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
   }
-
 }

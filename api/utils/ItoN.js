@@ -25,23 +25,19 @@ export default class ItoN {
     }
   }
 
-  static async findByIdEagerRelation({
-    id,
-    model,
+  static eagerRelation({
     relName,
     relSpec,
-    builder = null,
     eagerParam = {
-      orderBy: b => b.orderBy('id')
+      orderById: b => b.orderBy('id')
     }
   }) {
     const strEagerParam = Object.keys(eagerParam).join(',')
-    if (!builder) {
-      builder = model.query().findById(id)
-    }
     const arr = relSpec ? toArray(relSpec).map(s => s.relName) : toArray(relName)
-    const eager = arr.map((rel) => `${rel}(${strEagerParam})`).join(',')
-    return builder.eager(`[${eager}]`, eagerParam)
+    const eag = arr.map((rel) => `${rel}(${strEagerParam})`).join(',')
+    // [relName(relParam=orderById)]
+    const eager = `[${eag}]`
+    return [eager, eagerParam]
   }
 
   static _diff({relModel, dbRows, inRows, fk}) {

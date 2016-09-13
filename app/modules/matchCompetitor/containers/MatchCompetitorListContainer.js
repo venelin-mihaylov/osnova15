@@ -3,7 +3,7 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import {mapAct, mapListStateToProps} from 'utils/Util'
+import {mapAct, mapListStateToProps, formatCountry} from 'utils/Util'
 import CRUDAct from 'constants/CRUDAct'
 
 const entity = 'matchCompetitor'
@@ -28,25 +28,85 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
     return (<EntityList
       toolbarTitle='MatchCompetitors'
       columns={[{
-        property: 'id',
+        property: 'num',
         header: {
-          label: 'id'
+          label: 'num'
         }
       }, {
         property: 'competitor',
         header: {
-          label: 'competitor'
+          label: 'Country'
+        },
+        cell: {
+          format: ({country}) => formatCountry(country)
+        }
+      }, {
+        property: 'competitor',
+        header: {
+          label: 'Name'
         },
         cell: {
           format: ({firstName, lastName}) => `${firstName} ${lastName}`
         }
       }, {
+        property: 'competitor',
+        header: {
+          label: 'email'
+        },
+        cell: {
+          format: ({email}) => `${email}`
+        }
+      }, {
+        property: 'squad',
+        header: {
+          label: 'Squad'
+        },
+
+      }, {
+        property: 'gun',
+        header: {
+          label: 'Gun'
+        },
+
+      }, {
+        property: 'caliber',
+        header: {
+          label: 'Caliber'
+        },
+
+      }, {
+        property: 'team',
+        header: {
+          label: 'Team'
+        },
+
+      }, {
+        property: 'notes',
+        header: {
+          label: 'Notes'
+        },
+
+      }, {
         property: 'disqualified',
         header: {
-          label: 'disqualified'
+          label: 'DQ'
         },
         cell: {
           format: (v) => (v ? 'Yes' : 'No')
+        },
+        props: {
+          width: 50
+        }
+      }, {
+        property: 'feePaid',
+        header: {
+          label: 'Fee'
+        },
+        cell: {
+          format: (v) => (v ? 'Yes' : 'No')
+        },
+        props: {
+          width: 50
         }
       }]}
       {...this.props}

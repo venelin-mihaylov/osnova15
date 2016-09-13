@@ -5,6 +5,9 @@ import FKAct from 'constants/FKAct'
 import curry from 'lodash/curry'
 import {bindActionCreators} from 'redux'
 import get from 'lodash/get'
+import moment from 'moment'
+import {countries} from 'country-data'
+import {Flag} from 'stardust'
 
 export function rrfModel(entity) {
   return `${entity}Model`
@@ -108,9 +111,6 @@ export function prefixType(entity, variation, type) {
 }
 
 export function act(entity, variation, actionType, rest = {}) {
-  console.log('act')
-  console.log(actionType)
-  console.log(rest)
   if (Array.isArray(rest)) {
     return Object.assign({
       type: prefixType(entity, variation, actionType),
@@ -295,14 +295,25 @@ export function mapCrudStateToProps(entity, variation, next = () => {}) {
   })
 }
 
-export function formatEnum(schema, field) {
-  const en = get(schema, ['properties', field, 'enumProps'])
-  if (!en) {
-    return null
-  }
-  return (v) => en[v]
+export function formatEnum(schema) {
+  return (v, {property}) => get(schema, ['properties', property, 'enumProps', v])
 }
 
 export function formatBool(v) {
   return v ? 'Yes' : 'No'
+}
+
+export function formatDate(v) {
+  if (!v) {
+    return null
+  }
+  return moment(v).format('YYYY MMM DD')
+}
+
+export function formatCountry(v) {
+  if (!v) {
+    return null
+  }
+  const c = countries[v.toUpperCase()]
+  return (<span><Flag name={v} />{c && c.name}</span>)
 }

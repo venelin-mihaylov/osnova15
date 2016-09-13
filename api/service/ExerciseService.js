@@ -1,5 +1,5 @@
 import CRUDService from './CRUDService'
-import {autobind} from 'core-decorators';
+import {autobind} from 'core-decorators'
 import ItoN from '../utils/ItoN'
 
 @autobind
@@ -53,15 +53,15 @@ export default class ExerciseService extends CRUDService {
   }
 
   read(id) {
-    return ItoN.findByIdEagerRelation({id, ...(this.iToNParams())})
+    return this.model.query()
+      .findById(id)
+      .eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
-  iToNParams() {
+  itonParams() {
     const model = this.model
     const relSpec = [{
       relName: 'exercise_target'
-    }, {
-      relName: 'match_exercise'
     }]
 
     return {
@@ -74,26 +74,22 @@ export default class ExerciseService extends CRUDService {
     // separate validation step for ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
       input,
-      ...(this.iToNParams())
+      ...(this.itonParams())
     })
     return this.model.query().insertWithRelated(input)
   }
 
   listQuery() {
-    const b = ItoN.findByIdEagerRelation({
-      builder: this.model.query(),
-      ...(this.iToNParams())
-    })
-    console.log(b)
+    return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
   async update(id, input) {
     await ItoN.updateParentAndRelations({
       id,
       input,
-      ...(this.iToNParams())
+      ...(this.itonParams())
     })
     // return updated, the easy way
-    return ItoN.findByIdEagerRelation({id, ...(this.iToNParams())})
+    return this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
   }
 }

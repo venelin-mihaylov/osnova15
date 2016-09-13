@@ -3,7 +3,9 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import {mapAct, mapListStateToProps} from 'utils/Util'
+import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
+import {Icon} from 'stardust'
+import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 
 const entity = 'target'
 const variation = '1'
@@ -36,12 +38,18 @@ export default class TargetListContainer extends OsnovaListContainer {
       toolbarShow={!matchView}
       toolbarTitle='Targets'
       columns={[{
-        property: 'id',
+        property: 'favourite',
+        props: {
+          style: {
+            width: 20
+          }
+        },
         header: {
-          label: 'id'
+          label: 'Fav'
         },
         cell: {
-          property: 'id'
+          property: 'favourite',
+          format: v => v && <Icon name='heart' size='large' />
         }
       }, {
         property: 'name',
@@ -50,6 +58,22 @@ export default class TargetListContainer extends OsnovaListContainer {
         },
         cell: {
           property: 'name'
+        }
+      }, {
+        property: 'type',
+        header: {
+          label: 'Type'
+        },
+        cell: {
+          format: formatEnum(TargetSchema)
+        }
+      }, {
+        property: 'target_zone',
+        header: {
+          label: 'Zones'
+        },
+        cell: {
+          format: (zones) => zones && zones.map(z => <div>{z.name} - {z.width} - {z.height}</div>)
         }
       }]}
       {...this.props}
