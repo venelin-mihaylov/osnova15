@@ -71,18 +71,19 @@ exports.up = function(knex, Promise) {
       t.boolean('favourite').notNullable().default(false)
 
     }),
-    knex.schema.createTable('match_exercise', function(t) {
+    knex.schema.createTable('match_exercise', function (t) {
       t.increments('id').primary()
       t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.unique(['matchId', 'exerciseId'])
     }),
-    knex.schema.createTable('target', function(t) {
+    knex.schema.createTable('target', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.integer('type') // valueMap
       t.boolean('favourite').notNullable().default(false)
-      t.text('image') //base64 image data, easiest to handle
+      t.text('thumbnail') // base64 image data, easiest to handle
+      t.text('image') // base64 image data, easiest to handle
 
 
     }),

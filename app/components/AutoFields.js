@@ -75,6 +75,7 @@ export default class AutoFields extends React.Component {
     required = false,
     fkProps = {}, // FK table/field, available only for FK
     schema: {
+      noForm, // don't show
       type,
       format,
       label = name,
@@ -94,6 +95,7 @@ export default class AutoFields extends React.Component {
     },
     styles = {}, // css styles,
   }) {
+    if (noForm) return null
     if (exclude) return null
     if (name === 'id') return null
 

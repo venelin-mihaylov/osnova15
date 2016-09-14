@@ -14,6 +14,7 @@ const TargetSchema = {
       }
     },
     favourite: {type: 'boolean'},
+    thumbnail: {type: 'string', noForm: true},
     image: {type: 'string'},
   }
 }

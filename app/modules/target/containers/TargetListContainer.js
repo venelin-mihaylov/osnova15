@@ -48,16 +48,23 @@ export default class TargetListContainer extends OsnovaListContainer {
           label: 'Fav'
         },
         cell: {
-          property: 'favourite',
           format: v => v && <Icon name='heart' size='large' />
+        }
+      }, {
+        property: 'thumbnail',
+        header: {
+          label: 'Image'
+        },
+        cell: {
+          format: (v) => v && <img alt='thumbnail' src={v} />
+        },
+        props: {
+          width: 120
         }
       }, {
         property: 'name',
         header: {
           label: 'name'
-        },
-        cell: {
-          property: 'name'
         }
       }, {
         property: 'type',
