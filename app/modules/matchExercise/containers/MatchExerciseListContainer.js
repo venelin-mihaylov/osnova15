@@ -7,7 +7,8 @@ import FKSelect from 'components/FKSelect'
 import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
-import {mapAct, mapListStateToProps, act} from 'utils/Util'
+import {mapAct, mapListStateToProps, act, formatEnum} from 'utils/Util'
+import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 
 const entity = 'exercise'
 const variation = '1'
@@ -86,6 +87,32 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
             }
           }
         }
+      }, {
+        property: 'minShots',
+        header: {
+          label: 'Min. shots'
+        }
+      }, {
+        property: 'type',
+        header: {
+          label: 'Type'
+        },
+        cell: {
+          format: formatEnum(ExerciseSchema)
+        }
+      }, {
+        property: 'module',
+        header: {
+          label: 'Module'
+        },
+        cell: {
+          format: formatEnum(ExerciseSchema)
+        }
+      }, {
+        property: 'rangeOfficer',
+        header: {
+          label: 'Range Officer'
+        },
       }]}
       {...this.props}
       {...(this.addProps())}

@@ -25,6 +25,11 @@ function addHtmlImgPrefix(data) {
   return prefix + '' + data // eslint-disable-line
 }
 
+/**
+ *
+ * @param {string} imageData base64 encoded image data
+ * @returns {string} base64 encoded image thumbnail
+ */
 function genThumbnail(imageData) {
   if (!imageData) {
     return null
