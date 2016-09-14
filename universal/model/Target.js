@@ -19,24 +19,30 @@ function stripHtmlImgPrefix(data) {
   return data.replace(prefix, '')
 }
 function addHtmlImgPrefix(data) {
+  if (!data) {
+    return null
+  }
   return prefix + '' + data // eslint-disable-line
 }
 
 function genThumbnail(imageData) {
-  return imagemagick.convert({
+  if (!imageData) {
+    return null
+  }
+  const buffer = imagemagick.convert({
     srcData: Buffer.from(imageData, 'base64'),
     width: 100,
     height: 100,
     resizeStyle: 'aspectfill', // is the default, or 'aspectfit' or 'fill'
     gravity: 'Center' // optional: position crop area when using 'aspectfill'
   })
+  return buffer.toString('base64')
+}
+
+Target.prototype.$beforeInsert = function () {
+  this.thumbnail = addHtmlImgPrefix(genThumbnail(stripHtmlImgPrefix(this.image)))
 }
 
 Target.prototype.$beforeUpdate = function () {
-  if (this.image) {
-    const imageData = stripHtmlImgPrefix(this.image)
-    const buffer = genThumbnail(imageData)
-    const thumbnail = addHtmlImgPrefix(buffer.toString('base64'))
-    this.thumbnail = thumbnail
-  }
+  this.thumbnail = addHtmlImgPrefix(genThumbnail(stripHtmlImgPrefix(this.image)))
 }
