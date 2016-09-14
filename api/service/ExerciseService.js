@@ -59,27 +59,41 @@ export default class ExerciseService extends CRUDService {
     }
   }
 
-  async create(input) {
-    // separate validation step for ItoN, otherwise the validation errors are not properly rendered
+  async doCreate(input) {
+    // separate validation in case of ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
       input,
       ...(this.itonParams())
     })
-    return this.model.query().insertWithRelated(input)
+    return await this.model.query().insertWithRelated(input)
   }
 
-  listQuery() {
-    return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
+  async afterCreate(input, response) {
+    console.log('afterCreate')
+    console.log(input)
+    console.log(response)
   }
 
-  async update(id, input) {
+  async afterUpdate(id, input, response) {
+    console.log('afterUpdate')
+    console.log(input)
+    console.log(response)
+  }
+
+  async doUpdate(id, input) {
     await ItoN.updateParentAndRelations({
       id,
       input,
       ...(this.itonParams())
     })
     // return updated, the easy way
-    return this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
+    return await this.model.query()
+      .findById(id)
+      .eager(...ItoN.eagerRelation(this.itonParams()))
+  }
+
+  listQuery() {
+    return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
   async createFavouriteExerciseForMatch(input) {

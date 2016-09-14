@@ -137,11 +137,12 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
-  function* update({record, nextPath, resolve = noop, reject = noop}) {
+  function* update({record, nextPath, params = {test: 'test'}, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
         method: 'post',
+        params,
         data: record
       })
       const updated = response.data

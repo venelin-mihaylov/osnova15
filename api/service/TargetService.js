@@ -47,22 +47,22 @@ export default class TargetService extends CRUDService {
       .eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
-  async create(input) {
+  async doCreate(input) {
     // separate validation step for ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
       input,
       ...(this.itonParams())
     })
-    return this.model.query().insertWithRelated(input)
+    return await this.model.query().insertWithRelated(input)
   }
 
-  async update(id, input) {
+  async doUpdate(id, input) {
     await ItoN.updateParentAndRelations({
       id,
       input,
       ...(this.itonParams())
     })
     // return updated, the easy way
-    this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
+    return await this.model.query().findById(id).eager(...ItoN.eagerRelation(this.itonParams()))
   }
 }

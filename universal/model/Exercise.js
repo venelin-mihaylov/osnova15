@@ -1,5 +1,5 @@
 import OsnovaModel from './OsnovaModel'
-import ExerciseSchema from "./schema/ExerciseSchema"
+import ExerciseSchema from './schema/ExerciseSchema'
 import ExerciseRelations from './relations/ExerciseRelations'
 import {toObjectionRelations} from './util/util'
 

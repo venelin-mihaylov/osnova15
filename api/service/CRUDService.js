@@ -60,16 +60,37 @@ export default class CRUDService {
     return await qb
   }
 
-  async create(data) {
-    return this.model.query().insert(data)
+  async beforeCreate(input) {} // eslint-disable-line
+
+  async doCreate(input) {
+    return await this.model.query().insert(input)
+  }
+
+  async afterCreate(input, response) {} // eslint-disable-line
+
+  async create(input) {
+    await this.beforeCreate(input)
+    const response = this.doCreate(input)
+    await this.afterCreate(input, response)
   }
 
   async read(id) {
     return this.model.query().findById(id)
   }
 
-  async update(id, data) {
-    return this.model.query().updateAndFetchById(id, data)
+  async beforeUpdate(id, input) {} // eslint-disable-line
+
+  async doUpdate(id, data) {
+    return await this.model.query().updateAndFetchById(id, data)
+  }
+
+  async afterUpdate(id, input, response) {} // eslint-disable-line
+
+  async update(id, input) {
+    await this.beforeUpdate(id, input)
+    const response = await this.doUpdate(id, input)
+    await this.afterUpdate(id, input, response)
+    return response
   }
 
   async delete(id) {
