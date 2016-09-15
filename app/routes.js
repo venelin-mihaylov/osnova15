@@ -18,7 +18,7 @@ import ExerciseListContainer from 'modules/exercise/containers/ExerciseListConta
 import ExerciseFormContainer from 'modules/exercise/containers/ExerciseFormContainer'
 
 import MatchExerciseListContainer from 'modules/matchExercise/containers/MatchExerciseListContainer.js'
-// import MatchExerciseFormContainer from 'modules/matchExercise/containers/MatchExerciseFormContainer.js'
+import MatchExerciseFormContainer from 'modules/matchExercise/containers/MatchExerciseFormContainer.js'
 
 import TargetListContainer from 'modules/target/containers/TargetListContainer'
 import TargetFormContainer from 'modules/target/containers/TargetFormContainer'
@@ -75,11 +75,11 @@ export default (store) => {
         <Route name='Add new competitor' path=':matchId/competitor/:id/edit/create-competitor' action='add' component={CompetitorFormContainer} />
 
         <Route name='List match exercises' path=':matchId/exercise' component={MatchExerciseListContainer} />
-        <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={ExerciseFormContainer} />
-        <Route name='Edit exercise' path=':matchId/exercise/:matchExerciseId/:id/edit' action='edit' component={ExerciseFormContainer} />
+        <Route name='Add new exercise' path=':matchId/exercise/add' action='add' component={MatchExerciseFormContainer} />
+        <Route name='Edit exercise' path=':matchId/exercise/:id/edit' action='edit' component={MatchExerciseFormContainer} />
 
         <Route name='Add new target' path=':matchId/exercise/add/create-target' action='add' component={TargetFormContainer} />
-        <Route name='Add new target' path=':matchId/exercise/:matchExerciseId/:id/edit/create-target' action='add' component={TargetFormContainer} />
+        <Route name='Add new target' path=':matchId/exercise/:id/edit/create-target' action='add' component={TargetFormContainer} />
 
         <Route name='Targets' path=':matchId/target' matchView component={TargetListContainer} />
 

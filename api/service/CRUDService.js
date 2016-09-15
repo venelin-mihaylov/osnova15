@@ -62,8 +62,8 @@ export default class CRUDService {
 
   async beforeCreate(input) {} // eslint-disable-line
 
-  async doCreate(input) {
-    return await this.model.query().insert(input)
+  async doCreate({record}) {
+    return await this.model.query().insert(record)
   }
 
   async afterCreate(input, response) {} // eslint-disable-line
@@ -80,13 +80,15 @@ export default class CRUDService {
 
   async beforeUpdate(id, input) {} // eslint-disable-line
 
-  async doUpdate(id, data) {
-    return await this.model.query().updateAndFetchById(id, data)
+  async doUpdate(id, {record}) {
+    return await this.model.query().updateAndFetchById(id, record)
   }
 
   async afterUpdate(id, input, response) {} // eslint-disable-line
 
   async update(id, input) {
+    console.log('update')
+    console.log(input)
     await this.beforeUpdate(id, input)
     const response = await this.doUpdate(id, input)
     await this.afterUpdate(id, input, response)

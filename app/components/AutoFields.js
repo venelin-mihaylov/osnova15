@@ -9,7 +9,7 @@ import forOwn from 'lodash/forOwn'
 import trimEnd from 'lodash/trimEnd'
 import endsWith from 'lodash/endsWith'
 import isArray from 'lodash/isArray'
-import isFunction from 'lodash/isFunction'
+import mapValues from 'lodash/mapValues'
 
 export default class AutoFields extends React.Component {
 
@@ -188,14 +188,20 @@ export default class AutoFields extends React.Component {
     </Form.Field>)
   }
 
-  static renderFields({
+  static renderFields({glue, ...params}) {
+    const fields = AutoFields.renderFieldsAsObject(params)
+    const ret = []
+    forOwn(fields, (v) => ret.push(v))
+    return ret
+  }
+
+  static renderFieldsAsObject({
     overrides,
     jsonSchema,
     relations,
-    glue,
     ...rest // the rest is passed to every field
   }) {
-    const ret = []
+    const ret = {}
     forOwn(jsonSchema.properties, (schema, name) => {
       if (schema.properties) return // embedded object
       const options = overrides[name] || {}
@@ -203,13 +209,8 @@ export default class AutoFields extends React.Component {
       const required = jsonSchema.required.indexOf(name) !== -1
       const args = Object.assign({schema, name, required, options, fkProps}, rest)
       const f = AutoFields.renderField(args)
-      if (f) ret.push(f)
-      if (glue) {
-        if (isFunction(glue)) {
-          ret.push(glue(args))
-        } else {
-          ret.push(glue)
-        }
+      if (f) {
+        ret[name] = f
       }
     })
     return ret

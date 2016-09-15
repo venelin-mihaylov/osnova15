@@ -13,6 +13,13 @@ const variation = '1'
 @connect(mapListStateToProps(entity, variation), mapAct(entity, variation))
 @autobind
 export default class ExerciseListContainer extends OsnovaListContainer {
+
+  baseFilter() {
+    return {
+      favourite: true
+    }
+  }
+
   render() {
     return (<EntityList
       toolbarTitle='Exercises'

@@ -68,12 +68,15 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
-  function* create({record, nextPath, resolve = noop, reject = noop}) {
+  function* create({record, nextPath, params = {}, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'put',
-        data: record
+        data: {
+          params,
+          record
+        }
       })
       const created = response.data
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
@@ -137,13 +140,15 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
-  function* update({record, nextPath, params = {test: 'test'}, resolve = noop, reject = noop}) {
+  function* update({record, nextPath, params = {}, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
         method: 'post',
-        params,
-        data: record
+        data: {
+          params,
+          record
+        }
       })
       const updated = response.data
       yield put(act(CRUDAct.UPDATE_SUCCESS, {record: updated}))

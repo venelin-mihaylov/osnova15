@@ -2,6 +2,15 @@ import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators'
 import ItoN from '../utils/ItoN'
 
+
+/**
+ * on match exercise edit,
+ * the service has to add/edit only a single match_exercise record,
+ * for the current match.
+ * on match exercise save, the service has to create/update
+ * match_exercise_target_zone records, one for each target_zone
+ * alternatively this data should be present in the form for live edit
+ */
 @autobind
 export default class ExerciseService extends CRUDService {
   defaultOrderBy(qb) {
@@ -19,23 +28,7 @@ export default class ExerciseService extends CRUDService {
         return qb.andWhere(function () {
           this.where('name', 'ilike', `%${v}%`)
         })
-      },
-      matchId: (qb, {value, operator}) => qb.andWhere(function () {
-        if (operator === '=') {
-          this.whereIn('id', function () {
-            this.select('exerciseId')
-              .from('match_exercise')
-              .where('matchId', '=', value)
-          })
-        }
-        if (operator === '<>') {
-          this.whereNotIn('id', function () {
-            this.select('exerciseId')
-              .from('match_exercise')
-              .where('matchId', '=', value)
-          })
-        }
-      }),
+      }
     }
   }
 
@@ -46,26 +39,18 @@ export default class ExerciseService extends CRUDService {
   }
 
   itonParams() {
-    const model = this.model
-    const relSpec = [{
+    return ItoN.itonParams(this.model, [{
       relName: 'exercise_target'
-    }, {
-      relName: 'match_exercise'
-    }]
-
-    return {
-      model,
-      relSpec
-    }
+    }])
   }
 
-  async doCreate(input) {
+  async doCreate({record}) {
     // separate validation in case of ItoN, otherwise the validation errors are not properly rendered
     ItoN.validateMultiple({
-      input,
+      input: record,
       ...(this.itonParams())
     })
-    return await this.model.query().insertWithRelated(input)
+    return await this.model.query().insertWithRelated(record)
   }
 
   async afterCreate(input, response) {
@@ -80,10 +65,10 @@ export default class ExerciseService extends CRUDService {
     console.log(response)
   }
 
-  async doUpdate(id, input) {
+  async doUpdate(id, {record}) {
     await ItoN.updateParentAndRelations({
       id,
-      input,
+      input: record,
       ...(this.itonParams())
     })
     // return updated, the easy way
@@ -96,8 +81,11 @@ export default class ExerciseService extends CRUDService {
     return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
   }
 
-  async createFavouriteExerciseForMatch(input) {
-    const exercise = await this.model.query().findById(input.exerciseId).eager('exercise_target')
+  async createFavouriteExerciseForMatch({matchId, exerciseId}) {
+    const exercise = await this.model.query()
+      .findById(exerciseId)
+      .eager('exercise_target')
+
     if (!exercise) {
       throw new Error('bad input')
     }
@@ -105,17 +93,14 @@ export default class ExerciseService extends CRUDService {
     const json = exercise.toJSON()
     delete json.id
     json.favourite = false
+    json.matchId = matchId
     for (let i = 0; i < json.exercise_target.length; i++) {
       delete json.exercise_target[i].id
     }
-    json.match_exercise = [{
-      matchId: input.matchId,
-    }]
 
     return await this.model.query()
       .insertWithRelated(json)
       .returning('*')
       .then(result => result.id)
   }
-
 }

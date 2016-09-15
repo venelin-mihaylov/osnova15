@@ -15,6 +15,13 @@ export default class ItoN {
     throw new ValidationError(data)
   }
 
+  static itonParams(model, relSpec) {
+    return {
+      model,
+      relSpec
+    }
+  }
+
   static _handleException(err, relName, i) {
     if (err instanceof ValidationError) {
       console.log('rethrow')

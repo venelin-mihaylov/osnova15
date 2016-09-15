@@ -43,14 +43,14 @@ export default class OsnovaFormContainer extends React.Component {
     }
   }
 
-  onCreate(record) {
+  onCreate(record, options = {}) {
     const nextPath = this.nextPath({action: 'create'})
-    this.props.act(CRUDAct.CREATE_REQUESTED, {record, nextPath})
+    this.props.act(CRUDAct.CREATE_REQUESTED, {record, nextPath, ...options})
   }
 
-  onUpdate(record) {
+  onUpdate(record, options = {}) {
     const nextPath = this.nextPath({action: 'update'})
-    this.props.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath})
+    this.props.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath, ...options})
   }
 
   onCancel() {

@@ -1,12 +1,14 @@
 
-exports.up = function(knex, Promise) {
+/* eslint-disable newline-per-chained-call */
+
+exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('users', function(t) {
+    knex.schema.createTable('users', function (t) {
       t.increments('id').primary()
       t.string('email').notNullable()
       t.string('password').notNullable()
     }),
-    knex.schema.createTable('competitor', function(t) {
+    knex.schema.createTable('competitor', function (t) {
       t.increments('id').primary()
       t.string('globalId')
       t.string('firstName').notNullable()
@@ -18,13 +20,13 @@ exports.up = function(knex, Promise) {
       t.string('country')
       t.string('club')
     }),
-    knex.schema.createTable('tournament', function(t) {
+    knex.schema.createTable('tournament', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.string('description')
       t.jsonb('notes')
     }),
-    knex.schema.createTable('matches', function(t) {
+    knex.schema.createTable('matches', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.string('description')
@@ -43,7 +45,7 @@ exports.up = function(knex, Promise) {
       t.integer('minShots')
       t.integer('tournamentId').references('id').inTable('tournament').onDelete('CASCADE')
     }),
-    knex.schema.createTable('match_competitor', function(t) {
+    knex.schema.createTable('match_competitor', function (t) {
       t.increments('id').primary()
       t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
       t.integer('competitorId').notNullable().references('id').inTable('competitor').onDelete('CASCADE')
@@ -59,8 +61,9 @@ exports.up = function(knex, Promise) {
       t.string('notes')
       t.unique(['matchId', 'competitorId'])
     }),
-    knex.schema.createTable('exercise', function(t) {
+    knex.schema.createTable('exercise', function (t) {
       t.increments('id').primary()
+      t.integer('matchId').references('id').inTable('matches').onDelete('CASCADE')
       t.string('name')
       t.integer('minShots')
       t.integer('type')
@@ -69,7 +72,6 @@ exports.up = function(knex, Promise) {
       t.string('index')
       t.string('signature')
       t.boolean('favourite').notNullable().default(false)
-
     }),
     knex.schema.createTable('match_exercise', function (t) {
       t.increments('id').primary()
@@ -84,17 +86,15 @@ exports.up = function(knex, Promise) {
       t.boolean('favourite').notNullable().default(false)
       t.text('thumbnail') // base64 image data, easiest to handle
       t.text('image') // base64 image data, easiest to handle
-
-
     }),
-    knex.schema.createTable('target_zone', function(t) {
+    knex.schema.createTable('target_zone', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.decimal('width').notNullable()
       t.decimal('height').notNullable()
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
     }),
-    knex.schema.createTable('exercise_target', function(t) {
+    knex.schema.createTable('exercise_target', function (t) {
       t.increments('id').primary()
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
@@ -104,10 +104,19 @@ exports.up = function(knex, Promise) {
       t.string('description')
       t.unique(['targetId', 'exerciseId'])
     }),
+    knex.schema.createTable('match_exercise_target_zone', function (t) {
+      t.increments('id').primary()
+      t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
+      t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
+      t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
+      t.integer('zoneId').notNullable().references('id').inTable('target_zone').onDelete('CASCADE')
+      t.decimal('weight', 3).notNullable().default(1)
+      t.decimal('score').notNullable()
+    }),
   ])
-};
+}
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   return Promise.all([
     knex.raw('DROP TABLE users CASCADE'),
     knex.raw('DROP TABLE competitor CASCADE'),
@@ -120,4 +129,5 @@ exports.down = function(knex, Promise) {
     knex.raw('DROP TABLE target_zone CASCADE'),
     knex.raw('DROP TABLE exercise_target CASCADE')
   ])
-};
+}
+

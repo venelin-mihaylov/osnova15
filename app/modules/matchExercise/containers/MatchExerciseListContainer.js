@@ -55,11 +55,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           onChange={this.onSelectFavouriteExercise}
           listParams={{
             filter: {
-              favourite: true,
-              matchId: {
-                operator: '<>',
-                value: this.props.params.matchId
-              }
+              favourite: true
             }
           }}
         />]

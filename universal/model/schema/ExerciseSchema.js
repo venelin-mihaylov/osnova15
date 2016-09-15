@@ -4,6 +4,7 @@ const ExerciseSchema = {
   required: ['name'],
   properties: {
     id: {type: 'integer'},
+    matchId: {type: ['null', 'integer'], labelField: 'name', noForm: true},
     name: {type: 'string', maxLength: 255},
     minShots: {type: 'integer', min: 1, max: 99999},
     type: {
@@ -25,7 +26,7 @@ const ExerciseSchema = {
     },
     rangeOfficer: {type: 'string'},
     signature: {type: 'string'},
-    favourite: {type: 'boolean'}
+    favourite: {type: 'boolean', noForm: true}
   }
 }
 export default ExerciseSchema

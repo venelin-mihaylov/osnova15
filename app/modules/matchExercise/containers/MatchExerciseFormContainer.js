@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
-import ExerciseFormFields from 'modules/exercise/components/ExerciseFormFields'
+import MatchExerciseFormFields from 'modules/matchExercise/components/MatchExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
@@ -16,7 +16,7 @@ const variation = '1'
   model: state.exerciseModel
 })), mapAct(entity, variation))
 @autobind
-class ExerciseFormContainer extends OsnovaFormContainer {
+class MatchExerciseFormContainer extends OsnovaFormContainer {
   componentWillMount() {
     super.componentWillMount()
 
@@ -34,6 +34,20 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     })
   }
 
+  onCreate(record) {
+    super.onCreate({
+      matchId: this.props.params.matchId,
+      ...record
+    })
+  }
+
+  onUpdate(record) {
+    super.onUpdate({
+      matchId: this.props.params.matchId,
+      ...record
+    })
+  }
+
   render() {
     const {
       dispatch,
@@ -41,7 +55,7 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     } = this.props
 
     return (<EntityFormWrapper
-      FormFieldsComponent={ExerciseFormFields}
+      FormFieldsComponent={MatchExerciseFormFields}
       {...this.props}
       {...(this.addProps())}
       onClickAddTarget={fkFieldName => () => {
@@ -52,4 +66,4 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     />)
   }
 }
-export default ExerciseFormContainer
+export default MatchExerciseFormContainer

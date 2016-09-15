@@ -3,11 +3,13 @@ import sqlFixtures from 'sql-fixtures'
 import _range from 'lodash.range'
 import _ from 'lodash'
 
+/* eslint-disable prefer-template */
+
 function generate(cnt, data) {
   return _range(cnt).map((i) => {
-    let r = {}
+    const r = {}
     Object.keys(data).forEach(f => {
-      if (typeof data[f] == 'function') {
+      if (typeof data[f] === 'function') {
         r[f] = data[f](i, r)
       } else {
         r[f] = data[f]
@@ -18,38 +20,38 @@ function generate(cnt, data) {
 }
 
 function randInt(low, high) {
-  return Math.floor(Math.random() * (high - low + 1) + low);
+  return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
 function arrUniqRandInt(low, high, cnt) {
-  let ret = {}
-  _range(cnt).forEach(() => ret[randInt(low, high)] = true)
+  const ret = {}
+  _range(cnt).forEach(() => {
+    ret[randInt(low, high)] = true
+  })
   return Object.keys(ret)
 }
 
 function generateItoN(countOne, countManyMax, data) {
-  return _.flatten(_range(countOne).map((parentIdx) => {
-    return _range(randInt(1, countManyMax)).map((i) => {
-      let record = {}
-      Object.keys(data).forEach(field => {
-        if (typeof data[field] == 'function') {
-          record[field] = data[field]({i, field, record, parentIdx})
-        } else {
-          record[field] = data[field]
-        }
-      })
-      return record
+  return _.flatten(_range(countOne).map((parentIdx) => _range(randInt(1, countManyMax)).map((i) => {
+    const record = {}
+    Object.keys(data).forEach(field => {
+      if (typeof data[field] === 'function') {
+        record[field] = data[field]({i, field, record, parentIdx})
+      } else {
+        record[field] = data[field]
+      }
     })
-  }))
+    return record
+  })))
 }
 
 function generateNtoM(countN, countM, countNtoMMax, data) {
   return _.flatten(_range(0, countN).map((nIdx) => {
     const arrM = arrUniqRandInt(0, countM - 1, countNtoMMax)
     return arrM.map((mIdx) => {
-      let record = {}
+      const record = {}
       Object.keys(data).forEach(field => {
-        if (typeof data[field] == 'function') {
+        if (typeof data[field] === 'function') {
           record[field] = data[field]({nIdx, mIdx, field, record})
         } else {
           record[field] = data[field]
@@ -72,7 +74,6 @@ const count = {
   match_competitor_max: 5, // per match
   exercise: 10,
   exercise_target_max: 5,
-  match_exercise_max: 5
 }
 
 const dataSpec = {
@@ -96,16 +97,26 @@ const dataSpec = {
   }),
   target_zone: generateItoN(count.target, count.target_zone_max, {
     targetId: ({parentIdx}) => `target:${parentIdx}`,
-    name: () => 'Zone ' + randInt(1, 100),
+    name: (i) => `S${i}`,
     width: () => randInt(1, 10),
     height: () => randInt(1, 10),
+  }),
+  matches: generate(count.matches, {
+    name: (i) => `Match ${i}`,
+    tournamentId: () => `tournament:${randInt(0, count.tournament - 1)}`
   }),
   exercise: generate(count.exercise, {
     name: (i) => `Exercise ${i}`,
     minShots: () => randInt(1, 100),
     type: () => randInt(1, 2),
     module: () => randInt(1, 3),
-    favourite: () => randInt(1, 2) == 1
+    favourite: (i) => i === 1,
+    matchId: (i, r) => {
+      if (!r.favourite) {
+        return `matches:${randInt(0, count.matches - 1)}`
+      }
+      return null
+    }
   }),
   exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
@@ -115,18 +126,10 @@ const dataSpec = {
     distance: () => randInt(1, 100),
     description: () => 'Exercise target ' + randInt(1, 100)
   }),
-  matches: generate(count.matches, {
-    name: (i) => `Match ${i}`,
-    tournamentId: () => `tournament:${randInt(0, count.tournament-1)}`
-  }),
   match_competitor: generateNtoM(count.matches, count.competitor, count.match_competitor_max, {
     matchId: ({nIdx}) => `matches:${nIdx}`,
     competitorId: ({mIdx}) => `competitor:${mIdx}`
-  }),
-  match_exercise: generateNtoM(count.matches, count.exercise, count.match_competitor_max, {
-    matchId: ({nIdx}) => `matches:${nIdx}`,
-    exerciseId: ({mIdx}) => `exercise:${mIdx}`
-  }),
+  })
 
 }
 
@@ -142,6 +145,6 @@ const dbConfig = {
 sqlFixtures.create(dbConfig, dataSpec, options, function (err, result) {
   // at this point a row has been added to the users table
   console.log(err)
-  //console.log(JSON.stringify(result, null, 2))
+  // console.log(JSON.stringify(result, null, 2))
   process.exit()
 })

@@ -6,7 +6,7 @@ import NotFoundException from '../exception/NotFoundException'
  * @param res
  */
 export function renderValidationErrors(validationErrors, res) {
-  if(validationErrors) {
+  if (validationErrors) {
     res.status(422).json({
       globalError: 'Invalid parameter',
       fieldErrors: validationErrors
@@ -24,7 +24,7 @@ export function renderError(err, req, res, next) {
       globalError: 'Invalid data',
       fieldErrors: err.data
     })
-  } else if(err instanceof NotFoundException) {
+  } else if (err instanceof NotFoundException) {
     res.status(404).json({
       globalError: err.message
     })
@@ -36,19 +36,19 @@ export function renderError(err, req, res, next) {
 }
 
 export function throwOnError(errors = []) {
-  if(false === errors) return
+  if (errors === false) return
 
   const formatted = errors.reduce((acc, cur) => acc[cur.param] = {
-      message: cur.msg,
-      value: cur.value
-    }, {})
+    message: cur.msg,
+    value: cur.value
+  }, {})
   throw new ValidationError(formatted)
 }
 
 export function logSql(fn) {
-  return function(...args) {
+  return function (...args) {
     const ret = fn.call(this, ...args)
-    if(ret && typeof ret.toSql == 'function') {
+    if (ret && typeof ret.toSql === 'function') {
       console.log(ret.toSql())
     }
     return ret
@@ -56,7 +56,7 @@ export function logSql(fn) {
 }
 
 export function toArray(o) {
-  if(!o) return []
+  if (!o) return []
   return Array.isArray(o) ? o : [o]
 }
 
@@ -69,10 +69,10 @@ export function isObject(item) {
 }
 
 export function isRowEqual(dbRow, inRow) {
-  for(let f in inRow) {
-    if(!inRow.hasOwnProperty(f)) continue
+  for (const f in inRow) {
+    if (!inRow.hasOwnProperty(f)) continue
 
-    if(inRow[f] != dbRow[f]) {
+    if (inRow[f] !== dbRow[f]) {
       return false
     }
   }

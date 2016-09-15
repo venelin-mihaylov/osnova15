@@ -17,7 +17,8 @@
     "arrow-body-style": ["error", "as-needed"],
     "func-names": 0,
     "comma-dangle": ["error", "only-multiline"],
-    "jsx-quotes": ["error", "prefer-single"]
+    "jsx-quotes": ["error", "prefer-single"],
+    "no-param-reassign": ["error", {"props": true}]
   },
   "settings": {
     "import/resolver": {
