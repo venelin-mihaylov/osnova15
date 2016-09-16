@@ -53,18 +53,6 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query().insertWithRelated(record)
   }
 
-  async afterCreate(input, response) {
-    console.log('afterCreate')
-    console.log(input)
-    console.log(response)
-  }
-
-  async afterUpdate(id, input, response) {
-    console.log('afterUpdate')
-    console.log(input)
-    console.log(response)
-  }
-
   async doUpdate(id, {record}) {
     await ItoN.updateParentAndRelations({
       id,

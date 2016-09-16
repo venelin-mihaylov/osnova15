@@ -5,6 +5,7 @@ import {Form, Icon, Button} from 'stardust'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
+import {Input} from 'stardust'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
