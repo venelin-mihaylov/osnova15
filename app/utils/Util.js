@@ -10,7 +10,7 @@ import {countries} from 'country-data'
 import {Flag} from 'stardust'
 
 export function rrfModel(entity) {
-  return `${entity}Model`
+  return `rrf.${entity}`
 }
 export function rrfField(entity, field) {
   return rrfModel(entity) + '.' + field

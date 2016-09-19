@@ -80,10 +80,12 @@ export default class AutoFields extends React.Component {
       format,
       label = name,
       defaultValue,
+      minLength,
+      maxLength,
       enumProps, // if not true
       labelField = 'id', // FK prop
     },
-    options: {
+    overrides: {
       append = null,
       wrapWithFormField = true,
       input = null, // completely override input component
@@ -105,11 +107,23 @@ export default class AutoFields extends React.Component {
 
     const fullField = `${namePrefix}${name}`
 
-    const className = styles[name]
-    const common = {className}
+    // const className = styles[name]
+    const common = {
+      className: 'error'
+    }
 
     const t = toArray(type)
     let wrap = true
+    const validators = {}
+    if (required) {
+      validators.required = v => v && v.length
+    }
+    if (minLength) {
+      validators.minLength = v => v && v.length > minLength
+    }
+    if (maxLength) {
+      validators.maxLength = v => v && v.length < maxLength
+    }
 
     let genInput = null
     if (input) {
@@ -171,6 +185,7 @@ export default class AutoFields extends React.Component {
       model={rrfField(entity, fullField)}
       key={fullField}
       updateOn={updateOn}
+      validators={validators}
       {...rrfProps}
     >
       {genInput}
@@ -196,7 +211,7 @@ export default class AutoFields extends React.Component {
   }
 
   static renderFieldsAsObject({
-    overrides,
+    overrides: allOverrides,
     jsonSchema,
     relations,
     ...rest // the rest is passed to every field
@@ -204,10 +219,10 @@ export default class AutoFields extends React.Component {
     const ret = {}
     forOwn(jsonSchema.properties, (schema, name) => {
       if (schema.properties) return // embedded object
-      const options = overrides[name] || {}
+      const overrides = allOverrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = jsonSchema.required.indexOf(name) !== -1
-      const args = Object.assign({schema, name, required, options, fkProps}, rest)
+      const args = Object.assign({schema, name, required, overrides, fkProps}, rest)
       const f = AutoFields.renderField(args)
       if (f) {
         ret[name] = f

@@ -11,7 +11,7 @@
 
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Form, Message, Button} from 'stardust'
+import {Form, Message, Button, Input} from 'stardust'
 
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -28,7 +28,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
       <Form error>
-        <Form.Input label='Email' placeholder='joe@schmoe.com' />
+        <Input label='Email' placeholder='joe@schmoe.com' className='error' />
         <Message
           error
           header='Action Forbidden'

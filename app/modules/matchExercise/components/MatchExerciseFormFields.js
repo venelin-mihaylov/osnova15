@@ -67,7 +67,7 @@ export const ExerciseFormFields = ({
           </Form.Group>
           <If condition={row.match_exercise_target_zone}> // eslint-disable-line
             <Form.Group>
-              {row.match_exercise_target_zone.map(v => (<Form.Field>
+              {row.match_exercise_target_zone.map(() => (<Form.Field>
                 <label>Zone XX</label>
                 <Input />
               </Form.Field>))}

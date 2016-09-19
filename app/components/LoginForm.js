@@ -1,41 +1,31 @@
 import React from 'react'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import MaterialField from 'components/MaterialField'
-import {Form} from 'react-redux-form'
+import {Form, Control} from 'react-redux-form'
+import {Form as uiForm, Button, Input} from 'stardust'
 
-const LoginForm = ({onSubmit}) => (
-  <div>
-    <Form model='loginUser' onSubmit={onSubmit}>
-      <MaterialField model='loginUser.email'>
-        <TextField
-          required
-          floatingLabelText='Email'
-          floatingLabelFixed
-        />
-      </MaterialField>
+// const LoginForm = ({onSubmit}) => (<Form onSubmit={onSubmit}>
+//   <Form.Input label='Email' name='email' />
+//   <Form.Input label='Password' name='password' type='password' />
+//   <Button type='submit'>Login</Button>
+// </Form>)
 
-      <br />
+const LoginForm = ({onSubmit}) => (<Form
+  className='ui form'
+  onSubmit={onSubmit}
+  model='rrf.login'
+>
+  <uiForm.Group>
+    <div className='field'>
+      <div className='label'>Email</div>
+      <Control.text component={Input} model='rrf.login.email' />
+    </div>
+    <div className='field'>
+      <div className='label'>Email</div>
+      <Control.text component={Input} type='password' model='rrf.login.password' />
+    </div>
+  </uiForm.Group>
+  <Button type='submit'>Login</Button>
 
-      <MaterialField model='loginUser.password'>
-        <TextField
-          type='password'
-          required
-          floatingLabelText='Password'
-          floatingLabelFixed
-        />
-      </MaterialField>
-
-      <br />
-
-      <RaisedButton
-        type='submit'
-        label='Login'
-        primary
-      />
-    </Form>
-  </div>
-)
+</Form>)
 
 LoginForm.propTypes = {
   onSubmit: React.PropTypes.func.isRequired

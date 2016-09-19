@@ -32,7 +32,7 @@ export default function configureStore(initialState = {}, history) {
   }
 
   const enhancers = [
-    autoRehydrate(),
+    //autoRehydrate(),
     applyMiddleware(...middlewares),
     devtools(),
   ]

@@ -20,10 +20,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     if (!fieldErrors) {
       return
     }
-    for (const k in fieldErrors) {
-      if (!fieldErrors.hasOwnProperty(k)) continue
-      yield put(actions.setErrors(rrfField(entity, k), fieldErrors[k].message))
-    }
+    yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
   }
 
   function* read({id, resolve = noop, reject = noop}) {
@@ -142,6 +139,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
 
   function* update({record, nextPath, params = {}, resolve = noop, reject = noop}) {
     try {
+      yield put(actions.setPending(rrfModel(entity), true))
       const response = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
         method: 'post',
@@ -150,6 +148,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
           record
         }
       })
+      yield put(actions.setSubmitted(rrfModel(entity), true))
       const updated = response.data
       yield put(act(CRUDAct.UPDATE_SUCCESS, {record: updated}))
       if (nextPath) {
