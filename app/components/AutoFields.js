@@ -11,6 +11,7 @@ import endsWith from 'lodash/endsWith'
 import isArray from 'lodash/isArray'
 import mapValues from 'lodash/mapValues'
 import {Control, controls} from 'react-redux-form'
+import moment from 'moment'
 
 export default class AutoFields extends React.Component {
 
@@ -32,6 +33,19 @@ export default class AutoFields extends React.Component {
     relations: {},
     updateOn: 'change',
     glue: null
+  }
+
+  static mapPropsDateField = {
+    ...controls.text,
+    selected: ({modelValue}) => (modelValue ? moment(modelValue) : null),
+    onChange: ({onChange}) => (v) => onChange(v ? v.format() : null),
+    error: ({fieldValue: {valid}}) => !valid
+  }
+
+  static mapPropsDropdown = {
+    ...controls.select,
+    onChange: ({onChange}) => (e, value) => onChange(value),
+    error: ({fieldValue: {valid}}) => !valid
   }
 
   /**
@@ -88,11 +102,9 @@ export default class AutoFields extends React.Component {
     },
     overrides: {
       append = null,
-      input = null, // completely override input component
-      inputComponent = null,
-      inputEl = null, // override input component type
       exclude = false, // exclude field
-      ...inputProps
+      controlProps = {},
+      ...rest
     },
     styles = {}, // css styles,
   }) {
@@ -133,6 +145,7 @@ export default class AutoFields extends React.Component {
           isClearable: true,
           dateFormat: 'YYYY/MM/DD'
         }
+        mapProps = AutoFields.mapPropsDateField
       } else {
         component = Input
       }
@@ -145,20 +158,20 @@ export default class AutoFields extends React.Component {
           labelField
         }
       } else if (enumProps) { // value map
-        mapProps = controls.select
         component = Dropdown
         addInputProps = {
           selection: true,
           options: AutoFields.enumToOptions(enumProps),
         }
+        mapProps = AutoFields.mapPropsDropdown
       } else { // number
         component = Input
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
     } else if (t.indexOf('boolean') !== -1) {
-      mapProps = controls.checkbox
       component = Checkbox
+      mapProps = controls.checkbox
     } else {
       throw new Error('Invalid auto field')
     }
@@ -170,36 +183,16 @@ export default class AutoFields extends React.Component {
       controlProps: {
         control: component,
         label,
-        ...inputProps,
-        ...addInputProps
+        ...addInputProps,
+        ...rest,
       },
       validators,
       mapProps: {
         ...mapProps,
         error: ({fieldValue: {valid}}) => !valid
-      }
+      },
+      ...controlProps
     })
-
-    // const suiField = (<SUIField
-    //   model={rrfField(entity, fullField)}
-    //   key={fullField}
-    //   updateOn={updateOn}
-    //   validators={validators}
-    //   {...rrfProps}
-    // >
-    //   {genInput}
-    //   {append}
-    // </SUIField>)
-    //
-    // wrap = wrap && wrapWithFormField
-    // if (!wrap) {
-    //   return suiField
-    // }
-    //
-    // return (<Form.Field {...formFieldProps}>
-    //   <label>{label}</label>
-    //   {suiField}
-    // </Form.Field>)
   }
 
   static renderFields({glue, ...params}) {
@@ -210,7 +203,7 @@ export default class AutoFields extends React.Component {
   }
 
   static renderFieldsAsObject({
-    overrides: allOverrides,
+    overrides: allOverrides = {},
     jsonSchema,
     relations,
     ...rest // the rest is passed to every field

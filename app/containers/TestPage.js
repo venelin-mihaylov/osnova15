@@ -14,7 +14,8 @@ import {autobind} from 'core-decorators'
 import {Form as suiForm, Message, Button, Input} from 'stardust'
 import {Form, Control, controls} from 'react-redux-form'
 import AutoFields from 'components/AutoFields'
-import {rrfField, rrfModel} from 'Utils/Util'
+import {rrfModel} from 'utils/Util'
+import {CountrySelect} from 'components/CountrySelect'
 
 const TestSchema = {
   type: 'object',
@@ -24,17 +25,18 @@ const TestSchema = {
     id: {type: 'integer'},
     name: {type: 'string', minLength: 10, maxLength: 255},
     description: {type: ['string', 'null'], maxLength: 255},
-    // type: {
-    //   type: 'integer',
-    //   enum: [1, 2],
-    //   enumProps: {
-    //     1: 'Test',
-    //     2: 'Test 2'
-    //   }
-    // },
-    // birthDate: {type: 'string', maxLength: 255, format: 'date', subtype: 'date'},
-    // favourite: {type: 'boolean'},
-    // tournamentId: {type: ['null', 'integer'], labelField: 'name'},
+    type: {
+      type: 'integer',
+      enum: [1, 2],
+      enumProps: {
+        1: 'Test',
+        2: 'Test 2'
+      }
+    },
+    birthDate: {type: 'string', maxLength: 255, format: 'date', subtype: 'date'},
+    favourite: {type: 'boolean'},
+    tournamentId: {type: ['null', 'integer'], labelField: 'name'},
+    country: {type: 'string', maxLength: 255},
   }
 }
 
@@ -69,22 +71,21 @@ export default class TestPage extends React.Component { // eslint-disable-line r
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Beware of buttons!</h1>
-      <Form onSubmit={this.onSubmit} entity={rrfModel('tournament')}>
-        <Control
-          model={rrfField('tournament', 'name')}
-          component={suiForm.Field}
-          controlProps={{
-            control: Input
-          }}
-          validators={{
-            required: v => !!v,
-            minLength: v => v && v.length > 9
-          }}
-          mapProps={{
-            ...controls.text,
-            error: ({fieldValue: {valid}}) => !valid
-          }}
-        />
+      <Form className='ui form' onSubmit={this.onSubmit} model={rrfModel('test')}>
+        {AutoFields.renderFields({
+          entity: 'test',
+          jsonSchema: TestSchema,
+          relations: TestRelations,
+          overrides: {
+            country: {
+              component: CountrySelect,
+              controlProps: {
+                mapProps: AutoFields.mapPropsDropdown
+              }
+            }
+          }
+        })}
+        <Button type='submit'>Submit</Button>
       </Form>
     </div>)
   }
