@@ -12,8 +12,9 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
 import {Form as suiForm, Message, Button, Input} from 'stardust'
-import {Form} from 'react-redux-form'
+import {Form, Control, controls} from 'react-redux-form'
 import AutoFields from 'components/AutoFields'
+import {rrfField, rrfModel} from 'Utils/Util'
 
 const TestSchema = {
   type: 'object',
@@ -68,10 +69,21 @@ export default class TestPage extends React.Component { // eslint-disable-line r
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Beware of buttons!</h1>
-      <Form onSubmit={this.onSubmit}>
-        <AutoFields
-          entity='test'
-          jsonSchema={TestSchema}
+      <Form onSubmit={this.onSubmit} entity={rrfModel('tournament')}>
+        <Control
+          model={rrfField('tournament', 'name')}
+          component={suiForm.Field}
+          controlProps={{
+            control: Input
+          }}
+          validators={{
+            required: v => !!v,
+            minLength: v => v && v.length > 9
+          }}
+          mapProps={{
+            ...controls.text,
+            error: ({fieldValue: {valid}}) => !valid
+          }}
         />
       </Form>
     </div>)
