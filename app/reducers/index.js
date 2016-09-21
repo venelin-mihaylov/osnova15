@@ -80,6 +80,7 @@ const rootReducer = combineReducers({
     matchCompetitor: {},
     exercise: {},
     target: {},
+    test: {},
   }, 'rrf')
 })
 export default rootReducer

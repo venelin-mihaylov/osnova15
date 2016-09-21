@@ -18,16 +18,17 @@ export const TargetFormFields = ({
   entity,
   model,
 }) => {
-
   const relName = 'target_zone'
-
   return (<div>
     <AutoFields
       {...{form, entity}}
       jsonSchema={TargetSchema}
       overrides={{
         image: {
-          input: <FileField accept='.png,.jpg' label='Target Image' placeholder='Image' />
+          component: FileField,
+          accept: '.png,.jpg',
+          label: 'Target Image',
+          placeholder: 'Image'
         }
       }}
     />

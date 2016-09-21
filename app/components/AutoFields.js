@@ -10,6 +10,7 @@ import trimEnd from 'lodash/trimEnd'
 import endsWith from 'lodash/endsWith'
 import isArray from 'lodash/isArray'
 import mapValues from 'lodash/mapValues'
+import {Control, controls} from 'react-redux-form'
 
 export default class AutoFields extends React.Component {
 
@@ -87,11 +88,9 @@ export default class AutoFields extends React.Component {
     },
     overrides: {
       append = null,
-      wrapWithFormField = true,
       input = null, // completely override input component
+      inputComponent = null,
       inputEl = null, // override input component type
-      rrfProps = {}, // add/override react-redux-form component props
-      formFieldProps = {}, // add/override Form.Field props
       exclude = false, // exclude field
       ...inputProps
     },
@@ -113,7 +112,6 @@ export default class AutoFields extends React.Component {
     }
 
     const t = toArray(type)
-    let wrap = true
     const validators = {}
     if (required) {
       validators.required = v => v && v.length
@@ -122,85 +120,86 @@ export default class AutoFields extends React.Component {
       validators.minLength = v => v && v.length > minLength
     }
     if (maxLength) {
-      validators.maxLength = v => v && v.length < maxLength
+      validators.maxLength = v => !v || (v && v.length < maxLength)
     }
 
-    let genInput = null
-    if (input) {
-      genInput = input
-    } else if (t.indexOf('string') !== -1) {
+    let addInputProps = null
+    let mapProps = controls.text // default
+    let component = null
+    if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        genInput = React.createElement(inputEl || DatePicker, {
+        component = DatePicker
+        addInputProps = {
           isClearable: true,
-          dateFormat: 'YYYY/MM/DD',
-          ...common,
-          ...inputProps,
-        })
+          dateFormat: 'YYYY/MM/DD'
+        }
       } else {
-        genInput = React.createElement(inputEl || Input, {
-          ...common,
-          ...inputProps,
-        })
+        component = Input
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
-        genInput = React.createElement(inputEl || FKSelect, {
+        component = FKSelect
+        addInputProps = {
           entity: fkProps.entity,
           variation: '1',
-          labelField,
-          ...common,
-          ...inputProps
-        })
+          labelField
+        }
       } else if (enumProps) { // value map
-        const options = AutoFields.enumToOptions(enumProps)
-        genInput = React.createElement(inputEl || Dropdown, {
+        mapProps = controls.select
+        component = Dropdown
+        addInputProps = {
           selection: true,
-          options,
-          ...common,
-          ...inputProps
-        })
+          options: AutoFields.enumToOptions(enumProps),
+        }
       } else { // number
-        genInput = React.createElement(inputEl || Input, {
-          ...common,
-          ...inputProps,
-        })
+        component = Input
       }
     } else if (t.indexOf('number') !== -1) {
-      genInput = React.createElement(inputEl || Input, {
-        ...common,
-        ...inputProps,
-      })
+      component = Input
     } else if (t.indexOf('boolean') !== -1) {
-      wrap = false
-      genInput = React.createElement(inputEl || Checkbox, {
-        label,
-        ...common,
-        ...inputProps
-      })
+      mapProps = controls.checkbox
+      component = Checkbox
     } else {
-      genInput = <div>No Field</div>
+      throw new Error('Invalid auto field')
     }
 
-    const suiField = (<SUIField
-      model={rrfField(entity, fullField)}
-      key={fullField}
-      updateOn={updateOn}
-      validators={validators}
-      {...rrfProps}
-    >
-      {genInput}
-      {append}
-    </SUIField>)
+    return React.createElement(Control, {
+      key: rrfField(entity, fullField),
+      model: rrfField(entity, fullField),
+      component: Form.Field,
+      controlProps: {
+        control: component,
+        label,
+        ...inputProps,
+        ...addInputProps
+      },
+      validators,
+      mapProps: {
+        ...mapProps,
+        error: ({fieldValue: {valid}}) => !valid
+      }
+    })
 
-    wrap = wrap && wrapWithFormField
-    if (!wrap) {
-      return suiField
-    }
-
-    return (<Form.Field {...formFieldProps}>
-      <label>{label}</label>
-      {suiField}
-    </Form.Field>)
+    // const suiField = (<SUIField
+    //   model={rrfField(entity, fullField)}
+    //   key={fullField}
+    //   updateOn={updateOn}
+    //   validators={validators}
+    //   {...rrfProps}
+    // >
+    //   {genInput}
+    //   {append}
+    // </SUIField>)
+    //
+    // wrap = wrap && wrapWithFormField
+    // if (!wrap) {
+    //   return suiField
+    // }
+    //
+    // return (<Form.Field {...formFieldProps}>
+    //   <label>{label}</label>
+    //   {suiField}
+    // </Form.Field>)
   }
 
   static renderFields({glue, ...params}) {

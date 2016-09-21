@@ -25,6 +25,7 @@ import TargetFormContainer from 'modules/target/containers/TargetFormContainer'
 
 import HomePage from 'containers/HomePage'
 import LoginPage from 'containers/LoginPage'
+import TestPage from 'containers/TestPage'
 import ContentContainer from 'containers/ContentContainer'
 
 /*
@@ -57,6 +58,7 @@ export default (store) => {
   return (
     <Route name='Home' path='/' component={App}>
       <IndexRoute component={HomePage} />
+      <Route name='Test' path='test' component={TestPage} />
       <Route name='Login' path='login' component={LoginPage} />
       <Route name='Tournaments' path='tournament' component={ContentContainer}>
         <IndexRoute component={TournamentListContainer} />

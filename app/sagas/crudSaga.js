@@ -31,7 +31,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       })
       const record = response.data
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
-      yield put(actions.load(rrfModel(entity), record))
+      yield put(actions.change(rrfModel(entity), record))
       yield call(resolve, record)
     } catch (err) {
       if (err.status === 401) {
@@ -172,7 +172,6 @@ export default function crudSaga(entity, variation = '1', options = {}) {
 
   return function* crudSaga1() {
     yield [
-      fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
       fork(function* watchListSort() { yield* takeEvery(type(CRUDAct.LIST_SORT), list) }),
       fork(function* watchList() { yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list) }),
