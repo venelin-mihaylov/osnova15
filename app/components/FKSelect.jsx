@@ -2,10 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import FKAct from 'constants/FKAct'
-import {Dropdown} from 'stardust'
+import {Dropdown, Button, Icon} from 'stardust'
 import isFunction from 'lodash/isFunction'
-import {fkStatePath, mapActFromProps} from 'utils/Util'
-import curry from 'lodash/curry'
+import {fkStatePath, mapActFromProps, toArray} from 'utils/Util'
+
 
 /**
  * Provides a foreign key select combo.
@@ -80,6 +80,10 @@ export default class FKSelect extends React.Component {
      * server request base params
      */
     listParams: React.PropTypes.object,
+    /**
+     * Buttons to render after the dropdown
+     */
+    buttons: React.PropTypes.any
   }
 
   static defaultProps = {
@@ -138,36 +142,39 @@ export default class FKSelect extends React.Component {
       name,
       listParams,
       onChange,
-      onFocus = () => {
-      },
+      onFocus = () => {},
+      buttons = [],
       ...rest,
     } = this.props
 
-    return (<Dropdown
-      name={name}
-      search
-      selection
-      selectOnBlur={false}
-      loading={loading}
-      text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
-      options={renderList(records)}
-      onSearchChange={(e, searchText) => {
-        this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
-        this.setState({
-          searchText
-        })
-      }}
-      onFocus={(e) => {
-        if (isFunction(onFocus) && onFocus(e) === false) {
-          return
-        }
-        const searchText = e.target.value // use the dom element to get the value
-        this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
-      }}
-      {...rest}
-      onChange={(e, value) => {
-        onChange(value)
-      }}
-    />)
+    return (<div>
+      <Dropdown
+        name={name}
+        search
+        selection
+        selectOnBlur={false}
+        loading={loading}
+        text={valueRecord ? renderLabel(valueRecord) : this.state.searchText}
+        options={renderList(records)}
+        onSearchChange={(e, searchText) => {
+          this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
+          this.setState({
+            searchText
+          })
+        }}
+        onFocus={(e) => {
+          if (isFunction(onFocus) && onFocus(e) === false) {
+            return
+          }
+          const searchText = e.target.value // use the dom element to get the value
+          this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
+        }}
+        {...rest}
+        onChange={(e, value) => {
+          onChange(value)
+        }}
+      />
+      {buttons}
+    </div>)
   }
 }

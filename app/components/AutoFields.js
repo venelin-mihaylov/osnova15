@@ -1,6 +1,5 @@
 import React from 'react'
-import {toArray, rrfField} from 'utils/Util'
-import SUIField from 'components/SUIField'
+import {toArray, rrfField, truthy} from 'utils/Util'
 import {Form, Input, Dropdown, Checkbox} from 'stardust'
 
 import DatePicker from 'react-datepicker'
@@ -12,6 +11,7 @@ import isArray from 'lodash/isArray'
 import mapValues from 'lodash/mapValues'
 import {Control, controls} from 'react-redux-form'
 import moment from 'moment'
+import pickBy from 'lodash/pickBy'
 
 export default class AutoFields extends React.Component {
 
@@ -154,28 +154,14 @@ export default class AutoFields extends React.Component {
     }
   }
 
-  static fieldValidators({
-    required,
-    minLength,
-    maxLength
-  }) {
-    const ret = {}
-    if (required) {
-      ret.required = function (v) {
-        const r = !!v
-        console.log('required validator')
-        console.log(v)
-        console.log(r)
-        return r
-      }
-    }
-    if (minLength) {
-      ret.minLength = v => v && v.length >= minLength
-    }
-    if (maxLength) {
-      ret.maxLength = v => !v || (v && v.length <= maxLength)
-    }
-    return ret
+  static validators = {
+    required: () => v => !!v,
+    minLength: minLength => v => v && v.length >= minLength,
+    maxLength: maxLength => v => !v || (v && v.length <= maxLength)
+  }
+
+  static fieldValidators(schemaValidations) {
+    return mapValues(pickBy(schemaValidations, truthy), (val, key) => AutoFields.validators[key](val))
   }
 
   static renderField({

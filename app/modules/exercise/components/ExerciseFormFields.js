@@ -27,7 +27,7 @@ export const ExerciseFormFields = ({
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
       renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <Form.Group key={idx} inline>
+        <Form.Group key={idx}>
           {AutoFields.renderFields({
             entity,
             styles,
@@ -56,7 +56,7 @@ export const ExerciseFormFields = ({
                     favourite: true
                   }
                 },
-                append: [<Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>],
+                buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>,
               },
               exerciseId: {
                 exclude: true

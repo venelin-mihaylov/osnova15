@@ -317,3 +317,7 @@ export function formatCountry(v) {
   const c = countries[v.toUpperCase()]
   return (<span><Flag name={v} />{c && c.name}</span>)
 }
+
+export function truthy(v) {
+  return !!v
+}

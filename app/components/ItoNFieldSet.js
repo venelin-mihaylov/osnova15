@@ -1,7 +1,7 @@
 import React from 'react'
 import {rrfField} from 'utils/Util'
 import {actions} from 'react-redux-form'
-import IconButton from 'material-ui/IconButton'
+import {Button, Icon} from 'stardust'
 
 export default class ItoNFieldSet extends React.Component {
 
@@ -23,9 +23,9 @@ export default class ItoNFieldSet extends React.Component {
     return <If condition={relData}>
       <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
         <legend>
-          <IconButton iconClassName='fa fa-plus' onClick={onAdd} />
-          <IconButton iconClassName='fa fa-minus' onClick={onDeleteLast} />
-          <h2 style={{marginRight: '10px', display: 'inline'}}>{relTitle}</h2>
+          <Button className='icon' onClick={onAdd} ><Icon name='add' /></Button>
+          <Button className='icon' onClick={onDeleteLast} ><Icon name='minus' /></Button>
+          <h2 style={{paddingRight: '20px', display: 'inline'}}>{relTitle}</h2>
         </legend>
         {relData && relData.map((row, idx) => renderRecord({
           row,

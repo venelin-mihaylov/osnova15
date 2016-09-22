@@ -15,8 +15,11 @@ export const MatchFormFields = ({
       relations={MatchRelations}
       overrides={{
         country: {
-          control: CountrySelect
-        }
+          control: CountrySelect,
+          rrfProps: {
+            mapProps: AutoFields.mapPropsDropdown
+          }
+        },
       }}
     />
   </div>
