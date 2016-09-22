@@ -73,12 +73,6 @@ exports.up = function (knex, Promise) {
       t.string('signature')
       t.boolean('favourite').notNullable().default(false)
     }),
-    knex.schema.createTable('match_exercise', function (t) {
-      t.increments('id').primary()
-      t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
-      t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
-      t.unique(['matchId', 'exerciseId'])
-    }),
     knex.schema.createTable('target', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
@@ -122,9 +116,9 @@ exports.down = function (knex, Promise) {
     knex.raw('DROP TABLE competitor CASCADE'),
     knex.raw('DROP TABLE tournament CASCADE'),
     knex.raw('DROP TABLE matches CASCADE'),
+    knex.raw('DROP TABLE match_exercise_target_zone CASCADE'),
     knex.raw('DROP TABLE match_competitor CASCADE'),
     knex.raw('DROP TABLE exercise CASCADE'),
-    knex.raw('DROP TABLE match_exercise CASCADE'),
     knex.raw('DROP TABLE target CASCADE'),
     knex.raw('DROP TABLE target_zone CASCADE'),
     knex.raw('DROP TABLE exercise_target CASCADE')

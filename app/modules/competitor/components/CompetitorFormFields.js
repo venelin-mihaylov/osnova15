@@ -12,7 +12,7 @@ export const CompetitorFormFields = ({
       jsonSchema={CompetitorSchema}
       overrides={{
         country: {
-          inputEl: CountrySelect
+          control: CountrySelect
         }
       }}
     />

@@ -15,7 +15,7 @@ export const MatchFormFields = ({
       relations={MatchRelations}
       overrides={{
         country: {
-          inputEl: CountrySelect
+          control: CountrySelect
         }
       }}
     />

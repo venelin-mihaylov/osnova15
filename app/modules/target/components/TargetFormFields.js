@@ -1,8 +1,5 @@
 import React from 'react'
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import ItoNFieldSet from 'components/ItoNFieldSet'
-import IconButton from 'material-ui/IconButton'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import TargetZoneSchema from '../../../../universal/model/schema/TargetZoneSchema'
 import TargetZoneRelations from '../../../../universal/model/relations/TargetZoneRelations'
@@ -14,18 +11,17 @@ import styles from 'styles/components/TargetFormFields.css'
 
 export const TargetFormFields = ({
   dispatch,
-  form,
   entity,
   model,
 }) => {
   const relName = 'target_zone'
   return (<div>
     <AutoFields
-      {...{form, entity}}
+      entity={entity}
       jsonSchema={TargetSchema}
       overrides={{
         image: {
-          component: FileField,
+          control: FileField,
           accept: '.png,.jpg',
           label: 'Target Image',
           placeholder: 'Image'
@@ -36,25 +32,28 @@ export const TargetFormFields = ({
     <ItoNFieldSet
       {...{entity, model, relName, dispatch}}
       relTitle='Target Zones'
-      renderRecord={({row, idx, relName, onDeleteByIndex}) => (
-        <Form.Group key={idx} widths='equal'>
-          {AutoFields.renderFields({
-            form,
-            entity,
-            styles,
-            namePrefix: `${relName}[${idx}]`,
-            jsonSchema: TargetZoneSchema,
-            relations: TargetZoneRelations,
-            overrides: {
-              targetId: {
-                exclude: true
-              }
+      renderRecord={({idx}) => (<Form.Group key={idx} widths='equal'>
+        {AutoFields.renderFields({
+          entity,
+          styles,
+          namePrefix: `${relName}[${idx}]`,
+          jsonSchema: TargetZoneSchema,
+          relations: TargetZoneRelations,
+          overrides: {
+            targetId: {
+              exclude: true
             }
-          })}
-        </Form.Group>
-      )}
+          }
+        })}
+      </Form.Group>)}
     />
   </div>)
+}
+
+TargetFormFields.propTypes = {
+  dispatch: React.PropTypes.func,
+  entity: React.PropTypes.string,
+  model: React.PropTypes.object
 }
 
 export default TargetFormFields

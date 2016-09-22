@@ -15,7 +15,8 @@ import {Form as suiForm, Message, Button, Input} from 'stardust'
 import {Form, Control, controls} from 'react-redux-form'
 import AutoFields from 'components/AutoFields'
 import {rrfModel} from 'utils/Util'
-import {CountrySelect} from 'components/CountrySelect'
+import CountrySelect from 'components/CountrySelect'
+import FileField from 'components/FileField'
 
 const TestSchema = {
   type: 'object',
@@ -37,6 +38,7 @@ const TestSchema = {
     favourite: {type: 'boolean'},
     tournamentId: {type: ['null', 'integer'], labelField: 'name'},
     country: {type: 'string', maxLength: 255},
+    image: {type: 'string'}
   }
 }
 
@@ -78,10 +80,15 @@ export default class TestPage extends React.Component { // eslint-disable-line r
           relations: TestRelations,
           overrides: {
             country: {
-              component: CountrySelect,
-              controlProps: {
+              control: CountrySelect,
+              rrfProps: {
                 mapProps: AutoFields.mapPropsDropdown
               }
+            },
+            image: {
+              control: FileField,
+              accept: '.png,.jpg',
+              label: 'Target Image'
             }
           }
         })}

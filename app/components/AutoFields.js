@@ -48,6 +48,16 @@ export default class AutoFields extends React.Component {
     error: ({fieldValue: {valid}}) => !valid
   }
 
+  static mapPropsCheckbox = {
+    ...controls.checkbox,
+    error: ({fieldValue: {valid}}) => !valid
+  }
+
+  static mapPropsText = {
+    ...controls.text,
+    error: ({fieldValue: {valid}}) => !valid
+  }
+
   /**
    * if the field is a foreign key,
    * we have to render a FKSelect
@@ -82,14 +92,99 @@ export default class AutoFields extends React.Component {
     return options
   }
 
+  static renderInput({
+    type,
+    format,
+    fkProps,
+    labelField,
+    enumProps
+  }) {
+    let component = null
+    let addComponentProps = null
+    let mapProps = AutoFields.mapPropsText
+    let updateOn = 'blur'
+
+    const t = toArray(type)
+    if (t.indexOf('string') !== -1) {
+      if (format === 'date') {
+        component = DatePicker
+        addComponentProps = {
+          isClearable: true,
+          dateFormat: 'YYYY/MM/DD'
+        }
+        mapProps = AutoFields.mapPropsDateField
+      } else {
+        component = Input
+      }
+    } else if (t.indexOf('integer') !== -1) {
+      if (fkProps.entity) { // foreign key
+        component = FKSelect
+        addComponentProps = {
+          entity: fkProps.entity,
+          variation: '1',
+          labelField
+        }
+        updateOn = 'change'
+      } else if (enumProps) { // value map
+        component = Dropdown
+        addComponentProps = {
+          selection: true,
+          options: AutoFields.enumToOptions(enumProps),
+        }
+        mapProps = AutoFields.mapPropsDropdown
+        updateOn = 'change'
+      } else { // number
+        component = Input
+      }
+    } else if (t.indexOf('number') !== -1) {
+      component = Input
+    } else if (t.indexOf('boolean') !== -1) {
+      component = Checkbox
+      mapProps = AutoFields.mapPropsCheckbox
+      updateOn = 'change'
+    } else {
+      throw new Error('Invalid auto field')
+    }
+
+    return {
+      component,
+      mapProps,
+      addComponentProps,
+      updateOn
+    }
+  }
+
+  static fieldValidators({
+    required,
+    minLength,
+    maxLength
+  }) {
+    const ret = {}
+    if (required) {
+      ret.required = function (v) {
+        const r = !!v
+        console.log('required validator')
+        console.log(v)
+        console.log(r)
+        return r
+      }
+    }
+    if (minLength) {
+      ret.minLength = v => v && v.length >= minLength
+    }
+    if (maxLength) {
+      ret.maxLength = v => !v || (v && v.length <= maxLength)
+    }
+    return ret
+  }
+
   static renderField({
-    updateOn,
     entity,
     namePrefix = '', // prefix, in case of 1:N
     name, // name of the field
     required = false,
     fkProps = {}, // FK table/field, available only for FK
-    schema: {
+    fieldSchema: {
       noForm, // don't show
       type,
       format,
@@ -101,10 +196,9 @@ export default class AutoFields extends React.Component {
       labelField = 'id', // FK prop
     },
     overrides: {
-      append = null,
       exclude = false, // exclude field
-      controlProps = {},
-      ...rest
+      rrfProps = {},
+      ...restOverrides
     },
     styles = {}, // css styles,
   }) {
@@ -116,65 +210,24 @@ export default class AutoFields extends React.Component {
       label = trimEnd(label, 'Id') // eslint-disable-line
     }
 
+    const {component, mapProps, addComponentProps, updateOn} = this.renderInput({
+      type,
+      format,
+      fkProps,
+      labelField,
+      enumProps,
+    })
+
+    if (component === null) {
+      return null
+    }
+
     const fullField = `${namePrefix}${name}`
-
-    // const className = styles[name]
-    const common = {
-      className: 'error'
-    }
-
-    const t = toArray(type)
-    const validators = {}
-    if (required) {
-      validators.required = v => v && v.length
-    }
-    if (minLength) {
-      validators.minLength = v => v && v.length > minLength
-    }
-    if (maxLength) {
-      validators.maxLength = v => !v || (v && v.length < maxLength)
-    }
-
-    let addInputProps = null
-    let mapProps = controls.text // default
-    let component = null
-    if (t.indexOf('string') !== -1) {
-      if (format === 'date') {
-        component = DatePicker
-        addInputProps = {
-          isClearable: true,
-          dateFormat: 'YYYY/MM/DD'
-        }
-        mapProps = AutoFields.mapPropsDateField
-      } else {
-        component = Input
-      }
-    } else if (t.indexOf('integer') !== -1) {
-      if (fkProps.entity) { // foreign key
-        component = FKSelect
-        addInputProps = {
-          entity: fkProps.entity,
-          variation: '1',
-          labelField
-        }
-      } else if (enumProps) { // value map
-        component = Dropdown
-        addInputProps = {
-          selection: true,
-          options: AutoFields.enumToOptions(enumProps),
-        }
-        mapProps = AutoFields.mapPropsDropdown
-      } else { // number
-        component = Input
-      }
-    } else if (t.indexOf('number') !== -1) {
-      component = Input
-    } else if (t.indexOf('boolean') !== -1) {
-      component = Checkbox
-      mapProps = controls.checkbox
-    } else {
-      throw new Error('Invalid auto field')
-    }
+    const validators = AutoFields.fieldValidators({
+      required,
+      minLength,
+      maxLength
+    })
 
     return React.createElement(Control, {
       key: rrfField(entity, fullField),
@@ -183,15 +236,14 @@ export default class AutoFields extends React.Component {
       controlProps: {
         control: component,
         label,
-        ...addInputProps,
-        ...rest,
+        ...addComponentProps,
+        ...restOverrides,
       },
       validators,
-      mapProps: {
-        ...mapProps,
-        error: ({fieldValue: {valid}}) => !valid
-      },
-      ...controlProps
+      mapProps,
+      updateOn,
+      validateOn: 'change',
+      ...rrfProps
     })
   }
 
@@ -209,12 +261,12 @@ export default class AutoFields extends React.Component {
     ...rest // the rest is passed to every field
   }) {
     const ret = {}
-    forOwn(jsonSchema.properties, (schema, name) => {
-      if (schema.properties) return // embedded object
+    forOwn(jsonSchema.properties, (fieldSchema, name) => {
+      if (fieldSchema.properties) return // embedded object, not supported
       const overrides = allOverrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = jsonSchema.required.indexOf(name) !== -1
-      const args = Object.assign({schema, name, required, overrides, fkProps}, rest)
+      const args = Object.assign({fieldSchema, name, required, overrides, fkProps}, rest)
       const f = AutoFields.renderField(args)
       if (f) {
         ret[name] = f

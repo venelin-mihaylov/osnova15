@@ -93,11 +93,13 @@ const dataSpec = {
     birthDate: new Date()
   }),
   target: generate(count.target, {
-    name: (i) => `Target ${i}`
+    name: (i) => `Target ${i}`,
+    type: () => randInt(1, 2),
+    favourite: () => randInt(0, 1)
   }),
   target_zone: generateItoN(count.target, count.target_zone_max, {
     targetId: ({parentIdx}) => `target:${parentIdx}`,
-    name: (i) => `S${i}`,
+    name: ({i}) => `S${i}`,
     width: () => randInt(1, 10),
     height: () => randInt(1, 10),
   }),
