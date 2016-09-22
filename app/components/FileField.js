@@ -58,8 +58,6 @@ export default class FileField extends React.Component {
       ...rest,
     } = this.props
 
-    console.log(rest)
-
     return (<div>
       {value && <div><img alt='Current' src={value} /></div>}
       {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
