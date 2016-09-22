@@ -72,7 +72,7 @@ const rootReducer = combineReducers({
   [fkStatePath('exercise', '1')]: fkReducer('exercise', '1'),
   [fkStatePath('target', '1')]: fkReducer('target', '1'),
 
-  rrf1: combineForms({
+  rrf: combineForms({
     login: {},
     tournament: {},
     match: {},
@@ -81,6 +81,6 @@ const rootReducer = combineReducers({
     exercise: {},
     target: {},
     test: {},
-  }, 'rrf1')
+  }, 'rrf')
 })
 export default rootReducer

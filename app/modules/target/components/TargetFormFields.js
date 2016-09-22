@@ -24,7 +24,10 @@ export const TargetFormFields = ({
           control: FileField,
           accept: '.png,.jpg',
           label: 'Target Image',
-          placeholder: 'Image'
+          placeholder: 'Image',
+          rrfProps: {
+            updateOn: 'change'
+          }
         }
       }}
     />
