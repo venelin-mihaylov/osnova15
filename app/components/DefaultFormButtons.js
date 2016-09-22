@@ -35,7 +35,7 @@ const DefaultFormButtons = ({onReset, onCancel, loading, saving}) => (
       })}
       onClick={onCancel}
     >
-      <Icon name='undo' />
+      <Icon name='remove' />
       Cancel
     </Button>
   </div>

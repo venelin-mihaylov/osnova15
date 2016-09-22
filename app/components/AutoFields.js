@@ -227,7 +227,7 @@ export default class AutoFields extends React.Component {
         ...addComponentProps,
         ...restOverrides,
       },
-      validators,
+      //validators,
       mapProps,
       updateOn,
       validateOn: 'change',

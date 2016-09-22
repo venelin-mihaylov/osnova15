@@ -56,8 +56,8 @@ export default class OsnovaFormContainer extends React.Component {
   onCancel() {
     const {dispatch} = this.props
     const nextPath = this.nextPath({action: 'cancel'})
-    this.resetForm()
-    dispatch(push(nextPath))
+    // this.resetForm()
+    //dispatch(push(nextPath))
   }
 
   nextPath({action, id}) {

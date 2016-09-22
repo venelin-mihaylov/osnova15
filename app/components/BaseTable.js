@@ -29,13 +29,13 @@ export default class BaseTable extends React.Component {
     selectedRowIdField: 'id',
   }
 
-  constructor() {
-    super()
+  componentWillMount() {
     this.setState({
       orderBy: 'id',
       orderDirection: 'asc'
     })
   }
+
 
   onRow(row, {rowIndex}) {
     const {

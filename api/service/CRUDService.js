@@ -88,8 +88,6 @@ export default class CRUDService {
   async afterUpdate(id, input, response) {} // eslint-disable-line
 
   async update(id, input) {
-    console.log('update')
-    console.log(input)
     await this.beforeUpdate(id, input)
     const response = await this.doUpdate(id, input)
     await this.afterUpdate(id, input, response)

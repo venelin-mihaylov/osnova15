@@ -39,7 +39,13 @@ export default class FileField extends React.Component {
 
     const reader = new FileReader()
     const file = e.target.files[0]
+    if (!file) {
+      return
+    }
+
     reader.onloadend = () => {
+      console.log('load end')
+      console.log(onChange)
       onChange(reader.result)
     }
 
@@ -73,7 +79,10 @@ export default class FileField extends React.Component {
         <Button
           labeled
           icon
-          onClick={() => onChange('')}
+          onClick={() => {
+            this.refInputFile.value = ''
+            onChange('')
+          }}
         >
           <Icon name='erase' />
           Clear

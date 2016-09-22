@@ -1,6 +1,6 @@
 
 input[type="file"].input {
-  display: none;
+  display: block;
 }
 
 .emptyPlaceholder {
