@@ -17,6 +17,7 @@ export const MatchFormFields = ({
         country: {
           control: CountrySelect,
           rrfProps: {
+            updateOn: 'change',
             mapProps: AutoFields.mapPropsDropdown
           }
         },

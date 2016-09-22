@@ -20,3 +20,5 @@ const CountrySelect = (props) => (<OsnovaDropdown
   {...props}
 />)
 export default CountrySelect
+
+export {CountrySelect}

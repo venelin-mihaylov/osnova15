@@ -82,6 +82,7 @@ export default class TestPage extends React.Component { // eslint-disable-line r
             country: {
               control: CountrySelect,
               rrfProps: {
+                updateOn: 'change',
                 mapProps: AutoFields.mapPropsDropdown
               }
             },

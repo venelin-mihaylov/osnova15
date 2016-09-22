@@ -44,7 +44,10 @@ export default class AutoFields extends React.Component {
 
   static mapPropsDropdown = {
     ...controls.select,
-    onChange: ({onChange}) => (e, value) => onChange(value),
+    onChange: ({onChange}) => (e, value) => {
+      console.log('onChange: ' + value)
+      onChange(value)
+    },
     error: ({fieldValue: {valid}}) => !valid
   }
 
@@ -102,7 +105,7 @@ export default class AutoFields extends React.Component {
     let component = null
     let addComponentProps = null
     let mapProps = AutoFields.mapPropsText
-    let updateOn = 'blur'
+    let updateOn = 'change'
 
     const t = toArray(type)
     if (t.indexOf('string') !== -1) {
@@ -115,6 +118,7 @@ export default class AutoFields extends React.Component {
         mapProps = AutoFields.mapPropsDateField
       } else {
         component = Input
+        updateOn = 'blur'
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
@@ -124,7 +128,6 @@ export default class AutoFields extends React.Component {
           variation: '1',
           labelField
         }
-        updateOn = 'change'
       } else if (enumProps) { // value map
         component = Dropdown
         addComponentProps = {
@@ -132,16 +135,15 @@ export default class AutoFields extends React.Component {
           options: AutoFields.enumToOptions(enumProps),
         }
         mapProps = AutoFields.mapPropsDropdown
-        updateOn = 'change'
       } else { // number
         component = Input
+        updateOn = 'blur'
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
     } else if (t.indexOf('boolean') !== -1) {
       component = Checkbox
       mapProps = AutoFields.mapPropsCheckbox
-      updateOn = 'change'
     } else {
       throw new Error('Invalid auto field')
     }
