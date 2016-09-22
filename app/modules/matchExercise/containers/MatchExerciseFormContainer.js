@@ -6,14 +6,15 @@ import MatchExerciseFormFields from 'modules/matchExercise/components/MatchExerc
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
-import {mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath} from 'utils/Util'
+import {rrfModel, mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath} from 'utils/Util'
+import get from 'lodash.get'
 
 const entity = 'exercise'
 const variation = '1'
 
 @connect(mapCrudStateToProps(entity, variation, state => ({
   fkRecord: state[crudStatePath('target')].savedRecord,
-  model: state.exerciseModel
+  model: get(state, rrfModel(entity))
 })), mapAct(entity, variation))
 @autobind
 class MatchExerciseFormContainer extends OsnovaFormContainer {
