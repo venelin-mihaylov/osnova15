@@ -50,9 +50,9 @@ EntityForm.propTypes = {
   onReset: React.PropTypes.func,
   onCancel: React.PropTypes.func,
   entity: React.PropTypes.string,
-  redux: React.PropTypes.shape,
+  redux: React.PropTypes.object,
   model: React.PropTypes.object,
-  FormFieldsComponent: React.PropTypes.element
+  FormFieldsComponent: React.PropTypes.any
 }
 
 export default EntityForm

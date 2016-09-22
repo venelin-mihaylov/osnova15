@@ -71,7 +71,7 @@ export const ExerciseFormFields = ({
 
 ExerciseFormFields.propTypes = {
   dispatch: React.PropTypes.func,
-  model: React.PropTypes.string,
+  model: React.PropTypes.object,
   entity: React.PropTypes.string,
   onClickAddTarget: React.PropTypes.func
 }

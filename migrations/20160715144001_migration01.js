@@ -112,16 +112,16 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.raw('DROP TABLE users CASCADE'),
-    knex.raw('DROP TABLE competitor CASCADE'),
-    knex.raw('DROP TABLE tournament CASCADE'),
-    knex.raw('DROP TABLE matches CASCADE'),
-    knex.raw('DROP TABLE match_exercise_target_zone CASCADE'),
-    knex.raw('DROP TABLE match_competitor CASCADE'),
-    knex.raw('DROP TABLE exercise CASCADE'),
-    knex.raw('DROP TABLE target CASCADE'),
-    knex.raw('DROP TABLE target_zone CASCADE'),
-    knex.raw('DROP TABLE exercise_target CASCADE')
+    knex.raw('DROP TABLE IF EXISTS users CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS competitor CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS tournament CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS matches CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS match_exercise_target_zone CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS match_competitor CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS exercise CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS target CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS target_zone CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS exercise_target CASCADE')
   ])
 }
 

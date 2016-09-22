@@ -12,8 +12,12 @@ export const CompetitorFormFields = ({
       jsonSchema={CompetitorSchema}
       overrides={{
         country: {
-          control: CountrySelect
-        }
+          control: CountrySelect,
+          rrfProps: {
+            updateOn: 'change',
+            mapProps: AutoFields.mapPropsDropdown
+          }
+        },
       }}
     />
   </div>

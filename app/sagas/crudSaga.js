@@ -32,6 +32,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       const record = response.data
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
       yield put(actions.change(rrfModel(entity), record))
+      yield put(actions.setValidity(rrfModel(entity), true))
       yield call(resolve, record)
     } catch (err) {
       if (err.status === 401) {

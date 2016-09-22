@@ -27,13 +27,3 @@ TournamentFormFields.propTypes = {
 }
 
 export default TournamentFormFields
-
-// <Form.Input label='test' error />
-// <div className='ui field error'>
-//   <Input label='test' />
-//   </div>
-//   <Control.text
-// model={rrfField(entity, 'name')}
-// component={Form.Input}
-// label='name'
-//   />

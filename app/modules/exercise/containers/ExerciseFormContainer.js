@@ -14,7 +14,7 @@ const variation = '1'
 
 @connect(mapCrudStateToProps(entity, variation, state => ({
   fkRecord: state[crudStatePath('target')].savedRecord,
-  model: get(state, rrfModel(entity))
+  model: get(state, rrfModel(entity)),
 })), mapAct(entity, variation))
 @autobind
 class ExerciseFormContainer extends OsnovaFormContainer {

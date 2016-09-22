@@ -63,6 +63,6 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga(rootSaga)
   store.close = () => store.dispatch(END)
 
-  persistStore(store)
+  //persistStore(store)
   return store
 }

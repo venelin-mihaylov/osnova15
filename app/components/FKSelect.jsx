@@ -32,7 +32,6 @@ export default class FKSelect extends React.Component {
     promiseAct: React.PropTypes.func,
     redux: React.PropTypes.object,
     name: React.PropTypes.string,
-    iconButtons: React.PropTypes.arrayOf(React.PropTypes.object),
     /**
      * DB table
      */
