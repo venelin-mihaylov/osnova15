@@ -1,14 +1,4 @@
 const ExerciseRelations = {
-  match_exercise: {
-    relation: 'HasMany',
-    modelClass: 'MatchExerciseTargetZone',
-    join: {
-      fromTable: 'exercise',
-      fromField: 'id',
-      toTable: 'match_exercise',
-      toField: 'exerciseId'
-    }
-  },
   exercise_target: {
     relation: 'HasMany',
     modelClass: 'ExerciseTarget',

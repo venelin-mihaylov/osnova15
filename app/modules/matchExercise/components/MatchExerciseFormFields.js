@@ -8,7 +8,7 @@ import ExerciseTargetRelations from '../../../../universal/model/relations/Exerc
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
-export const ExerciseFormFields = ({
+export const MatchExerciseFormFields = ({
   dispatch,
   model,
   entity,
@@ -64,7 +64,7 @@ export const ExerciseFormFields = ({
               }
             })}
           </Form.Group>
-          <If condition={row.match_exercise_target_zone}> // eslint-disable-line
+          <If condition={row.match_exercise_target_zone}>
             <Form.Group>
               {row.match_exercise_target_zone.map(() => (<Form.Field>
                 <label>Zone XX</label>
@@ -78,11 +78,11 @@ export const ExerciseFormFields = ({
   </div>)
 }
 
-ExerciseFormFields.propTypes = {
+MatchExerciseFormFields.propTypes = {
   dispatch: React.PropTypes.func,
-  model: React.PropTypes.string,
+  model: React.PropTypes.object,
   entity: React.PropTypes.string,
   onClickAddTarget: React.PropTypes.func
 }
 
-export default ExerciseFormFields
+export default MatchExerciseFormFields

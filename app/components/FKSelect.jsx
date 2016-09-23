@@ -118,7 +118,6 @@ export default class FKSelect extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
-      console.log(`loading data for ${nextProps.value}`)
       this.loadServerRecord(nextProps.value)
     }
   }

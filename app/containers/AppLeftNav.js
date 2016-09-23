@@ -11,6 +11,9 @@ const AppLeftNav = ({activeMatchId, authenticated, ...rest}) => {
       <MenuItem>
         <IndexLink to='/' {...{activeStyle}}>Home</IndexLink>
       </MenuItem>
+      <MenuItem>
+        <IndexLink to='/test' {...{activeStyle}}>Test</IndexLink>
+      </MenuItem>
     </Drawer>)
   }
 
