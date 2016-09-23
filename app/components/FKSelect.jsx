@@ -82,7 +82,11 @@ export default class FKSelect extends React.Component {
     /**
      * Buttons to render after the dropdown
      */
-    buttons: React.PropTypes.any
+    buttons: React.PropTypes.any,
+    /**
+     * Callback to exercute after a record is loaded
+     */
+    postLoadRecord: React.PropTypes.func
   }
 
   static defaultProps = {
@@ -91,6 +95,7 @@ export default class FKSelect extends React.Component {
     },
     variation: '1',
     reset: true,
+    postLoadRecord: () => {}
   }
 
   /**
@@ -113,18 +118,19 @@ export default class FKSelect extends React.Component {
     // if (this.props.reset) {
     // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
     // }
-    this.loadServerRecord(this.props.value)
+    this.loadRecord(this.props.value)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
-      this.loadServerRecord(nextProps.value)
+      this.loadRecord(nextProps.value)
     }
   }
 
-  loadServerRecord(id) {
+  loadRecord(id) {
     const name = this.props.name
     this.props.promiseAct(FKAct.FK_READ_REQUESTED, {id, name})
+      .then(this.props.postLoadRecord)
   }
 
   render() {

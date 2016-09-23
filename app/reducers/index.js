@@ -9,6 +9,7 @@ import misc from './misc'
 import {combineForms} from 'react-redux-form'
 import {listStatePath, crudStatePath, fkStatePath} from 'utils/Util'
 import test from './test'
+import rrfExercise from './rrfExercise'
 
 // Combine reducers with routeReducer which keeps track of
 // router statee
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   routing,
   user,
   misc,
+  rrfExercise,
 
   [crudStatePath('tournament')]: crudReducer({entity: 'tournament'}),
   [listStatePath('tournament')]: listReducer({entity: 'tournament'}),

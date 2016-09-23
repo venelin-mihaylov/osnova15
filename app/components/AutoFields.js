@@ -231,7 +231,7 @@ export default class AutoFields extends React.Component {
     })
   }
 
-  static renderFields({glue, ...params}) {
+  static renderFields(params) {
     const fields = AutoFields.renderFieldsAsObject(params)
     const ret = []
     forOwn(fields, (v) => ret.push(v))
@@ -239,6 +239,7 @@ export default class AutoFields extends React.Component {
   }
 
   static renderFieldsAsObject({
+    include,
     overrides: allOverrides = {},
     jsonSchema,
     relations,
@@ -247,6 +248,7 @@ export default class AutoFields extends React.Component {
     const ret = {}
     forOwn(jsonSchema.properties, (fieldSchema, name) => {
       if (fieldSchema.properties) return // embedded object, not supported
+      if (include && include.indexOf(name) === -1) return
       const overrides = allOverrides[name] || {}
       const fkProps = this.fkProps(name, relations)
       const required = jsonSchema.required.indexOf(name) !== -1
