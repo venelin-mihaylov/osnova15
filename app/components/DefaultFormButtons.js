@@ -2,7 +2,7 @@ import React from 'react'
 import {Button, Icon} from 'stardust'
 import classNames from 'classnames'
 
-const DefaultFormButtons = ({onReset, onCancel, loading, saving}) => (
+const DefaultFormButtons = ({onReset, onCancel, saving}) => (
   <div style={{marginTop: 5}}>
     <Button
       type='submit'

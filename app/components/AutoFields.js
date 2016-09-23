@@ -44,10 +44,7 @@ export default class AutoFields extends React.Component {
 
   static mapPropsDropdown = {
     ...controls.select,
-    onChange: ({onChange}) => (e, value) => {
-      console.log('onChange: ' + value)
-      onChange(value)
-    },
+    onChange: ({onChange}) => (e, value) => onChange(value),
     error: ({fieldValue: {valid}}) => !valid
   }
 
@@ -105,7 +102,7 @@ export default class AutoFields extends React.Component {
     let component = null
     let addComponentProps = null
     let mapProps = AutoFields.mapPropsText
-    let updateOn = 'change'
+    const updateOn = 'change'
 
     const t = toArray(type)
     if (t.indexOf('string') !== -1) {
@@ -118,7 +115,6 @@ export default class AutoFields extends React.Component {
         mapProps = AutoFields.mapPropsDateField
       } else {
         component = Input
-        updateOn = 'blur'
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
@@ -137,7 +133,6 @@ export default class AutoFields extends React.Component {
         mapProps = AutoFields.mapPropsDropdown
       } else { // number
         component = Input
-        updateOn = 'blur'
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
@@ -231,6 +226,7 @@ export default class AutoFields extends React.Component {
       mapProps,
       updateOn,
       validateOn: 'change',
+      ignore: ['focus', 'blur'],
       ...rrfProps
     })
   }

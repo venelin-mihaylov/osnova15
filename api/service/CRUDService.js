@@ -72,7 +72,7 @@ export default class CRUDService {
     await this.beforeCreate(input)
     const response = this.doCreate(input)
     await this.afterCreate(input, response)
-    return response;
+    return response
   }
 
   async read(id) {

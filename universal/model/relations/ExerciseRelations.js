@@ -1,7 +1,7 @@
 const ExerciseRelations = {
   match_exercise: {
     relation: 'HasMany',
-    modelClass: 'MatchExercise',
+    modelClass: 'MatchExerciseTargetZone',
     join: {
       fromTable: 'exercise',
       fromField: 'id',

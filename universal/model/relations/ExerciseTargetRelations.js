@@ -18,6 +18,16 @@ const ExerciseTargetRelations = {
       toTable: 'target',
       toField: 'id'
     }
+  },
+  match_exercise_target_zone: {
+    relation: 'HasMany',
+    modelClass: 'MatchExerciseTargetZone',
+    join: {
+      fromTable: 'exercise_target',
+      fromField: 'targetId',
+      toTable: 'match_competitor',
+      toField: 'matchId'
+    }
   }
 }
 export default ExerciseTargetRelations

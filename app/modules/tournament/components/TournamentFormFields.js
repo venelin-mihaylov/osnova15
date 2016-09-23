@@ -2,8 +2,7 @@ import React from 'react'
 import TournamentSchema from '../../../../universal/model/schema/TournamentSchema'
 import AutoFields from 'components/AutoFields'
 import {rrfField} from 'utils/Util'
-import {Errors, Control, controls} from 'react-redux-form'
-import {Input, Form, Message} from 'stardust'
+import {Errors} from 'react-redux-form'
 
 const TournamentFormFields = ({entity}) => (<div>
 

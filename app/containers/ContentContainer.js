@@ -1,6 +1,4 @@
-"use strict"
-import React from "react"
-
+import React from 'react'
 
 /*
  * Note: This is kept as a container-level component,
@@ -12,4 +10,9 @@ const ContentContainer = props => (
    {props.children}
   </div>
 )
+
+ContentContainer.propTypes = {
+  children: React.PropTypes.any
+}
+
 export default ContentContainer

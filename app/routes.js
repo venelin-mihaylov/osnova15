@@ -17,8 +17,8 @@ import CompetitorFormContainer from 'modules/competitor/containers/CompetitorFor
 import ExerciseListContainer from 'modules/exercise/containers/ExerciseListContainer'
 import ExerciseFormContainer from 'modules/exercise/containers/ExerciseFormContainer'
 
-import MatchExerciseListContainer from 'modules/matchExercise/containers/MatchExerciseListContainer.js'
-import MatchExerciseFormContainer from 'modules/matchExercise/containers/MatchExerciseFormContainer.js'
+import MatchExerciseListContainer from 'modules/MatchExercise/containers/MatchExerciseListContainer.js'
+import MatchExerciseFormContainer from 'modules/MatchExercise/containers/MatchExerciseFormContainer.js'
 
 import TargetListContainer from 'modules/target/containers/TargetListContainer'
 import TargetFormContainer from 'modules/target/containers/TargetFormContainer'

@@ -146,7 +146,7 @@ export default class FKSelect extends React.Component {
       ...rest,
     } = this.props
 
-    return (<div>
+    return (<span>
       <Dropdown
         name={name}
         search
@@ -174,6 +174,6 @@ export default class FKSelect extends React.Component {
         }}
       />
       {buttons}
-    </div>)
+    </span>)
   }
 }

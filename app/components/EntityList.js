@@ -1,5 +1,4 @@
 import React from 'react'
-import TablePagination from 'components/TablePagination'
 import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'

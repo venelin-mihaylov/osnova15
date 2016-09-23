@@ -1,6 +1,6 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Button, Icon, Input} from 'stardust'
+import {Button, Icon} from 'stardust'
 
 import styles from 'styles/components/FileField.css'
 
@@ -32,7 +32,7 @@ export default class FileField extends React.Component {
     onChange: () => {}
   }
 
-  _handleImageChange(e) {
+  ihandleImageChange(e) {
     const {onChange} = this.props
 
     e.preventDefault()
@@ -44,8 +44,6 @@ export default class FileField extends React.Component {
     }
 
     reader.onloadend = () => {
-      console.log('load end')
-      console.log(onChange)
       onChange(reader.result)
     }
 
@@ -91,9 +89,10 @@ export default class FileField extends React.Component {
 
           id='file-input'
           type='file'
-          onChange={this._handleImageChange}
+          onChange={this.ihandleImageChange}
           className={styles.input}
           ref={input => (this.refInputFile = input)}
+          {...rest}
         />
       </div>
     </div>)

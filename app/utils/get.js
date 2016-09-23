@@ -1,14 +1,14 @@
-import _get from 'lodash.get';
-import endsWith from 'lodash.endswith';
+import _get from 'lodash.get'
+import endsWith from 'lodash.endswith'
 
 export default function get(object, path, defaultValue) {
-  let modelString = path;
+  let modelString = path
 
   if (endsWith(modelString, '.')) {
-    modelString = modelString.slice(0, -1);
+    modelString = modelString.slice(0, -1)
   } else if (endsWith(modelString, '[]')) {
-    modelString = modelString.slice(0, -2);
+    modelString = modelString.slice(0, -2)
   }
 
-  return _get(object, modelString, defaultValue);
+  return _get(object, modelString, defaultValue)
 }

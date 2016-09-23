@@ -81,8 +81,6 @@ export default class OsnovaFormContainer extends React.Component {
 
   addProps() {
     const {
-      entity,
-      dispatch,
       route: {
         action
       }

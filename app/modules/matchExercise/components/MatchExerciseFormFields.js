@@ -57,7 +57,7 @@ export const ExerciseFormFields = ({
                       favourite: true
                     }
                   },
-                  append: [<Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>],
+                  buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>
                 },
                 exerciseId: {
                   exclude: true

@@ -19,8 +19,7 @@ import {applyRouterMiddleware, Router, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import useScroll from 'react-router-scroll'
 import configureStore from './store'
-import injectTapEventPlugin from "react-tap-event-plugin"
-import {Icon} from 'react-fa' // unused import to get font-awesome, hack :(
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/lib/sanitize.css'
@@ -36,9 +35,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 // Set up the router, wrapping all Routes in the App component
 import createRoutes from './routes'
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
-import getMuiTheme from "material-ui/styles/getMuiTheme"
-import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme"
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 
 // add css for react-datagrid
 require('react-datagrid/index.css')
@@ -56,7 +55,7 @@ injectTapEventPlugin()
 
 // do not swallow exceptions
 process.on('unhandledRejection', function (error) {
-  console.error('UNHANDLED REJECTION', error.stack)
+  console.error('UNHANDLED REJECTION', error.stack) // eslint-disable-line
 })
 
 ReactDOM.render(

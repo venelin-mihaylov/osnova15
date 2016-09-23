@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import CRUDAct from 'constants/CRUDAct'
 import Act from 'constants/Act'
 import {fork, put, call, select} from 'redux-saga/effects'
@@ -23,6 +24,13 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
   }
 
+  function* setValid(record) {
+    for (const f in record) {
+      if (!record.hasOwnProperty(f)) continue
+      yield put(actions.setValidity(rrfField(entity, f), true))
+    }
+  }
+
   function* read({id, resolve = noop, reject = noop}) {
     try {
       const response = yield call(axios, {
@@ -31,8 +39,8 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       })
       const record = response.data
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
-      yield put(actions.change(rrfModel(entity), record))
-      yield put(actions.setValidity(rrfModel(entity), true))
+      yield put(actions.merge(rrfModel(entity), record))
+      yield setValid(record)
       yield call(resolve, record)
     } catch (err) {
       if (err.status === 401) {

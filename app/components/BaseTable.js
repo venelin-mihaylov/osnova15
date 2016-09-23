@@ -9,9 +9,6 @@ import styles from 'styles/components/BaseTable.css'
 
 @autobind
 export default class BaseTable extends React.Component {
-
-
-
   static propTypes = {
     columns: React.PropTypes.any.isRequired,
     rows: React.PropTypes.any.isRequired,
@@ -35,7 +32,6 @@ export default class BaseTable extends React.Component {
       orderDirection: 'asc'
     })
   }
-
 
   onRow(row, {rowIndex}) {
     const {

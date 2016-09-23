@@ -2,7 +2,7 @@ import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators'
 
 @autobind
-export default class MatchExerciseService extends CRUDService {
+export default class MatchExerciseTargetZoneService extends CRUDService {
 
   read(id) {
     return this.model.query().findById(id)

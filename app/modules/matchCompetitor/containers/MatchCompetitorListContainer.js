@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps, formatCountry} from 'utils/Util'
-import CRUDAct from 'constants/CRUDAct'
 
 const entity = 'matchCompetitor'
 const variation = '1'

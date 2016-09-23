@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
-import MatchExerciseFormFields from 'modules/matchExercise/components/MatchExerciseFormFields'
+import MatchExerciseFormFields from 'modules/MatchExercise/components/MatchExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
@@ -17,7 +17,7 @@ const variation = '1'
   model: get(state, rrfModel(entity))
 })), mapAct(entity, variation))
 @autobind
-class MatchExerciseFormContainer extends OsnovaFormContainer {
+export default class MatchExerciseFormContainer extends OsnovaFormContainer {
   componentWillMount() {
     super.componentWillMount()
 
@@ -67,4 +67,3 @@ class MatchExerciseFormContainer extends OsnovaFormContainer {
     />)
   }
 }
-export default MatchExerciseFormContainer

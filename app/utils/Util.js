@@ -1,7 +1,6 @@
 import React from 'react'
 import {Errors, actions} from 'react-redux-form'
 import CRUDAct from 'constants/CRUDAct'
-import FKAct from 'constants/FKAct'
 import curry from 'lodash/curry'
 import {bindActionCreators} from 'redux'
 import get from 'lodash/get'

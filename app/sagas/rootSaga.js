@@ -13,7 +13,6 @@ export default function* rootSaga() {
     fork(crudSaga('competitor')),
     fork(crudSaga('matchCompetitor')),
     fork(crudSaga('exercise')),
-    fork(crudSaga('matchExercise')),
 
     fork(fkSaga('tournament', '1')),
     fork(fkSaga('competitor', '1')),
