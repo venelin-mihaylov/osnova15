@@ -99,6 +99,7 @@ exports.up = function (knex, Promise) {
     knex.schema.createTable('match_exercise_target_zone', function (t) {
       t.increments('id').primary()
       t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
+      t.integer('exerciseTargetId').notNullable().references('id').inTable('exercise_target').onDelete('CASCADE')
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
       t.integer('zoneId').notNullable().references('id').inTable('target_zone').onDelete('CASCADE')

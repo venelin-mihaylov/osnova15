@@ -10,7 +10,7 @@ export function injectAsyncSagas(store) {
  */
 export function getHooks(store) {
   return {
-    injectReducer: (store) => {},
+    injectReducer: () => {},
     injectSagas: injectAsyncSagas(store),
   }
 }

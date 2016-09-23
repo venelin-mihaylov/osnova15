@@ -24,9 +24,9 @@ const ExerciseTargetRelations = {
     modelClass: 'MatchExerciseTargetZone',
     join: {
       fromTable: 'exercise_target',
-      fromField: 'targetId',
-      toTable: 'match_competitor',
-      toField: 'matchId'
+      fromField: 'id',
+      toTable: 'match_exercise_target_zone',
+      toField: 'exerciseTargetId'
     }
   }
 }

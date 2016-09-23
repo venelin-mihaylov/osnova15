@@ -123,8 +123,6 @@ const dataSpec = {
   exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
     targetId: ({nIdx}) => `target:${nIdx}`,
-    score: () => randInt(1, 100),
-    weight: 1,
     distance: () => randInt(1, 100),
     description: () => 'Exercise target ' + randInt(1, 100)
   }),

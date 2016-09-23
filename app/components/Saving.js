@@ -4,5 +4,3 @@ Saving.propTypes = {
   saving: React.PropTypes.bool
 }
 export default Saving
-
-

@@ -16,7 +16,7 @@ const ItoNFieldSet = ({
   const onDeleteByIndex = (idx) => dispatch(actions.remove(rrfField(entity, `${relName}[]`), idx))
   const onDeleteLast = () => dispatch(actions.remove(rrfField(entity, `${relName}[]`), relData.length - 1))
 
-  return <If condition={relData}>
+  return (<If condition={relData}>
     <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
       <legend>
         <Button className='icon' onClick={onAdd}><Icon name='add' /></Button>
@@ -30,7 +30,7 @@ const ItoNFieldSet = ({
         onDeleteByIndex
       }))}
     </fieldset>
-  </If>
+  </If>)
 }
 
 ItoNFieldSet.propTypes = {

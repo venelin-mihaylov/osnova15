@@ -4,7 +4,7 @@ import MatchExerciseTargetZoneRelations from './relations/MatchExerciseTargetZon
 import {toObjectionRelations} from './util/util'
 
 export default class MatchExerciseTargetZone extends OsnovaModel {
-  static tableName = 'match_exercise'
+  static tableName = 'match_exercise_target_zone'
   static jsonSchema = MatchExerciseTargetZoneSchema
   static relationMappings = toObjectionRelations(MatchExerciseTargetZoneRelations)
 }

@@ -33,9 +33,13 @@ export default class ExerciseService extends CRUDService {
   }
 
   read(id) {
+    const eagerParam = {
+      orderById: b => b.orderBy('id')
+    }
+
     return this.model.query()
       .findById(id)
-      .eager(...ItoN.eagerRelation(this.itonParams()))
+      .eager('[exercise_target(orderById), exercise_target.match_exercise_target_zone(orderById)]', eagerParam)
   }
 
   itonParams() {

@@ -1,11 +1,10 @@
 import React from 'react'
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import AutoFields from 'components/AutoFields'
-import {Form, Icon, Button} from 'stardust'
+import {Form, Icon, Button, Input} from 'stardust'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
-import {Input} from 'stardust'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
@@ -26,7 +25,7 @@ export const ExerciseFormFields = ({
     <ItoNFieldSet
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
-      renderRecord={({row, idx, relName, onDeleteByIndex}) => (
+      renderRecord={({row, idx}) => (
         <div key={idx}>
           <Form.Group >
             {AutoFields.renderFields({
