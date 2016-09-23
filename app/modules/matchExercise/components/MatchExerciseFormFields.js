@@ -59,7 +59,6 @@ export const MatchExerciseFormFields = ({
                       favourite: true
                     }
                   },
-
                   postLoadRecord: ({target_zone}) => { // eslint-disable-line
                     const ff = `${relName}[${idx}]match_exercise_target_zone[]`
                     dispatch(actions.filter(rrfField(entity, ff), () => false))

@@ -24,23 +24,30 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
   }
 
-  function* setValid(record) {
+  function* rrfSetValid(record) {
     for (const f in record) {
       if (!record.hasOwnProperty(f)) continue
       yield put(actions.setValidity(rrfField(entity, f), true))
     }
   }
 
+  function* rrfSetPristine(record) {
+    for (const f in record) {
+      if (!record.hasOwnProperty(f)) continue
+      yield put(actions.setPristine(rrfField(entity, f), true))
+    }
+  }
+
   function* read({id, resolve = noop, reject = noop}) {
     try {
-      const response = yield call(axios, {
+      const {data: record} = yield call(axios, {
         url: `/api/${endpoint}/${id}`,
         method: 'get'
       })
-      const record = response.data
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
-      yield put(actions.merge(rrfModel(entity), record))
-      yield setValid(record)
+      yield put(actions.load(rrfModel(entity), record))
+      yield rrfSetValid(record)
+      yield rrfSetPristine(record)
       yield call(resolve, record)
     } catch (err) {
       if (err.status === 401) {
