@@ -4,8 +4,8 @@ const MatchExerciseTargetZoneSchema = {
   properties: {
     id: {type: 'integer'},
     exerciseTargetId: {type: 'integer'},
-    exerciseId: {type: 'integer'},
-    matchId: {type: 'integer'},
+    exerciseId: {type: ['null', 'integer']},
+    matchId: {type: ['null', 'integer']},
     targetId: {type: 'integer'},
     zoneId: {type: 'integer'},
     weight: {type: 'integer'},

@@ -71,6 +71,7 @@ export const MatchExerciseFormFields = ({
                     if (isUndefined(pristine) || pristine) {
                       return
                     }
+                    console.log('postLoadRecord')
                     const ff = `${relName}[${idx}]match_exercise_target_zone[]`
                     dispatch(actions.filter(rrfField(entity, ff), () => false))
                     target_zone.forEach(({id: zoneId, targetId, name}) => dispatch(actions.push(rrfField(entity, ff), {
