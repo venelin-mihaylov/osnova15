@@ -3,7 +3,6 @@ import {fork} from 'redux-saga/effects'
 import crudSaga from './crudSaga'
 import fkSaga from './fkSaga'
 import authSaga from './authSaga'
-import rrfSaga from './rrfSaga'
 
 export default function* rootSaga() {
   yield [
@@ -19,6 +18,5 @@ export default function* rootSaga() {
     fork(fkSaga('competitor', '1')),
     fork(fkSaga('exercise', '1')),
     fork(fkSaga('target', '1')),
-    fork(rrfSaga('exercise'))
   ]
 }

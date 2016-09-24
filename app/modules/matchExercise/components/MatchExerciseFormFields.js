@@ -8,6 +8,8 @@ import ExerciseTargetRelations from '../../../../universal/model/relations/Exerc
 import MatchExerciseTargetZoneSchema from '../../../../universal/model/schema/MatchExerciseTargetZoneSchema'
 import {rrfField} from 'utils/Util'
 import {actions} from 'react-redux-form'
+import get from 'lodash/get'
+import isUndefined from 'lodash/isUndefined'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
@@ -59,7 +61,8 @@ export const MatchExerciseFormFields = ({
                       favourite: true
                     }
                   },
-                  postLoadRecord: ({target_zone}) => { // eslint-disable-line
+                  postLoadRecord: ({target_zone}, {props: {pristine}}) => { // eslint-disable-line
+                    //if (isUndefined(pristine) || pristine) return
                     const ff = `${relName}[${idx}]match_exercise_target_zone[]`
                     dispatch(actions.filter(rrfField(entity, ff), () => false))
                     target_zone.forEach(r => dispatch(actions.push(rrfField(entity, ff), r)))
@@ -72,10 +75,10 @@ export const MatchExerciseFormFields = ({
               }
             })}
           </Form.Group>
-          <If condition={row.match_exercise_target_zone}>
+          <If condition={row.match_exercise_target_zone && row.match_exercise_target_zone.length > 0}>
             <fieldset>
               {row.match_exercise_target_zone.map((r, idx2) => (<Form.Group>
-                <Form.Input label='Zone' readOnly value={r.name}/>
+                <Form.Input label='Zone' readOnly value={r.name} />
                 {AutoFields.renderFields({
                   entity,
                   className: 'mini',

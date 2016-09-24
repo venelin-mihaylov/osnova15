@@ -102,7 +102,7 @@ export default class AutoFields extends React.Component {
     let component = null
     let addComponentProps = null
     let mapProps = AutoFields.mapPropsText
-    const updateOn = 'change'
+    let updateOn = 'change'
 
     const t = toArray(type)
     if (t.indexOf('string') !== -1) {
@@ -115,6 +115,7 @@ export default class AutoFields extends React.Component {
         mapProps = AutoFields.mapPropsDateField
       } else {
         component = Input
+        updateOn = 'blur'
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
@@ -133,9 +134,11 @@ export default class AutoFields extends React.Component {
         mapProps = AutoFields.mapPropsDropdown
       } else { // number
         component = Input
+        updateOn = 'blur'
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
+      updateOn = 'blur'
     } else if (t.indexOf('boolean') !== -1) {
       component = Checkbox
       mapProps = AutoFields.mapPropsCheckbox

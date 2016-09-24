@@ -5,6 +5,7 @@ import FKAct from 'constants/FKAct'
 import {Dropdown, Button, Icon} from 'stardust'
 import isFunction from 'lodash/isFunction'
 import {fkStatePath, mapActFromProps, toArray} from 'utils/Util'
+import curryRight from 'lodash/curryRight'
 
 
 /**
@@ -13,16 +14,21 @@ import {fkStatePath, mapActFromProps, toArray} from 'utils/Util'
  * On load the current selection is passed down by react-redux-form via a value prop
  * {onChange,onBlur} a redux-form event handler is called, which gets the new value and saves it in redux-form
  */
-@connect((state, {
-  entity,
-  variation = '1',
-  name,
-}) => {
+@connect((state, ownProps) => {
+  const {
+    entity,
+    variation,
+    name,
+    addState,
+  } = ownProps
   const redux = state[fkStatePath(entity, variation)][name] || {}
   if (!redux) {
     throw new Error(`No state for ${entity}:${variation}`)
   }
-  return {redux}
+  return {
+    redux,
+    ...(addState ? addState(state, ownProps) : {})
+  }
 }, mapActFromProps)
 @autobind
 export default class FKSelect extends React.Component {
@@ -86,16 +92,21 @@ export default class FKSelect extends React.Component {
     /**
      * Callback to exercute after a record is loaded
      */
-    postLoadRecord: React.PropTypes.func
+    postLoadRecord: React.PropTypes.func,
+    /**
+     * callback to add additional state
+     */
+    addState: React.PropTypes.func,
   }
 
-  static defaultProps = {
+  defaultProps = {
     redux: {
       records: [],
     },
     variation: '1',
     reset: true,
-    postLoadRecord: () => {}
+    postLoadRecord: () => {},
+    addState: () => {}
   }
 
   /**
@@ -130,8 +141,9 @@ export default class FKSelect extends React.Component {
   loadRecord(id) {
     const name = this.props.name
     this.props.promiseAct(FKAct.FK_READ_REQUESTED, {id, name})
-      .then(this.props.postLoadRecord)
+      .then(curryRight(this.props.postLoadRecord)(this))
   }
+
 
   render() {
     const {
