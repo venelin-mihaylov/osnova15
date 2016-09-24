@@ -3,10 +3,11 @@ import {ValidationError} from 'objection'
 import {toArray} from '../utils/utils'
 import _isString from 'lodash.isstring'
 import NotFoundException from '../exception/NotFoundException'
+import pickBy from 'lodash/pickBy'
 
 export default class ItoN {
 
-  static _rethrowValidationErrors(err, relName, i) {
+  static rethrowValidationErrors(err, relName, i) {
     const data = {}
     for (const f in err.data) {
       if (!err.data.hasOwnProperty(f)) continue
@@ -25,7 +26,7 @@ export default class ItoN {
   static _handleException(err, relName, i) {
     if (err instanceof ValidationError) {
       console.log('rethrow')
-      ItoN._rethrowValidationErrors(err, relName, i)
+      ItoN.rethrowValidationErrors(err, relName, i)
     } else {
       console.log('no validation, rethrow')
       throw err
@@ -68,12 +69,12 @@ export default class ItoN {
         }
       } else {
         // in input, not in db -> create
-        op.insert.push({relModel, inRow})
+        op.insert.push({relModel, inRow: pickBy(inRow, (v, k) => k !== 'id')})
       }
     })
     dbRows.forEach(dbRow => {
       // in db, not in input -> delete
-      if (-1 === keep.indexOf(dbRow.id)) op.del.push({relModel, id: dbRow.id})
+      if (keep.indexOf(dbRow.id) === -1) op.del.push({relModel, id: dbRow.id})
     })
     return op
   }
@@ -94,12 +95,12 @@ export default class ItoN {
    * @private
    */
   static _validate({relModel, relName, inRows}) {
-    if(!inRows) return
+    if (!inRows) return
     const o = new relModel()
     inRows.forEach((inRow, i) => {
       try {
         o.$validate(inRow)
-      } catch(err) {
+      } catch (err) {
         ItoN._handleException(err, relName, i)
       }
     })
@@ -130,7 +131,7 @@ export default class ItoN {
         fk
       } = arrRelSpec[i]
 
-      const o = {[fk.field]: fk.value};
+      const o = {[fk.field]: fk.value}
       const inRows = toArray(input[relName]).map(row => Object.assign({}, row, o))
       ItoN._validate({relModel, relName, inRows})
       const dbRows = await relModel.query().where(fk.field, fk.value)
@@ -156,7 +157,7 @@ export default class ItoN {
   static _transformRelSpec({id, model, relSpec}) {
     return toArray(relSpec).map(({relName}) => {
       const modelClass = model.relationMappings[relName].modelClass
-      const relModel = typeof modelClass == 'string' ?
+      const relModel = typeof modelClass === 'string' ?
         require(modelClass).default :
         modelClass
       const fkField = model.relationMappings[relName].join.to.replace(`${relModel.tableName}\.`, '')

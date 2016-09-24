@@ -5,8 +5,8 @@ const TargetZoneSchema = {
   properties: {
     id: {type: 'integer'},
     name: {type: 'string', minLength: 2, maxLength: 8},
-    width: {type: 'number'},
-    height: {type: 'number'},
+    width: {type: 'integer'},
+    height: {type: 'integer'},
     targetId: {type: 'integer'}
   }
 }

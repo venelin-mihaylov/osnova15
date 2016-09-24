@@ -99,7 +99,7 @@ export default class FKSelect extends React.Component {
     addState: React.PropTypes.func,
   }
 
-  defaultProps = {
+  static defaultProps = {
     redux: {
       records: [],
     },

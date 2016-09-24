@@ -132,7 +132,7 @@ export default class AutoFields extends React.Component {
           options: AutoFields.enumToOptions(enumProps),
         }
         mapProps = AutoFields.mapPropsDropdown
-      } else { // number
+      } else { // integer
         component = Input
         updateOn = 'blur'
       }
@@ -229,7 +229,7 @@ export default class AutoFields extends React.Component {
       mapProps,
       updateOn,
       validateOn: 'change',
-      ignore: ['focus', 'blur'],
+      ignore: ['focus'],
       ...rrfProps
     })
   }

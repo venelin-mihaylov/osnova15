@@ -52,7 +52,7 @@ exports.up = function (knex, Promise) {
       t.integer('num')
       t.integer('squad')
       t.integer('division')
-      t.decimal('caliber')
+      t.string('caliber')
       t.string('gun')
       t.string('team')
       t.boolean('gunChecked')
@@ -84,8 +84,8 @@ exports.up = function (knex, Promise) {
     knex.schema.createTable('target_zone', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
-      t.decimal('width').notNullable()
-      t.decimal('height').notNullable()
+      t.integer('width').notNullable()
+      t.integer('height').notNullable()
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
     }),
     knex.schema.createTable('exercise_target', function (t) {
@@ -94,17 +94,17 @@ exports.up = function (knex, Promise) {
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
       t.integer('distance').notNullable()
       t.string('description')
-      t.unique(['targetId', 'exerciseId'])
+      //t.unique(['targetId', 'exerciseId'])
     }),
     knex.schema.createTable('match_exercise_target_zone', function (t) {
       t.increments('id').primary()
-      t.integer('matchId').notNullable().references('id').inTable('matches').onDelete('CASCADE')
+      t.integer('matchId').references('id').inTable('matches').onDelete('CASCADE')
       t.integer('exerciseTargetId').notNullable().references('id').inTable('exercise_target').onDelete('CASCADE')
-      t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
-      t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
+      t.integer('exerciseId').references('id').inTable('exercise').onDelete('CASCADE')
+      t.integer('targetId').references('id').inTable('target').onDelete('CASCADE')
       t.integer('zoneId').notNullable().references('id').inTable('target_zone').onDelete('CASCADE')
-      t.decimal('weight', 2).notNullable().default(1)
-      t.decimal('score').notNullable()
+      t.decimal('weight', 6, 2).notNullable().default(1)
+      t.decimal('score', 6, 2).notNullable()
     }),
   ])
 }

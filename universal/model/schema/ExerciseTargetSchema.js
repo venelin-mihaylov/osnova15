@@ -1,12 +1,11 @@
 const ExerciseTargetSchema = {
   type: 'object',
-  required: ['targetId', 'distance', 'weight', 'score'],
+  required: ['targetId', 'distance'],
   properties: {
     id: {type: 'integer'},
     exerciseId: {type: 'integer'},
     targetId: {type: 'integer', labelField: 'name'},
-    distance: {type: 'number'},
-    maxScore: {type: 'number'},
+    distance: {type: 'integer'},
     description: {type: 'string'}
   }
 }

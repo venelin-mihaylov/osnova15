@@ -8,8 +8,8 @@ const MatchExerciseTargetZoneSchema = {
     matchId: {type: 'integer'},
     targetId: {type: 'integer'},
     zoneId: {type: 'integer'},
-    weight: {type: 'number'},
-    score: {type: 'number'}
+    weight: {type: 'integer'},
+    score: {type: 'integer'}
   }
 }
 export default MatchExerciseTargetZoneSchema

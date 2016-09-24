@@ -61,11 +61,23 @@ export const MatchExerciseFormFields = ({
                       favourite: true
                     }
                   },
+                  addState: (state, {name}) => {
+                    const path = name.replace('rrf.', 'rrf.forms.') + '.pristine'
+                    const path2 = path.replace('targetId', '.targetId')
+                    const pristine = get(state, path2)
+                    return {pristine}
+                  },
                   postLoadRecord: ({target_zone}, {props: {pristine}}) => { // eslint-disable-line
-                    //if (isUndefined(pristine) || pristine) return
+                    if (isUndefined(pristine) || pristine) {
+                      return
+                    }
                     const ff = `${relName}[${idx}]match_exercise_target_zone[]`
                     dispatch(actions.filter(rrfField(entity, ff), () => false))
-                    target_zone.forEach(r => dispatch(actions.push(rrfField(entity, ff), r)))
+                    target_zone.forEach(({id: zoneId, targetId, name}) => dispatch(actions.push(rrfField(entity, ff), {
+                      zoneId,
+                      targetId,
+                      name
+                    })))
                   },
                   buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>
                 },

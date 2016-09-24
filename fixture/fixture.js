@@ -130,7 +130,6 @@ const dataSpec = {
     matchId: ({nIdx}) => `matches:${nIdx}`,
     competitorId: ({mIdx}) => `competitor:${mIdx}`
   })
-
 }
 
 const options = {

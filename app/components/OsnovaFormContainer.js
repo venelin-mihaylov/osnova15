@@ -49,6 +49,7 @@ export default class OsnovaFormContainer extends React.Component {
   }
 
   onUpdate(record, options = {}) {
+    console.log(record)
     const nextPath = this.nextPath({action: 'update'})
     this.props.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath, ...options})
   }

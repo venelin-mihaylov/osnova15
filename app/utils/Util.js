@@ -276,7 +276,7 @@ export function fkStatePath(entity, variation) {
   return `${entity}Fk${variation}`
 }
 
-export function mapListStateToProps(entity, variation, next = () => {}) {
+export function mapListStateToProps(entity, variation, next = (s) => {}) {
   return state => ({
     entity,
     variation,
@@ -285,7 +285,7 @@ export function mapListStateToProps(entity, variation, next = () => {}) {
   })
 }
 
-export function mapCrudStateToProps(entity, variation, next = () => {}) {
+export function mapCrudStateToProps(entity, variation, next = (s) => {}) {
   return state => ({
     entity,
     variation,
@@ -319,4 +319,9 @@ export function formatCountry(v) {
 
 export function truthy(v) {
   return !!v
+}
+
+export function rrfFormFieldProperty(name, property) {
+  const path = name.replace('rrf.', 'rrf.forms.') + '.' + property
+  return path
 }
