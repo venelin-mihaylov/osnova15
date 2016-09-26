@@ -25,8 +25,8 @@ const ItoNFieldSet = ({
   return (<If condition={relData}>
     <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
       <legend>
-        <Button className='icon' onClick={onAdd}><Icon name='add' /></Button>
-        <Button className='icon' onClick={onDeleteLast}><Icon name='minus' /></Button>
+        <Button type='button' className='icon' onClick={onAdd}><Icon name='add' /></Button>
+        <Button type='button' className='icon' onClick={onDeleteLast}><Icon name='minus' /></Button>
         <h2 style={{paddingRight: '20px', display: 'inline'}}>{relTitle}</h2>
       </legend>
       {relData && relData.map((row, idx) => renderRecord({
