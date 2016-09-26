@@ -9,6 +9,7 @@ import {countries} from 'country-data'
 import {Flag} from 'stardust'
 import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
+import traverse from 'traverse'
 
 export function rrfModel(entity) {
   return `rrf.${entity}`
@@ -333,6 +334,7 @@ export function rrfFormFieldProperty(name, property) {
  * @param {string} action
  */
 function rrfAllFields({dispatch, entity, record, action = (f, v) => {}, fieldValue = true}) {
+
   for (const f in record) {
     if (!record.hasOwnProperty(f)) continue
     dispatch(action(rrfField(entity, f), fieldValue))
