@@ -4,12 +4,15 @@ import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
 import MatchExerciseTargetZoneFormFields from 'modules/matchExerciseTargetZone/components/MatchExerciseTargetZoneFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
-import {mapAct, mapCrudStateToProps} from 'utils/Util'
+import {mapAct, mapCrudStateToProps, rrfModel} from 'utils/Util'
+import get from 'lodash/get'
 
-const entity = 'exercise'
+const entity = 'matchExerciseTargetNode'
 const variation = '1'
 
-@connect(mapCrudStateToProps(entity, variation), mapAct(entity, variation))
+@connect(mapCrudStateToProps(entity, variation, state => ({
+  model: get(state, rrfModel(entity))
+})), mapAct(entity, variation))
 @autobind
 export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormContainer {
 

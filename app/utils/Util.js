@@ -7,6 +7,8 @@ import get from 'lodash/get'
 import moment from 'moment'
 import {countries} from 'country-data'
 import {Flag} from 'stardust'
+import isArray from 'lodash/isArray'
+import isObject from 'lodash/isObject'
 
 export function rrfModel(entity) {
   return `rrf.${entity}`
@@ -219,9 +221,6 @@ export function calcNextPath({
   throw new Error('no rule for next path')
 }
 
-export function isObject(item) {
-  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null)
-}
 
 export function mergeDeep(target, source) {
   const output = Object.assign({}, target)
@@ -324,4 +323,43 @@ export function truthy(v) {
 export function rrfFormFieldProperty(name, property) {
   const path = name.replace('rrf.', 'rrf.forms.') + '.' + property
   return path
+}
+
+/**
+ *
+ * @param dispatch
+ * @param {string} entity
+ * @param {object} record
+ * @param {string} action
+ */
+function rrfAllFields({dispatch, entity, record, action = (f, v) => {}, fieldValue = true}) {
+  for (const f in record) {
+    if (!record.hasOwnProperty(f)) continue
+    dispatch(action(rrfField(entity, f), fieldValue))
+    if (isArray(record[f])) {
+      for (let i = 0; i < record[f].length; i++) {
+        if (isObject(record[f][i])) {
+          for (const j in record[f][i]) {
+            if (!record[f][i].hasOwnProperty(j)) continue
+            const ff = `${f}[${i}].${j}`
+            dispatch(action(rrfField(entity, ff), fieldValue))
+          }
+        }
+      }
+    }
+  }
+}
+
+export function rrfSetPristine(params) {
+  rrfAllFields({
+    ...params,
+    action: actions.setPristine
+  })
+}
+
+export function rrfSetValid(params) {
+  rrfAllFields({
+    ...params,
+    action: actions.setValidity
+  })
 }

@@ -11,40 +11,36 @@
 
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Form, Message, Button, Input} from 'stardust'
+import {Message, Button, Input} from 'stardust'
+import {Form, actions} from 'react-redux-form'
+import {connect} from 'react-redux'
 
+@connect(state => ({
+  model: state.rrf.test
+}))
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  constructor() {
-    super()
-    this.state = {
-      orderBy: null,
-      orderDirection: null
-    }
+  static propTypes = {
+    dispatch: React.PropTypes.func,
+    model: React.PropTypes.any
+  }
+
+  addRow(e) {
+    e.preventDefault()
+    this.props.dispatch(actions.change('rrf.test', [{
+      id: 'alabala'
+    }, {
+      id: 'balabal'
+    }]))
   }
 
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
-      <Form error>
-        <Input label='Email' placeholder='joe@schmoe.com' className='error' />
-        <Message
-          error
-          header='Action Forbidden'
-          content='You can only sign up for an account once with a given e-mail address.'
-        />
-        <Message
-          error
-          header='Action Forbidden'
-          content='You can only sign up for an account once with a given e-mail address.'
-        />
-        <Message
-          error
-          header='Action Forbidden'
-          content='You can only sign up for an account once with a given e-mail address.'
-        />
-        <Button>Submit</Button>
+      <Form model='rrf.test' onSubmit={(model) => console.log(model)}>
+        <Button onClick={this.addRow}>Add many</Button>
+        {this.props.model.map(r => <div>{r.id}</div>)}
       </Form>
     </div>)
   }

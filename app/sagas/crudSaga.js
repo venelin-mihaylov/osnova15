@@ -6,75 +6,36 @@ import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from 'react-redux-form'
 import {push} from 'react-router-redux'
-import {rrfModel, rrfField, formatServerError, act as _act, prefixType, listStatePath} from 'utils/Util'
+import {rrfModel, formatServerError, act as _act, prefixType, listStatePath} from 'utils/Util'
 import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
 import curry from 'lodash/curry'
 import pick from 'lodash/pick'
-import isArray from 'lodash/isArray'
-import isObject from 'lodash/isObject'
+
+function* setValidationErrors(fieldErrors) {
+  if (!fieldErrors) {
+    return
+  }
+  yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
+}
+
+function* handleException(err, reject, action) {
+  if (err.status === 401) {
+    yield put({type: Act.AUTH_REQUIRED})
+  } else {
+    const err2 = formatServerError(err)
+    yield put(act(action, err2))
+    yield setValidationErrors(err2.fieldErrors)
+  }
+  console.log(err)
+  console.log(err.stack)
+  yield call(reject, err)
+}
 
 export default function crudSaga(entity, variation = '1', options = {}) {
   const act = curry(_act)(entity, variation)
   const type = curry(prefixType)(entity, variation)
   const endpoint = options.endpoint || snakeCase(entity)
-
-  function* setValidationErrors(fieldErrors) {
-    if (!fieldErrors) {
-      return
-    }
-    yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
-  }
-
-  function* rrfSetValid(record) {
-    for (const f in record) {
-      if (!record.hasOwnProperty(f)) continue
-      yield put(actions.setValidity(rrfField(entity, f), true))
-      if (isArray(record[f])) {
-        for (let i = 0; i < record[f].length; i++) {
-          if (isObject(record[f][i])) {
-            for (const j in record[f][i]) {
-              if (!record[f][i].hasOwnProperty(j)) continue
-              const ff = `${f}[${i}].${j}`
-              yield put(actions.setValidity(rrfField(entity, ff), true))
-            }
-          }
-        }
-      }
-    }
-  }
-
-  function* rrfSetPristine(record) {
-    for (const f in record) {
-      if (!record.hasOwnProperty(f)) continue
-      yield put(actions.setPristine(rrfField(entity, f), true))
-      if (isArray(record[f])) {
-        for (let i = 0; i < record[f].length; i++) {
-          if (isObject(record[f][i])) {
-            for (const j in record[f][i]) {
-              if (!record[f][i].hasOwnProperty(j)) continue
-              const ff = `${f}[${i}].${j}`
-              yield put(actions.setPristine(rrfField(entity, ff), true))
-            }
-          }
-        }
-      }
-    }
-  }
-
-  function* handleException(err, reject, action) {
-    if (err.status === 401) {
-      yield put({type: Act.AUTH_REQUIRED})
-    } else {
-      const err2 = formatServerError(err)
-      yield put(act(action, err2))
-      yield setValidationErrors(err2.fieldErrors)
-    }
-    console.log(err)
-    console.log(err.stack)
-    yield call(reject, err)
-  }
-
 
   function* read({id, resolve = noop, reject = noop}) {
     try {
@@ -84,8 +45,6 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       })
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
       yield put(actions.load(rrfModel(entity), record))
-      yield rrfSetValid(record)
-      yield rrfSetPristine(record)
       yield call(resolve, record)
     } catch (err) {
       yield handleException(err, reject, CRUDAct.READ_ERROR)
@@ -107,7 +66,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
 
   function* create({record, nextPath, params = {}, resolve = noop, reject = noop}) {
     try {
-      const response = yield call(axios, {
+      const {data: created} = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'put',
         data: {
@@ -115,12 +74,11 @@ export default function crudSaga(entity, variation = '1', options = {}) {
           record
         }
       })
-      const created = response.data
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
+      yield call(resolve, created)
       if (nextPath) {
         yield put(push(nextPath))
       }
-      yield call(resolve, created)
     } catch (err) {
       handleException(err, reject, CRUDAct.CREATE_ERROR)
     }
@@ -155,7 +113,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
     } catch (err) {
-      yield handleException(err, CRUDAct.LIST_ERROR)
+      yield handleException(err, reject, CRUDAct.LIST_ERROR)
     }
   }
 

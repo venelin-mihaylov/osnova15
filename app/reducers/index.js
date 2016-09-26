@@ -46,9 +46,10 @@ const rootReducer = combineReducers({
     match: {},
     competitor: {},
     matchCompetitor: {},
-    matchExerciseTargetZone: {},
+    matchExerciseTargetZone: [],
     exercise: {},
-    target: {}
+    target: {},
+    test: [],
   }, 'rrf')
 })
 export default rootReducer
