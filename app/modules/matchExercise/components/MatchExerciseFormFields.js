@@ -61,25 +61,6 @@ export const MatchExerciseFormFields = ({
                       favourite: true
                     }
                   },
-                  addState: (state, {name}) => {
-                    const path = name.replace('rrf.', 'rrf.forms.') + '.pristine'
-                    const path2 = path.replace('targetId', '.targetId')
-                    const pristine = get(state, path2)
-                    return {pristine}
-                  },
-                  postLoadRecord: ({target_zone}, {props: {pristine}}) => { // eslint-disable-line
-                    if (isUndefined(pristine) || pristine) {
-                      return
-                    }
-                    console.log('postLoadRecord')
-                    const ff = `${relName}[${idx}]match_exercise_target_zone[]`
-                    dispatch(actions.filter(rrfField(entity, ff), () => false))
-                    target_zone.forEach(({id: zoneId, targetId, name}) => dispatch(actions.push(rrfField(entity, ff), {
-                      zoneId,
-                      targetId,
-                      name
-                    })))
-                  },
                   buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>
                 },
                 exerciseId: {
@@ -88,20 +69,6 @@ export const MatchExerciseFormFields = ({
               }
             })}
           </Form.Group>
-          <If condition={row.match_exercise_target_zone && row.match_exercise_target_zone.length > 0}>
-            <fieldset>
-              {row.match_exercise_target_zone.map((r, idx2) => (<Form.Group>
-                <Form.Input label='Zone' readOnly value={r.name} />
-                {AutoFields.renderFields({
-                  entity,
-                  className: 'mini',
-                  include: ['weight', 'score'],
-                  namePrefix: `${relName}[${idx}]match_exercise_target_zone[${idx2}]`,
-                  jsonSchema: MatchExerciseTargetZoneSchema,
-                })}
-              </Form.Group>))}
-            </fieldset>
-          </If>
         </div>
       )}
     />
@@ -116,3 +83,23 @@ MatchExerciseFormFields.propTypes = {
 }
 
 export default MatchExerciseFormFields
+
+// addState: (state, {name}) => {
+//   const path = name.replace('rrf.', 'rrf.forms.') + '.pristine'
+//   const path2 = path.replace('targetId', '.targetId')
+//   const pristine = get(state, path2)
+//   return {pristine}
+// },
+//   postLoadRecord: ({target_zone}, {props: {pristine}}) => { // eslint-disable-line
+//   if (isUndefined(pristine) || pristine) {
+//     return
+//   }
+//   console.log('postLoadRecord')
+//   const ff = `${relName}[${idx}]match_exercise_target_zone[]`
+//   dispatch(actions.filter(rrfField(entity, ff), () => false))
+//   target_zone.forEach(({id: zoneId, targetId, name}) => dispatch(actions.push(rrfField(entity, ff), {
+//     zoneId,
+//     targetId,
+//     name
+//   })))
+// },

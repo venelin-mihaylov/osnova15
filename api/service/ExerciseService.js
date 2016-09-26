@@ -39,7 +39,7 @@ export default class ExerciseService extends CRUDService {
 
     return this.model.query()
       .findById(id)
-      .eager('[exercise_target(orderById), exercise_target.match_exercise_target_zone(orderById)]', eagerParam)
+      .eager('[exercise_target(orderById)]', eagerParam)
   }
 
   itonParams() {
@@ -57,6 +57,22 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query().insertWithRelated(record)
   }
 
+  async createMatchExerciseTargetZone({id: exerciseId, matchId}) {
+    if (!exerciseId || !matchId) {
+      return
+    }
+
+    await this.model.raw(`delete from match_exercise_target_zone where "exerciseId"=${exerciseId} AND "matchId"=${matchId}`)
+
+    await this.model.raw(`insert into match_exercise_target_zone
+    ("matchId", "exerciseId", "exerciseTargetId", "targetId", "zoneId")
+    select "matchId", "exerciseId", exercise_target."id", exercise_target."targetId", target_zone."id"
+    from exercise
+    inner join exercise_target on exercise.id = exercise_target."exerciseId"
+    inner join target_zone on exercise_target."targetId" = target_zone."targetId"
+    where exercise.id = ${exerciseId};`)
+  }
+
   async doUpdate(id, {record}) {
     await ItoN.updateParentAndRelations({
       id,
@@ -67,6 +83,16 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query()
       .findById(id)
       .eager(...ItoN.eagerRelation(this.itonParams()))
+  }
+
+  async afterUpdate(id, input, response) {
+    await this.createMatchExerciseTargetZone(response)
+  }
+
+  async afterCreate(input, response) {
+    console.log('afterCreate')
+    console.log(response)
+    await this.createMatchExerciseTargetZone(response)
   }
 
   listQuery() {

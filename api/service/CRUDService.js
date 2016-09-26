@@ -70,7 +70,7 @@ export default class CRUDService {
 
   async create(input) {
     await this.beforeCreate(input)
-    const response = this.doCreate(input)
+    const response = await this.doCreate(input)
     await this.afterCreate(input, response)
     return response
   }
@@ -92,6 +92,18 @@ export default class CRUDService {
     const response = await this.doUpdate(id, input)
     await this.afterUpdate(id, input, response)
     return response
+  }
+
+  async updateMultiple(rs) {
+    const ret = []
+    for (let i = 0; i < rs.length; i++) {
+      if (rs[i].id) {
+        ret.push(await this.create(rs[i].id, {record: rs[i]}))
+      } else {
+        ret.push(await this.create({record: rs[i]}))
+      }
+    }
+    return ret
   }
 
   async delete(id) {

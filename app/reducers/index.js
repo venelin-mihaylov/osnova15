@@ -8,7 +8,6 @@ import nav from './nav'
 import misc from './misc'
 import {combineForms} from 'react-redux-form'
 import {listStatePath, crudStatePath, fkStatePath} from 'utils/Util'
-import test from './test'
 
 // Combine reducers with routeReducer which keeps track of
 // router statee
@@ -39,6 +38,7 @@ const rootReducer = combineReducers({
   [fkStatePath('competitor', '1')]: fkReducer('competitor', '1'),
   [fkStatePath('exercise', '1')]: fkReducer('exercise', '1'),
   [fkStatePath('target', '1')]: fkReducer('target', '1'),
+  [crudStatePath('matchExerciseTargetZone')]: crudReducer({entity: 'matchExerciseTargetZone'}),
 
   rrf: combineForms({
     login: {},
@@ -46,9 +46,9 @@ const rootReducer = combineReducers({
     match: {},
     competitor: {},
     matchCompetitor: {},
+    matchExerciseTargetZone: {},
     exercise: {},
-    target: {},
-    test,
+    target: {}
   }, 'rrf')
 })
 export default rootReducer

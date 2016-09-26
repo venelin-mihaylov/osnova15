@@ -15,6 +15,8 @@ export default class OsnovaListContainer extends React.Component {
     variation: React.PropTypes.string,
     dispatch: React.PropTypes.func,
     redux: React.PropTypes.shape({
+      selectedId: React.PropTypes.number,
+      selectedRecord: React.PropTypes.object,
       limit: React.PropTypes.number,
       page: React.PropTypes.number,
       orderBy: React.PropTypes.string,

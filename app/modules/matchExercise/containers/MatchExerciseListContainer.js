@@ -9,6 +9,9 @@ import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
 import {mapAct, mapListStateToProps, act, formatEnum} from 'utils/Util'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
+import {Button, Icon} from 'stardust'
+import cx from 'classnames'
+import {push} from 'react-router-redux'
 
 const entity = 'exercise'
 const variation = '1'
@@ -43,22 +46,41 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
   }
 
   render() {
+    const {
+      dispatch,
+      location: {pathname},
+      redux: {selectedId}
+    } = this.props
     return (<EntityList
       toolbarTitle='Match Exercises'
       toolbarProps={{
-        appendButtons: [<FKSelect
-          key='addFavouriteExercise'
-          entity='exercise'
-          variation='1'
-          labelField='name'
-          hintText='Add exercise'
-          onChange={this.onSelectFavouriteExercise}
-          listParams={{
-            filter: {
-              favourite: true
-            }
-          }}
-        />]
+        appendButtons: [
+          <Button
+            className={cx({
+              positive: true,
+              icon: true,
+              labeled: true,
+            })}
+            onClick={() => dispatch(push(`${pathname}/${selectedId}/zones`))}
+          >
+            <Icon name='edit' />
+            Zones
+          </Button>
+          ,
+          <FKSelect
+            key='addFavouriteExercise'
+            entity='exercise'
+            variation='1'
+            labelField='name'
+            hintText='Add exercise'
+            onChange={this.onSelectFavouriteExercise}
+            listParams={{
+              filter: {
+                favourite: true
+              }
+            }}
+          />
+        ]
       }}
       columns={[{
         property: 'id',

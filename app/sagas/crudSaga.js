@@ -11,6 +11,8 @@ import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
 import curry from 'lodash/curry'
 import pick from 'lodash/pick'
+import isArray from 'lodash/isArray'
+import isObject from 'lodash/isObject'
 
 export default function crudSaga(entity, variation = '1', options = {}) {
   const act = curry(_act)(entity, variation)
@@ -28,6 +30,17 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     for (const f in record) {
       if (!record.hasOwnProperty(f)) continue
       yield put(actions.setValidity(rrfField(entity, f), true))
+      if (isArray(record[f])) {
+        for (let i = 0; i < record[f].length; i++) {
+          if (isObject(record[f][i])) {
+            for (const j in record[f][i]) {
+              if (!record[f][i].hasOwnProperty(j)) continue
+              const ff = `${f}[${i}].${j}`
+              yield put(actions.setValidity(rrfField(entity, ff), true))
+            }
+          }
+        }
+      }
     }
   }
 
@@ -35,6 +48,17 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     for (const f in record) {
       if (!record.hasOwnProperty(f)) continue
       yield put(actions.setPristine(rrfField(entity, f), true))
+      if (isArray(record[f])) {
+        for (let i = 0; i < record[f].length; i++) {
+          if (isObject(record[f][i])) {
+            for (const j in record[f][i]) {
+              if (!record[f][i].hasOwnProperty(j)) continue
+              const ff = `${f}[${i}].${j}`
+              yield put(actions.setPristine(rrfField(entity, ff), true))
+            }
+          }
+        }
+      }
     }
   }
 
