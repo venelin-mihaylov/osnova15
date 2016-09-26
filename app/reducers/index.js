@@ -39,6 +39,7 @@ const rootReducer = combineReducers({
   [fkStatePath('exercise', '1')]: fkReducer('exercise', '1'),
   [fkStatePath('target', '1')]: fkReducer('target', '1'),
   [crudStatePath('matchExerciseTargetZone')]: crudReducer({entity: 'matchExerciseTargetZone'}),
+  [listStatePath('matchExerciseTargetZone')]: listReducer({entity: 'matchExerciseTargetZone'}),
 
   rrf: combineForms({
     login: {},

@@ -363,3 +363,15 @@ export function rrfSetValid(params) {
     action: actions.setValidity
   })
 }
+
+export function rrfSetValidAndPristine(params) {
+  rrfAllFields({
+    ...params,
+    action: actions.setPristine
+  })
+
+  rrfAllFields({
+    ...params,
+    action: actions.setValidity
+  })
+}
