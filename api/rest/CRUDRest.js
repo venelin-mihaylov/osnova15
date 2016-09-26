@@ -43,15 +43,24 @@ export default class CRUDRest {
 
   @web.put('/')
   async webCreate(req, res) {
-    res.json(await this.service.create(req.body))
+    if (req.body.record) {
+      res.json(await this.service.create(req.body))
+    }
+    if (req.body.records) {
+      res.json(await this.service.createMultiple(req.body))
+    }
   }
 
   @web.post('/:id')
   async webUpdate(req, res) {
-    req.checkParams('id').isInt()
-    throwOnError(req.validationErrors())
-
-    res.json(await this.service.update(req.params.id, req.body))
+    if (req.body.record) {
+      req.checkParams('id').isInt()
+      throwOnError(req.validationErrors())
+      res.json(await this.service.update(req.params.id, req.body))
+    }
+    if (req.body.records) {
+      res.json(await this.service.updateMultiple(req.body))
+    }
   }
 
   @web.delete('/:id')

@@ -62,6 +62,20 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
+  function* handleException(err, reject, action) {
+    if (err.status === 401) {
+      yield put({type: Act.AUTH_REQUIRED})
+    } else {
+      const err2 = formatServerError(err)
+      yield put(act(action, err2))
+      yield setValidationErrors(err2.fieldErrors)
+    }
+    console.log(err)
+    console.log(err.stack)
+    yield call(reject, err)
+  }
+
+
   function* read({id, resolve = noop, reject = noop}) {
     try {
       const {data: record} = yield call(axios, {
@@ -74,14 +88,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield rrfSetPristine(record)
       yield call(resolve, record)
     } catch (err) {
-      if (err.status === 401) {
-        yield put({type: Act.AUTH_REQUIRED})
-      } else {
-        yield put(act(CRUDAct.READ_ERROR, formatServerError(err)))
-      }
-      console.log(err)
-      console.log(err.stack)
-      yield call(reject, err)
+      yield handleException(err, reject, CRUDAct.READ_ERROR)
     }
   }
 
@@ -94,14 +101,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield call(resolve, id)
     } catch (err) {
-      if (err.status === 401) {
-        yield put({type: Act.AUTH_REQUIRED})
-      } else {
-        yield put(act(CRUDAct.DELETE_ERROR, formatServerError(err)))
-      }
-      console.log(err)
-      console.log(err.stack)
-      yield call(reject, err)
+      yield handleException(err, reject, CRUDAct.DELETE_ERROR)
     }
   }
 
@@ -122,17 +122,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       }
       yield call(resolve, created)
     } catch (err) {
-      if (err.status === 401) {
-        yield put({type: Act.AUTH_REQUIRED})
-      } else {
-        const err2 = formatServerError(err)
-        yield put(act(CRUDAct.CREATE_ERROR, err2))
-        const {fieldErrors} = err2
-        yield setValidationErrors(fieldErrors)
-      }
-      console.log(err)
-      console.log(err.stack)
-      yield call(reject, err)
+      handleException(err, reject, CRUDAct.CREATE_ERROR)
     }
   }
 
@@ -157,63 +147,44 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
 
     try {
-      const response = yield call(axios, {
+      const {data: records} = yield call(axios, {
         url: `/api/${endpoint}`,
         method: 'get',
         params
       })
-      const records = response.data
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
     } catch (err) {
-      if (err.status === 401) {
-        yield put({type: Act.AUTH_REQUIRED})
-      } else {
-        yield put(act(CRUDAct.LIST_ERROR, formatServerError(err)))
-      }
-      console.log(err)
-      console.log(err.stack)
-      yield call(reject, err)
+      yield handleException(err, CRUDAct.LIST_ERROR)
     }
   }
 
-  function* update({record, nextPath, params = {}, resolve = noop, reject = noop}) {
+  function* update({record, records, nextPath, params = {}, resolve = noop, reject = noop}) {
     try {
       yield put(actions.setPending(rrfModel(entity), true))
-      const response = yield call(axios, {
+      const {data: updated} = yield call(axios, {
         url: `/api/${endpoint}/${record.id}`,
         method: 'post',
         data: {
           params,
-          record
+          record,
+          records
         }
       })
       yield put(actions.setSubmitted(rrfModel(entity), true))
-      const updated = response.data
-      yield put(act(CRUDAct.UPDATE_SUCCESS, {record: updated}))
+      yield put(act(CRUDAct.UPDATE_SUCCESS, record ? {record: updated} : {records: updated}))
       if (nextPath) {
         yield put(push(nextPath))
       }
       yield call(resolve, updated)
     } catch (err) {
-      if (err.status === 401) {
-        yield put({type: Act.AUTH_REQUIRED})
-      } else {
-        const err2 = formatServerError(err)
-        yield put(act(CRUDAct.UPDATE_ERROR, err2))
-        const {fieldErrors} = err2
-        yield setValidationErrors(fieldErrors)
-      }
-      console.log(err)
-      console.log(err.stack)
-      yield call(reject, err)
+      handleException(err, reject, CRUDAct.UPDATE_ERROR)
     }
   }
 
   return function* crudSaga1() {
     yield [
       fork(function* watchRead() { yield* takeEvery(type(CRUDAct.READ_REQUESTED), read) }),
-      fork(function* watchListSort() { yield* takeEvery(type(CRUDAct.LIST_SORT), list) }),
       fork(function* watchList() { yield* takeEvery(type(CRUDAct.LIST_REQUESTED), list) }),
       fork(function* watchCreate() { yield* takeEvery(type(CRUDAct.CREATE_REQUESTED), create) }),
       fork(function* watchUpdate() { yield* takeEvery(type(CRUDAct.UPDATE_REQUESTED), update) }),

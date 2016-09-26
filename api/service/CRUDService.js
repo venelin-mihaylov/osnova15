@@ -68,6 +68,11 @@ export default class CRUDService {
 
   async afterCreate(input, response) {} // eslint-disable-line
 
+  /**
+   *
+   * @param input.record
+   * @returns {*}
+   */
   async create(input) {
     await this.beforeCreate(input)
     const response = await this.doCreate(input)
@@ -87,6 +92,12 @@ export default class CRUDService {
 
   async afterUpdate(id, input, response) {} // eslint-disable-line
 
+  /**
+   *
+   * @param id
+   * @param input.record
+   * @returns {*}
+   */
   async update(id, input) {
     await this.beforeUpdate(id, input)
     const response = await this.doUpdate(id, input)
@@ -94,14 +105,18 @@ export default class CRUDService {
     return response
   }
 
-  async updateMultiple(rs) {
+  async updateMultiple({records}) {
     const ret = []
-    for (let i = 0; i < rs.length; i++) {
-      if (rs[i].id) {
-        ret.push(await this.create(rs[i].id, {record: rs[i]}))
-      } else {
-        ret.push(await this.create({record: rs[i]}))
-      }
+    for (let i = 0; i < records.length; i++) {
+      ret.push(await this.update(records[i].id, {record: records[i]}))
+    }
+    return ret
+  }
+
+  async createMultiple({records}) {
+    const ret = []
+    for (let i = 0; i < records.length; i++) {
+      ret.push(await this.create({record: records[i]}))
     }
     return ret
   }
@@ -109,5 +124,4 @@ export default class CRUDService {
   async delete(id) {
     return this.model.query().deleteById(id)
   }
-
 }
