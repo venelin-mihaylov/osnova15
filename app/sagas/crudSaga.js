@@ -64,7 +64,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
-  function* create({record, nextPath, params = {}, resolve = noop, reject = noop}) {
+  function* create({record, params = {}, resolve = noop, reject = noop}) {
     try {
       const {data: created} = yield call(axios, {
         url: `/api/${endpoint}`,
@@ -76,9 +76,6 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       })
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
       yield call(resolve, created)
-      if (nextPath) {
-        yield put(push(nextPath))
-      }
     } catch (err) {
       handleException(err, reject, CRUDAct.CREATE_ERROR)
     }
@@ -117,23 +114,29 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     }
   }
 
-  function* update({record, records, nextPath, params = {}, resolve = noop, reject = noop}) {
+  /**
+   *
+   * @param {object} record - Pass record to update single record
+   * @param {object} records - Pass records to update multiple records
+   * @param params
+   * @param resolve
+   * @param reject
+   */
+  function* update({record, records, params = {}, resolve = noop, reject = noop}) {
     try {
       yield put(actions.setPending(rrfModel(entity), true))
-      const {data: updated} = yield call(axios, {
-        url: `/api/${endpoint}/${record.id}`,
+      const axiosParams = {
+        url: record ? `/api/${endpoint}/${record.id}` : `/api/${endpoint}`,
         method: 'post',
         data: {
           params,
           record,
           records
         }
-      })
+      }
+      const {data: updated} = yield call(axios, axiosParams)
       yield put(actions.setSubmitted(rrfModel(entity), true))
       yield put(act(CRUDAct.UPDATE_SUCCESS, record ? {record: updated} : {records: updated}))
-      if (nextPath) {
-        yield put(push(nextPath))
-      }
       yield call(resolve, updated)
     } catch (err) {
       handleException(err, reject, CRUDAct.UPDATE_ERROR)

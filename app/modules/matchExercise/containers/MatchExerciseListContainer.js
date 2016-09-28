@@ -72,7 +72,6 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
             entity='exercise'
             variation='1'
             labelField='name'
-            hintText='Add exercise'
             onChange={this.onSelectFavouriteExercise}
             listParams={{
               filter: {

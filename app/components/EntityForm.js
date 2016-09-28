@@ -26,22 +26,20 @@ const EntityForm = ({
   ...rest,
 }) => (<div style={{paddingRight: '10px'}}>
   <Saving {...{saving}} />
-  <Loading {...{loading}} />
-  <If condition={!loading}>
-    <GlobalError {...{fieldErrors, globalError}} />
-    <Form
-      className={cx({
-        ui: true,
-        form: true,
-        error: false
-      })}
-      model={rrfModel(entity)}
-      {...{onSubmit}}
-    >
-      <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
-      <DefaultFormButtons {...{onReset, onCancel, saving, loading}} />
-    </Form>
-  </If>
+  <GlobalError {...{fieldErrors, globalError}} />
+  <Form
+    className={cx({
+      ui: true,
+      form: true,
+      error: false,
+      loading
+    })}
+    model={rrfModel(entity)}
+    {...{onSubmit}}
+  >
+    <FormFieldsComponent {...{record, model, entity, dispatch, resetForm}} {...rest} />
+    <DefaultFormButtons {...{onReset, onCancel, saving, loading}} />
+  </Form>
 </div>)
 
 EntityForm.propTypes = {
@@ -51,7 +49,7 @@ EntityForm.propTypes = {
   onCancel: React.PropTypes.func,
   entity: React.PropTypes.string,
   redux: React.PropTypes.object,
-  model: React.PropTypes.object,
+  model: React.PropTypes.any,
   FormFieldsComponent: React.PropTypes.any
 }
 

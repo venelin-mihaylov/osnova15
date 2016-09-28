@@ -10,12 +10,30 @@ import {Flag} from 'stardust'
 import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import traverse from 'traverse'
+import isNumber from 'lodash/isNumber'
 
 export function rrfModel(entity) {
   return `rrf.${entity}`
 }
+
+export function toStringField(field) {
+  if (!isArray(field)) {
+    return field
+  }
+  if (!field.length) {
+    return ''
+  }
+
+  return field.reduce((prev, cur) => prev + (parseInt(cur, 10) == cur ? `[${cur}]` : cur))
+}
+
 export function rrfField(entity, field) {
-  return rrfModel(entity) + '.' + field
+  const f = toStringField(field)
+  if (f[0] === '[') {
+    return rrfModel(entity) + f
+  }
+
+  return rrfModel(entity) + '.' + f
 }
 
 export const defaultErrorMessages = {
@@ -205,6 +223,7 @@ export function calcNextPath({
     if (matches = pathname.match(/(.*)\/create-competitor$/)) return matches[1] // eslint-disable-line
     if (matches = pathname.match(/(.*)\/create-exercise$/)) return matches[1] // eslint-disable-line
     if (matches = pathname.match(/(.*)\/create-target$/)) return matches[1] // eslint-disable-line
+    if (matches = pathname.match(/(.*)\/(.*)\/zones$/)) return matches[1] // eslint-disable-line
   }
 
   if (action === 'add') {
@@ -219,7 +238,7 @@ export function calcNextPath({
     return pathname + toUri(id, action)
   }
 
-  throw new Error('no rule for next path')
+  throw new Error(`no rule for next path: ${pathname} , action: ${actionn}`)
 }
 
 
@@ -334,22 +353,10 @@ export function rrfFormFieldProperty(name, property) {
  * @param {string} action
  */
 function rrfAllFields({dispatch, entity, record, action = (f, v) => {}, fieldValue = true}) {
-
-  for (const f in record) {
-    if (!record.hasOwnProperty(f)) continue
-    dispatch(action(rrfField(entity, f), fieldValue))
-    if (isArray(record[f])) {
-      for (let i = 0; i < record[f].length; i++) {
-        if (isObject(record[f][i])) {
-          for (const j in record[f][i]) {
-            if (!record[f][i].hasOwnProperty(j)) continue
-            const ff = `${f}[${i}].${j}`
-            dispatch(action(rrfField(entity, ff), fieldValue))
-          }
-        }
-      }
-    }
-  }
+  traverse(record).forEach(function () {
+    if (!this.path) return
+    dispatch(action(rrfField(entity, this.path), fieldValue))
+  })
 }
 
 export function rrfSetPristine(params) {

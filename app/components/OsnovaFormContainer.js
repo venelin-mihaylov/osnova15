@@ -23,6 +23,7 @@ export default class OsnovaFormContainer extends React.Component {
 
   componentWillMount() {
     const {
+      redux = {}, // eslint-disable-line
       redux: {
         resetForm
       },
@@ -45,12 +46,14 @@ export default class OsnovaFormContainer extends React.Component {
 
   onCreate(record, options = {}) {
     const nextPath = this.nextPath({action: 'create'})
-    this.props.act(CRUDAct.CREATE_REQUESTED, {record, nextPath, ...options})
+    this.props.promiseAct(CRUDAct.CREATE_REQUESTED, {record, nextPath, ...options})
+      .then(() => this.props.dispatch(push(nextPath)))
   }
 
   onUpdate(record, options = {}) {
     const nextPath = this.nextPath({action: 'update'})
-    this.props.act(CRUDAct.UPDATE_REQUESTED, {record, nextPath, ...options})
+    this.props.promiseAct(CRUDAct.UPDATE_REQUESTED, {record, ...options})
+      .then(() => this.props.dispatch(push(nextPath)))
   }
 
   onReset(e) {
@@ -84,6 +87,17 @@ export default class OsnovaFormContainer extends React.Component {
       }))
   }
 
+  onSubmit(...args) {
+    if (this.props.route.action === 'add') {
+      return this.onCreate(...args)
+    }
+    if (this.props.route.action === 'edit') {
+      return this.onUpdate(...args)
+    }
+
+    throw new Error('Missing "action" route param')
+  }
+
   addProps() {
     const {
       route: {
@@ -93,7 +107,7 @@ export default class OsnovaFormContainer extends React.Component {
 
     return {
       action,
-      onSubmit: (action === 'add' ? this.onCreate : this.onUpdate),
+      onSubmit: this.onSubmit,
       onReset: this.onReset,
       onCancel: this.onCancel
     }

@@ -187,6 +187,7 @@ export default class AutoFields extends React.Component {
       ...restOverrides
     },
     styles = {}, // css styles,
+    ...commonControlOverrides
   }) {
     if (noForm) return null
     if (exclude) return null
@@ -224,6 +225,7 @@ export default class AutoFields extends React.Component {
         label,
         ...addComponentProps,
         ...restOverrides,
+        ...commonControlOverrides
       },
       validators,
       mapProps,

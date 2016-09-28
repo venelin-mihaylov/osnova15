@@ -51,7 +51,7 @@ export default class CRUDRest {
     }
   }
 
-  @web.post('/:id')
+  @web.post('/:id?')
   async webUpdate(req, res) {
     if (req.body.record) {
       req.checkParams('id').isInt()

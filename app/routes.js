@@ -84,7 +84,7 @@ export default (store) => {
 
         <Route name='Add new target' path=':matchId/exercise/add/create-target' action='add' component={TargetFormContainer} />
         <Route name='Add new target' path=':matchId/exercise/:id/edit/create-target' action='add' component={TargetFormContainer} />
-        <Route name='Edit Zones' path=':matchId/exercise/:id/zones' action='edit' component={MatchExerciseTargetZoneFormContainer} />
+        <Route name='Edit Zones' path=':matchId/exercise/:exerciseId/zones' action='edit' component={MatchExerciseTargetZoneFormContainer} />
 
         <Route name='Targets' path=':matchId/target' matchView component={TargetListContainer} />
 

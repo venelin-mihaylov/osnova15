@@ -103,8 +103,9 @@ exports.up = function (knex, Promise) {
       t.integer('exerciseId').references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').references('id').inTable('target').onDelete('CASCADE')
       t.integer('zoneId').notNullable().references('id').inTable('target_zone').onDelete('CASCADE')
+      t.string('zoneName')
       t.decimal('weight', 6, 2).default(1)
-      t.decimal('score', 6, 2)
+      t.integer('score')
     }),
   ])
 }
