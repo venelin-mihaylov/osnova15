@@ -43,12 +43,8 @@ export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormCont
           'weight',
           'score'
         ]))
+        this.props.dispatch(actions.reset(rrfModel(entity)))
         this.props.dispatch(actions.load(rrfModel(entity), records2))
-        rrfSetValidAndPristine({
-          dispatch: this.props.dispatch,
-          entity: this.props.entity,
-          record: records2
-        })
       })
   }
 
