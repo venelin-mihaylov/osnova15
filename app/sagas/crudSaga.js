@@ -44,7 +44,6 @@ export default function crudSaga(entity, variation = '1', options = {}) {
         method: 'get'
       })
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
-      yield put(actions.load(rrfModel(entity), record))
       yield call(resolve, record)
     } catch (err) {
       yield handleException(err, reject, CRUDAct.READ_ERROR)

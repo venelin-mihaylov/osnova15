@@ -69,6 +69,17 @@ export default class OsnovaFormContainer extends React.Component {
     dispatch(push(nextPath))
   }
 
+  onSubmit(...args) {
+    if (this.props.route.action === 'add') {
+      return this.onCreate(...args)
+    }
+    if (this.props.route.action === 'edit') {
+      return this.onUpdate(...args)
+    }
+
+    throw new Error('Missing "action" route param')
+  }
+
   nextPath({action, id}) {
     const {location: {pathname}} = this.props
     return calcNextPath({pathname, action, id})
@@ -80,22 +91,10 @@ export default class OsnovaFormContainer extends React.Component {
 
   readServerRecord() {
     this.props.promiseAct(CRUDAct.READ_REQUESTED, {id: this.props.params.id})
-      .then(record => rrfSetValidAndPristine({
-        dispatch: this.props.dispatch,
-        entity: this.props.entity,
-        record
-      }))
-  }
-
-  onSubmit(...args) {
-    if (this.props.route.action === 'add') {
-      return this.onCreate(...args)
-    }
-    if (this.props.route.action === 'edit') {
-      return this.onUpdate(...args)
-    }
-
-    throw new Error('Missing "action" route param')
+      .then(record => {
+        this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
+        this.props.dispatch(actions.load(rrfModel(this.props.entity), record))
+      })
   }
 
   addProps() {
