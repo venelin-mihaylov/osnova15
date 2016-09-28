@@ -9,7 +9,7 @@ export const MatchExerciseTargetZoneFormFields = ({
   entity,
 }) => (<div>
   {model && model.map((r, idx) => (<Form.Group key={`group-${idx}`}>
-    <Segment>{r.zoneName}</Segment>
+    <Segment>{r.targetName} - {r.zoneName}</Segment>
     {AutoFields.renderFields({
       entity,
       namePrefix: `[${idx}]`,

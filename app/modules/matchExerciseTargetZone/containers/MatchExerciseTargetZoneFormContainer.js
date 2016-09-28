@@ -38,6 +38,7 @@ export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormCont
       .then(records => {
         const records2 = records.map(r => pick(r, [
           'id',
+          'targetName',
           'zoneName',
           'weight',
           'score'

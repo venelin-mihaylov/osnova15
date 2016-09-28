@@ -1,7 +1,8 @@
 import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators'
 import ItoN from '../utils/ItoN'
-
+import MatchExerciseTargetZone from '../../universal/model/MatchExerciseTargetZone'
+import {targetZoneScore} from '../../universal/scoring/scoring'
 
 /**
  * on match exercise edit,
@@ -64,12 +65,38 @@ export default class ExerciseService extends CRUDService {
 
     await this.model.raw(`delete from match_exercise_target_zone where "exerciseId"=${exerciseId} AND "matchId"=${matchId}`)
     await this.model.raw(`insert into match_exercise_target_zone
-    ("matchId", "exerciseId", "exerciseTargetId", "targetId", "zoneId", "zoneName")
-    select "matchId", "exerciseId", exercise_target."id", exercise_target."targetId", target_zone."id", target_zone."name"
+    (
+    "matchId", 
+    "exerciseId", 
+    "exerciseTargetId", 
+    "targetId", 
+    "zoneId", 
+    "targetName", 
+    "zoneName",  
+    "height", 
+    "width", 
+    "distance"
+    )
+    select 
+      "matchId", 
+      "exerciseId", 
+      exercise_target."id", 
+      exercise_target."targetId", 
+      target_zone."id",
+      target.name, 
+      target_zone.name,
+      target_zone.height,
+      target_zone.width,
+      exercise_target.distance
     from exercise
     inner join exercise_target on exercise.id = exercise_target."exerciseId"
+    inner join target on exercise_target."targetId" = target.id
     inner join target_zone on exercise_target."targetId" = target_zone."targetId"
     where exercise.id = ${exerciseId};`)
+    await MatchExerciseTargetZone.query()
+      .where('exerciseId', '=', exerciseId)
+      .andWhere('matchId', '=', matchId)
+      .then(records => Promise.all(records.map(r => MatchExerciseTargetZone.query().patchAndFetchById(r.id, {score: targetZoneScore(r.distance, r.height, r.weight)}))))
   }
 
   async doUpdate(id, {record}) {
