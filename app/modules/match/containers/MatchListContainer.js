@@ -7,6 +7,7 @@ import {Button, Icon} from 'stardust'
 import Act from 'constants/Act'
 import {mapAct, mapListStateToProps, formatDate, formatEnum, formatCountry} from 'utils/Util'
 import MatchSchema from '../../../../universal/model/schema/MatchSchema'
+import cx from 'classnames'
 
 const entity = 'match'
 const variation = '1'
@@ -40,8 +41,13 @@ export default class MatchListContainer extends OsnovaListContainer {
           </Button>
           :
           <Button
-            className='primary icon labeled'
             key='enterMatch'
+            className={cx({
+              primary: true,
+              icon: true,
+              labeled: true,
+              disabled: !selectedId
+            })}
             onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: selectedId})}
           >
             <Icon name='download' />
