@@ -143,6 +143,6 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query()
       .insertWithRelated(json)
       .returning('*')
-      .then(result => result.id)
+      .then(result => this.createMatchExerciseTargetZone({id: result.id, matchId}))
   }
 }
