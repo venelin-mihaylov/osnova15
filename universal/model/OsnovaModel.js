@@ -1,10 +1,9 @@
-import {Model} from "objection"
 import tv4 from 'tv4'
 import formats from 'tv4-formats'
-import {ValidationError, ModelBase} from 'objection'
+import {Model, ValidationError, ModelBase} from 'objection'
 import dateformat from 'dateformat'
 import {toArray} from './util/util'
-var tv4coerce = require('tv4-coerce/main.js')
+const tv4coerce = require('tv4-coerce/main.js')
 
 tv4.addFormat(formats)
 tv4coerce.tv4.addFormat(formats)
@@ -14,32 +13,29 @@ tv4coerce.tv4.addFormat(formats)
  */
 tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error, baseSchema) {
   const t = toArray(type)
-  if(-1 != t.indexOf('null') && data === null) {
+  if (t.indexOf('null') !== -1 && data === null) {
     return data
   }
 
-  if (-1 != t.indexOf('number')) {
-    data = parseFloat(data);
-    if (!isNaN(data)) return data;
-  } else if (-1 != t.indexOf('integer')) {
-    data = parseInt(data);
-    if (!isNaN(data)) return data;
-  } else if (-1 != t.indexOf('string')) {
+  if (t.indexOf('number') !== -1) {
+    data = parseFloat(data)
+    if (!isNaN(data)) return data
+  } else if (t.indexOf('integer') !== -1) {
+    data = parseInt(data)
+    if (!isNaN(data)) return data
+  } else if (t.indexOf('string') !== -1) {
     if (typeof data === 'number') {
-      return "" + data;
+      return '' + data
     }
-    if(!data) { // for a string, it's ok to return cast null to ''
+    if (!data) { // for a string, it's ok to return cast null to ''
       return ''
     }
-  } else if (-1 != t.indexOf('boolean')) {
+  } else if (t.indexOf('boolean') !== -1) {
     return !!data
   }
-});
+})
 
 tv4coerce.addFix(tv4coerce.errorCodes.FORMAT_CUSTOM, function(data, type, error, baseSchema) {
-  console.log('baseSchema')
-  console.log(baseSchema)
-  const t = toArray(type)
   return dateformat(data, 'isoDate')
 })
 
@@ -71,7 +67,6 @@ export default class OsnovaModel extends Model {
     let validationError = this._parseValidationError(report)
 
     if (validationError) {
-      //console.log(validationError)
       throw validationError
     }
 
@@ -89,7 +84,7 @@ export default class OsnovaModel extends Model {
       }
 
       // coerce types
-      let result = tv4coerce.coerce(json, jsonSchema)
+      const result = tv4coerce.coerce(json, jsonSchema)
       return tv4.validateMultiple(result.data, jsonSchema)
     } finally {
       if (options.patch) {
@@ -99,7 +94,7 @@ export default class OsnovaModel extends Model {
   }
 
   _parseValidationError(report) {
-    let errorHash = {}
+    const errorHash = {}
     let index = 0
 
     if (report.errors.length === 0) {
@@ -107,7 +102,7 @@ export default class OsnovaModel extends Model {
     }
 
     for (let i = 0; i < report.errors.length; ++i) {
-      let error = report.errors[i]
+      const error = report.errors[i]
       let key = error.dataPath.split('/').slice(1).join('.')
 
       // Hack: The dataPath is empty for failed 'required' validations. We parse
@@ -130,5 +125,4 @@ export default class OsnovaModel extends Model {
 
     return new ValidationError(errorHash)
   }
-
 }

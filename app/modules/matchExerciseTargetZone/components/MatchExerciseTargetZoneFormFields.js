@@ -12,7 +12,7 @@ export const MatchExerciseTargetZoneFormFields = ({
     <Segment>{r.targetName} - {r.zoneName}</Segment>
     {AutoFields.renderFields({
       entity,
-      namePrefix: `[${idx}]`,
+      namePrefix: `[${idx}].`,
       include: ['weight', 'score'],
       label: null,
       style: {

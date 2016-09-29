@@ -6,6 +6,7 @@ import fkReducer from './FKReducer'
 import user from './user'
 import nav from './nav'
 import misc from './misc'
+import matchExerciseTargetZone from './matchExerciseTargetZone'
 import {combineForms} from 'react-redux-form'
 import {listStatePath, crudStatePath, fkStatePath} from 'utils/Util'
 
@@ -47,7 +48,7 @@ const rootReducer = combineReducers({
     match: {},
     competitor: {},
     matchCompetitor: {},
-    matchExerciseTargetZone: [],
+    matchExerciseTargetZone,
     exercise: {},
     target: {},
     test: [],

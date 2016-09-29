@@ -97,10 +97,10 @@ export default class AutoFields extends React.Component {
     format,
     fkProps,
     labelField,
-    enumProps
+    enumProps,
   }) {
     let component = null
-    let addComponentProps = null
+    let addComponentProps = {}
     let mapProps = AutoFields.mapPropsText
     let updateOn = 'change'
 
@@ -135,10 +135,16 @@ export default class AutoFields extends React.Component {
       } else { // integer
         component = Input
         updateOn = 'blur'
+        addComponentProps = {
+          type: 'number'
+        }
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
       updateOn = 'blur'
+      addComponentProps = {
+        type: 'number'
+      }
     } else if (t.indexOf('boolean') !== -1) {
       component = Checkbox
       mapProps = AutoFields.mapPropsCheckbox
@@ -230,8 +236,7 @@ export default class AutoFields extends React.Component {
       validators,
       mapProps,
       updateOn,
-      validateOn: 'change',
-      ignore: ['focus'],
+      //ignore: ['focus'],
       ...rrfProps
     })
   }

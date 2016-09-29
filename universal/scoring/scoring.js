@@ -1,3 +1,3 @@
 export function targetZoneScore(distance, height, weight) {
-  return distance * height
+  return distance * height * weight
 }

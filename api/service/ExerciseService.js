@@ -112,14 +112,10 @@ export default class ExerciseService extends CRUDService {
   }
 
   async afterUpdate(id, input, response) {
-    console.log('afterUpdate')
-    console.log(response)
     await this.createMatchExerciseTargetZone(response)
   }
 
   async afterCreate(input, response) {
-    console.log('afterCreate')
-    console.log(response)
     await this.createMatchExerciseTargetZone(response)
   }
 
