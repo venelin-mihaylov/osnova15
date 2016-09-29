@@ -8,7 +8,7 @@ const MatchSchema = {
     description: {type: 'string'},
     discipline: {
       type: 'integer',
-      enum: [1, 2, 3],
+      enum: [1, 2, 3, 4],
       enumProps: {
         1: 'T-class tactical sniper',
         2: 'T-class ultra long range',

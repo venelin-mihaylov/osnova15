@@ -141,7 +141,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         cell: {
           format: (rs) => (<div>
             {rs && rs.map(r => <div>
-              {r.targetId} - {r.match_exercise_target_zone[0].targetName} - Distance: {r.match_exercise_target_zone[0].distance}
+              {r.match_exercise_target_zone[0].targetName} - Distance: {r.match_exercise_target_zone[0].distance}
               {r.match_exercise_target_zone.map(z => (<div>
                 {z.zoneName} - {z.weight} - {z.score}
               </div>))}
