@@ -4,7 +4,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import i from 'icepick'
 
-const setScoreOnWeightChange = function (entity, model, value, state) {
+const setScoreOnWeightChange = function (state, entity, model, value) {
   const regex = `${rrfModel(entity)}\\[(\\d+)\\].*weight`
   const match = model.match(new RegExp(regex))
   if (match) {
@@ -31,7 +31,7 @@ export default function matchExerciseTargetZone(state = [], action = {}) { // es
   const entity = 'matchExerciseTargetZone'
   switch (type) {
     case 'rrf/change':
-      return setScoreOnWeightChange(entity, model, value, state)
+      return setScoreOnWeightChange(state, entity, model, value)
     case 'rrf/batch':
       change = find(act.actions, {type: 'rrf/change'})
       if (change) {
