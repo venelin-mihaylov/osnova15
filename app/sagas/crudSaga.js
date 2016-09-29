@@ -19,7 +19,7 @@ function* setValidationErrors(fieldErrors) {
   yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
 }
 
-function* handleException(err, reject, action) {
+function* handleException(err, reject, act, action) {
   if (err.status === 401) {
     yield put({type: Act.AUTH_REQUIRED})
   } else {
@@ -46,7 +46,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
       yield call(resolve, record)
     } catch (err) {
-      yield handleException(err, reject, CRUDAct.READ_ERROR)
+      yield handleException(err, reject, act, CRUDAct.READ_ERROR)
     }
   }
 
@@ -59,7 +59,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield call(resolve, id)
     } catch (err) {
-      yield handleException(err, reject, CRUDAct.DELETE_ERROR)
+      yield handleException(err, reject, act, CRUDAct.DELETE_ERROR)
     }
   }
 
@@ -76,7 +76,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
       yield call(resolve, created)
     } catch (err) {
-      handleException(err, reject, CRUDAct.CREATE_ERROR)
+      handleException(err, reject, act, CRUDAct.CREATE_ERROR)
     }
   }
 
@@ -109,7 +109,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
     } catch (err) {
-      yield handleException(err, reject, CRUDAct.LIST_ERROR)
+      yield handleException(err, reject, act, CRUDAct.LIST_ERROR)
     }
   }
 

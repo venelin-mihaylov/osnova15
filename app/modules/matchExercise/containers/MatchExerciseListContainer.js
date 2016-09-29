@@ -56,6 +56,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
       toolbarProps={{
         appendButtons: [
           <Button
+            key='zones'
             className={cx({
               positive: true,
               icon: true,
@@ -65,8 +66,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
           >
             <Icon name='edit' />
             Zones
-          </Button>
-          ,
+          </Button>,
           <FKSelect
             key='addFavouriteExercise'
             entity='exercise'
@@ -85,29 +85,25 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         property: 'id',
         header: {
           label: 'id',
-          props: {
-            style: {
-              width: 200
-            }
-          }
         },
-        cell: {
-          property: 'id'
+        props: {
+          width: 50
         }
       }, {
         property: 'name',
         header: {
           label: 'Exercise',
-          props: {
-            style: {
-              width: 'calc(100% - 200px)'
-            }
-          }
+        },
+        props: {
+          width: 150
         }
       }, {
         property: 'minShots',
         header: {
           label: 'Min. shots'
+        },
+        props: {
+          width: 50
         }
       }, {
         property: 'type',
@@ -116,6 +112,9 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         },
         cell: {
           format: formatEnum(ExerciseSchema)
+        },
+        props: {
+          width: 100
         }
       }, {
         property: 'module',
@@ -124,12 +123,32 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         },
         cell: {
           format: formatEnum(ExerciseSchema)
+        },
+        props: {
+          width: 100
         }
       }, {
         property: 'rangeOfficer',
         header: {
           label: 'Range Officer'
         },
+        props: {
+          width: 200
+        }
+      }, {
+        property: 'exercise_target',
+        header: 'Targets',
+        cell: {
+          format: (rs) => (<div>
+            {rs && rs.map(r => <div>
+              {r.targetId} - {r.match_exercise_target_zone[0].targetName} - Distance: {r.match_exercise_target_zone[0].distance}
+              {r.match_exercise_target_zone.map(z => (<div>
+                {z.zoneName} - {z.weight} - {z.score}
+              </div>))}
+            </div>)}
+          </div>)
+        }
+
       }]}
       {...this.props}
       {...(this.addProps())}

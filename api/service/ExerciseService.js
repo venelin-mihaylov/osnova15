@@ -119,8 +119,17 @@ export default class ExerciseService extends CRUDService {
     await this.createMatchExerciseTargetZone(response)
   }
 
+  /**
+   * exercise
+   *   -> exercise_target - distance, maxPoints
+   *     -> match_exercise_target_zone - targetName, zoneName, distance,
+   *
+   * @returns {*|QueryBuilder}
+   */
   listQuery() {
-    return this.model.query().eager(...ItoN.eagerRelation(this.itonParams()))
+    return this.model.query().eager('[exercise_target(orderById), exercise_target.match_exercise_target_zone(orderById)]', {
+      orderById: b => b.orderBy('id')
+    })
   }
 
   async createFavouriteExerciseForMatch({matchId, exerciseId}) {
