@@ -20,7 +20,7 @@
     "analyze": "node ./internals/scripts/analyze.js",
     "start": "npm run start:tunnel",
     "fixture": "node --harmony ./bin/fixture.js",
-    "start:tunnel": "cross-env NODE_ENV=development node server",
+    "start:tunnel": "webpack-dashboard -- cross-env NODE_ENV=development node server",
     "start:prod": "cross-env NODE_ENV=production node server",
     "start-dev-api": "better-npm-run start-dev-api",
     "pagespeed": "node ./internals/scripts/pagespeed.js",
@@ -130,7 +130,7 @@
     "react-mixin": "^3.0.5",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
-    "react-redux-form": "1.0.3",
+    "react-redux-form": "1.0.4",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
     "react-router-scroll": "^0.2.0",
@@ -245,6 +245,7 @@
     "stylelint-config-standard": "^8.0.0",
     "url-loader": "^0.5.7",
     "webpack": "2.1.0-beta.8",
+    "webpack-dashboard": "^0.2.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   }
