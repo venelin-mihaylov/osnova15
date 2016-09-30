@@ -12,13 +12,20 @@ export const MatchExerciseTargetZoneFormFields = ({
     <Segment>{r.targetName} - {r.zoneName}</Segment>
     {AutoFields.renderFields({
       entity,
+      jsonSchema: MatchExerciseTargetZoneSchema,
       namePrefix: `[${idx}].`,
       include: ['weight', 'score'],
       label: null,
       style: {
         paddingTop: 7
       },
-      jsonSchema: MatchExerciseTargetZoneSchema
+      overrides: {
+        weight: {
+          rrfProps: {
+            updateOn: 'change'
+          }
+        }
+      },
     })}
   </Form.Group>))}
 </div>)

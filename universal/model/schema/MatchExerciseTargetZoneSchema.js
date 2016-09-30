@@ -1,6 +1,6 @@
 const MatchExerciseTargetZoneSchema = {
   type: 'object',
-  required: [],
+  required: ['weight', 'score'],
   properties: {
     id: {type: 'integer'},
     exerciseTargetId: {type: 'integer'},
