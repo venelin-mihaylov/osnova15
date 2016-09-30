@@ -135,16 +135,10 @@ export default class AutoFields extends React.Component {
       } else { // integer
         component = Input
         updateOn = 'blur'
-        addComponentProps = {
-          type: 'number'
-        }
       }
     } else if (t.indexOf('number') !== -1) {
       component = Input
       updateOn = 'blur'
-      addComponentProps = {
-        type: 'number'
-      }
     } else if (t.indexOf('boolean') !== -1) {
       component = Checkbox
       mapProps = AutoFields.mapPropsCheckbox
