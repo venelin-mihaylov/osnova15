@@ -17,13 +17,13 @@ const SUIField = createFieldClass({
     onChange: (v) => onChange(v ? v.format() : null),
     ...props,
   }),
-  CountrySelect: ({onChange, ...props}) => ({
+  Dropdown: ({onChange, ...props}) => ({
     name: props.name || props.model,
     value: props.modelValue,
     onChange: (e, value) => onChange(value),
     ...props,
   }),
-  Dropdown: ({onChange, ...props}) => ({
+  CountrySelect: ({onChange, ...props}) => ({
     name: props.name || props.model,
     value: props.modelValue,
     onChange: (e, value) => onChange(value),
