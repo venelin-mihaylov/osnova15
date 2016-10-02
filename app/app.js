@@ -19,7 +19,6 @@ import {applyRouterMiddleware, Router, browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import useScroll from 'react-router-scroll'
 import configureStore from './store'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 import 'sanitize.css/lib/sanitize.css'
@@ -35,9 +34,6 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 // Set up the router, wrapping all Routes in the App component
 import createRoutes from './routes'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 
 // add flexboxgrid
 require('flexboxgrid/css/flexboxgrid.css')
@@ -49,7 +45,7 @@ require('semantic-ui-css/semantic.css')
 require('react-datepicker/dist/react-datepicker.css')
 
 // required for material-ui to work
-injectTapEventPlugin()
+//injectTapEventPlugin()
 
 // do not swallow exceptions
 process.on('unhandledRejection', function (error) {
@@ -58,7 +54,6 @@ process.on('unhandledRejection', function (error) {
 
 ReactDOM.render(
   <Provider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
       <Router
         history={history}
         routes={createRoutes(store)}
@@ -82,7 +77,6 @@ ReactDOM.render(
         )
       }
       />
-    </MuiThemeProvider>
   </Provider>,
   document.getElementById('app')
 )

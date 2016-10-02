@@ -230,7 +230,7 @@ export default class AutoFields extends React.Component {
       validators,
       mapProps,
       updateOn,
-      //ignore: ['focus'],
+      ignore: ['focus'],
       ...rrfProps
     })
   }
