@@ -1,12 +1,13 @@
 import React from 'react'
-import AppLeftNav2 from 'components/AppLeftNav2'
-import AppTopBar2 from 'components/AppTopBar2'
-import {connect} from 'react-redux'
+import AppLeftNav from './AppLeftNav'
+import AppTopBar from './AppTopBar'
 import {push} from 'react-router-redux'
+import {connect} from 'react-redux'
 import Breadcrumbs from 'react-breadcrumbs'
 import Act from 'constants/Act'
 import HTML5Backend from 'react-dnd-html5-backend'
 import {DragDropContext} from 'react-dnd'
+
 
 const App = ({
   dispatch,
@@ -27,10 +28,13 @@ const App = ({
   routes,
   params
 }) => (<div>
-
-  <AppTopBar2
-    authenticated={authenticated}
-    onToggleSidebar={() => dispatch({type: Act.TOGGLE_LEFT_NAV})}
+  <AppLeftNav
+    containerStyle={{top: 64}}
+    open={leftNavOpen}
+    {...{activeMatchId, authenticated}}
+  />
+  <AppTopBar
+    {...{activeMatchId, user, dispatch}}
     onClickLogin={() => dispatch(push('/login'))}
     onClickLogout={() => dispatch({type: Act.LOGOUT_USER_REQUESTED})}
     onLeaveMatch={() => {
@@ -39,13 +43,7 @@ const App = ({
     }}
   />
 
-  <AppLeftNav2
-    authenticated={authenticated}
-    docked={leftNavOpen}
-    activeMatchId={activeMatchId}
-  />
-
-  <div style={{marginTop: 30, marginLeft: leftNavOpen ? '250px' : 10}}>
+  <div style={{marginTop: 30, marginLeft: leftNavOpen ? '270px' : 10}}>
     <Breadcrumbs
       routes={routes}
       params={params}
