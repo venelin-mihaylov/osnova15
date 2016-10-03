@@ -8,14 +8,11 @@ const AppTopBar2 = ({
   onClickLogout,
   activeMatchId,
   authenticated
-}) => (
-<div className='ui fixed menu'>
+}) => (<div className='ui fixed menu'>
   <div className='ui container'>
     <div className='item'>TCS</div>
     <div className='item'>
-      <Button icon basic onClick={onToggleSidebar}>
-        <Icon name='content' />
-      </Button>
+      <Button icon='content' basic onClick={onToggleSidebar} />
     </div>
   </div>
 </div>)
