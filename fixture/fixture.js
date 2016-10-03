@@ -133,7 +133,10 @@ const dataSpec = {
   }),
   match_competitor: generateNtoM(count.matches, count.competitor, count.match_competitor_max, {
     matchId: ({nIdx}) => `matches:${nIdx}`,
-    competitorId: ({mIdx}) => `competitor:${mIdx}`
+    competitorId: ({mIdx}) => `competitor:${mIdx}`,
+    division: () => randInt(1, 3),
+    caliber: '9mm',
+    gun: 'colt XXL'
   })
 }
 
