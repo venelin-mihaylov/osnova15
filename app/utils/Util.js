@@ -317,6 +317,10 @@ export function formatEnum(schema) {
   return (v, {property}) => get(schema, ['properties', property, 'enumProps', v])
 }
 
+export function formatEnum2(schema, property, value) {
+  return get(schema, ['properties', property, 'enumProps', value])
+}
+
 export function formatBool(v) {
   return v ? 'Yes' : 'No'
 }

@@ -124,6 +124,7 @@ const dataSpec = {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
     targetId: ({nIdx}) => `target:${nIdx}`,
     distance: () => randInt(1, 100),
+    metric: () => randInt(1, 2),
     description: () => 'Exercise target ' + randInt(1, 100)
   }),
   match_competitor: generateNtoM(count.matches, count.competitor, count.match_competitor_max, {

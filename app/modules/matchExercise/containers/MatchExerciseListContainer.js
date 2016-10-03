@@ -7,8 +7,10 @@ import FKSelect from 'components/FKSelect'
 import FKAct from 'constants/FKAct'
 import CRUDAct from 'constants/CRUDAct'
 import axios from 'axios'
-import {mapAct, mapListStateToProps, act, formatEnum} from 'utils/Util'
+import {mapAct, mapListStateToProps, act, formatEnum, formatEnum2} from 'utils/Util'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
+import TargetSchema from '../../../../universal/model/schema/TargetSchema'
+import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import {Button, Icon} from 'stardust'
 import cx from 'classnames'
 import {push} from 'react-router-redux'
@@ -139,12 +141,18 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
         property: 'exercise_target',
         header: 'Targets',
         cell: {
-          format: (rs) => (<div>
-            {rs && rs.map(r => <div>
-              {r.match_exercise_target_zone[0].targetName} - Distance: {r.match_exercise_target_zone[0].distance}
-              {r.match_exercise_target_zone.map(z => (<div>
-                {z.zoneName} - {z.weight} - {z.score}
-              </div>))}
+          format: (rs = []) => (rs && <div>
+            {rs.map(r => <div style={{paddingTop: '1rem'}}>
+              <ul className='ui list'>
+                <span>{r.target.name};</span>
+                <span>type: {formatEnum2(TargetSchema, 'type', r.target.type)};</span>
+                <span>distance: {r.distance} {formatEnum2(ExerciseTargetSchema, 'metric', r.metric)}</span>
+                <div className='ui list'>
+                  {r.match_exercise_target_zone.map(z => (<li>
+                      {z.zoneName} - weight:{z.weight} score:{z.score}
+                  </li>))}
+                </div>
+              </ul>
             </div>)}
           </div>)
         }
