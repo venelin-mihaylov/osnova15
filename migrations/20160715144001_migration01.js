@@ -93,6 +93,7 @@ exports.up = function (knex, Promise) {
       t.integer('exerciseId').notNullable().references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')
       t.integer('distance').notNullable()
+      t.integer('metric')
       t.string('description')
       //t.unique(['targetId', 'exerciseId'])
     }),
