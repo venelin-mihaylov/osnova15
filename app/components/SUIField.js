@@ -17,9 +17,9 @@ const SUIField = createFieldClass({
     onChange: (v) => onChange(v ? v.format() : null),
     ...props,
   }),
-  Dropdown: ({onChange, ...props}) => ({
+  Dropdown: ({onChange, defaultValue, ...props}) => ({
     name: props.name || props.model,
-    value: props.modelValue,
+    value: props.modelValue || defaultValue,
     onChange: (e, value) => onChange(value),
     ...props,
   }),

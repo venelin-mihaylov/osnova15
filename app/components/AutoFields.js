@@ -98,6 +98,7 @@ export default class AutoFields extends React.Component {
     fkProps,
     labelField,
     enumProps,
+    defaultValue,
   }) {
     let component = null
     let addComponentProps = {}
@@ -203,6 +204,7 @@ export default class AutoFields extends React.Component {
       fkProps,
       labelField,
       enumProps,
+      defaultValue
     })
 
     if (component === null) {
@@ -230,6 +232,7 @@ export default class AutoFields extends React.Component {
       validators,
       mapProps,
       updateOn,
+      defaultValue, // pass default value to rrf
       ignore: ['focus'],
       ...rrfProps
     })
