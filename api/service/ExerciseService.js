@@ -127,7 +127,7 @@ export default class ExerciseService extends CRUDService {
    * @returns {*|QueryBuilder}
    */
   listQuery() {
-    return this.model.query().eager('[exercise_target(orderById), exercise_target.match_exercise_target_zone(orderById)]', {
+    return this.model.query().eager('[exercise_target(orderById), exercise_target.[target(orderById), match_exercise_target_zone(orderById)]]', {
       orderById: b => b.orderBy('id')
     })
   }
