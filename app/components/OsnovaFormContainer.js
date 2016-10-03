@@ -92,6 +92,7 @@ export default class OsnovaFormContainer extends React.Component {
   loadModel(record) {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
     this.props.dispatch(actions.load(rrfModel(this.props.entity), record))
+
     rrfSetValid({
       dispatch: this.props.dispatch,
       entity: this.props.entity,
