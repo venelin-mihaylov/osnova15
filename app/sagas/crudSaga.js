@@ -5,27 +5,26 @@ import {fork, put, call, select} from 'redux-saga/effects'
 import {takeEvery} from 'redux-saga'
 import axios from 'axios'
 import {actions} from 'react-redux-form'
-import {push} from 'react-router-redux'
 import {rrfModel, formatServerError, act as _act, prefixType, listStatePath} from 'utils/Util'
 import snakeCase from 'lodash/snakeCase'
 import noop from 'lodash/noop'
 import curry from 'lodash/curry'
 import pick from 'lodash/pick'
 
-function* setValidationErrors(fieldErrors) {
+function* setValidationErrors(entity, fieldErrors) {
   if (!fieldErrors) {
     return
   }
   yield put(actions.setFieldsErrors(rrfModel(entity), fieldErrors))
 }
 
-function* handleException(err, reject, act, action) {
+function* handleException(entity, err, reject, act, action) {
   if (err.status === 401) {
     yield put({type: Act.AUTH_REQUIRED})
   } else {
     const err2 = formatServerError(err)
     yield put(act(action, err2))
-    yield setValidationErrors(err2.fieldErrors)
+    yield setValidationErrors(entity, err2.fieldErrors)
   }
   console.log(err)
   console.log(err.stack)
@@ -46,7 +45,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.READ_SUCCESS, {record}))
       yield call(resolve, record)
     } catch (err) {
-      yield handleException(err, reject, act, CRUDAct.READ_ERROR)
+      yield handleException(entity, err, reject, act, CRUDAct.READ_ERROR)
     }
   }
 
@@ -59,7 +58,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.DELETE_SUCCESS))
       yield call(resolve, id)
     } catch (err) {
-      yield handleException(err, reject, act, CRUDAct.DELETE_ERROR)
+      yield handleException(entity, err, reject, act, CRUDAct.DELETE_ERROR)
     }
   }
 
@@ -76,7 +75,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.CREATE_SUCCESS, {record: created}))
       yield call(resolve, created)
     } catch (err) {
-      handleException(err, reject, act, CRUDAct.CREATE_ERROR)
+      yield handleException(entity, err, reject, act, CRUDAct.CREATE_ERROR)
     }
   }
 
@@ -109,7 +108,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.LIST_SUCCESS, {records}))
       yield call(resolve, records)
     } catch (err) {
-      yield handleException(err, reject, act, CRUDAct.LIST_ERROR)
+      yield handleException(entity, err, reject, act, CRUDAct.LIST_ERROR)
     }
   }
 
@@ -138,7 +137,7 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       yield put(act(CRUDAct.UPDATE_SUCCESS, record ? {record: updated} : {records: updated}))
       yield call(resolve, updated)
     } catch (err) {
-      handleException(err, reject, CRUDAct.UPDATE_ERROR)
+      yield handleException(entity, err, reject, act, CRUDAct.UPDATE_ERROR)
     }
   }
 
