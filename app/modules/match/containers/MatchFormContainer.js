@@ -17,6 +17,14 @@ class MatchFormContainer extends OsnovaFormContainer {
       FormFieldsComponent={MatchFormFields}
       {...this.props}
       {...(this.addProps())}
+      loadDummyData={() => {
+        this.loadModel({
+          name: 'test',
+          type: 1,
+          discipline: 2,
+          country: 'bg'
+        })
+      }}
     />)
   }
 }

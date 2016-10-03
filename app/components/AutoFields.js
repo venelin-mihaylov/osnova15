@@ -43,9 +43,10 @@ export default class AutoFields extends React.Component {
   }
 
   static mapPropsDropdown = {
-    ...controls.select,
-    onChange: ({onChange}) => (e, value) => onChange(value),
-    error: ({fieldValue: {valid}}) => !valid
+    name: ({name, model})  => name || model,
+    value: ({viewValue}) => viewValue,
+    onChange: ({onChange}) => (e, {value}) => onChange(value),
+    error: ({fieldValue: {valid}}) => !valid,
   }
 
   static mapPropsCheckbox = {

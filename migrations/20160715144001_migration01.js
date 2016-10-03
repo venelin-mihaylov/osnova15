@@ -24,6 +24,7 @@ exports.up = function (knex, Promise) {
       t.increments('id').primary()
       t.string('name').notNullable()
       t.string('description')
+      t.integer('type')
       t.jsonb('notes')
     }),
     knex.schema.createTable('matches', function (t) {

@@ -3,12 +3,15 @@ import MatchSchema from '../../../../universal/model/schema/MatchSchema'
 import MatchRelations from '../../../../universal/model/relations/MatchRelations'
 import AutoFields from 'components/AutoFields'
 import CountrySelect from 'components/CountrySelect'
+import {Button} from 'stardust'
 
 export const MatchFormFields = ({
-  entity
+  entity,
+  loadDummyData
 }) => (
 
   <div>
+    <Button onClick={loadDummyData}>Load</Button>
     <AutoFields
       {...{entity}}
       jsonSchema={MatchSchema}

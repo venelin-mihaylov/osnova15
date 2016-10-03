@@ -83,7 +83,8 @@ const dataSpec = {
     password: '123asd'
   }],
   tournament: generate(count.tournament, {
-    name: (i) => `Tournament ${i}`
+    name: (i) => `Tournament ${i}`,
+    type: () => randInt(1, 2)
   }),
   competitor: generate(count.competitor, {
     firstName: () => firstNames[randInt(0, firstNames.length - 1)],
@@ -105,7 +106,10 @@ const dataSpec = {
   }),
   matches: generate(count.matches, {
     name: (i) => `Match ${i}`,
-    tournamentId: () => `tournament:${randInt(0, count.tournament - 1)}`
+    tournamentId: () => `tournament:${randInt(0, count.tournament - 1)}`,
+    discipline: () => randInt(1, 4),
+    type: () => randInt(1, 2),
+    country: 'bg'
   }),
   exercise: generate(count.exercise, {
     name: (i) => `Exercise ${i}`,

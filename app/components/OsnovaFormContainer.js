@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators'
 import {resetFormRecord} from 'actions/resetFormRecord'
 import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
-import {rrfModel, calcNextPath, rrfSetValidAndPristine} from 'utils/Util'
+import {rrfModel, calcNextPath, rrfSetValid} from 'utils/Util'
 
 @autobind
 export default class OsnovaFormContainer extends React.Component {
@@ -89,12 +89,19 @@ export default class OsnovaFormContainer extends React.Component {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
   }
 
+  loadModel(record) {
+    this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
+    this.props.dispatch(actions.load(rrfModel(this.props.entity), record))
+    rrfSetValid({
+      dispatch: this.props.dispatch,
+      entity: this.props.entity,
+      record
+    })
+  }
+
   readServerRecord() {
     this.props.promiseAct(CRUDAct.READ_REQUESTED, {id: this.props.params.id})
-      .then(record => {
-        this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
-        this.props.dispatch(actions.load(rrfModel(this.props.entity), record))
-      })
+      .then(record => this.loadModel(record))
   }
 
   addProps() {
