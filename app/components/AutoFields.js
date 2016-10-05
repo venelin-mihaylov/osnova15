@@ -1,6 +1,6 @@
 import React from 'react'
 import {toArray, rrfField, truthy} from 'utils/Util'
-import {Form, Input, Dropdown, Checkbox} from 'stardust'
+import {Form, Input, Dropdown, Checkbox} from 'semantic-ui-react'
 
 import DatePicker from 'react-datepicker'
 import FKSelect from 'components/FKSelect' // eslint-disable-line
@@ -43,7 +43,7 @@ export default class AutoFields extends React.Component {
   }
 
   static mapPropsDropdown = {
-    name: ({name, model})  => name || model,
+    name: ({name, model}) => name || model,
     value: ({viewValue}) => viewValue,
     onChange: ({onChange}) => (e, {value}) => onChange(value),
     error: ({fieldValue: {valid}}) => !valid,
@@ -233,8 +233,8 @@ export default class AutoFields extends React.Component {
       validators,
       mapProps,
       updateOn,
-      defaultValue, // pass default value to rrf
       ignore: ['focus'],
+      defaultValue, // pass default value to rrf
       ...rrfProps
     })
   }

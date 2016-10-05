@@ -2,7 +2,7 @@ import React from 'react'
 import AutoFields from 'components/AutoFields'
 import MatchCompetitorSchema from '../../../../universal/model/schema/MatchCompetitorSchema'
 import MatchCompetitorRelations from '../../../../universal/model/relations/MatchCompetitorRelations'
-import {Button, Icon} from 'stardust'
+import {Button, Icon} from 'semantic-ui-react'
 
 // after person create, we need to be able to get the latest created competitor
 // i.e. add onCompetitorCreated

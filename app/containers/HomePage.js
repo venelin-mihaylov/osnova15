@@ -11,7 +11,7 @@
 
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Message, Button, Input} from 'stardust'
+import {Message, Button, Input} from 'semantic-ui-react'
 import {Form, actions} from 'react-redux-form'
 import {connect} from 'react-redux'
 

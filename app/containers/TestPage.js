@@ -11,7 +11,7 @@
 
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Form as suiForm, Message, Button, Input} from 'stardust'
+import {Form as suiForm, Message, Button, Input} from 'semantic-ui-react'
 import {Form, Control, controls} from 'react-redux-form'
 import AutoFields from 'components/AutoFields'
 import {rrfModel} from 'utils/Util'

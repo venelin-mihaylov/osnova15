@@ -1,6 +1,6 @@
 import React from 'react'
 import AutoFields from 'components/AutoFields'
-import {Form, Label, Segment, Step} from 'stardust'
+import {Form, Label, Segment, Step} from 'semantic-ui-react'
 import MatchExerciseTargetZoneSchema from '../../../../universal/model/schema/MatchExerciseTargetZoneSchema'
 
 export const MatchExerciseTargetZoneFormFields = ({

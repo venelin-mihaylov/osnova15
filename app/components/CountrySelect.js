@@ -1,5 +1,5 @@
 import React from 'react'
-import {Flag} from 'stardust'
+import {Flag} from 'semantic-ui-react'
 import OsnovaDropdown from 'components/OsnovaDropdown'
 import {countries} from 'country-data'
 

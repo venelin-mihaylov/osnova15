@@ -1,7 +1,7 @@
 import React from 'react'
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import AutoFields from 'components/AutoFields'
-import {Form, Icon, Button, Input} from 'stardust'
+import {Form, Icon, Button, Input} from 'semantic-ui-react'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'

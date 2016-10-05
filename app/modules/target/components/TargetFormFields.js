@@ -5,7 +5,7 @@ import TargetZoneSchema from '../../../../universal/model/schema/TargetZoneSchem
 import TargetZoneRelations from '../../../../universal/model/relations/TargetZoneRelations'
 import AutoFields from 'components/AutoFields'
 import FileField from 'components/FileField'
-import {Form} from 'stardust'
+import {Form} from 'semantic-ui-react'
 
 import styles from 'styles/components/TargetFormFields.css'
 

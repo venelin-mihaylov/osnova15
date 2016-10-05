@@ -5,7 +5,7 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
-import {Icon} from 'stardust'
+import {Icon} from 'semantic-ui-react'
 
 const entity = 'exercise'
 const variation = '1'

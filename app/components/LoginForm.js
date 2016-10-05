@@ -1,6 +1,6 @@
 import React from 'react'
 import {Form, Control} from 'react-redux-form'
-import {Form as uiForm, Button, Input} from 'stardust'
+import {Form as uiForm, Button, Input} from 'semantic-ui-react'
 
 // const LoginForm = ({onSubmit}) => (<Form onSubmit={onSubmit}>
 //   <Form.Input label='Email' name='email' />

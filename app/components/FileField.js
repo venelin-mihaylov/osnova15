@@ -1,6 +1,6 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
-import {Button, Icon} from 'stardust'
+import {Button, Icon} from 'semantic-ui-react'
 
 import styles from 'styles/components/FileField.css'
 

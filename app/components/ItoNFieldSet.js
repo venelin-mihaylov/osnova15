@@ -1,7 +1,7 @@
 import React from 'react'
 import {rrfField} from 'utils/Util'
 import {actions} from 'react-redux-form'
-import {Button, Icon} from 'stardust'
+import {Button, Icon} from 'semantic-ui-react'
 
 const ItoNFieldSet = ({
   model,

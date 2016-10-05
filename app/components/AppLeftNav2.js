@@ -1,7 +1,7 @@
 import React from 'react'
 import {IndexLink, Link} from 'react-router'
 import Sidebar from 'react-sidebar'
-import {Menu} from 'stardust'
+import {Menu} from 'semantic-ui-react'
 
 const activeStyle = {color: 'red'}
 

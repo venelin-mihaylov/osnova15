@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dropdown} from 'stardust'
+import {Dropdown} from 'semantic-ui-react'
 import _ from 'lodash'
 
 export default class OsnovaDropdown extends Dropdown {

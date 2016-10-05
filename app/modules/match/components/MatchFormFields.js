@@ -3,7 +3,7 @@ import MatchSchema from '../../../../universal/model/schema/MatchSchema'
 import MatchRelations from '../../../../universal/model/relations/MatchRelations'
 import AutoFields from 'components/AutoFields'
 import CountrySelect from 'components/CountrySelect'
-import {Button} from 'stardust'
+import {Button} from 'semantic-ui-react'
 
 export const MatchFormFields = ({
   entity,

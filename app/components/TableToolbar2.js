@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Button, Icon} from 'stardust'
+import {Grid, Button, Icon} from 'semantic-ui-react'
 import TablePagination from 'components/TablePagination'
 import ListLimitMenu from 'components/ListLimitMenu'
 import classNames from 'classnames'

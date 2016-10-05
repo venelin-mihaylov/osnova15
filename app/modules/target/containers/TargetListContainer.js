@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
-import {Icon} from 'stardust'
+import {Icon} from 'semantic-ui-react'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 
 const entity = 'target'

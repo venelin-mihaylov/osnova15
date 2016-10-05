@@ -1,5 +1,5 @@
 import React from 'react'
-import {Dropdown, Icon, Button} from 'stardust'
+import {Dropdown, Icon, Button} from 'semantic-ui-react'
 
 const ListLimitMenu = ({limit, onLimitChange}) => (<Dropdown
   value={limit}

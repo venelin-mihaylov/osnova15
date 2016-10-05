@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Icon} from 'stardust'
+import {Button, Icon} from 'semantic-ui-react'
 import classNames from 'classnames'
 
 const DefaultFormButtons = ({onReset, onCancel, saving}) => (

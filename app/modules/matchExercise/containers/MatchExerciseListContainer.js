@@ -11,7 +11,7 @@ import {mapAct, mapListStateToProps, act, formatEnum, formatEnum2} from 'utils/U
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
-import {Button, Icon} from 'stardust'
+import {Button, Icon} from 'semantic-ui-react'
 import cx from 'classnames'
 import {push} from 'react-router-redux'
 
@@ -29,7 +29,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
     }
   }
 
-  onSelectFavouriteExercise(exerciseId) {
+  onSelectFavouriteExercise({value: exerciseId}) {
     const {
       dispatch,
       promiseAct,
