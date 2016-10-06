@@ -72,11 +72,13 @@ exports.up = function (knex, Promise) {
       t.string('rangeOfficer')
       t.string('index')
       t.string('signature')
+      t.string('briefing')
       t.boolean('favourite').notNullable().default(false)
     }),
     knex.schema.createTable('target', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
+      t.string('number').notNullable()
       t.integer('type') // valueMap
       t.boolean('favourite').notNullable().default(false)
       t.text('thumbnail') // base64 image data, easiest to handle
@@ -85,6 +87,7 @@ exports.up = function (knex, Promise) {
     knex.schema.createTable('target_zone', function (t) {
       t.increments('id').primary()
       t.string('name').notNullable()
+      t.string('description')
       t.integer('width').notNullable()
       t.integer('height').notNullable()
       t.integer('targetId').notNullable().references('id').inTable('target').onDelete('CASCADE')

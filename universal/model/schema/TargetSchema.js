@@ -1,10 +1,11 @@
 const TargetSchema = {
   type: 'object',
-  required: ['name'],
+  required: ['name', 'number'],
 
   properties: {
     id: {type: 'integer'},
     name: {type: 'string'},
+    number: {type: 'string'},
     type: {
       type: 'integer',
       enum: [1, 2],

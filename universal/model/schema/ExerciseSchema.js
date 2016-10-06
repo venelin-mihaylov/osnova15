@@ -26,6 +26,7 @@ const ExerciseSchema = {
     },
     rangeOfficer: {type: 'string'},
     signature: {type: 'string'},
+    briefing: {type: 'string'},
     favourite: {type: 'boolean', noForm: true}
   }
 }

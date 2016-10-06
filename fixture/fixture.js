@@ -95,12 +95,14 @@ const dataSpec = {
   }),
   target: generate(count.target, {
     name: (i) => `Target ${i}`,
+    number: (i) => i,
     type: () => randInt(1, 2),
     favourite: () => randInt(0, 1)
   }),
   target_zone: generateItoN(count.target, count.target_zone_max, {
     targetId: ({parentIdx}) => `target:${parentIdx}`,
     name: ({i}) => `S${i}`,
+    description: ({i}) => `description ${i}`,
     width: () => randInt(1, 10),
     height: () => randInt(1, 10),
   }),
