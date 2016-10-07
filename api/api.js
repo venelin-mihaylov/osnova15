@@ -6,7 +6,6 @@ import bodyParser from 'body-parser'
 import http from 'http'
 import SocketIo from 'socket.io'
 import morgan from 'morgan'
-
 import config from '../universal/config'
 import pg from 'pg'
 
@@ -62,14 +61,14 @@ app.use(session({
 configurePassport(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-// </editor-fold>
 
-// <editor-fold desc="API endpoint">
 app.use('/auth', configureAuthRouter(passport))
 
 mountRestApi(app, {
   authMiddleware
 })
+
+// new MatchExerciseTargetZoneService(MatchExerciseTargetZone)).register(app)
 
 // </editor-fold>
 app.use(renderError)
