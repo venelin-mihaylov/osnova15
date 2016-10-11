@@ -12,6 +12,7 @@ import pg from 'pg'
 import {Model} from 'objection'
 
 import mountRestApi from './rest/mountRestApi'
+import DownloadExerciseBriefing from './download/DownloadExerciseBriefing'
 
 import configureAuthRouter from './auth/configureAuthRouter'
 import configurePassport from './config/passport/configurePassport'
@@ -63,6 +64,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use('/auth', configureAuthRouter(passport))
+new DownloadExerciseBriefing().register(app)
 
 mountRestApi(app, {
   authMiddleware

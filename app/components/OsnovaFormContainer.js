@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators'
 import {resetFormRecord} from 'actions/resetFormRecord'
 import {push} from 'react-router-redux'
 import {actions} from 'react-redux-form'
-import {rrfModel, calcNextPath, rrfSetValid} from 'utils/Util'
+import {rrfModel, calcNextPath} from 'utils/Util'
 
 @autobind
 export default class OsnovaFormContainer extends React.Component {
@@ -89,15 +89,13 @@ export default class OsnovaFormContainer extends React.Component {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
   }
 
+  postLoadModel(record) { } // eslint-disable-line
+
   loadModel(record) {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
     this.props.dispatch(actions.load(rrfModel(this.props.entity), record))
-
-    rrfSetValid({
-      dispatch: this.props.dispatch,
-      entity: this.props.entity,
-      record
-    })
+    this.props.dispatch(actions.setValidity(rrfModel(this.props.entity), true))
+    this.postLoadModel(record)
   }
 
   readServerRecord() {

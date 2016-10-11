@@ -6,7 +6,7 @@ import MatchCompetitorFormFields from 'modules/matchCompetitor/components/MatchC
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
-import {mapAct, mapCrudStateToProps, crudStatePath, selectCreatedFK} from 'utils/Util'
+import {mapAct, mapCrudStateToProps, crudStatePath, selectCreatedFK, rrfSetValid} from 'utils/Util'
 
 const entity = 'matchCompetitor'
 const variation = '1'
@@ -16,6 +16,14 @@ const variation = '1'
 })), mapAct(entity, variation))
 @autobind
 class MatchCompetitorFormContainer extends OsnovaFormContainer {
+
+  postLoadModel(record) {
+    rrfSetValid({
+      dispatch: this.props.dispatch,
+      entity: this.props.entity,
+      record
+    })
+  }
 
   componentWillMount() {
     super.componentWillMount()

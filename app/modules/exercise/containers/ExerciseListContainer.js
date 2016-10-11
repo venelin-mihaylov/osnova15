@@ -5,7 +5,8 @@ import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
-import {Icon} from 'semantic-ui-react'
+import {Button, Icon} from 'semantic-ui-react'
+import cx from 'classnames'
 
 const entity = 'exercise'
 const variation = '1'
@@ -21,8 +22,19 @@ export default class ExerciseListContainer extends OsnovaListContainer {
   }
 
   render() {
+    const btnDownloadBriefing = (<Button
+      disabled={!this.props.redux.selectedId}
+      color='brown'
+      icon='book'
+      content='Briefing'
+      onClick={() => this.props.redux.selectedId && window.open(`/api/download/exercise-briefing/${this.props.redux.selectedId}`)}
+    />)
+
     return (<EntityList
       toolbarTitle='Exercises'
+      toolbarProps={{
+        appendButtons: [btnDownloadBriefing]
+      }}
       columns={[{
         property: 'favourite',
         props: {

@@ -53,34 +53,45 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
       location: {pathname},
       redux: {selectedId}
     } = this.props
+
+    const btnDownloadBriefing = (<Button
+      disabled={!this.props.redux.selectedId}
+      color='brown'
+      icon='book'
+      content='Briefing'
+      onClick={() => this.props.redux.selectedId && window.open(`/api/download/exercise-briefing/${this.props.redux.selectedId}`)}
+    />)
+
+    const btnEditZones = (<Button
+      key='zones'
+      icon='edit'
+      content='Zones'
+      color='olive'
+      disabled={!this.props.redux.selectedId}
+      onClick={() => dispatch(push(`${pathname}/${selectedId}/zones`))}
+    />)
+
+    const dropdownAddFavouriteExercise = (<FKSelect
+      key='addFavouriteExercise'
+      entity='exercise'
+      variation='1'
+      labelField='name'
+      onChange={this.onSelectFavouriteExercise}
+      listParams={{
+        filter: {
+          favourite: true
+        }
+      }}
+    />)
+
+
     return (<EntityList
       toolbarTitle='Match Exercises'
       toolbarProps={{
         appendButtons: [
-          <Button
-            key='zones'
-            className={cx({
-              positive: true,
-              icon: true,
-              labeled: true,
-            })}
-            onClick={() => dispatch(push(`${pathname}/${selectedId}/zones`))}
-          >
-            <Icon name='edit' />
-            Zones
-          </Button>,
-          <FKSelect
-            key='addFavouriteExercise'
-            entity='exercise'
-            variation='1'
-            labelField='name'
-            onChange={this.onSelectFavouriteExercise}
-            listParams={{
-              filter: {
-                favourite: true
-              }
-            }}
-          />
+          btnDownloadBriefing,
+          btnEditZones,
+          dropdownAddFavouriteExercise
         ]
       }}
       columns={[{
