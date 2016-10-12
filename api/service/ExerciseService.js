@@ -1,15 +1,16 @@
 import CRUDService from './CRUDService'
 import {autobind} from 'core-decorators'
 import ItoN from '../utils/ItoN'
-import MatchExerciseTargetZone from '../../universal/model/MatchExerciseTargetZone'
+import ExerciseTargetZone from '../../universal/model/ExerciseTargetZone'
 import {targetZoneScore} from '../../universal/scoring/scoring'
+import isInt from 'validator/lib/isInt'
 
 /**
  * on match exercise edit,
  * the service has to add/edit only a single match_exercise record,
  * for the current match.
  * on match exercise save, the service has to create/update
- * match_exercise_target_zone records, one for each target_zone
+ * exercise_target_zone records, one for each target_zone
  * alternatively this data should be present in the form for live edit
  */
 @autobind
@@ -58,16 +59,14 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query().insertWithRelated(record)
   }
 
-  async createMatchExerciseTargetZone({id: exerciseId, matchId}) {
-    if (!exerciseId || !matchId) {
+  async createExerciseTargetZone({id: exerciseId}) {
+    if (!exerciseId) {
       return
     }
 
-    await this.model.raw(`delete from match_exercise_target_zone where "exerciseId"=${exerciseId} AND "matchId"=${matchId}`)
-    await this.model.raw(`insert into match_exercise_target_zone
-    (
-    "matchId", 
-    "exerciseId", 
+    await this.model.raw(`delete from exercise_target_zone where "exerciseTargetId" IN (SELECT et.id from exercise_target et where et."exerciseId" = ${exerciseId})`)
+    await this.model.raw(`insert into exercise_target_zone
+    ( 
     "exerciseTargetId", 
     "targetId", 
     "zoneId", 
@@ -78,8 +77,6 @@ export default class ExerciseService extends CRUDService {
     "distance"
     )
     select 
-      "matchId", 
-      "exerciseId", 
       exercise_target."id", 
       exercise_target."targetId", 
       target_zone."id",
@@ -93,10 +90,14 @@ export default class ExerciseService extends CRUDService {
     inner join target on exercise_target."targetId" = target.id
     inner join target_zone on exercise_target."targetId" = target_zone."targetId"
     where exercise.id = ${exerciseId};`)
-    await MatchExerciseTargetZone.query()
-      .where('exerciseId', '=', exerciseId)
-      .andWhere('matchId', '=', matchId)
-      .then(records => Promise.all(records.map(r => MatchExerciseTargetZone.query().patchAndFetchById(r.id, {score: targetZoneScore(r.distance, r.height, r.weight)}))))
+    await ExerciseTargetZone.query()
+      .whereIn('exerciseTargetId', b => b.select('id')
+        .from('exercise_target')
+        .where('exerciseId', '=', exerciseId))
+      .then(records => Promise.all(records.map(r => ExerciseTargetZone.query()
+        .patchAndFetchById(r.id, {
+          score: targetZoneScore(r.distance, r.height, r.weight)
+        }))))
   }
 
   async doUpdate(id, {record}) {
@@ -112,46 +113,58 @@ export default class ExerciseService extends CRUDService {
   }
 
   async afterUpdate(id, input, response) {
-    await this.createMatchExerciseTargetZone(response)
+    await this.createExerciseTargetZone(response)
   }
 
   async afterCreate(input, response) {
-    await this.createMatchExerciseTargetZone(response)
+    await this.createExerciseTargetZone(response)
   }
 
   /**
    * exercise
    *   -> exercise_target - distance, maxPoints
-   *     -> match_exercise_target_zone - targetName, zoneName, distance,
+   *     -> exercise_target_zone - targetName, zoneName, distance,
    *
    * @returns {*|QueryBuilder}
    */
   listQuery() {
-    return this.model.query().eager('[exercise_target(orderById), exercise_target.[target(orderById), match_exercise_target_zone(orderById)]]', {
+    return this.model.query().eager('[exercise_target(orderById), exercise_target.[target(orderById), exercise_target_zone(orderById)]]', {
       orderById: b => b.orderBy('id')
     })
   }
 
   async createFavouriteExerciseForMatch({matchId, exerciseId}) {
+
     const exercise = await this.model.query()
       .findById(exerciseId)
-      .eager('exercise_target')
+      .eager('exercise_target(orderById).exercise_target_zone(orderById)', {
+        orderById: b => b.orderBy('id')
+      })
 
     if (!exercise) {
       throw new Error('bad input')
     }
 
     const json = exercise.toJSON()
+
     delete json.id
     json.favourite = false
     json.matchId = matchId
     for (let i = 0; i < json.exercise_target.length; i++) {
       delete json.exercise_target[i].id
+      delete json.exercise_target[i].exerciseId
+      for (let j = 0; j < json.exercise_target[i].exercise_target_zone.length; j++) {
+        delete json.exercise_target[i].exercise_target_zone[j].id
+        delete json.exercise_target[i].exercise_target_zone[j].exerciseTargetId
+        delete json.exercise_target[i].exercise_target_zone[j].exerciseId
+      }
     }
+
+    console.log('exercise to be inserted')
+    console.log(JSON.stringify(json, null, 2))
 
     return await this.model.query()
       .insertWithRelated(json)
       .returning('*')
-      .then(result => this.createMatchExerciseTargetZone({id: result.id, matchId}))
   }
 }

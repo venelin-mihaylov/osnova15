@@ -18,7 +18,7 @@ const setScoreOnWeightChange = function (state, entity, model, value) {
   return state
 }
 
-export default function matchExerciseTargetZone(state = [], action = {}) { // eslint-disable-line
+export default function exerciseTargetZone(state = [], action = {}) { // eslint-disable-line
   const {
     type,
     model,
@@ -28,14 +28,14 @@ export default function matchExerciseTargetZone(state = [], action = {}) { // es
 
   let change = null
 
-  const entity = 'matchExerciseTargetZone'
+  const entity = 'exerciseTargetZone'
   switch (type) {
     case 'rrf/change':
       return setScoreOnWeightChange(state, entity, model, value)
     case 'rrf/batch':
       change = find(act.actions, {type: 'rrf/change'})
       if (change) {
-        return matchExerciseTargetZone(state, change)
+        return exerciseTargetZone(state, change)
       }
       return state
     default:

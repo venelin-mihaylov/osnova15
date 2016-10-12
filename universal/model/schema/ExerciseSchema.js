@@ -1,7 +1,7 @@
 const ExerciseSchema = {
   type: 'object',
-  //required: ['name', 'type', 'module', 'minShots', 'rangeOfficer'],
-  required: ['name'],
+  required: ['name', 'type', 'module', 'minShots', 'rangeOfficer'],
+  // required: ['name'],
   properties: {
     id: {type: 'integer'},
     matchId: {type: ['null', 'integer'], labelField: 'name', noForm: true},

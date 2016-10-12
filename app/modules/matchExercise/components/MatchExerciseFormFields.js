@@ -5,7 +5,7 @@ import {Form, Icon, Button, Input} from 'semantic-ui-react'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
-import MatchExerciseTargetZoneSchema from '../../../../universal/model/schema/MatchExerciseTargetZoneSchema'
+import ExerciseTargetZoneSchema from '../../../../universal/model/schema/ExerciseTargetZoneSchema'
 import {rrfField} from 'utils/Util'
 import {actions} from 'react-redux-form'
 import get from 'lodash/get'
@@ -91,7 +91,7 @@ export default MatchExerciseFormFields
 //     return
 //   }
 //   console.log('postLoadRecord')
-//   const ff = `${relName}[${idx}]match_exercise_target_zone[]`
+//   const ff = `${relName}[${idx}]exercise_target_zone[]`
 //   dispatch(actions.filter(rrfField(entity, ff), () => false))
 //   target_zone.forEach(({id: zoneId, targetId, name}) => dispatch(actions.push(rrfField(entity, ff), {
 //     zoneId,

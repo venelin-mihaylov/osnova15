@@ -70,7 +70,7 @@ mountRestApi(app, {
   authMiddleware
 })
 
-// new MatchExerciseTargetZoneService(MatchExerciseTargetZone)).register(app)
+// new ExerciseTargetZoneService(ExerciseTargetZone)).register(app)
 
 // </editor-fold>
 app.use(renderError)

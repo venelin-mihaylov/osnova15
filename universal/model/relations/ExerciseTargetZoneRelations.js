@@ -1,9 +1,9 @@
-const MatchExerciseTargetZoneRelations = {
+const ExerciseTargetZoneRelations = {
   match: {
     relation: 'BelongsToOne',
     modelClass: 'Match',
     join: {
-      fromTable: 'match_exercise_target_zone',
+      fromTable: 'exercise_target_zone',
       fromField: 'matchId',
       toTable: 'matches',
       toField: 'id'
@@ -13,7 +13,7 @@ const MatchExerciseTargetZoneRelations = {
     relation: 'BelongsToOne',
     modelClass: 'Exercise',
     join: {
-      fromTable: 'match_exercise_target_zone',
+      fromTable: 'exercise_target_zone',
       fromField: 'exerciseId',
       toTable: 'exercise',
       toField: 'id'
@@ -23,7 +23,7 @@ const MatchExerciseTargetZoneRelations = {
     relation: 'BelongsToOne',
     modelClass: 'ExerciseTarget',
     join: {
-      fromTable: 'match_exercise_target_zone',
+      fromTable: 'exercise_target_zone',
       fromField: 'exerciseTargetId',
       toTable: 'exercise_target',
       toField: 'id'
@@ -33,7 +33,7 @@ const MatchExerciseTargetZoneRelations = {
     relation: 'BelongsToOne',
     modelClass: 'Target',
     join: {
-      fromTable: 'match_exercise_target_zone',
+      fromTable: 'exercise_target_zone',
       fromField: 'exerciseId',
       toTable: 'target',
       toField: 'id'
@@ -43,11 +43,11 @@ const MatchExerciseTargetZoneRelations = {
     relation: 'BelongsToOne',
     modelClass: 'TargetZone',
     join: {
-      fromTable: 'match_exercise_target_zone',
+      fromTable: 'exercise_target_zone',
       fromField: 'exerciseId',
       toTable: 'target_zone',
       toField: 'id'
     }
   }
 }
-export default MatchExerciseTargetZoneRelations
+export default ExerciseTargetZoneRelations

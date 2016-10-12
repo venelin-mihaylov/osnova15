@@ -1,10 +1,9 @@
 import React from 'react'
 import AutoFields from 'components/AutoFields'
-import {Form, Label, Segment, Step} from 'semantic-ui-react'
-import MatchExerciseTargetZoneSchema from '../../../../universal/model/schema/MatchExerciseTargetZoneSchema'
+import {Form, Segment} from 'semantic-ui-react'
+import ExerciseTargetZoneSchema from '../../../../universal/model/schema/ExerciseTargetZoneSchema'
 
-export const MatchExerciseTargetZoneFormFields = ({
-  dispatch,
+export const ExerciseTargetZoneFormFields = ({
   model,
   entity,
 }) => (<div>
@@ -12,7 +11,7 @@ export const MatchExerciseTargetZoneFormFields = ({
     <Segment>{r.targetName} - {r.zoneName}</Segment>
     {AutoFields.renderFields({
       entity,
-      jsonSchema: MatchExerciseTargetZoneSchema,
+      jsonSchema: ExerciseTargetZoneSchema,
       namePrefix: `[${idx}].`,
       include: ['weight', 'score'],
       label: null,
@@ -30,11 +29,11 @@ export const MatchExerciseTargetZoneFormFields = ({
   </Form.Group>))}
 </div>)
 
-MatchExerciseTargetZoneFormFields.propTypes = {
+ExerciseTargetZoneFormFields.propTypes = {
   dispatch: React.PropTypes.func,
   model: React.PropTypes.any,
   entity: React.PropTypes.string,
   onClickAddTarget: React.PropTypes.func
 }
 
-export default MatchExerciseTargetZoneFormFields
+export default ExerciseTargetZoneFormFields

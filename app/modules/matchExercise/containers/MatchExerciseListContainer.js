@@ -11,8 +11,7 @@ import {mapAct, mapListStateToProps, act, formatEnum, formatEnum2} from 'utils/U
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
-import {Button, Icon} from 'semantic-ui-react'
-import cx from 'classnames'
+import {Button} from 'semantic-ui-react'
 import {push} from 'react-router-redux'
 
 const entity = 'exercise'
@@ -29,7 +28,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
     }
   }
 
-  onSelectFavouriteExercise({value: exerciseId}) {
+  onSelectFavouriteExercise(exerciseId) {
     const {
       dispatch,
       promiseAct,
@@ -159,7 +158,7 @@ export default class MatchExerciseListContainer extends OsnovaListContainer {
                 <span>type: {formatEnum2(TargetSchema, 'type', r.target.type)};</span>
                 <span>distance: {r.distance} {formatEnum2(ExerciseTargetSchema, 'metric', r.metric)}</span>
                 <div className='ui list'>
-                  {r.match_exercise_target_zone.map(z => (<li>
+                  {r.exercise_target_zone.map(z => (<li>
                       {z.zoneName} - weight:{z.weight} score:{z.score}
                   </li>))}
                 </div>

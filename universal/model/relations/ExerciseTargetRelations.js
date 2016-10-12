@@ -19,13 +19,13 @@ const ExerciseTargetRelations = {
       toField: 'id'
     }
   },
-  match_exercise_target_zone: {
+  exercise_target_zone: {
     relation: 'HasMany',
-    modelClass: 'MatchExerciseTargetZone',
+    modelClass: 'ExerciseTargetZone',
     join: {
       fromTable: 'exercise_target',
       fromField: 'id',
-      toTable: 'match_exercise_target_zone',
+      toTable: 'exercise_target_zone',
       toField: 'exerciseTargetId'
     }
   }

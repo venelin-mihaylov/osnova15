@@ -101,11 +101,9 @@ exports.up = function (knex, Promise) {
       t.string('description')
       //t.unique(['targetId', 'exerciseId'])
     }),
-    knex.schema.createTable('match_exercise_target_zone', function (t) {
+    knex.schema.createTable('exercise_target_zone', function (t) {
       t.increments('id').primary()
-      t.integer('matchId').references('id').inTable('matches').onDelete('CASCADE')
       t.integer('exerciseTargetId').notNullable().references('id').inTable('exercise_target').onDelete('CASCADE')
-      t.integer('exerciseId').references('id').inTable('exercise').onDelete('CASCADE')
       t.integer('targetId').references('id').inTable('target').onDelete('CASCADE')
       t.integer('zoneId').notNullable().references('id').inTable('target_zone').onDelete('CASCADE')
       t.string('targetName')
@@ -125,7 +123,7 @@ exports.down = function (knex, Promise) {
     knex.raw('DROP TABLE IF EXISTS competitor CASCADE'),
     knex.raw('DROP TABLE IF EXISTS tournament CASCADE'),
     knex.raw('DROP TABLE IF EXISTS matches CASCADE'),
-    knex.raw('DROP TABLE IF EXISTS match_exercise_target_zone CASCADE'),
+    knex.raw('DROP TABLE IF EXISTS exercise_target_zone CASCADE'),
     knex.raw('DROP TABLE IF EXISTS match_competitor CASCADE'),
     knex.raw('DROP TABLE IF EXISTS exercise CASCADE'),
     knex.raw('DROP TABLE IF EXISTS target CASCADE'),

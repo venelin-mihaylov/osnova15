@@ -1,4 +1,4 @@
-insert into match_exercise_target_zone
+insert into exercise_target_zone
   ("matchId", "exerciseId", "exerciseTargetId", "targetId", "zoneId")
   select "matchId", "exerciseId", exercise_target."id", exercise_target."targetId", target_zone."id"
   from exercise

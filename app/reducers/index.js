@@ -6,7 +6,7 @@ import fkReducer from './FKReducer'
 import user from './user'
 import nav from './nav'
 import misc from './misc'
-import matchExerciseTargetZone from './matchExerciseTargetZone'
+import exerciseTargetZone from './exerciseTargetZone'
 import {combineForms} from 'react-redux-form'
 import {listStatePath, crudStatePath, fkStatePath} from 'utils/Util'
 
@@ -39,8 +39,8 @@ const rootReducer = combineReducers({
   [fkStatePath('competitor', '1')]: fkReducer('competitor', '1'),
   [fkStatePath('exercise', '1')]: fkReducer('exercise', '1'),
   [fkStatePath('target', '1')]: fkReducer('target', '1'),
-  [crudStatePath('matchExerciseTargetZone')]: crudReducer({entity: 'matchExerciseTargetZone'}),
-  [listStatePath('matchExerciseTargetZone')]: listReducer({entity: 'matchExerciseTargetZone'}),
+  [crudStatePath('exerciseTargetZone')]: crudReducer({entity: 'exerciseTargetZone'}),
+  [listStatePath('exerciseTargetZone')]: listReducer({entity: 'exerciseTargetZone'}),
 
   rrf: combineForms({
     login: {},
@@ -48,7 +48,7 @@ const rootReducer = combineReducers({
     match: {},
     competitor: {},
     matchCompetitor: {},
-    matchExerciseTargetZone,
+    exerciseTargetZone,
     exercise: {},
     target: {},
     test: [],

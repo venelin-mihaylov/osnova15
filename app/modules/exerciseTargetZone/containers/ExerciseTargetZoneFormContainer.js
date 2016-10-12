@@ -2,25 +2,24 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
-import MatchExerciseTargetZoneFormFields from 'modules/matchExerciseTargetZone/components/MatchExerciseTargetZoneFormFields'
+import ExerciseTargetZoneFormFields from 'modules/exerciseTargetZone/components/ExerciseTargetZoneFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
-import {mapAct, rrfModel, rrfSetValidAndPristine, mapCrudStateToProps} from 'utils/Util'
+import {mapAct, rrfModel, mapCrudStateToProps} from 'utils/Util'
 import get from 'lodash/get'
 import pick from 'lodash/pick'
 import CRUDAct from 'constants/CRUDAct'
 import {actions} from 'react-redux-form'
 
-const entity = 'matchExerciseTargetZone'
+const entity = 'exerciseTargetZone'
 const variation = '1'
 
 @connect(mapCrudStateToProps(entity, variation, state => ({
   model: get(state, rrfModel(entity))
 })), mapAct(entity, variation))
 @autobind
-export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormContainer {
+export default class ExerciseTargetZoneFormContainer extends OsnovaFormContainer {
   onSubmit(model) {
     const records = model.map(r => ({
-      matchId: this.props.params.matchId,
       exerciseId: this.props.params.exerciseId,
       ...r,
     }))
@@ -30,7 +29,6 @@ export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormCont
   readServerRecord() {
     this.props.act(CRUDAct.LIST_SET_FILTER, {
       value: {
-        matchId: this.props.params.matchId,
         exerciseId: this.props.params.exerciseId
       }
     })
@@ -50,7 +48,7 @@ export default class MatchExerciseTargetZoneFormContainer extends OsnovaFormCont
 
   render() {
     return (<EntityFormWrapper
-      FormFieldsComponent={MatchExerciseTargetZoneFormFields}
+      FormFieldsComponent={ExerciseTargetZoneFormFields}
       {...this.props}
       {...(this.addProps())}
     />)

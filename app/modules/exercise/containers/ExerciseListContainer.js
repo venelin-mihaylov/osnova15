@@ -4,9 +4,11 @@ import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
-import {mapAct, mapListStateToProps, formatEnum} from 'utils/Util'
+import TargetSchema from '../../../../universal/model/schema/TargetSchema'
+import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
+import {mapAct, mapListStateToProps, formatEnum, formatEnum2} from 'utils/Util'
 import {Button, Icon} from 'semantic-ui-react'
-import cx from 'classnames'
+import {push} from 'react-router-redux'
 
 const entity = 'exercise'
 const variation = '1'
@@ -22,6 +24,11 @@ export default class ExerciseListContainer extends OsnovaListContainer {
   }
 
   render() {
+    const {
+      location: {pathname},
+      redux: {selectedId}
+    } = this.props
+
     const btnDownloadBriefing = (<Button
       disabled={!this.props.redux.selectedId}
       color='brown'
@@ -30,10 +37,22 @@ export default class ExerciseListContainer extends OsnovaListContainer {
       onClick={() => this.props.redux.selectedId && window.open(`/api/download/exercise-briefing/${this.props.redux.selectedId}`)}
     />)
 
+    const btnEditZones = (<Button
+      key='zones'
+      icon='edit'
+      content='Zones'
+      color='olive'
+      disabled={!this.props.redux.selectedId}
+      onClick={() => this.props.dispatch(push(`${pathname}/${selectedId}/zones`))}
+    />)
+
     return (<EntityList
       toolbarTitle='Exercises'
       toolbarProps={{
-        appendButtons: [btnDownloadBriefing]
+        appendButtons: [
+          btnDownloadBriefing,
+          btnEditZones
+        ]
       }}
       columns={[{
         property: 'favourite',
@@ -91,15 +110,24 @@ export default class ExerciseListContainer extends OsnovaListContainer {
         }
       }, {
         property: 'exercise_target',
-        header: {
-          label: 'Targets'
-        },
+        header: 'Targets',
         cell: {
-          format: (targets) => {
-            if (!targets) return null
-            return targets.map(t => <div>{t.distance} - {t.weight} - {t.score}</div>)
-          }
+          format: (rs = []) => (rs && <div>
+            {rs.map(r => <div style={{paddingTop: '1rem'}}>
+              <ul className='ui list'>
+                <span>{r.target.name};</span>
+                <span>type: {formatEnum2(TargetSchema, 'type', r.target.type)};</span>
+                <span>distance: {r.distance} {formatEnum2(ExerciseTargetSchema, 'metric', r.metric)}</span>
+                <div className='ui list'>
+                  {r.exercise_target_zone.map(z => (<li>
+                    {z.zoneName} - weight:{z.weight} score:{z.score}
+                  </li>))}
+                </div>
+              </ul>
+            </div>)}
+          </div>)
         }
+
       }]}
       {...this.props}
       {...(this.addProps())}

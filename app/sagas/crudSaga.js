@@ -96,8 +96,10 @@ export default function crudSaga(entity, variation = '1', options = {}) {
     const baseFilter = params.baseFilter
     delete params.baseFilter
     if (baseFilter || params.filter) {
-      params.filter = JSON.stringify(Object.assign({}, params.filter, baseFilter))
+      params.filter = JSON.stringify(Object.assign({}, baseFilter || {}, params.filter || {}))
     }
+
+    console.log(params)
 
     try {
       const {data: records} = yield call(axios, {

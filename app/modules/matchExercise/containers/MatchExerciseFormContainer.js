@@ -6,8 +6,8 @@ import MatchExerciseFormFields from 'modules/MatchExercise/components/MatchExerc
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
-import {rrfModel, mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath} from 'utils/Util'
-import get from 'lodash.get'
+import {rrfModel, mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath, rrfSetValid} from 'utils/Util'
+import get from 'lodash/get'
 
 const entity = 'exercise'
 const variation = '1'
@@ -35,17 +35,18 @@ export default class MatchExerciseFormContainer extends OsnovaFormContainer {
     })
   }
 
-  onCreate(record) {
-    super.onCreate({
+  onSubmit(record) {
+    super.onSubmit({
+      ...record,
       matchId: this.props.params.matchId,
-      ...record
     })
   }
 
-  onUpdate(record) {
-    super.onUpdate({
-      matchId: this.props.params.matchId,
-      ...record
+  postLoadModel(record) {
+    rrfSetValid({
+      dispatch: this.props.dispatch,
+      entity: this.props.entity,
+      record
     })
   }
 
