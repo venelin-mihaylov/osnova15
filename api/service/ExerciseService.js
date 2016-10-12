@@ -134,6 +134,7 @@ export default class ExerciseService extends CRUDService {
   }
 
   async createFavouriteExerciseForMatch({matchId, exerciseId}) {
+    this.model.skipValidation = true
 
     const exercise = await this.model.query()
       .findById(exerciseId)
@@ -156,16 +157,15 @@ export default class ExerciseService extends CRUDService {
       for (let j = 0; j < json.exercise_target[i].exercise_target_zone.length; j++) {
         delete json.exercise_target[i].exercise_target_zone[j].id
         delete json.exercise_target[i].exercise_target_zone[j].exerciseTargetId
-        delete json.exercise_target[i].exercise_target_zone[j].exerciseId
       }
     }
 
     console.log('exercise to be inserted')
     console.log(JSON.stringify(json, null, 2))
 
-    this.model.skipValidation = true
     const response = await this.model.query()
       .insertGraphAndFetch(json)
+
     this.model.skipValidation = false
     return response
   }
