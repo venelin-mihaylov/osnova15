@@ -163,7 +163,10 @@ export default class ExerciseService extends CRUDService {
     console.log('exercise to be inserted')
     console.log(JSON.stringify(json, null, 2))
 
-    return await this.model.query()
+    this.model.skipValidation = true
+    const response = await this.model.query()
       .insertGraphAndFetch(json)
+    this.model.skipValidation = false
+    return response
   }
 }
