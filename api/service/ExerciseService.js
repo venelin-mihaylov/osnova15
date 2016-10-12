@@ -164,7 +164,6 @@ export default class ExerciseService extends CRUDService {
     console.log(JSON.stringify(json, null, 2))
 
     return await this.model.query()
-      .insertWithRelated(json)
-      .returning('*')
+      .insertGraphAndFetch(json)
   }
 }

@@ -39,7 +39,7 @@ export default class CRUDService {
     return qb.orderBy(orderBy, orderDirection)
   }
 
-  paginate(qb, page, limit) {
+  paginate(qb, page = 1, limit = 1000) {
     const offset = limit * (page - 1)
     qb.offset(offset).limit(limit)
     return qb
