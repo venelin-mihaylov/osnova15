@@ -8,22 +8,32 @@ const path = require('path')
 @web.controller('/download/exercise-briefing')
 export default class DownloadExerciseBriefing {
 
-  @web.get('/:exerciseId')
-  async handle(req, res) {
-    const exercise = await Exercise.query().findById(req.params.exerciseId)
-
-    console.log(exercise)
-
-    const tplFilename = 'test.docx'
-    const tplContent = fs.readFileSync(path.join(__dirname, '..', '..', 'files', tplFilename), 'binary')
+  static renderTemplate(filename, data, renderOptions = {type: 'nodebuffer'}) {
+    const tplContent = fs.readFileSync(path.join(__dirname, '..', '..', 'files', filename), 'binary')
     const tpl = new DocxTemplater(tplContent)
-    tpl.setData(exercise)
+    tpl.setData(data)
     tpl.render()
-    const buffer = tpl.getZip().generate({type: 'nodebuffer'})
-    res.setHeader('Content-Length', tplContent.length)
+    return tpl.getZip().generate(renderOptions)
+  }
+
+  static download(res, content, filename) {
+    res.setHeader('Content-Length', content.length)
     res.setHeader('Content-Type', 'application/msword')
-    res.setHeader('Content-Disposition', `attachment; filename="${tplFilename}"`)
-    res.send(buffer)
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+    res.send(content)
     res.end()
+  }
+
+
+  @web.get('/:exerciseId')
+  async handle({
+    params: {
+      exerciseId
+    }
+  }, res) {
+    const exercise = await Exercise.query().findById(exerciseId)
+    const tplFilename = 'briefing.docx'
+    const content = DownloadExerciseBriefing.renderTemplate(tplFilename, exercise)
+    DownloadExerciseBriefing.download(res, content, `briefing-${exerciseId}.docx`)
   }
 }

@@ -35,6 +35,13 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     })
   }
 
+  onSubmit(record) {
+    super.onSubmit({
+      ...record,
+      favourite: true
+    })
+  }
+
   render() {
     const {
       dispatch,
@@ -45,7 +52,8 @@ class ExerciseFormContainer extends OsnovaFormContainer {
       FormFieldsComponent={ExerciseFormFields}
       {...this.props}
       {...(this.addProps())}
-      onClickAddTarget={fkFieldName => () => {
+      onClickAddTarget={fkFieldName => (e) => {
+        e.preventDefault()
         this.props.act(CRUDAct.RESET_FORM, false)
         this.props.act(CRUDAct.SELECT_CREATED_FK_RECORD, {value: {fkFieldName}})
         dispatch(push(`${pathname}/create-target`))

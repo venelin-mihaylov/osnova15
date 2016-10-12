@@ -1,6 +1,6 @@
 import React from 'react'
 import {toArray, rrfField, truthy} from 'utils/Util'
-import {Form, Input, Dropdown, Checkbox} from 'semantic-ui-react'
+import {Form, Input, Dropdown, Checkbox, TextArea} from 'semantic-ui-react'
 
 import DatePicker from 'react-datepicker'
 import FKSelect from 'components/FKSelect' // eslint-disable-line
@@ -93,6 +93,14 @@ export default class AutoFields extends React.Component {
     return options
   }
 
+  static controls = {
+    Input,
+    Dropdown,
+    FKSelect,
+    DatePicker,
+    TextArea
+  }
+
   static renderInput({
     type,
     format,
@@ -100,8 +108,9 @@ export default class AutoFields extends React.Component {
     labelField,
     enumProps,
     defaultValue,
+    uiControl
   }) {
-    let component = null
+    let component = AutoFields.controls[uiControl]
     let addComponentProps = {}
     let mapProps = AutoFields.mapPropsText
     let updateOn = 'change'
@@ -109,40 +118,40 @@ export default class AutoFields extends React.Component {
     const t = toArray(type)
     if (t.indexOf('string') !== -1) {
       if (format === 'date') {
-        component = DatePicker
+        component = component || DatePicker
         addComponentProps = {
           isClearable: true,
           dateFormat: 'YYYY/MM/DD'
         }
         mapProps = AutoFields.mapPropsDateField
       } else {
-        component = Input
+        component = component || Input
         updateOn = 'blur'
       }
     } else if (t.indexOf('integer') !== -1) {
       if (fkProps.entity) { // foreign key
-        component = FKSelect
+        component = component || FKSelect
         addComponentProps = {
           entity: fkProps.entity,
           variation: '1',
           labelField
         }
       } else if (enumProps) { // value map
-        component = Dropdown
+        component = component || Dropdown
         addComponentProps = {
           selection: true,
           options: AutoFields.enumToOptions(enumProps),
         }
         mapProps = AutoFields.mapPropsDropdown
       } else { // integer
-        component = Input
+        component = component || Input
         updateOn = 'blur'
       }
     } else if (t.indexOf('number') !== -1) {
-      component = Input
+      component = component || Input
       updateOn = 'blur'
     } else if (t.indexOf('boolean') !== -1) {
-      component = Checkbox
+      component = component || Checkbox
       mapProps = AutoFields.mapPropsCheckbox
     } else {
       throw new Error('Invalid auto field')
@@ -182,6 +191,7 @@ export default class AutoFields extends React.Component {
       maxLength,
       enumProps, // if not true
       labelField = 'id', // FK prop
+      uiControl = null
     },
     overrides: {
       exclude = false, // exclude field
@@ -205,6 +215,7 @@ export default class AutoFields extends React.Component {
       fkProps,
       labelField,
       enumProps,
+      uiControl,
       defaultValue
     })
 

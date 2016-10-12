@@ -139,6 +139,7 @@ export default class FKSelect extends React.Component {
   }
 
   loadRecord(id) {
+    console.log('load record, id: ' + id)
     const name = this.props.name
     this.props.promiseAct(FKAct.FK_READ_REQUESTED, {id, name})
       .then(curryRight(this.props.postLoadRecord)(this))
@@ -186,7 +187,7 @@ export default class FKSelect extends React.Component {
           this.props.promiseAct(FKAct.FK_LIST_REQUESTED, {name, listParams, searchText})
         }}
         {...rest}
-        onChange={(e, value) => {
+        onChange={(e, {value}) => {
           onChange(value)
         }}
       />

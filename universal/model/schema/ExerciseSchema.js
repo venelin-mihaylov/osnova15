@@ -26,7 +26,7 @@ const ExerciseSchema = {
     },
     rangeOfficer: {type: 'string'},
     signature: {type: 'string'},
-    briefing: {type: 'string'},
+    briefing: {type: 'string', uiControl: 'TextArea'},
     favourite: {type: 'boolean', noForm: true}
   }
 }
