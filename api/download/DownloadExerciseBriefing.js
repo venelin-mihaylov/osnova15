@@ -24,6 +24,14 @@ export default class DownloadExerciseBriefing {
     res.end()
   }
 
+  static toOOXML(text) {
+    const lines = text.split(/\n/)
+      .map(l => `<w:t>${l}</w:t>`)
+      .filter(l => !!l)
+      .join('<w:br/>\n')
+    const paragraph = `<w:p><w:r>\n${lines}</w:r></w:p>`
+    return paragraph
+  }
 
   @web.get('/:exerciseId')
   async handle({
@@ -32,6 +40,9 @@ export default class DownloadExerciseBriefing {
     }
   }, res) {
     const exercise = await Exercise.query().findById(exerciseId)
+
+    exercise.xmlBriefing = DownloadExerciseBriefing.toOOXML(exercise.briefing)
+
     const tplFilename = 'briefing.docx'
     const content = DownloadExerciseBriefing.renderTemplate(tplFilename, exercise)
     DownloadExerciseBriefing.download(res, content, `briefing-${exerciseId}.docx`)

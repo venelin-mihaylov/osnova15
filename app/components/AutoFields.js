@@ -44,7 +44,7 @@ export default class AutoFields extends React.Component {
 
   static mapPropsDropdown = {
     name: ({name, model}) => name || model,
-    value: ({viewValue}) => viewValue,
+    value: ({viewValue, defaultValue}) => viewValue || defaultValue,
     onChange: ({onChange}) => (e, {value}) => onChange(value),
     error: ({fieldValue: {valid}}) => !valid,
   }
@@ -107,7 +107,6 @@ export default class AutoFields extends React.Component {
     fkProps,
     labelField,
     enumProps,
-    defaultValue,
     uiControl
   }) {
     let component = AutoFields.controls[uiControl]
@@ -215,8 +214,7 @@ export default class AutoFields extends React.Component {
       fkProps,
       labelField,
       enumProps,
-      uiControl,
-      defaultValue
+      uiControl
     })
 
     if (component === null) {
