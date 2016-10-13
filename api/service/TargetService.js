@@ -15,12 +15,11 @@ export default class TargetService extends CRUDService {
         return qb.where('name', 'ilike', `%${v}%`)
       },
       matchId: (qb, {value}) => {
-        qb.whereIn('id', function () {
-          this.select('exercise_target.targetId')
+        qb.whereIn('id', b => b.select('exercise_target.targetId')
             .from('exercise_target')
-            .innerJoin('match_exercise', 'exercise_target.exerciseId', '=', 'match_exercise.exerciseId')
-            .where('match_exercise.matchId', '=', value)
-        })
+            .innerJoin('exercise', 'exercise_target.exerciseId', '=', 'exercise.id')
+            .where('exercise.matchId', '=', value)
+        )
         return qb
       }
     }

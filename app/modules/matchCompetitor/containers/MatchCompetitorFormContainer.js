@@ -41,18 +41,10 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       }]
     })
   }
-
-  onCreate(record) {
-    super.onCreate({
+  onSubmit(record) {
+    super.onSubmit({
+      ...record,
       matchId: this.props.params.matchId,
-      ...record
-    })
-  }
-
-  onUpdate(record) {
-    super.onUpdate({
-      matchId: this.props.params.matchId,
-      ...record
     })
   }
 
@@ -65,7 +57,8 @@ class MatchCompetitorFormContainer extends OsnovaFormContainer {
       FormFieldsComponent={MatchCompetitorFormFields}
       {...this.props}
       {...(this.addProps())}
-      onClickAddCompetitor={() => {
+      onClickAddCompetitor={(e) => {
+        e.preventDefault()
         this.props.act(CRUDAct.RESET_FORM, false)
         this.props.act(CRUDAct.SELECT_CREATED_FK_RECORD, true)
         dispatch(push(`${pathname}/create-competitor`))
