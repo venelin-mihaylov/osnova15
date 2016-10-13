@@ -99,8 +99,6 @@ export default function crudSaga(entity, variation = '1', options = {}) {
       params.filter = JSON.stringify(Object.assign({}, baseFilter || {}, params.filter || {}))
     }
 
-    console.log(params)
-
     try {
       const {data: records} = yield call(axios, {
         url: `/api/${endpoint}`,
