@@ -20,46 +20,32 @@ const TableToolbar2 = ({
 }) => (<Grid style={{marginBottom: 5, marginTop: 5}} divided>
   <Grid.Column key={1} width={10}>
     <Button
-      className={classNames({
-        positive: true,
-        icon: true,
-        labeled: true,
-      })}
+      positive
+      icon='add'
+      content='Add'
       onClick={onAddClick}
-    >
-      <Icon name='add' />
-      Add
-    </Button>
+    />
     <Button
-      className={classNames({
-        icon: true,
-        labeled: true,
-        disabled: !selectedId
-      })}
+      icon='edit'
+      content='Edit'
+      disabled={!selectedId}
       onClick={onEditClick}
-    >
-      <Icon name='edit' />
-      Edit
-    </Button>
+    />
     <Button
-      className={classNames({
-        negative: true,
-        icon: true,
-        labeled: true,
-        disabled: !selectedId
-      })}
+      netagive
+      icon='erase'
+      content='Delete'
       onClick={onDeleteClick}
-    >
-      <Icon name='erase' />
-      Delete
-    </Button>
+    />
     {appendButtons && appendButtons}
   </Grid.Column>
   <Grid.Column width={6}>
     <TablePagination {...{page, onNextPage, onPrevPage}} />
-    <Button className='basic icon' onClick={onRefresh}>
-      <Icon name='repeat' size='large' />
-    </Button>
+    <Button
+      basic
+      icon={<Icon name='repeat' size='large' />}
+      onClick={onRefresh}
+    />
     <ListLimitMenu {...{limit, onLimitChange}} />
     <h2 style={{display: 'inline-block', marginLeft: 20, marginTop: 0, marginBottom: 0, padding: 0, verticalAlign: 'middle', lineHeight: 'normal'}}>{toolbarTitle}</h2>
   </Grid.Column>
