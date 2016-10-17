@@ -35,6 +35,7 @@ const TableToolbar2 = ({
       negative
       icon='erase'
       content='Delete'
+      disabled={!selectedId}
       onClick={onDeleteClick}
     />
     {appendButtons && appendButtons}
