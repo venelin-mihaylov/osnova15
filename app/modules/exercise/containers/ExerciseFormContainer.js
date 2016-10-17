@@ -6,7 +6,8 @@ import ExerciseFormFields from 'modules/exercise/components/ExerciseFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer.js'
 import CRUDAct from 'constants/CRUDAct'
 import {push} from 'react-router-redux'
-import {mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath, rrfModel, rrfSetValid} from 'utils/Util'
+import {mapAct, mapCrudStateToProps, selectCreatedFK, crudStatePath, rrfModel, rrfSetValid2} from 'utils/Util'
+import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import get from 'lodash/get'
 
 const entity = 'exercise'
@@ -35,11 +36,11 @@ class ExerciseFormContainer extends OsnovaFormContainer {
     })
   }
 
-  postLoadModel(record) {
-    rrfSetValid({
+  postLoadModel() {
+    rrfSetValid2({
       dispatch: this.props.dispatch,
       entity: this.props.entity,
-      record
+      schema: ExerciseSchema,
     })
   }
 

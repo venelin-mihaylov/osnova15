@@ -11,6 +11,7 @@ import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import traverse from 'traverse'
 import isNumber from 'lodash/isNumber'
+import keys from 'lodash/keys'
 
 export function rrfModel(entity) {
   return `rrf.${entity}`
@@ -376,6 +377,20 @@ export function rrfSetValid(params) {
     action: actions.setValidity
   })
 }
+
+export function rrfSetValid2({
+  dispatch,
+  entity,
+  schema,
+  additionalFields = []
+}) {
+  const props = schema.properties
+  keys(props)
+    .filter(k => !!props[k].enumProps || props[k].format === 'date')
+    .concat(toArray(additionalFields))
+    .forEach(k => dispatch(actions.setValidity(rrfField(entity, k), true)))
+}
+
 
 export function rrfSetValidAndPristine(params) {
   rrfAllFields({

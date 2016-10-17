@@ -4,7 +4,8 @@ import {autobind} from 'core-decorators'
 import EntityFormWrapper from 'components/EntityFormWrapper'
 import MatchFormFields from 'modules/match/components/MatchFormFields'
 import OsnovaFormContainer from 'components/OsnovaFormContainer'
-import {mapAct, mapCrudStateToProps, rrfSetValid} from 'utils/Util'
+import {mapAct, mapCrudStateToProps, rrfSetValid, rrfSetValid2} from 'utils/Util'
+import MatchSchema from '../../../../universal/model/schema/MatchSchema'
 
 const entity = 'match'
 const variation = '1'
@@ -13,11 +14,12 @@ const variation = '1'
 @autobind
 class MatchFormContainer extends OsnovaFormContainer {
 
-  postLoadModel(record) {
-    rrfSetValid({
+  postLoadModel() {
+    rrfSetValid2({
       dispatch: this.props.dispatch,
       entity: this.props.entity,
-      record
+      schema: MatchSchema,
+      additionalFields: 'country'
     })
   }
 

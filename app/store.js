@@ -27,7 +27,7 @@ export default function configureStore(initialState = {}, history) {
 
   if (process.env.NODE_ENV === 'development') {
     const logger = createLogger()
-    middlewares.push(logger)
+    // middlewares.push(logger)
   }
 
   const enhancers = [
