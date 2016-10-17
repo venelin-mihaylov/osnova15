@@ -7,6 +7,7 @@ import {Button, Icon} from 'semantic-ui-react'
 import Act from 'constants/Act'
 import {mapAct, mapListStateToProps, formatDate, formatEnum, formatCountry} from 'utils/Util'
 import MatchSchema from '../../../../universal/model/schema/MatchSchema'
+import {push} from 'react-router-redux'
 import cx from 'classnames'
 
 const entity = 'match'
@@ -34,7 +35,10 @@ export default class MatchListContainer extends OsnovaListContainer {
           <Button
             className='primary icon labeled'
             key='exitMatch'
-            onClick={() => dispatch({type: Act.EXIT_MATCH})}
+            onClick={() => {
+              dispatch({type: Act.EXIT_MATCH})
+              dispatch(push('/match/'))
+            }}
           >
             <Icon name='upload' />
             Exit
@@ -48,7 +52,10 @@ export default class MatchListContainer extends OsnovaListContainer {
               labeled: true,
               disabled: !selectedId
             })}
-            onClick={() => dispatch({type: Act.ENTER_MATCH, matchId: selectedId})}
+            onClick={() => {
+              dispatch({type: Act.ENTER_MATCH, matchId: selectedId})
+              dispatch(push(`/match/${selectedId}/view`))
+            }}
           >
             <Icon name='download' />
             Enter
