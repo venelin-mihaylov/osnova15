@@ -14,6 +14,7 @@ export default function nav(state = {
         activeMatchId: action.matchId
       })
     case Act.EXIT_MATCH:
+    case Act.LOGOUT_USER_SUCCESS: // on logout exit match
       return Object.assign({}, state, {
         activeMatchId: null
       })
