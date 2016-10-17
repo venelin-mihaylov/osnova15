@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Button, Icon} from 'semantic-ui-react'
+import {Grid, Button, Icon, Container} from 'semantic-ui-react'
 import TablePagination from 'components/TablePagination'
 import ListLimitMenu from 'components/ListLimitMenu'
 import classNames from 'classnames'
@@ -17,8 +17,8 @@ const TableToolbar2 = ({
   onNextPage,
   onPrevPage,
   appendButtons = []
-}) => (<Grid style={{marginBottom: 5, marginTop: 5}}>
-  <Grid.Column key={1} width={8}>
+}) => (<Grid style={{marginBottom: 5, marginTop: 5}} divided>
+  <Grid.Column key={1} width={10}>
     <Button
       className={classNames({
         positive: true,
@@ -55,15 +55,13 @@ const TableToolbar2 = ({
     </Button>
     {appendButtons && appendButtons}
   </Grid.Column>
-  <Grid.Column width={2}>
-    <div style={{paddingTop: 8}}>{toolbarTitle}</div>
-  </Grid.Column>
   <Grid.Column width={6}>
     <TablePagination {...{page, onNextPage, onPrevPage}} />
     <Button className='basic icon' onClick={onRefresh}>
       <Icon name='repeat' size='large' />
     </Button>
     <ListLimitMenu {...{limit, onLimitChange}} />
+    <h2 style={{display: 'inline-block', marginLeft: 20, marginTop: 0, marginBottom: 0, padding: 0, verticalAlign: 'middle', lineHeight: 'normal'}}>{toolbarTitle}</h2>
   </Grid.Column>
 </Grid>)
 
