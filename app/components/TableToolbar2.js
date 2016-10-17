@@ -32,7 +32,7 @@ const TableToolbar2 = ({
       onClick={onEditClick}
     />
     <Button
-      netagive
+      negative
       icon='erase'
       content='Delete'
       onClick={onDeleteClick}
