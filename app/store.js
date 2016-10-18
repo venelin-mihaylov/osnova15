@@ -26,7 +26,7 @@ export default function configureStore(initialState = {}, history) {
   ]
 
   if (process.env.NODE_ENV === 'development') {
-    const logger = createLogger()
+    //const logger = createLogger()
     // middlewares.push(logger)
   }
 
@@ -62,6 +62,10 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga(rootSaga)
   store.close = () => store.dispatch(END)
 
-  persistStore(store)
+  persistStore(store, {
+    blacklist: [
+      'rrf'
+    ]
+  })
   return store
 }

@@ -47,6 +47,8 @@ require('semantic-ui-css/semantic.css')
 
 require('react-datepicker/dist/react-datepicker.css')
 
+require('./styles/global.css')
+
 // required for material-ui to work
 injectTapEventPlugin()
 

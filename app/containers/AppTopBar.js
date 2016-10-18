@@ -1,9 +1,8 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import Act from 'constants/Act'
-import RaisedButton from 'material-ui/RaisedButton'
+import {Button} from 'semantic-ui-react'
 import {ToolbarGroup} from 'material-ui/Toolbar'
-import FontIcon from 'material-ui/FontIcon'
 
 const AppTopBar = ({
   dispatch,
@@ -19,27 +18,26 @@ const AppTopBar = ({
   iconElementRight={
     <div>
       <ToolbarGroup firstChild>
-        {activeMatchId && <RaisedButton
-          label={`Match: ${activeMatchId}`}
-          labelPosition='before'
-          icon={<FontIcon className='fa fa-upload' />}
+        {activeMatchId && <Button
+          content='Leave Match'
+          color='black'
+          icon='upload'
           onClick={onLeaveMatch}
         />}
         {authenticated ?
-          <RaisedButton
-            label='Logout'
-            labelPosition='before'
-            icon={<FontIcon className='fa fa-sign-out' />}
+          <Button
+            negative
+            content='Logout'
+            icon='sign out'
             onClick={onClickLogout}
           />
-          :
-          <RaisedButton
-            label='Login'
-            labelPosition='before'
+            :
+          <Button
+            color='black'
+            content='Login'
+            icon='sign in'
             onClick={onClickLogin}
-            icon={<FontIcon className='fa fa-sign-in' />}
-          />
-        }
+          />}
       </ToolbarGroup>
     </div>
   }

@@ -30,6 +30,7 @@ const App = ({
   params
 }) => (<div>
   <AppLeftNav
+    dispatch={dispatch}
     containerStyle={{top: 64}}
     open={leftNavOpen}
     {...{activeMatchId, authenticated}}
