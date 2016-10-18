@@ -5,6 +5,7 @@ const ExerciseSchema = {
   properties: {
     id: {type: 'integer'},
     matchId: {type: ['null', 'integer'], labelField: 'name', noForm: true},
+    number: {type: 'string'},
     name: {type: 'string', maxLength: 255},
     minShots: {type: 'integer', min: 1, max: 99999},
     type: {

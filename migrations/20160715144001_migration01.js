@@ -65,6 +65,7 @@ exports.up = function (knex, Promise) {
     knex.schema.createTable('exercise', function (t) {
       t.increments('id').primary()
       t.integer('matchId').references('id').inTable('matches').onDelete('CASCADE')
+      t.string('number')
       t.string('name')
       t.integer('minShots')
       t.integer('type')
