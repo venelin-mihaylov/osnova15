@@ -1,43 +1,26 @@
 import React from 'react'
-import {Button, Icon} from 'semantic-ui-react'
-import classNames from 'classnames'
+import {Button} from 'semantic-ui-react'
 
 const DefaultFormButtons = ({onReset, onCancel, saving}) => (
   <div style={{marginTop: 5}}>
     <Button
       type='submit'
-      className={classNames({
-        primary: true,
-        labeled: true,
-        icon: true,
-        disabled: saving,
-        loading: saving,
-      })}
-    >
-      <Icon name='write' />
-      Save
-    </Button>
+      icon='write'
+      content='Save'
+      primary
+      loading={saving}
+    />
     <Button
-      className={classNames({
-        labeled: true,
-        icon: true,
-      })}
+      content='Reset'
+      icon='undo'
       onClick={onReset}
-    >
-      <Icon name='undo' />
-      Reset
-    </Button>
+    />
     <Button
-      className={classNames({
-        red: true,
-        labeled: true,
-        icon: true,
-      })}
+      color='red'
+      icon='remove'
+      content='Cancel'
       onClick={onCancel}
-    >
-      <Icon name='remove' />
-      Cancel
-    </Button>
+    />
   </div>
 )
 
