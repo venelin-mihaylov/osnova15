@@ -70,7 +70,7 @@ export default (store) => {
       <Route name='Matches' path='match' component={ContentContainer}>
         <IndexRoute component={MatchListContainer} />
 
-        <Route name='Match view' path=':matchId/view' component={MatchViewContainer} />
+        <Route name='Match view' path=':id/view' component={MatchViewContainer} />
         <Route name='Tournament view' path=':matchId/tournament' component={TournamentListContainer} />
         <Route name='List match competitors' path=':matchId/competitor' component={MatchCompetitorListContainer} />
         <Route name='Add match competitor' path=':matchId/competitor/add' action='add' component={MatchCompetitorFormContainer} />

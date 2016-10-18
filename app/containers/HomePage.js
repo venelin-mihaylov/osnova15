@@ -15,9 +15,7 @@ import {Message, Button, Input} from 'semantic-ui-react'
 import {Form, actions} from 'react-redux-form'
 import {connect} from 'react-redux'
 
-@connect(state => ({
-  model: state.rrf.test
-}))
+@connect(() => ({}))
 @autobind
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -26,22 +24,9 @@ export default class HomePage extends React.Component { // eslint-disable-line r
     model: React.PropTypes.any
   }
 
-  addRow(e) {
-    e.preventDefault()
-    this.props.dispatch(actions.change('rrf.test', [{
-      id: 'alabala'
-    }, {
-      id: 'balabal'
-    }]))
-  }
-
   render() {
     return (<div style={{marginRight: 10}}>
       <h1>Welcome back, Gringo!</h1>
-      <Form model='rrf.test' onSubmit={(model) => console.log(model)}>
-        <Button onClick={this.addRow}>Add many</Button>
-        {this.props.model.map(r => <div>{r.id}</div>)}
-      </Form>
     </div>)
   }
 }

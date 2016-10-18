@@ -3,7 +3,7 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import {Button, Icon} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 import Act from 'constants/Act'
 import {mapAct, mapListStateToProps, formatDate, formatEnum, formatCountry} from 'utils/Util'
 import MatchSchema from '../../../../universal/model/schema/MatchSchema'
@@ -35,14 +35,13 @@ export default class MatchListContainer extends OsnovaListContainer {
           <Button
             className='primary icon labeled'
             key='exitMatch'
+            icon='upload'
+            content='Exit'
             onClick={() => {
               dispatch({type: Act.EXIT_MATCH})
               dispatch(push('/match/'))
             }}
-          >
-            <Icon name='upload' />
-            Exit
-          </Button>
+          />
           :
           <Button
             key='enterMatch'
@@ -52,14 +51,13 @@ export default class MatchListContainer extends OsnovaListContainer {
               labeled: true,
               disabled: !selectedId
             })}
+            icon='download'
+            content='Enter'
             onClick={() => {
               dispatch({type: Act.ENTER_MATCH, matchId: selectedId})
               dispatch(push(`/match/${selectedId}/view`))
             }}
-          >
-            <Icon name='download' />
-            Enter
-          </Button>)
+          />)
       }}
       columns={[{
         property: 'id',

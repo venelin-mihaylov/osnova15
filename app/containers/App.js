@@ -7,6 +7,7 @@ import Breadcrumbs from 'react-breadcrumbs'
 import Act from 'constants/Act'
 import HTML5Backend from 'react-dnd-html5-backend'
 import {DragDropContext} from 'react-dnd'
+import {Container} from 'semantic-ui-react'
 
 
 const App = ({
@@ -48,7 +49,10 @@ const App = ({
       routes={routes}
       params={params}
     />
-    {children}
+    <br />
+    <Container fluid>
+      {children}
+    </Container>
   </div>
 </div>)
 

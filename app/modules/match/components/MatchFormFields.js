@@ -7,11 +7,9 @@ import {Button} from 'semantic-ui-react'
 
 export const MatchFormFields = ({
   entity,
-  loadDummyData
 }) => (
 
   <div>
-    <Button onClick={loadDummyData}>Load</Button>
     <AutoFields
       {...{entity}}
       jsonSchema={MatchSchema}
