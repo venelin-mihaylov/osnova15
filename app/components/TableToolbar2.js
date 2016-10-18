@@ -18,7 +18,7 @@ const TableToolbar2 = ({
   onPrevPage,
   appendButtons = []
 }) => (<Grid style={{marginBottom: 5, marginTop: 5}} divided>
-  <Grid.Column key={1} width={10}>
+  <Grid.Column key={1} width={9}>
     <Button
       positive
       icon='add'
@@ -40,7 +40,7 @@ const TableToolbar2 = ({
     />
     {appendButtons && appendButtons}
   </Grid.Column>
-  <Grid.Column width={6}>
+  <Grid.Column width={7}>
     <TablePagination {...{page, onNextPage, onPrevPage}} />
     <Button
       basic
@@ -48,7 +48,17 @@ const TableToolbar2 = ({
       onClick={onRefresh}
     />
     <ListLimitMenu {...{limit, onLimitChange}} />
-    <h2 style={{display: 'inline-block', marginLeft: 20, marginTop: 0, marginBottom: 0, padding: 0, verticalAlign: 'middle', lineHeight: 'normal'}}>{toolbarTitle}</h2>
+    <h2
+      style={{
+        display: 'inline-block',
+        marginLeft: 20,
+        marginTop: 0,
+        marginBottom: 0,
+        padding: 0,
+        verticalAlign: 'middle',
+        lineHeight: 'normal'
+      }}
+    >{toolbarTitle}</h2>
   </Grid.Column>
 </Grid>)
 
