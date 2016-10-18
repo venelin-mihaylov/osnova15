@@ -2,6 +2,7 @@ import React from 'react'
 import {Flag, Search, Icon, Button} from 'semantic-ui-react'
 import {countries} from 'country-data'
 import {autobind} from 'core-decorators'
+import isFunction from 'lodash/isFunction'
 
 const options = countries.all
   .filter(c => c.status === 'assigned' && Flag._meta.props.name.indexOf(c.alpha2.toLowerCase()) !== -1) // eslint-disable-line no-underscore-dangle
@@ -39,13 +40,6 @@ export default class CountrySelect extends React.Component {
     })
   }
 
-  searchByText(text) {
-    if (!text) {
-      return options.slice(0, 5)
-    }
-    return options.filter(o => o.title.toLowerCase().startsWith(text.trim().toLowerCase())).slice(0, 5)
-  }
-
   label(value) {
     if (!value) {
       return ' '
@@ -69,10 +63,17 @@ export default class CountrySelect extends React.Component {
   setNull(e) {
     e.preventDefault()
     this.setState({
-      results: options.slice(0, 5),
+      results: [],
       label: ' ',
     })
     this.props.onChange(e, {value: ''})
+  }
+
+  searchByText(text) {
+    if (!text) {
+      return options.slice(0, 5)
+    }
+    return options.filter(o => o.title.toLowerCase().startsWith(text.trim().toLowerCase())).slice(0, 5)
   }
 
   render() {
@@ -87,6 +88,7 @@ export default class CountrySelect extends React.Component {
       results={this.state.results}
       onSearchChange={this.onSearchChange}
       value={this.state.label}
+      onFocus={e => isFunction(e.target.select) && e.target.select()}
       icon={<Button icon='erase' basic onClick={this.setNull} />}
       {...(rest)}
     />)
