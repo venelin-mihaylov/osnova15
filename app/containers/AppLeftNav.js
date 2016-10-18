@@ -59,6 +59,7 @@ const AppLeftNav = ({dispatch, activeMatchId, authenticated, ...rest}) => {
 }
 
 AppLeftNav.propTypes = {
+  dispatch: React.PropTypes.func,
   authenticated: React.PropTypes.bool,
   activeMatchId: React.PropTypes.number,
 }
