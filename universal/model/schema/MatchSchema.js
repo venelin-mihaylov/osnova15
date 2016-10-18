@@ -5,7 +5,8 @@ const MatchSchema = {
     id: {type: 'integer'},
     tournamentId: {type: ['null', 'integer'], labelField: 'name'},
     name: {type: 'string'},
-    description: {type: 'string'},
+    startDate: {type: 'string', format: 'date'},
+    endDate: {type: 'string', format: 'date'},
     discipline: {
       type: 'integer',
       enum: [1, 2, 3, 4],
@@ -24,13 +25,12 @@ const MatchSchema = {
         2: 'Team/Individual'
       }
     },
-    startDate: {type: 'string', format: 'date'},
-    endDate: {type: 'string', format: 'date'},
     organizer: {type: 'string'},
     country: {type: 'string'},
     rangeMaster: {type: 'string'},
     statMaster: {type: 'string'},
     matchDirector: {type: 'string'},
+    description: {type: 'string', uiControl: 'TextArea'},
   }
 }
 export default MatchSchema

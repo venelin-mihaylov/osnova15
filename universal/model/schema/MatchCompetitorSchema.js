@@ -19,10 +19,10 @@ const MatchCompetitorSchema = {
     caliber: {type: 'number'},
     gun: {type: 'string'},
     team: {type: 'string'},
+    notes: {type: 'string', uiControl: 'TextArea'},
     gunChecked: {type: 'boolean'},
     feePaid: {type: 'boolean'},
     disqualified: {type: 'boolean'},
-    notes: {type: 'string'}
   }
 }
 export default MatchCompetitorSchema
