@@ -1,8 +1,8 @@
 import React from 'react'
 import OsnovaViewContainer from 'components/OsnovaViewContainer'
-import {mapAct, mapCrudStateToProps, formatEnum2} from 'utils/Util'
+import {mapAct, mapCrudStateToProps, formatEnum2, countryName} from 'utils/Util'
 import {connect} from 'react-redux'
-import {List, Label, Header, Container, Flag} from 'semantic-ui-react'
+import {List, Label, Header, Flag} from 'semantic-ui-react'
 import MatchSchema from '../../../../universal/model/schema/MatchSchema'
 import moment from 'moment'
 
@@ -31,7 +31,7 @@ export default class MatchDetailContainer extends OsnovaViewContainer {
 
     return (<div>
       <Header as='h2' textAlign='center'>{record.name}</Header>
-      <Header as='h3' textAlign='center'><Flag name={record.country} /> {record.country}</Header>
+      <Header as='h3' textAlign='center'><Flag name={record.country} /> {countryName(record.country)}</Header>
       <p style={{fontSize: '120%'}}>
         {record.description && record.description.split(/\n/).map((r, idx) => <span key={idx}>{r} <br /></span>)}
       </p>

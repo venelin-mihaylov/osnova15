@@ -10,7 +10,6 @@ import {Flag} from 'semantic-ui-react'
 import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import traverse from 'traverse'
-import isNumber from 'lodash/isNumber'
 import keys from 'lodash/keys'
 
 export function rrfModel(entity) {
@@ -402,4 +401,13 @@ export function rrfSetValidAndPristine(params) {
     ...params,
     action: actions.setValidity
   })
+}
+
+export function countryName(alpha2) {
+  const c = alpha2.toUpperCase()
+  if (countries[c]) {
+    return countries[c].name
+  }
+
+  return null
 }
