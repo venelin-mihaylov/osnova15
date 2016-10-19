@@ -383,7 +383,10 @@ export function rrfSetValid2({
   schema,
   additionalFields = []
 }) {
-  const props = schema.properties
+  let props = {}
+  if (schema) {
+    props = schema.properties
+  }
   keys(props)
     .filter(k => !!props[k].enumProps || props[k].format === 'date')
     .concat(toArray(additionalFields))
