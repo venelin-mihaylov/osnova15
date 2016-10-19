@@ -25,45 +25,43 @@ export const ExerciseFormFields = ({
     <ItoNFieldSet
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
-      renderRecord={({idx}) => (
-        <Form.Group key={idx}>
-          {AutoFields.renderFields({
-            entity,
-            styles,
-            namePrefix: `${relName}[${idx}]`,
-            jsonSchema: ExerciseTargetSchema,
-            relations: ExerciseTargetRelations,
-            overrides: {
-              distance: {
-                style: {
-                  width: 80
-                }
-              },
-              weight: {
-                style: {
-                  width: 80
-                }
-              },
-              score: {
-                style: {
-                  width: 80
-                }
-              },
-              targetId: {
-                listParams: {
-                  filter: {
-                    favourite: true
-                  }
-                },
-                buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>,
-              },
-              exerciseId: {
-                exclude: true
+      renderRecord={({idx}) => (<Form.Group key={idx}>
+        {AutoFields.renderFields({
+          entity,
+          styles,
+          namePrefix: `${relName}[${idx}]`,
+          jsonSchema: ExerciseTargetSchema,
+          relations: ExerciseTargetRelations,
+          overrides: {
+            distance: {
+              style: {
+                width: 80
               }
+            },
+            weight: {
+              style: {
+                width: 80
+              }
+            },
+            score: {
+              style: {
+                width: 80
+              }
+            },
+            targetId: {
+              listParams: {
+                filter: {
+                  favourite: true
+                }
+              },
+              buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>,
+            },
+            exerciseId: {
+              exclude: true
             }
-          })}
-        </Form.Group>
-      )}
+          }
+        })}
+      </Form.Group>)}
     />
   </div>)
 }

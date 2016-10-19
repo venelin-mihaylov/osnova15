@@ -170,8 +170,23 @@ export default class AutoFields extends React.Component {
     maxLength: maxLength => v => !v || (v && v.length <= maxLength)
   }
 
-  static fieldValidators(schemaValidations) {
-    return mapValues(pickBy(schemaValidations, truthy), (val, key) => AutoFields.validators[key](val))
+  static typeValidators = {
+  static typeValidators = {
+    number: (v) => parseFloat(v) == v,
+    integer: (v) => parseInt(v, 10) == v
+  }
+
+
+  static fieldValidators({type, enumProps, required, minLength, maxLength}) {
+    const ret = mapValues(pickBy({required, minLength, maxLength}, truthy), (val, key) => AutoFields.validators[key](val))
+    if (!enumProps) {
+      toArray(type).forEach(t => {
+        if (AutoFields.typeValidators.hasOwnProperty(t)) {
+          ret[t] = AutoFields.typeValidators[t]
+        }
+      })
+    }
+    return ret
   }
 
   static renderField({
@@ -223,6 +238,8 @@ export default class AutoFields extends React.Component {
 
     const fullField = `${namePrefix}${name}`
     const validators = AutoFields.fieldValidators({
+      type,
+      enumProps,
       required,
       minLength,
       maxLength

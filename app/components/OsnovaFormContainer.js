@@ -37,6 +37,8 @@ export default class OsnovaFormContainer extends React.Component {
 
       if (action === 'edit') {
         this.readServerRecord()
+      } else {
+        this.onAddRecord()
       }
     } else {
       // by default resetForm=false is a flash,  reset setting
@@ -89,6 +91,17 @@ export default class OsnovaFormContainer extends React.Component {
     this.props.dispatch(actions.reset(rrfModel(this.props.entity)))
   }
 
+  /**
+   * Customization hook. Executed on record "add"
+   */
+  onAddRecord() {
+
+  }
+
+  /**
+   * Customization hook. Executed after the server record is loaded into the form
+   * @param record
+   */
   postLoadModel(record) { } // eslint-disable-line
 
   loadModel(record) {

@@ -6,9 +6,13 @@ import OsnovaListContainer from 'components/OsnovaListContainer'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
-import {mapAct, mapListStateToProps, formatEnum, formatEnum2} from 'utils/Util'
+import {mapAct, mapListStateToProps, act, formatEnum, formatEnum2} from 'utils/Util'
 import {Button, Icon} from 'semantic-ui-react'
 import {push} from 'react-router-redux'
+import FKSelect from 'components/FKSelect'
+import CRUDAct from 'constants/CRUDAct'
+import FKAct from 'constants/FKAct'
+import axios from 'axios'
 
 const entity = 'exercise'
 const variation = '1'
@@ -23,18 +27,45 @@ export default class ExerciseListContainer extends OsnovaListContainer {
     }
   }
 
-  render() {
+  isMatchView() {
+    return !!this.props.params.matchId
+  }
+
+  isGlobalView() {
+    return !this.isMatchView()
+  }
+
+  onSelectFavouriteExercise(exerciseId) {
     const {
+      dispatch,
+      promiseAct,
+      params: {
+        matchId
+      }
+    } = this.props
+    dispatch(act('exercise', '1', FKAct.FK_RESET))
+    const record = {matchId, exerciseId}
+    axios({
+      url: '/api/exercise/misc/createFavouriteExerciseForMatch',
+      method: 'post',
+      data: record
+    }).then(() => promiseAct(CRUDAct.LIST_REQUESTED))
+      .catch(err => console.log(err))
+  }
+
+  appendButtons() {
+    const {
+      dispatch,
       location: {pathname},
-      redux: {selectedId}
+      redux: {selectedId},
     } = this.props
 
     const btnDownloadBriefing = (<Button
-      disabled={!this.props.redux.selectedId}
+      disabled={!selectedId}
       color='brown'
       icon='book'
       content='Briefing'
-      onClick={() => this.props.redux.selectedId && window.open(`/api/download/exercise-briefing/${this.props.redux.selectedId}`)}
+      onClick={() => selectedId && window.open(`/api/download/exercise-briefing/${selectedId}`)}
     />)
 
     const btnEditZones = (<Button
@@ -42,24 +73,110 @@ export default class ExerciseListContainer extends OsnovaListContainer {
       icon='edit'
       content='Zones'
       color='olive'
-      disabled={!this.props.redux.selectedId}
-      onClick={() => this.props.dispatch(push(`${pathname}/${selectedId}/zones`))}
+      disabled={!selectedId}
+      onClick={() => dispatch(push(`${pathname}/${selectedId}/zones`))}
     />)
 
-    return (<EntityList
-      toolbarTitle='Exercises'
-      toolbarProps={{
-        appendButtons: [
-          btnDownloadBriefing,
-          btnEditZones
-        ]
+    const dropdownAddFavouriteExercise = (<FKSelect
+      key='addFavouriteExercise'
+      entity='exercise'
+      variation='1'
+      labelField='name'
+      onChange={this.onSelectFavouriteExercise}
+      listParams={{
+        filter: {
+          favourite: true
+        }
       }}
-      columns={[{
+    />)
+
+    if (this.isMatchView()) {
+      return [
+        btnDownloadBriefing,
+        btnEditZones,
+        dropdownAddFavouriteExercise
+      ]
+    }
+
+    return [
+      btnDownloadBriefing,
+      btnEditZones
+    ]
+  }
+
+  columns() {
+    const columns = [{
+      property: 'name',
+      header: {
+        label: 'Exercise',
+      },
+      props: {
+        width: 150
+      }
+    }, {
+      property: 'minShots',
+      header: {
+        label: '#Shots'
+      },
+      props: {
+        width: 50
+      }
+    }, {
+      property: 'type',
+      header: {
+        label: 'Type'
+      },
+      cell: {
+        format: formatEnum(ExerciseSchema)
+      },
+      props: {
+        width: 100
+      }
+    }, {
+      property: 'module',
+      header: {
+        label: 'Module'
+      },
+      cell: {
+        format: formatEnum(ExerciseSchema)
+      },
+      props: {
+        width: 100
+      }
+    }, {
+      property: 'rangeOfficer',
+      header: {
+        label: 'Range Officer'
+      },
+      props: {
+        width: 200
+      }
+    }, {
+      property: 'exercise_target',
+      header: 'Targets',
+      cell: {
+        format: (rs = []) => (rs && <div>
+          {rs.map(r => <div style={{paddingTop: '1rem'}}>
+            <ul className='ui list'>
+              <span>{r.target.name};</span>
+              <span>type: {formatEnum2(TargetSchema, 'type', r.target.type)};</span>
+              <span>distance: {r.distance} {formatEnum2(ExerciseTargetSchema, 'metric', r.metric)}</span>
+              <div className='ui list'>
+                {r.exercise_target_zone.map(z => (<li>
+                  {z.zoneName} - weight:{z.weight} score:{z.score}
+                </li>))}
+              </div>
+            </ul>
+          </div>)}
+        </div>)
+      }
+    }]
+
+    if (this.isGlobalView()) {
+      columns.unshift({
         property: 'favourite',
         props: {
-          style: {
-            width: 20
-          }
+          width: 20
         },
         header: {
           label: 'Fav'
@@ -67,68 +184,19 @@ export default class ExerciseListContainer extends OsnovaListContainer {
         cell: {
           format: v => v && <Icon name='heart' size='large' />
         }
-      }, {
-        property: 'name',
-        header: {
-          label: 'name'
-        }
-      }, {
-        property: 'type',
-        props: {
-          style: {
-            width: 100
-          }
-        },
-        header: {
-          label: 'Type'
-        },
-        cell: {
-          format: formatEnum(ExerciseSchema)
-        }
-      }, {
-        property: 'minShots',
-        props: {
-          style: {
-            width: 20
-          }
-        },
-        header: {
-          label: '#Shots'
-        }
-      }, {
-        property: 'module',
-        props: {
-          style: {
-            width: 100
-          }
-        },
-        header: {
-          label: 'Module'
-        },
-        cell: {
-          format: formatEnum(ExerciseSchema)
-        }
-      }, {
-        property: 'exercise_target',
-        header: 'Targets',
-        cell: {
-          format: (rs = []) => (rs && <div>
-            {rs.map(r => <div style={{paddingTop: '1rem'}}>
-              <ul className='ui list'>
-                <span>{r.target.name};</span>
-                <span>type: {formatEnum2(TargetSchema, 'type', r.target.type)};</span>
-                <span>distance: {r.distance} {formatEnum2(ExerciseTargetSchema, 'metric', r.metric)}</span>
-                <div className='ui list'>
-                  {r.exercise_target_zone.map(z => (<li>
-                    {z.zoneName} - weight:{z.weight} score:{z.score}
-                  </li>))}
-                </div>
-              </ul>
-            </div>)}
-          </div>)
-        }
+      })
+    }
 
-      }]}
+    return columns
+  }
+
+  render() {
+    return (<EntityList
+      toolbarTitle='Exercises'
+      toolbarProps={{
+        appendButtons: this.appendButtons()
+      }}
+      columns={this.columns()}
       {...this.props}
       {...(this.addProps())}
     />)
