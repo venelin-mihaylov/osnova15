@@ -19,7 +19,7 @@ class MatchFormContainer extends OsnovaFormContainer {
       dispatch: this.props.dispatch,
       entity: this.props.entity,
       schema: MatchSchema,
-      additionalFields: 'country'
+      additionalFields: ['tournamentId', 'country']
     })
   }
 

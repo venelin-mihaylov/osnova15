@@ -11,6 +11,7 @@ const TableToolbar2 = ({
   onEditClick,
   onDeleteClick,
   onRefresh,
+  loading,
   limit,
   onLimitChange,
   page,
@@ -44,6 +45,7 @@ const TableToolbar2 = ({
     <TablePagination {...{page, onNextPage, onPrevPage}} />
     <Button
       basic
+      loading={loading}
       icon={<Icon name='repeat' size='large' />}
       onClick={onRefresh}
     />
@@ -77,6 +79,7 @@ TableToolbar2.propTypes = {
   onEditClick: React.PropTypes.func,
   onDeleteClick: React.PropTypes.func,
   onRefresh: React.PropTypes.func,
+  loading: React.PropTypes.bool,
   limit: React.PropTypes.number,
   onLimitChange: React.PropTypes.func,
   page: React.PropTypes.number,

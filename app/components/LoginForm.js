@@ -1,6 +1,7 @@
 import React from 'react'
 import {Form, Control} from 'react-redux-form'
-import {Form as uiForm, Button, Input} from 'semantic-ui-react'
+import {Form as uiForm, Button, Input, Message} from 'semantic-ui-react'
+import cx from 'classnames'
 
 // const LoginForm = ({onSubmit}) => (<Form onSubmit={onSubmit}>
 //   <Form.Input label='Email' name='email' />
@@ -8,11 +9,20 @@ import {Form as uiForm, Button, Input} from 'semantic-ui-react'
 //   <Button type='submit'>Login</Button>
 // </Form>)
 
-const LoginForm = ({onSubmit}) => (<Form
-  className='ui form'
+const LoginForm = ({onSubmit, user: {loading, error}}) => (<Form
+  className={cx({
+    ui: true,
+    form: true,
+    loading,
+    error: !!error,
+  })}
   onSubmit={onSubmit}
   model='rrf.login'
 >
+  {error && (<Message
+    error
+    content={error}
+  />)}
   <uiForm.Group>
     <div className='field'>
       <div className='label'>Email</div>
@@ -23,12 +33,14 @@ const LoginForm = ({onSubmit}) => (<Form
       <Control.text component={Input} type='password' model='rrf.login.password' />
     </div>
   </uiForm.Group>
+
   <Button type='submit'>Login</Button>
 
 </Form>)
 
 LoginForm.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
+  onSubmit: React.PropTypes.func.isRequired,
+  user: React.PropTypes.any
 }
 
 export default LoginForm

@@ -2,6 +2,8 @@ import React from 'react'
 import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
+import {Loader, Segment} from 'semantic-ui-react'
+import cx from 'classnames'
 
 const EntityList = ({
   columns,
@@ -23,8 +25,19 @@ const EntityList = ({
     globalError,
     page,
     limit,
+    loading,
   }
-}) => (<div>
+}) => (<Segment basic>
+  <div
+    className={cx({
+      ui: true,
+      inverted: true,
+      dimmer: true,
+      active: loading
+    })}
+  >
+    <Loader size='huge'>Loading</Loader>
+  </div>
   <If condition={toolbarShow}>
     <TableToolbar2
       {...{
@@ -36,6 +49,7 @@ const EntityList = ({
         onRefresh,
         limit,
         onLimitChange,
+        loading,
         page,
         onNextPage,
         onPrevPage,
@@ -50,7 +64,7 @@ const EntityList = ({
     columns={columns}
     onSelectRow={onSelectRow}
   />
-</div>)
+</Segment>)
 
 EntityList.propTypes = {
   columns: React.PropTypes.any.isRequired,

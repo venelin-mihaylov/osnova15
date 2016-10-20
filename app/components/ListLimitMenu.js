@@ -11,7 +11,7 @@ const ListLimitMenu = ({limit, onLimitChange}) => (<Dropdown
 
 ListLimitMenu.propTypes = {
   onLimitChange: React.PropTypes.func.isRequired,
-  limit: React.PropTypes.number.isRequired
+  limit: React.PropTypes.number.isRequired,
 }
 
 export default ListLimitMenu

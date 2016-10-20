@@ -11,6 +11,7 @@ const AppTopBar = ({
   onClickLogout,
   activeMatchId,
   user: {
+    loading,
     authenticated
   }
 }) => (<AppBar
@@ -29,6 +30,7 @@ const AppTopBar = ({
             negative
             content='Logout'
             icon='sign out'
+            loading={loading}
             onClick={onClickLogout}
           />
             :

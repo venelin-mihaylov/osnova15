@@ -15,7 +15,11 @@ function* login(data) {
     yield put({type: Act.LOGIN_USER_SUCCESS, user})
     yield put(push('/'))
   } catch (err) {
-    yield put({type: Act.LOGIN_USER_ERROR})
+    if (err.status === 401) {
+      yield put({type: Act.LOGIN_USER_ERROR, error: 'Invalid username or password'})
+    } else {
+      yield put({type: Act.LOGIN_USER_ERROR, error: 'General server error'})
+    }
   }
 }
 function* logout() {
