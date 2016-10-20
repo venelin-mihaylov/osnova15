@@ -24,11 +24,14 @@ const TableToolbar2 = ({
       positive
       icon='add'
       content='Add'
+      size='large'
       onClick={onAddClick}
     />
     <Button
       icon='edit'
       content='Edit'
+      size='large'
+      color='yellow'
       disabled={!selectedId}
       onClick={onEditClick}
     />
@@ -36,6 +39,7 @@ const TableToolbar2 = ({
       negative
       icon='erase'
       content='Delete'
+      size='large'
       disabled={!selectedId}
       onClick={onDeleteClick}
     />
