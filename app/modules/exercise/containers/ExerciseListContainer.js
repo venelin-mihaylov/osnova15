@@ -22,9 +22,18 @@ const variation = '1'
 export default class ExerciseListContainer extends OsnovaListContainer {
 
   baseFilter() {
-    return {
-      favourite: true
+    if (this.isGlobalView()) {
+      return {
+        favourite: true
+      }
     }
+    if (this.isMatchView()) {
+      return {
+        matchId: this.props.params.matchId
+      }
+    }
+
+    return {}
   }
 
   isMatchView() {

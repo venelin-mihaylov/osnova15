@@ -64,7 +64,7 @@ export default function listReducer({
         })
       case addPrefix(CRUDAct.LIST_SET_BASE_FILTER):
         return Object.assign({}, state, {
-          filter: Object.assign({}, state.baseFilter, action.value)
+          baseFilter: action.value
         })
       case addPrefix(CRUDAct.LIST_SET_SELECTION):
         if (state.selectedId === action.id) {

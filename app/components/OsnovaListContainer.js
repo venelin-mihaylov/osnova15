@@ -118,9 +118,7 @@ export default class OsnovaListContainer extends React.Component {
 
   applyBaseFilter() {
     const filter = this.baseFilter()
-    if (filter) {
-      this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {value: filter})
-    }
+    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {value: filter})
   }
 
   addProps() {
