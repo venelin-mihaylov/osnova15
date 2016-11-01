@@ -119,18 +119,20 @@ const dataSpec = {
     type: () => randInt(1, 2),
     module: () => randInt(1, 3),
     favourite: (i) => i === 1,
+    //briefing: () => 'RANGE:...',
     matchId: (i, r) => {
       if (!r.favourite) {
         return `matches:${randInt(0, count.matches - 1)}`
       }
       return null
-    }
+    },
   }),
   exercise_target: generateNtoM(count.exercise, count.target, count.exercise_target_max, {
     exerciseId: ({mIdx}) => `exercise:${mIdx}`,
     targetId: ({nIdx}) => `target:${nIdx}`,
     distance: () => randInt(1, 100),
     metric: () => randInt(1, 2),
+    gunType: () => randInt(1, 3),
     description: () => 'Exercise target ' + randInt(1, 100)
   }),
   match_competitor: generateNtoM(count.matches, count.competitor, count.match_competitor_max, {

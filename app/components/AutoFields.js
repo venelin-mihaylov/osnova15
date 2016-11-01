@@ -259,7 +259,7 @@ export default class AutoFields extends React.Component {
       mapProps,
       updateOn,
       ignore: ['focus'],
-      defaultValue, // pass default value to rrf
+      // defaultValue, // pass default value to rrf
       ...rrfProps
     })
   }
