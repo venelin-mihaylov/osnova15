@@ -10,11 +10,12 @@ const ItoNFieldSet = ({
   dispatch,
   entity,
   renderRecord,
+  newRecord = {}
 }) => {
   const relData = model[relName] || []
   const onAdd = (e) => {
     e.preventDefault()
-    dispatch(actions.push(rrfField(entity, `${relName}[]`), {}))
+    dispatch(actions.push(rrfField(entity, `${relName}[]`), newRecord))
   }
   const onDeleteByIndex = (idx) => dispatch(actions.remove(rrfField(entity, `${relName}[]`), idx))
   const onDeleteLast = (e) => {
@@ -22,21 +23,23 @@ const ItoNFieldSet = ({
     dispatch(actions.remove(rrfField(entity, `${relName}[]`), relData.length - 1))
   }
 
-  return (<If condition={relData}>
-    <fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
-      <legend>
-        <Button type='button' className='icon' onClick={onAdd}><Icon name='add' /></Button>
-        <Button type='button' className='icon' onClick={onDeleteLast}><Icon name='minus' /></Button>
-        <h2 style={{paddingRight: '20px', display: 'inline'}}>{relTitle}</h2>
-      </legend>
-      {relData && relData.map((row, idx) => renderRecord({
-        row,
-        idx,
-        relName,
-        onDeleteByIndex
-      }))}
-    </fieldset>
-  </If>)
+  if (!relData) {
+    return null
+  }
+
+  return (<fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
+    <legend>
+      <Button icon='add' onClick={onAdd} />
+      <Button icon='minus' onClick={onDeleteLast} />
+      <h2 style={{paddingRight: '20px', display: 'inline'}}>{relTitle}</h2>
+    </legend>
+    {relData && relData.map((row, idx) => renderRecord({
+      row,
+      idx,
+      relName,
+      onDeleteByIndex
+    }))}
+  </fieldset>)
 }
 
 ItoNFieldSet.propTypes = {
@@ -45,6 +48,7 @@ ItoNFieldSet.propTypes = {
   relName: React.PropTypes.string,
   dispatch: React.PropTypes.func,
   entity: React.PropTypes.string,
+  newRecord: React.PropTypes.any,
   renderRecord: React.PropTypes.func,
 }
 

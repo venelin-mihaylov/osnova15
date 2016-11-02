@@ -9,6 +9,8 @@ import {countries} from 'country-data'
 import {Flag} from 'semantic-ui-react'
 import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
+import pickBy from 'lodash/pickBy'
+import mapValues from 'lodash/mapValues'
 import traverse from 'traverse'
 import keys from 'lodash/keys'
 
@@ -413,4 +415,8 @@ export function countryName(alpha2) {
   }
 
   return null
+}
+
+export function newRecord(schema) {
+  return mapValues(schema.properties, prop => prop.defaultValue)
 }

@@ -1,10 +1,11 @@
 import React from 'react'
 import ItoNFieldSet from 'components/ItoNFieldSet'
 import AutoFields from 'components/AutoFields'
-import {Form, Icon, Button} from 'semantic-ui-react'
+import {Form, Button} from 'semantic-ui-react'
 import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import ExerciseTargetRelations from '../../../../universal/model/relations/ExerciseTargetRelations'
+import {newRecord} from 'utils/Util'
 
 import styles from 'styles/components/ExerciseFormFields.css'
 
@@ -25,6 +26,7 @@ export const ExerciseFormFields = ({
     <ItoNFieldSet
       {...{entity, model, relName, dispatch}}
       relTitle='Exercise Targets'
+      newRecord={newRecord(ExerciseTargetSchema)}
       renderRecord={({idx}) => (<Form.Group key={idx}>
         {AutoFields.renderFields({
           entity,
@@ -54,7 +56,7 @@ export const ExerciseFormFields = ({
                   favourite: true
                 }
               },
-              buttons: <Button className='icon' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)}><Icon name='add' /></Button>,
+              buttons: <Button icon='add' onClick={onClickAddTarget(`${relName}[${idx}]targetId`)} />,
             },
             exerciseId: {
               exclude: true
