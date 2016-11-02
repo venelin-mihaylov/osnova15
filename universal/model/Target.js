@@ -30,24 +30,31 @@ function addHtmlImgPrefix(data) {
  * @param {string} imageData base64 encoded image data
  * @returns {string} base64 encoded image thumbnail
  */
-function genThumbnail(imageData) {
+function resizeImage(imageData, width, height) {
   if (!imageData) {
-    return null
+    return ''
   }
-  const buffer = imagemagick.convert({
-    srcData: Buffer.from(imageData, 'base64'),
-    width: 100,
-    height: 100,
-    resizeStyle: 'aspectfill', // is the default, or 'aspectfit' or 'fill'
-    gravity: 'Center' // optional: position crop area when using 'aspectfill'
-  })
-  return buffer.toString('base64')
+  try {
+    const buffer = imagemagick.convert({
+      srcData: Buffer.from(imageData, 'base64'),
+      width,
+      height,
+      resizeStyle: 'aspectfill', // is the default, or 'aspectfit' or 'fill'
+      gravity: 'Center' // optional: position crop area when using 'aspectfill'
+    })
+    return buffer.toString('base64')
+  } catch (err) {
+    console.log(err)
+    throw err
+  }
 }
 
 Target.prototype.$beforeInsert = function () {
-  this.thumbnail = addHtmlImgPrefix(genThumbnail(stripHtmlImgPrefix(this.image)))
+  this.thumbnail = addHtmlImgPrefix(resizeImage(stripHtmlImgPrefix(this.image), 200, 200))
+  this.image = addHtmlImgPrefix(resizeImage(stripHtmlImgPrefix(this.image), 600, 800))
 }
 
 Target.prototype.$beforeUpdate = function () {
-  this.thumbnail = addHtmlImgPrefix(genThumbnail(stripHtmlImgPrefix(this.image)))
+  this.thumbnail = addHtmlImgPrefix(resizeImage(stripHtmlImgPrefix(this.image), 200, 200))
+  this.image = addHtmlImgPrefix(resizeImage(stripHtmlImgPrefix(this.image), 600, 800))
 }

@@ -26,10 +26,25 @@ export default class FileField extends React.Component {
      * will be displayed in the image preview component
      */
     onChange: React.PropTypes.func,
+    maxHeight: React.PropTypes.number,
+    maxWidth: React.PropTypes.number,
   }
 
   static defaultProps = {
-    onChange: () => {}
+    onChange: () => {},
+    maxHeight: 600,
+    maxWidth: 800
+  }
+
+  onClickUpload(e) {
+    e.preventDefault()
+    this.refInputFile.click()
+  }
+
+  onClickClear(e) {
+    e.preventDefault()
+    this.refInputFile.value = ''
+    this.props.onChange('')
   }
 
   ihandleImageChange(e) {
@@ -43,54 +58,48 @@ export default class FileField extends React.Component {
       return
     }
 
+    // set handler
     reader.onloadend = () => {
       onChange(reader.result)
     }
 
+    // start
     reader.readAsDataURL(file)
   }
 
   refInputFile = null
-
   render() {
     const {
       name,
       label = name,
       value,
-      onChange, // do not pass it to FileInput
+      maxHeight,
+      maxWidth,
+      onChange, // eslint-disable-line do not pass it to FileInput
       type, // eslint-disable-line
       ...rest,
     } = this.props
 
     return (<div>
-      {value && <div><img alt='Current' src={value} /></div>}
+      {value && <div><img alt='Current' src={value} height={maxHeight} width={maxWidth} /></div>}
       {!value && <div className={styles.emptyPlaceholder}>No {label} uploaded yet ...</div>}
       <div>
         <Button
-          labeled
-          icon
-          onClick={() => this.refInputFile.click()}
-        >
-          <Icon name='upload' />
-          Upload
-        </Button>
+          icon='upload'
+          content='Upload'
+          onClick={this.onClickUpload}
+        />
         <Button
-          labeled
-          icon
-          onClick={() => {
-            this.refInputFile.value = ''
-            onChange('')
-          }}
-        >
-          <Icon name='erase' />
-          Clear
-        </Button>
+          content='Clear'
+          icon='erase'
+          onClick={this.onClickClear}
+        />
         <input
-
           id='file-input'
           type='file'
           onChange={this.ihandleImageChange}
           className={styles.input}
+          accept='image/*'
           ref={input => (this.refInputFile = input)}
           {...rest}
         />

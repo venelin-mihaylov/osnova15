@@ -37,7 +37,9 @@ const server = new http.Server(app)
 
 // <editor-fold desc="Express">
 app.use(morgan('tiny'))
-app.use(bodyParser.json())
+app.use(bodyParser.json({
+  limit: '50mb'
+}))
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }))
