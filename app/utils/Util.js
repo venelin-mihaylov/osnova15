@@ -78,14 +78,13 @@ export function MUIErrorText(form, dbTable, fieldName, messages = defaultErrorMe
 }
 
 export function formatServerError(err) {
-  console.log(err)
   if (err.status === 500) {
     return {
       globalError: 'Internal server error'
     }
   } else if (err.status === 404) {
     return {
-      globalError: err.data.globalError
+      globalError: err.data.globalError || err.data
     }
   } else if (err.status === 422) { // validation
     return err.data

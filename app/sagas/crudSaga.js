@@ -23,6 +23,8 @@ function* handleException(entity, err, reject, act, action) {
     yield put({type: Act.AUTH_REQUIRED})
   } else {
     const err2 = formatServerError(err)
+    console.log('err2')
+    console.log(err2)
     yield put(act(action, err2))
     yield setValidationErrors(entity, err2.fieldErrors)
   }

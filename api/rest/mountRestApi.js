@@ -19,6 +19,9 @@ import ExerciseService from '../service/ExerciseService'
 import ExerciseTargetZone from '../../universal/model/ExerciseTargetZone'
 import ExerciseTargetZoneService from '../service/ExerciseTargetZoneService'
 
+import User from '../../universal/model/User'
+import UserService from '../service/UserService'
+
 import Target from '../../universal/model/Target'
 import TargetService from '../service/TargetService'
 
@@ -35,5 +38,8 @@ export default function mountRestApi(app, {
   CRUDRest.factory(new CompetitorService(Competitor)).register(app)
   CRUDRest.factory(new MatchCompetitorService(MatchCompetitor)).register(app)
   CRUDRest.factory(new TargetService(Target)).register(app)
+  CRUDRest.factory(new UserService(User), {
+    endpoint: '/user'
+  }).register(app)
   new ExerciseRest(new ExerciseService(Exercise)).register(app)
 }

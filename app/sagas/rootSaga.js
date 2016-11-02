@@ -14,6 +14,7 @@ export default function* rootSaga() {
     fork(crudSaga('matchCompetitor')),
     fork(crudSaga('exerciseTargetZone')),
     fork(crudSaga('exercise')),
+    fork(crudSaga('user')),
 
     fork(fkSaga('tournament', '1')),
     fork(fkSaga('competitor', '1')),

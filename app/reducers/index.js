@@ -29,6 +29,10 @@ const rootReducer = combineReducers({
   [listStatePath('match')]: listReducer({entity: 'match'}),
   [crudStatePath('competitor')]: crudReducer({entity: 'competitor'}),
   [listStatePath('competitor')]: listReducer({entity: 'competitor'}),
+
+  [crudStatePath('user')]: crudReducer({entity: 'user'}),
+  [listStatePath('user')]: listReducer({entity: 'user'}),
+
   [crudStatePath('matchCompetitor')]: crudReducer({entity: 'matchCompetitor'}),
   [listStatePath('matchCompetitor')]: listReducer({entity: 'matchCompetitor'}),
   [crudStatePath('exercise')]: crudReducer({entity: 'exercise'}),
@@ -51,6 +55,7 @@ const rootReducer = combineReducers({
     exerciseTargetZone,
     exercise: {},
     target: {},
+    user: {},
     test: [],
   }, 'rrf')
 })

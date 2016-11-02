@@ -1,11 +1,11 @@
-import UserModel from '../../../universal/model/UserModel'
+import User from '../../../universal/model/User'
 const LocalStrategy = require('passport-local').Strategy
 
 const localStrategy = new LocalStrategy({
   usernameField: 'email',
   passReqToCallback: true,
 }, (req, email, password, done) => {
-  UserModel.query()
+  User.query()
     .where('email', '=', email)
     .then(users => {
       if (!users.length || users.length > 1) {

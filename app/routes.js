@@ -22,6 +22,9 @@ import ExerciseTargetZoneFormContainer from 'modules/exerciseTargetZone/containe
 import TargetListContainer from 'modules/target/containers/TargetListContainer'
 import TargetFormContainer from 'modules/target/containers/TargetFormContainer'
 
+import UserListContainer from 'modules/User/containers/UserListContainer'
+import UserFormContainer from 'modules/User/containers/UserFormContainer'
+
 import HomePage from 'containers/HomePage'
 import LoginPage from 'containers/LoginPage'
 import TestPage from 'containers/TestPage'
@@ -108,6 +111,12 @@ export default (store) => {
         <IndexRoute component={TargetListContainer} />
         <Route name='Add target' path='add' action='add' component={TargetFormContainer} />
         <Route name='Edit target' staticName path=':id/edit' action='edit' component={TargetFormContainer} />
+      </Route>
+
+      <Route name='Users' path='user' component={ContentContainer}>
+        <IndexRoute component={UserListContainer} />
+        <Route name='Add target' path='add' action='add' component={UserFormContainer} />
+        <Route name='Edit target' staticName path=':id/edit' action='edit' component={UserFormContainer} />
       </Route>
 
     </Route>

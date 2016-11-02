@@ -39,6 +39,9 @@ const AppLeftNav = ({dispatch, activeMatchId, authenticated, ...rest}) => {
         <MenuItem onClick={() => dispatch(push('/target'))}>
           <Link to='/target' {...{activeStyle}}><span>Targets</span></Link>
         </MenuItem>
+        <MenuItem onClick={() => dispatch(push('/user'))}>
+          <Link to='/user' {...{activeStyle}}><span>Users</span></Link>
+        </MenuItem>
       </If>
       <If condition={activeMatchId}>
         <MenuItem onClick={() => dispatch(push(`/match/${activeMatchId}/view`))}>
