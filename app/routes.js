@@ -25,7 +25,6 @@ import TargetFormContainer from 'modules/target/containers/TargetFormContainer'
 import UserListContainer from 'modules/user/containers/UserListContainer'
 import UserFormContainer from 'modules/user/containers/UserFormContainer'
 
-import HomePage from 'containers/HomePage'
 import LoginPage from 'containers/LoginPage'
 import TestPage from 'containers/TestPage'
 import ContentContainer from 'containers/ContentContainer'
@@ -47,27 +46,17 @@ export default (store) => {
     callback()
   }
 
-  const redirectAuth = (nextState, replace, callback) => {
-    const {user: {authenticated}} = store.getState()
-    if (authenticated) {
-      replace({
-        pathname: '/'
-      })
-    }
-    callback()
-  }
-
   return (
     <Route name='Home' path='/' component={App}>
-      <IndexRedirect to='match'/>
-      <Route name='Test' path='test' component={TestPage} />
+      <IndexRedirect to='match' />
+      <Route name='Test' path='test' component={TestPage} onEnter={requireAuth} />
       <Route name='Login' path='login' component={LoginPage} />
-      <Route name='Tournaments' path='tournament' component={ContentContainer}>
+      <Route name='Tournaments' path='tournament' component={ContentContainer} onEnter={requireAuth}>
         <IndexRoute component={TournamentListContainer} />
         <Route name='Add tournament' path='add' action='add' component={TournamentFormContainer} />
         <Route name='Edit tournament' staticName path=':id/edit' action='edit' component={TournamentFormContainer} />
       </Route>
-      <Route name='Matches' path='match' component={ContentContainer}>
+      <Route name='Matches' path='match' component={ContentContainer} onEnter={requireAuth}>
         <IndexRoute component={MatchListContainer} />
 
         <Route name='Match view' path=':id/view' component={MatchViewContainer} />
@@ -92,7 +81,7 @@ export default (store) => {
         <Route name='Edit match' staticName path=':id/edit' action='edit' component={MatchFormContainer} />
       </Route>
 
-      <Route name='Exercises' path='exercise' component={ContentContainer}>
+      <Route name='Exercises' path='exercise' component={ContentContainer} onEnter={requireAuth}>
         <IndexRoute component={ExerciseListContainer} />
         <Route name='Add exercise' path='add' action='add' component={ExerciseFormContainer} />
         <Route name='Edit exercise' staticName path=':id/edit' action='edit' component={ExerciseFormContainer} />
@@ -101,19 +90,19 @@ export default (store) => {
         <Route name='Edit Zones' path=':exerciseId/zones' action='edit' component={ExerciseTargetZoneFormContainer} />
       </Route>
 
-      <Route name='Competitors' path='competitor' component={ContentContainer}>
+      <Route name='Competitors' path='competitor' component={ContentContainer} onEnter={requireAuth} >
         <IndexRoute component={CompetitorListContainer} />
         <Route name='Add competitor' path='add' action='add' component={CompetitorFormContainer} />
         <Route name='Edit competitor' staticName path=':id/edit' action='edit' component={CompetitorFormContainer} />
       </Route>
 
-      <Route name='Targets' path='target' component={ContentContainer}>
+      <Route name='Targets' path='target' component={ContentContainer} onEnter={requireAuth} >
         <IndexRoute component={TargetListContainer} />
         <Route name='Add target' path='add' action='add' component={TargetFormContainer} />
         <Route name='Edit target' staticName path=':id/edit' action='edit' component={TargetFormContainer} />
       </Route>
 
-      <Route name='Users' path='user' component={ContentContainer}>
+      <Route name='Users' path='user' component={ContentContainer} onEnter={requireAuth} >
         <IndexRoute component={UserListContainer} />
         <Route name='Add target' path='add' action='add' component={UserFormContainer} />
         <Route name='Edit target' staticName path=':id/edit' action='edit' component={UserFormContainer} />
