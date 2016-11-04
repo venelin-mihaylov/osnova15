@@ -62,9 +62,9 @@ export default class OsnovaModel extends Model {
       jsonSchema = this.$beforeValidate(jsonSchema, json, options)
     }
 
-    let report = this._tryValidate(jsonSchema, json, options)
+    const report = this._tryValidate(jsonSchema, json, options)
     // this.parseValidationError is osnova code
-    let validationError = this._parseValidationError(report)
+    const validationError = this._parseValidationError(report)
 
     if (validationError) {
       throw validationError

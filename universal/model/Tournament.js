@@ -1,6 +1,6 @@
 import OsnovaModel from './OsnovaModel'
-import TournamentSchema from "../model/schema/TournamentSchema"
-import {Model} from "objection"
+import TournamentSchema from '../model/schema/TournamentSchema'
+import {Model} from 'objection'
 
 export default class Tournament extends OsnovaModel {
   static tableName = 'tournament'
