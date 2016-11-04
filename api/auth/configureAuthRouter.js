@@ -16,7 +16,7 @@ export default function configureAuthRouter(passport) {
   )
 
   router.post('/logout', function (req, res) {
-    req.logout()
+    req.logOut()
     res.send({message: 'You have successfully logged out'})
   })
   return router

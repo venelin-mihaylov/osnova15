@@ -29,7 +29,7 @@ function* logout() {
       method: 'post'
     })
     yield put({type: Act.LOGOUT_USER_SUCCESS})
-    yield put(push('/'))
+    yield put(push('/login'))
   } catch (err) {
     yield put({type: Act.LOGOUT_USER_ERROR})
   }

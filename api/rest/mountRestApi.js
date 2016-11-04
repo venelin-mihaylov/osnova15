@@ -28,18 +28,21 @@ import TargetService from '../service/TargetService'
 export default function mountRestApi(app, {
   authMiddleware
 }) {
-  CRUDRest.factory(new MatchService(Match), {
-    endpoint: '/match'
-  }).register(app)
-  CRUDRest.factory(new TournamentService(Tournament), {
+  const options = {
     middleware: authMiddleware
+  }
+  CRUDRest.factory(new MatchService(Match), {
+    endpoint: '/match',
+    ...options
   }).register(app)
-  CRUDRest.factory(new ExerciseTargetZoneService(ExerciseTargetZone)).register(app)
-  CRUDRest.factory(new CompetitorService(Competitor)).register(app)
-  CRUDRest.factory(new MatchCompetitorService(MatchCompetitor)).register(app)
-  CRUDRest.factory(new TargetService(Target)).register(app)
+  CRUDRest.factory(new TournamentService(Tournament), options).register(app)
+  CRUDRest.factory(new ExerciseTargetZoneService(ExerciseTargetZone), options).register(app)
+  CRUDRest.factory(new CompetitorService(Competitor), options).register(app)
+  CRUDRest.factory(new MatchCompetitorService(MatchCompetitor), options).register(app)
+  CRUDRest.factory(new TargetService(Target), options).register(app)
   CRUDRest.factory(new UserService(User), {
-    endpoint: '/user'
+    endpoint: '/user',
+    ...options
   }).register(app)
-  new ExerciseRest(new ExerciseService(Exercise)).register(app)
+  new ExerciseRest(new ExerciseService(Exercise), options).register(app)
 }

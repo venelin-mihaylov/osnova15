@@ -10,7 +10,7 @@ const AppLeftNav = ({dispatch, activeMatchId, authenticated, ...rest}) => {
   if (!authenticated) {
     return (<Drawer {...rest}>
       <MenuItem>
-        <IndexLink to='/' {...{activeStyle}}>Home</IndexLink>
+        <IndexLink to='/login' {...{activeStyle}}>Login</IndexLink>
       </MenuItem>
       <MenuItem>
         <IndexLink to='/test' {...{activeStyle}}>Test</IndexLink>
@@ -21,9 +21,6 @@ const AppLeftNav = ({dispatch, activeMatchId, authenticated, ...rest}) => {
   return (
     <Drawer {...rest}>
       <If condition={!activeMatchId}>
-        <MenuItem onClick={() => dispatch(push('/'))}>
-          <IndexLink to='/' {...{activeStyle}}><span>Home</span></IndexLink>
-        </MenuItem>
         <MenuItem onClick={() => dispatch(push('/tournament'))}>
           <Link to='/tournament' {...{activeStyle}}><span>Tournaments</span></Link>
         </MenuItem>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, IndexRoute} from 'react-router'
+import {Route, IndexRoute, IndexRedirect} from 'react-router'
 import App from 'containers/App'
 import TournamentListContainer from 'modules/tournament/containers/TournamentListContainer'
 import TournamentFormContainer from 'modules/tournament/containers/TournamentFormContainer'
@@ -22,8 +22,8 @@ import ExerciseTargetZoneFormContainer from 'modules/exerciseTargetZone/containe
 import TargetListContainer from 'modules/target/containers/TargetListContainer'
 import TargetFormContainer from 'modules/target/containers/TargetFormContainer'
 
-import UserListContainer from 'modules/User/containers/UserListContainer'
-import UserFormContainer from 'modules/User/containers/UserFormContainer'
+import UserListContainer from 'modules/user/containers/UserListContainer'
+import UserFormContainer from 'modules/user/containers/UserFormContainer'
 
 import HomePage from 'containers/HomePage'
 import LoginPage from 'containers/LoginPage'
@@ -59,7 +59,7 @@ export default (store) => {
 
   return (
     <Route name='Home' path='/' component={App}>
-      <IndexRoute component={HomePage} />
+      <IndexRedirect to='match'/>
       <Route name='Test' path='test' component={TestPage} />
       <Route name='Login' path='login' component={LoginPage} />
       <Route name='Tournaments' path='tournament' component={ContentContainer}>

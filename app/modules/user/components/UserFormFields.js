@@ -9,6 +9,11 @@ export const UserFormFields = ({
     <AutoFields
       {...{entity}}
       jsonSchema={UserSchema}
+      overrides={{
+        password: {
+          type: 'password'
+        }
+      }}
     />
   </div>
 )
