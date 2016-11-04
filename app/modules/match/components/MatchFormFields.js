@@ -15,6 +15,9 @@ export const MatchFormFields = ({
       jsonSchema={MatchSchema}
       relations={MatchRelations}
       overrides={{
+        tournamentId: {
+          showButtonClearValue: true
+        },
         country: {
           control: CountrySelect,
           rrfProps: {

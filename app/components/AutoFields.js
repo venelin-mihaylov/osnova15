@@ -171,8 +171,8 @@ export default class AutoFields extends React.Component {
   }
 
   static typeValidators = {
-    number: (v) => parseFloat(v) == v, // eslint-disable-line eqeqeq
-    integer: (v) => parseInt(v, 10) == v // eslint-disable-line eqeqeq
+    number: (v) => !v || parseFloat(v) == v, // eslint-disable-line eqeqeq
+    integer: (v) => !v || parseInt(v, 10) == v // eslint-disable-line eqeqeq
   }
 
 

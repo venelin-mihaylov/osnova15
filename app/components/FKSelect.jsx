@@ -97,6 +97,10 @@ export default class FKSelect extends React.Component {
      * callback to add additional state
      */
     addState: React.PropTypes.func,
+    /**
+     *
+     */
+    showButtonClearValue: React.PropTypes.bool
   }
 
   static defaultProps = {
@@ -106,7 +110,8 @@ export default class FKSelect extends React.Component {
     variation: '1',
     reset: true,
     postLoadRecord: () => {},
-    addState: () => {}
+    addState: () => {},
+    showButtonClearValue: false
   }
 
   /**
@@ -126,9 +131,6 @@ export default class FKSelect extends React.Component {
     this.setState({
       searchText: ''
     })
-    // if (this.props.reset) {
-    // this.props.dispatch(this.act(FKAct.FK_RESET, {name: this.props.name}))
-    // }
     this.loadRecord(this.props.value)
   }
 
@@ -138,13 +140,16 @@ export default class FKSelect extends React.Component {
     }
   }
 
+  onClearValue(e) {
+    e.preventDefault()
+    this.props.onChange(null)
+  }
+
   loadRecord(id) {
-    console.log('load record, id: ' + id)
     const name = this.props.name
     this.props.promiseAct(FKAct.FK_READ_REQUESTED, {id, name})
       .then(curryRight(this.props.postLoadRecord)(this))
   }
-
 
   render() {
     const {
@@ -161,6 +166,7 @@ export default class FKSelect extends React.Component {
       onChange,
       onFocus = () => {},
       buttons = [],
+      showButtonClearValue,
       ...rest,
     } = this.props
 
@@ -191,6 +197,7 @@ export default class FKSelect extends React.Component {
           onChange(value)
         }}
       />
+      {showButtonClearValue && <Button basic icon='erase' onClick={this.onClearValue} />}
       {buttons}
     </span>)
   }
