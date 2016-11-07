@@ -3,6 +3,7 @@ import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 import {Loader, Segment} from 'semantic-ui-react'
+import SearchBar from 'components/SearchBar'
 import cx from 'classnames'
 
 const EntityList = ({
@@ -18,6 +19,7 @@ const EntityList = ({
   toolbarShow,
   toolbarTitle,
   toolbarProps = {},
+  addListFilter,
   redux, // eslint-disable-line no-unused-vars
   redux: {
     records,
@@ -58,6 +60,7 @@ const EntityList = ({
     />
   </If>
   <GlobalError globalError={globalError} />
+  <SearchBar addListFilter={addListFilter} />
   <BaseTable
     rows={records}
     selectedRowId={selectedId}
@@ -73,6 +76,7 @@ EntityList.propTypes = {
   onEditClick: React.PropTypes.func,
   onDeleteClick: React.PropTypes.func,
   onLimitChange: React.PropTypes.func,
+  addListFilter: React.PropTypes.func,
   page: React.PropTypes.number,
   onNextPage: React.PropTypes.func,
   onPrevPage: React.PropTypes.func,

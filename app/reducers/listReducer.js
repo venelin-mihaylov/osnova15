@@ -58,7 +58,7 @@ export default function listReducer({
           orderBy: action.orderBy,
           orderDirection: action.orderDirection
         })
-      case addPrefix(CRUDAct.LIST_SET_FILTER):
+      case addPrefix(CRUDAct.LIST_ADD_FILTER):
         return Object.assign({}, state, {
           filter: Object.assign({}, state.filter, action.value)
         })

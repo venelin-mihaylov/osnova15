@@ -130,7 +130,7 @@
     "react-mixin": "^3.0.5",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
-    "react-redux-form": "1.0.15",
+    "react-redux-form": "1.2.2",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.5",
     "react-router-scroll": "^0.2.0",

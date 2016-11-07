@@ -27,7 +27,7 @@ export default class ExerciseTargetZoneFormContainer extends OsnovaFormContainer
   }
 
   readServerRecord() {
-    this.props.act(CRUDAct.LIST_SET_FILTER, {
+    this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {
       value: {
         exerciseId: this.props.params.exerciseId
       }

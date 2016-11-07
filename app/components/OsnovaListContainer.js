@@ -121,6 +121,11 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_SET_BASE_FILTER, {value: filter})
   }
 
+  addListFilter(value) {
+    this.props.act(CRUDAct.LIST_ADD_FILTER, {value})
+    this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
   addProps() {
     return pick(this, [
       'onAddClick',
@@ -130,7 +135,8 @@ export default class OsnovaListContainer extends React.Component {
       'onPrevPage',
       'onRefresh',
       'onLimitChange',
-      'onSelectRow'
+      'onSelectRow',
+      'addListFilter'
     ])
   }
 }

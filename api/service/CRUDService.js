@@ -39,6 +39,14 @@ export default class CRUDService {
     return qb.orderBy(orderBy, orderDirection)
   }
 
+  toSqlOperator(operator) {
+    switch (operator) {
+      case 'ilike': return 'ilike'
+      case '=': return '='
+      default: throw new Error('invalid filter operator')
+    }
+  }
+
   paginate(qb, page = 1, limit = 1000) {
     const offset = limit * (page - 1)
     qb.offset(offset).limit(limit)
