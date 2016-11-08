@@ -6,11 +6,8 @@ const ActiveFiltersList = ({activeFilters, removeListFilter, filterSchema}) => {
   if (!filterSchema || !activeFilters) {
     return null
   }
-  return (<List
-    divided
-    verticalAlign='middle'
-  >
-    {Object.keys(activeFilters).map(f => (<List.Item>
+  return (<List divided verticalAlign='middle' >
+    {Object.keys(activeFilters).map(f => (<List.Item key={f}>
       <List.Content floated='left'>
         <Button icon='erase' onClick={() => removeListFilter(f)} />
       </List.Content>

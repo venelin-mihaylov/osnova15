@@ -40,11 +40,7 @@ export default class CRUDService {
   }
 
   toSqlOperator(operator) {
-    switch (operator) {
-      case 'ilike': return 'ilike'
-      case '=': return '='
-      default: throw new Error('invalid filter operator')
-    }
+    return QueryFilter.toSqlOperator(operator)
   }
 
   paginate(qb, page = 1, limit = 1000) {

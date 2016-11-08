@@ -32,7 +32,7 @@ export default class QueryFilter {
       if (rules.hasOwnProperty(key)) {
         qb = QueryFilter.applyRule(qb, rules[key], i)
       } else {
-        qb = qb.andWhere(key, i.operator, i.value)
+        qb = qb.andWhere(key, QueryFilter.toSqlOperator(i.operator), QueryFilter.toSqlValue(i.operator, i.value))
       }
     }
     return qb
@@ -54,6 +54,24 @@ export default class QueryFilter {
     }
 
     return input
+  }
+
+  static toSqlValue(operator, value) {
+    if (operator.match(/like/)) {
+      return `%${value}%`
+    }
+
+    return value
+  }
+
+  static toSqlOperator(operator) {
+    switch (operator) {
+      case 'ilike': return 'ilike'
+      case 'inotlike': return 'not ilike' // does not work
+      case '=': return '='
+      case '<>': return '<>'
+      default: throw new Error('invalid filter operator')
+    }
   }
 
   /**
