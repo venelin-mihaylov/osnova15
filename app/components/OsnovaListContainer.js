@@ -91,6 +91,8 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
+
+
   nextPath({action, id, record}) {
     const {location: {pathname}} = this.props
     return calcNextPath({pathname, action, id, record})
@@ -126,6 +128,12 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
+  // will be curried
+  removeListFilter(filter) {
+    this.props.act(CRUDAct.LIST_REMOVE_FILTER, filter)
+    this.props.act(CRUDAct.LIST_REQUESTED)
+  }
+
   addProps() {
     return pick(this, [
       'onAddClick',
@@ -136,7 +144,8 @@ export default class OsnovaListContainer extends React.Component {
       'onRefresh',
       'onLimitChange',
       'onSelectRow',
-      'addListFilter'
+      'addListFilter',
+      'removeListFilter'
     ])
   }
 }

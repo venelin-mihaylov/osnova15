@@ -3,7 +3,8 @@ import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
 import {Loader, Segment} from 'semantic-ui-react'
-import SearchBar from 'components/SearchBar'
+import FilterBar from 'components/FilterBar'
+import ActiveFiltersList from 'components/ActiveFiltersList'
 import cx from 'classnames'
 
 const EntityList = ({
@@ -20,6 +21,8 @@ const EntityList = ({
   toolbarTitle,
   toolbarProps = {},
   addListFilter,
+  removeListFilter,
+  filterSchema,
   redux, // eslint-disable-line no-unused-vars
   redux: {
     records,
@@ -27,6 +30,7 @@ const EntityList = ({
     globalError,
     page,
     limit,
+    filter,
     loading,
   }
 }) => (<Segment basic>
@@ -60,7 +64,8 @@ const EntityList = ({
     />
   </If>
   <GlobalError globalError={globalError} />
-  <SearchBar addListFilter={addListFilter} />
+  <FilterBar addListFilter={addListFilter} filterSchema={filterSchema} />
+  <ActiveFiltersList activeFilters={filter} removeListFilter={removeListFilter} filterSchema={filterSchema} />
   <BaseTable
     rows={records}
     selectedRowId={selectedId}
@@ -77,6 +82,8 @@ EntityList.propTypes = {
   onDeleteClick: React.PropTypes.func,
   onLimitChange: React.PropTypes.func,
   addListFilter: React.PropTypes.func,
+  removeListFilter: React.PropTypes.func,
+  filterSchema: React.PropTypes.object,
   page: React.PropTypes.number,
   onNextPage: React.PropTypes.func,
   onPrevPage: React.PropTypes.func,

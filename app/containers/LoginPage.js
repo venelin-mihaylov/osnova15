@@ -6,7 +6,9 @@ import LoginForm from 'components/LoginForm'
 const LoginPage = ({dispatch, ...rest}) => <div>
   <h1>Login</h1>
   <LoginForm
-    onSubmit={(model) => dispatch({type: Act.LOGIN_USER_REQUESTED, ...model})}
+    onSubmit={(model) => {
+      dispatch({type: Act.LOGIN_USER_REQUESTED, ...model})
+    }}
     {...rest}
   />
 </div>

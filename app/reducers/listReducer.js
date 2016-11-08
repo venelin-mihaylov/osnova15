@@ -1,6 +1,7 @@
 import CRUDAct from '../constants/CRUDAct'
 import {prefixType} from 'utils/Util'
 import curry from 'lodash/curry'
+import pickBy from 'lodash/pickBy'
 
 export default function listReducer({
   entity,
@@ -61,6 +62,10 @@ export default function listReducer({
       case addPrefix(CRUDAct.LIST_ADD_FILTER):
         return Object.assign({}, state, {
           filter: Object.assign({}, state.filter, action.value)
+        })
+      case addPrefix(CRUDAct.LIST_REMOVE_FILTER):
+        return Object.assign({}, state, {
+          filter: pickBy(state.filter, (value, key) => key !== action.value)
         })
       case addPrefix(CRUDAct.LIST_SET_BASE_FILTER):
         return Object.assign({}, state, {

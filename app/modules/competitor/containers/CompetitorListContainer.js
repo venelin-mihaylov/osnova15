@@ -16,6 +16,28 @@ export default class CompetitorListContainer extends OsnovaListContainer {
     const sortable = this.curriedSortable()
     return (<EntityList
       toolbarTitle='Competitors'
+      filterSchema={{
+        name: {
+          label: 'Name',
+          type: 'string',
+          operators: ['ilike', 'inotlike', '=', '<>']
+        },
+        email: {
+          label: 'Email',
+          type: 'string',
+          operators: ['ilike', 'inotlike']
+        },
+        country: {
+          label: 'Country',
+          operators: ['='],
+          type: 'string',
+          enumProps: {
+            bg: 'Bulgaria',
+            uk: 'UK',
+            pl: 'Poland'
+          }
+        }
+      }}
       columns={[{
         property: 'country',
         header: {
