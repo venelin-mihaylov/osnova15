@@ -2,9 +2,8 @@ import React from 'react'
 import TableToolbar2 from 'components/TableToolbar2'
 import BaseTable from 'components/BaseTable'
 import GlobalError from 'components/GlobalError'
-import {Loader, Segment} from 'semantic-ui-react'
-import FilterBar from 'components/FilterBar'
-import ActiveFiltersList from 'components/ActiveFiltersList'
+import {Loader, Segment, Grid} from 'semantic-ui-react'
+import ListToolbar from 'components/ListToolbar'
 import cx from 'classnames'
 
 const EntityList = ({
@@ -45,7 +44,7 @@ const EntityList = ({
     <Loader size='huge'>Loading</Loader>
   </div>
   <If condition={toolbarShow}>
-    <TableToolbar2
+    <ListToolbar
       {...{
         toolbarTitle,
         selectedId,
@@ -59,13 +58,16 @@ const EntityList = ({
         page,
         onNextPage,
         onPrevPage,
+        addListFilter,
+        removeListFilter,
+        filterSchema,
+        filter
       }}
       {...toolbarProps}
     />
   </If>
   <GlobalError globalError={globalError} />
-  <FilterBar addListFilter={addListFilter} filterSchema={filterSchema} />
-  <ActiveFiltersList activeFilters={filter} removeListFilter={removeListFilter} filterSchema={filterSchema} />
+
   <BaseTable
     rows={records}
     selectedRowId={selectedId}

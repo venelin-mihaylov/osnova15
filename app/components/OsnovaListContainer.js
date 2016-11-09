@@ -91,8 +91,6 @@ export default class OsnovaListContainer extends React.Component {
     this.props.act(CRUDAct.LIST_REQUESTED)
   }
 
-
-
   nextPath({action, id, record}) {
     const {location: {pathname}} = this.props
     return calcNextPath({pathname, action, id, record})

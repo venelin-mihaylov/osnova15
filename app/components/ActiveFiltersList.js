@@ -6,12 +6,12 @@ const ActiveFiltersList = ({activeFilters, removeListFilter, filterSchema}) => {
   if (!filterSchema || !activeFilters) {
     return null
   }
-  return (<List divided verticalAlign='middle' >
-    {Object.keys(activeFilters).map(f => (<List.Item key={f}>
+  return (<List>
+    {Object.keys(activeFilters).map(f => (<List.Item key={f} verticalAlign='middle'>
       <List.Content floated='left'>
-        <Button icon='erase' onClick={() => removeListFilter(f)} />
+        <Button basic icon='erase' onClick={() => removeListFilter(f)} />
       </List.Content>
-      <List.Content>
+      <List.Content floated='left' style={{marginTop: '10'}}>
         {f} {activeFilters[f].operator} {activeFilters[f].value}
       </List.Content>
     </List.Item>))}

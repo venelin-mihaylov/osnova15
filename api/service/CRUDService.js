@@ -39,8 +39,12 @@ export default class CRUDService {
     return qb.orderBy(orderBy, orderDirection)
   }
 
-  toSqlOperator(operator) {
+  static toSqlOperator(operator) {
     return QueryFilter.toSqlOperator(operator)
+  }
+
+  static toSqlValue(operator, value) {
+    return QueryFilter.toSqlValue(operator, value)
   }
 
   paginate(qb, page = 1, limit = 1000) {

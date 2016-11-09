@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Button, Icon, Container} from 'semantic-ui-react'
+import {Grid, Button, Icon, Container, Segment, Menu, Dropdown} from 'semantic-ui-react'
 import TablePagination from 'components/TablePagination'
 import ListLimitMenu from 'components/ListLimitMenu'
 import classNames from 'classnames'
@@ -18,52 +18,32 @@ const TableToolbar2 = ({
   onNextPage,
   onPrevPage,
   appendButtons = []
-}) => (<Grid style={{marginBottom: 5, marginTop: 5}} divided>
-  <Grid.Column key={1} width={9}>
-    <Button
-      positive
-      icon='add'
-      content='Add'
-      onClick={onAddClick}
-    />
-    <Button
-      icon='edit'
-      content='Edit'
-      color='yellow'
-      disabled={!selectedId}
-      onClick={onEditClick}
-    />
-    <Button
-      negative
-      icon='erase'
-      content='Delete'
-      disabled={!selectedId}
-      onClick={onDeleteClick}
-    />
-    {appendButtons && appendButtons}
-  </Grid.Column>
-  <Grid.Column width={7}>
-    <TablePagination {...{page, onNextPage, onPrevPage}} />
-    <Button
-      basic
-      loading={loading}
-      icon={<Icon name='repeat' size='large' />}
-      onClick={onRefresh}
-    />
-    <ListLimitMenu {...{limit, onLimitChange}} />
-    <h2
-      style={{
-        display: 'inline-block',
-        marginLeft: 20,
-        marginTop: 0,
-        marginBottom: 0,
-        padding: 0,
-        verticalAlign: 'middle',
-        lineHeight: 'normal'
-      }}
-    >{toolbarTitle}</h2>
-  </Grid.Column>
-</Grid>)
+}) => (<Menu>
+
+  <Menu.Menu position='left' icon='labeled'>
+    <Menu.Item icon='add' content='Add' onClick={onAddClick} />
+    <Menu.Item icon='edit' content='Edit' onClick={onEditClick} />
+    <Menu.Item icon='erase' content='Erase' onClick={onDeleteClick} />
+    <Menu.Item icon='Search' content='search' onClick={onDeleteClick} />
+  </Menu.Menu>
+
+  <Menu.Menu position='right'>
+    <Dropdown as={Menu.Item} icon='toggle down'>
+      <Dropdown.Menu>
+        <Dropdown.Item>2</Dropdown.Item>
+        <Dropdown.Item>10</Dropdown.Item>
+        <Dropdown.Item>50</Dropdown.Item>
+        <Dropdown.Item>500</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Menu.Item icon='angle left' onClick={onPrevPage} />
+    <Menu.Item name={`Page: ${page}`} />
+    <Menu.Item icon='angle right' onClick={onNextPage} />
+    <Menu.Item icon='repeat' onClick={onRefresh} />
+    <Menu.Item header>Competitors</Menu.Item>
+  </Menu.Menu>
+
+</Menu>)
 
 TableToolbar2.defaultProps = {
   onAddClick: () => null,

@@ -123,12 +123,14 @@ class FilterBar extends React.Component {
     const filterOptions = this.filterOptions(this.props.filterSchema)
     const operatorOptions = this.operatorOptions(this.curFilter().operators)
 
-    return (<Form onSubmit={this.onSubmitSearch} >
+    return (<Form onSubmit={this.onSubmitSearch} style={{padding: 0, margin: 0}} >
       <Form.Group>
         <Form.Dropdown
           name='filter'
           selection
+          width={4}
           required
+          compact
           label=''
           value={this.state.filter}
           options={filterOptions}
@@ -138,7 +140,9 @@ class FilterBar extends React.Component {
           name='operator'
           selection
           required
+          width={3}
           label=''
+          compact
           value={this.state.operator}
           onChange={this.onChangeOperator}
           options={operatorOptions}
@@ -147,6 +151,7 @@ class FilterBar extends React.Component {
           name='value'
           label=''
           required
+          width={7}
           value={this.state.value}
           onChange={this.onChangeValue}
         />}
@@ -154,6 +159,7 @@ class FilterBar extends React.Component {
           name='value'
           required
           label=''
+          width={7}
           value={this.state.value}
           onChange={this.onChangeValue}
         />}
@@ -161,14 +167,16 @@ class FilterBar extends React.Component {
           name='value'
           selection
           required
+          compact
           label=''
+          width={7}
           value={this.state.value}
           options={this.enumOptions(this.curFilter().enumProps)}
           onChange={this.onChangeEnumValue}
         />}
         {this.isVisibleSubmitButton() && <Form.Button
-          disabled={!this.state.filter || !this.state.operator || !this.state.value}
           basic
+          width={2}
           type='submit'
           icon='search'
         />}

@@ -19,7 +19,10 @@ export default class CompetitorService extends CRUDService {
 
   filterRules() {
     return {
-      name: (qb, {operator, value}) => qb.andWhere('lastName', this.toSqlOperator(operator), `%${value}%`),
+      name: (qb, {operator, value}) => qb.andWhere(function () {
+        this.where('lastName', CRUDService.toSqlOperator(operator), CRUDService.toSqlValue(operator, value))
+          .orWhere('firstName', CRUDService.toSqlOperator(operator), CRUDService.toSqlValue(operator, value))
+      }),
       searchText: (qb, {value}) => {
         const v = value.trim()
         if (!v) return qb
