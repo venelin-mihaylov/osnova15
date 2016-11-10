@@ -44,5 +44,6 @@ export default function mountRestApi(app, {
     endpoint: '/user',
     ...options
   }).register(app)
-  new ExerciseRest(new ExerciseService(Exercise), options.middleware).register(app)
+  // TODO, add authMiddleware, adding it now breaks the service :(
+  new ExerciseRest(new ExerciseService(Exercise)).register(app)
 }
