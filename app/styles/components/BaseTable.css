@@ -1,4 +1,7 @@
 .selectedRow {
-  color: rgb(0, 188, 212) !important;
-  font-weight: bold;
+  color: orangered !important;
+}
+
+.selectedRow:hover * {
+  color: orangered !important;
 }
