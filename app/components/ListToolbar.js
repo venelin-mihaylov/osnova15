@@ -1,7 +1,5 @@
 import React from 'react'
-import {Grid, Button, Icon, Container, Segment, Menu, Dropdown} from 'semantic-ui-react'
-import TablePagination from 'components/TablePagination'
-import ListLimitMenu from 'components/ListLimitMenu'
+import {Grid, Button, Modal, Menu, Dropdown} from 'semantic-ui-react'
 import cx from 'classnames'
 import FilterBar from 'components/FilterBar'
 import ActiveFiltersList from 'components/ActiveFiltersList'
@@ -38,8 +36,19 @@ class ListToolbar extends React.Component {
 
   componentWillMount() {
     this.setState({
-      isVisibleSearch: false
+      isVisibleSearch: false,
+      isVisibleModalDelete: false,
     })
+  }
+
+  hideModalDelete() {
+    this.setState({isVisibleModalDelete: false})
+  }
+  showModalDelete() {
+    this.setState({isVisibleModalDelete: true})
+  }
+  toggleSearchPanel() {
+    this.setState({isVisibleSearch: !this.state.isVisibleSearch})
   }
 
   render() {
@@ -63,14 +72,37 @@ class ListToolbar extends React.Component {
       filter,
     } = this.props
 
+
+
     return (<div>
       <Menu style={{marginBottom: 2}}>
         <Menu.Menu position='left' icon='labeled'>
           <Menu.Item icon='add' content='Add' onClick={onAddClick} />
           <Menu.Item icon='edit' className={cx({disabled: !selectedId})} content='Edit' onClick={onEditClick} />
-          <Menu.Item icon='erase' className={cx({disabled: !selectedId})} content='Erase' onClick={onDeleteClick} />
-          {filterSchema && <Menu.Item icon='search' content='Search' onClick={() => this.setState({isVisibleSearch: !this.state.isVisibleSearch})} />}
+          <Menu.Item icon='erase' className={cx({disabled: !selectedId})} content='Erase' onClick={() => this.showModalDelete()} />
+          {filterSchema && <Menu.Item icon='search' content='Search' onClick={() => this.toggleSearchPanel()} />}
         </Menu.Menu>
+
+        {this.state.isVisibleModalDelete && <Modal dimmer='blurring' size='small' open onClose={() => this.hideModalDelete()}>
+          <Modal.Header>
+            Are you sure?
+          </Modal.Header>
+          <Modal.Content>
+            <p>Are you sure you want to delete the selected record?</p>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative icon='undo' content='Cancel' onClick={() => this.hideModalDelete()} />
+            <Button
+              positive
+              icon='checkmark'
+              content='Confirm'
+              onClick={(...args) => {
+                this.hideModalDelete()
+                onDeleteClick(...args)
+              }}
+            />
+          </Modal.Actions>
+        </Modal>}
 
         <Menu.Menu position='right'>
           <Dropdown as={Menu.Item} icon='toggle down'>
@@ -87,10 +119,10 @@ class ListToolbar extends React.Component {
       </Menu>
       {this.state.isVisibleSearch && <Grid stackable celled style={{marginBottom: 5, marginTop: 5}}>
         <Grid.Row columns={3} style={{padding: 0, margin: 0}}>
-          <Grid.Column width={9}>
+          <Grid.Column width={11}>
             <FilterBar addListFilter={addListFilter} filterSchema={filterSchema} />
           </Grid.Column>
-          <Grid.Column width={7}>
+          <Grid.Column width={5}>
             <ActiveFiltersList activeFilters={filter} removeListFilter={removeListFilter} filterSchema={filterSchema} />
           </Grid.Column>
         </Grid.Row>
