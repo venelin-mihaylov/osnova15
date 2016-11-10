@@ -51,6 +51,9 @@ export default class TargetListContainer extends OsnovaListContainer {
         header: {
           label: 'name'
         },
+        cell: {
+          format: (v, {rowData}) => <span>{rowData.favourite && <Icon name='heart' />} {v}</span>
+        },
         props: {
           width: 200
         }
@@ -75,17 +78,6 @@ export default class TargetListContainer extends OsnovaListContainer {
         },
         props: {
           width: 200
-        }
-      }, {
-        property: 'favourite',
-        header: {
-          label: 'Fav'
-        },
-        cell: {
-          format: v => v && <Icon name='heart' size='large' />
-        },
-        props: {
-          width: 50
         }
       }]}
       {...this.props}
