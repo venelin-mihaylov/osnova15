@@ -44,5 +44,5 @@ export default function mountRestApi(app, {
     endpoint: '/user',
     ...options
   }).register(app)
-  new ExerciseRest(new ExerciseService(Exercise), options).register(app)
+  new ExerciseRest(new ExerciseService(Exercise), options.middleware).register(app)
 }
