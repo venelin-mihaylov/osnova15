@@ -185,7 +185,7 @@ export default class ExerciseListContainer extends OsnovaListContainer {
       columns.unshift({
         property: 'favourite',
         props: {
-          width: 20
+          width: 50
         },
         header: {
           label: 'Fav'

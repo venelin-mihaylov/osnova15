@@ -36,19 +36,6 @@ export default class TargetListContainer extends OsnovaListContainer {
       toolbarShow={!matchView}
       toolbarTitle='Targets'
       columns={[{
-        property: 'favourite',
-        props: {
-          style: {
-            width: 20
-          }
-        },
-        header: {
-          label: 'Fav'
-        },
-        cell: {
-          format: v => v && <Icon name='heart' size='large' />
-        }
-      }, {
         property: 'thumbnail',
         header: {
           label: 'Image'
@@ -57,12 +44,15 @@ export default class TargetListContainer extends OsnovaListContainer {
           format: (v) => v && <img alt='thumbnail' src={v} />
         },
         props: {
-          width: 120
+          width: 200
         }
       }, {
         property: 'name',
         header: {
           label: 'name'
+        },
+        props: {
+          width: 200
         }
       }, {
         property: 'type',
@@ -71,6 +61,9 @@ export default class TargetListContainer extends OsnovaListContainer {
         },
         cell: {
           format: formatEnum(TargetSchema)
+        },
+        props: {
+          width: 100
         }
       }, {
         property: 'target_zone',
@@ -79,6 +72,20 @@ export default class TargetListContainer extends OsnovaListContainer {
         },
         cell: {
           format: (zones) => zones && zones.map(z => <div>{z.name} - {z.width} - {z.height}</div>)
+        },
+        props: {
+          width: 200
+        }
+      }, {
+        property: 'favourite',
+        header: {
+          label: 'Fav'
+        },
+        cell: {
+          format: v => v && <Icon name='heart' size='large' />
+        },
+        props: {
+          width: 50
         }
       }]}
       {...this.props}

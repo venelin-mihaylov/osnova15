@@ -19,14 +19,6 @@ export default class MatchListContainer extends OsnovaListContainer {
 
   columns() {
     return [{
-      property: 'id',
-      header: {
-        label: 'id'
-      },
-      props: {
-        width: 20
-      }
-    }, {
       property: 'country',
       header: {
         label: 'Country'
@@ -35,7 +27,7 @@ export default class MatchListContainer extends OsnovaListContainer {
         format: formatCountry
       },
       props: {
-        width: 200
+        width: 100
       },
     }, {
       property: 'name',
@@ -54,7 +46,7 @@ export default class MatchListContainer extends OsnovaListContainer {
         format: formatEnum(MatchSchema)
       },
       props: {
-        width: 200
+        width: 100
       },
     }, {
       property: 'type',
@@ -65,7 +57,7 @@ export default class MatchListContainer extends OsnovaListContainer {
         format: formatEnum(MatchSchema)
       },
       props: {
-        width: 150
+        width: 100
       },
     }, {
       property: 'startDate',
@@ -101,14 +93,17 @@ export default class MatchListContainer extends OsnovaListContainer {
           <div>statMaster: {rowData.statMaster || 'N/A'}</div>
           <div>matchDirector: {rowData.matchDirector || 'N/A'}</div>
         </div>)
-      }
+      },
+      props: {
+        width: 200
+      },
     }, {
       property: 'tournamentId__name',
       header: {
         label: 'Tournament'
       },
       props: {
-        width: 200
+        width: 100
       },
     }]
   }
