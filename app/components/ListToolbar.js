@@ -72,37 +72,37 @@ class ListToolbar extends React.Component {
       filter,
     } = this.props
 
-
-
     return (<div>
+
+      {this.state.isVisibleModalDelete && <Modal dimmer='blurring' size='small' open onClose={() => this.hideModalDelete()}>
+        <Modal.Header>
+          Are you sure?
+        </Modal.Header>
+        <Modal.Content>
+          <p>Are you sure you want to delete the selected record?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button negative icon='undo' content='Cancel' onClick={() => this.hideModalDelete()} />
+          <Button
+            positive
+            icon='checkmark'
+            content='Confirm'
+            onClick={(...args) => {
+              this.hideModalDelete()
+              onDeleteClick(...args)
+            }}
+          />
+        </Modal.Actions>
+      </Modal>}
+
       <Menu style={{marginBottom: 2}}>
         <Menu.Menu position='left' icon='labeled'>
           <Menu.Item icon='add' content='Add' onClick={onAddClick} />
           <Menu.Item icon='edit' className={cx({disabled: !selectedId})} content='Edit' onClick={onEditClick} />
           <Menu.Item icon='erase' className={cx({disabled: !selectedId})} content='Erase' onClick={() => this.showModalDelete()} />
           {filterSchema && <Menu.Item icon='search' content='Search' onClick={() => this.toggleSearchPanel()} />}
+          {appendButtons && appendButtons}
         </Menu.Menu>
-
-        {this.state.isVisibleModalDelete && <Modal dimmer='blurring' size='small' open onClose={() => this.hideModalDelete()}>
-          <Modal.Header>
-            Are you sure?
-          </Modal.Header>
-          <Modal.Content>
-            <p>Are you sure you want to delete the selected record?</p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button negative icon='undo' content='Cancel' onClick={() => this.hideModalDelete()} />
-            <Button
-              positive
-              icon='checkmark'
-              content='Confirm'
-              onClick={(...args) => {
-                this.hideModalDelete()
-                onDeleteClick(...args)
-              }}
-            />
-          </Modal.Actions>
-        </Modal>}
 
         <Menu.Menu position='right'>
           <Dropdown as={Menu.Item} icon='toggle down'>

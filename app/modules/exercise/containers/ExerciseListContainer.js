@@ -7,12 +7,13 @@ import ExerciseSchema from '../../../../universal/model/schema/ExerciseSchema'
 import TargetSchema from '../../../../universal/model/schema/TargetSchema'
 import ExerciseTargetSchema from '../../../../universal/model/schema/ExerciseTargetSchema'
 import {mapAct, mapListStateToProps, act, formatEnum, formatEnum2} from 'utils/Util'
-import {Button, Icon} from 'semantic-ui-react'
+import {Button, Icon, Menu} from 'semantic-ui-react'
 import {push} from 'react-router-redux'
 import FKSelect from 'components/FKSelect'
 import CRUDAct from 'constants/CRUDAct'
 import FKAct from 'constants/FKAct'
 import axios from 'axios'
+import cx from 'classnames'
 
 const entity = 'exercise'
 const variation = '1'
@@ -69,20 +70,19 @@ export default class ExerciseListContainer extends OsnovaListContainer {
       redux: {selectedId},
     } = this.props
 
-    const btnDownloadBriefing = (<Button
-      disabled={!selectedId}
-      color='brown'
+    const btnDownloadBriefing = (<Menu.Item
+      key='briefing'
       icon='book'
       content='Briefing'
+      className={cx({disabled: !selectedId})}
       onClick={() => selectedId && window.open(`/api/download/exercise-briefing/${selectedId}`)}
     />)
 
-    const btnEditZones = (<Button
+    const btnEditZones = (<Menu.Item
       key='zones'
-      icon='edit'
+      icon='object group'
       content='Zones'
-      color='olive'
-      disabled={!selectedId}
+      className={cx({disabled: !selectedId})}
       onClick={() => dispatch(push(`${pathname}/${selectedId}/zones`))}
     />)
 

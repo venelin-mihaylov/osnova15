@@ -3,7 +3,7 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
-import {Button} from 'semantic-ui-react'
+import {Menu} from 'semantic-ui-react'
 import Act from 'constants/Act'
 import {mapAct, mapListStateToProps, formatDate, formatEnum, formatCountry} from 'utils/Util'
 import MatchSchema from '../../../../universal/model/schema/MatchSchema'
@@ -31,33 +31,16 @@ export default class MatchListContainer extends OsnovaListContainer {
     return (<EntityList
       toolbarTitle='Matches'
       toolbarProps={{
-        appendButtons: (activeMatchId ?
-          <Button
-            className='primary icon labeled'
-            key='exitMatch'
-            icon='upload'
-            content='Exit'
-            onClick={() => {
-              dispatch({type: Act.EXIT_MATCH})
-              dispatch(push('/match/'))
-            }}
-          />
-          :
-          <Button
-            key='enterMatch'
-            className={cx({
-              primary: true,
-              icon: true,
-              labeled: true,
-              disabled: !selectedId
-            })}
+        appendButtons: !activeMatchId &&
+          <Menu.Item
             icon='download'
             content='Enter'
+            className={cx({disabled: !selectedId})}
             onClick={() => {
               dispatch({type: Act.ENTER_MATCH, matchId: selectedId})
               dispatch(push(`/match/${selectedId}/view`))
             }}
-          />)
+          />
       }}
       columns={[{
         property: 'id',
