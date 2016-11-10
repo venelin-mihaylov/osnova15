@@ -9,6 +9,12 @@ export default class MatchService extends CRUDService {
       .findById(id)
   }
 
+  filterRules() {
+    return {
+      name: (qb, {operator, value}) => qb.andWhere('matches.name', CRUDService.toSqlOperator(operator), CRUDService.toSqlValue(operator, value))
+    }
+  }
+
   defaultOrderBy(qb) {
     return qb
       .orderBy('startDate', 'desc')

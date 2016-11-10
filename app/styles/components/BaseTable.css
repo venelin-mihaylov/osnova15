@@ -1,3 +1,4 @@
 .selectedRow {
-  color: red;
+  color: rgb(0, 188, 212) !important;
+  font-weight: bold;
 }

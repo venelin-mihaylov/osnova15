@@ -3,7 +3,6 @@ import AppLeftNav from './AppLeftNav'
 import AppTopBar from './AppTopBar'
 import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
-import Breadcrumbs from 'react-breadcrumbs'
 import Act from 'constants/Act'
 import HTML5Backend from 'react-dnd-html5-backend'
 import {DragDropContext} from 'react-dnd'
@@ -45,12 +44,7 @@ const App = ({
     }}
   />
 
-  <div style={{marginTop: 30, marginLeft: leftNavOpen ? '270px' : 10}}>
-    <Breadcrumbs
-      routes={routes}
-      params={params}
-    />
-    <br />
+  <div style={{marginTop: 10, marginLeft: leftNavOpen ? '270px' : '10px'}}>
     <Container fluid>
       {children}
     </Container>

@@ -90,7 +90,7 @@ export default class BaseTable extends React.Component {
       selectedRowIndex,
       onSelectRow: this.selectRow,
     })(<Table.Provider
-      className='pure-table pure-table-striped'
+      className='ui celled selectable striped table'
       columns={columns}
       style={{
         width: '100%',

@@ -17,6 +17,109 @@ const variation = '1'
 @autobind
 export default class MatchListContainer extends OsnovaListContainer {
 
+  columns() {
+    return [{
+      property: 'id',
+      header: {
+        label: 'id'
+      },
+      props: {
+        width: 20
+      }
+    }, {
+      property: 'country',
+      header: {
+        label: 'Country'
+      },
+      cell: {
+        format: formatCountry
+      },
+      props: {
+        width: 200
+      },
+    }, {
+      property: 'name',
+      header: {
+        label: 'name'
+      },
+      props: {
+        width: 200
+      },
+    }, {
+      property: 'discipline',
+      header: {
+        label: 'discipline'
+      },
+      cell: {
+        format: formatEnum(MatchSchema)
+      },
+      props: {
+        width: 200
+      },
+    }, {
+      property: 'type',
+      header: {
+        label: 'type'
+      },
+      cell: {
+        format: formatEnum(MatchSchema)
+      },
+      props: {
+        width: 150
+      },
+    }, {
+      property: 'startDate',
+      header: {
+        label: 'Start date'
+      },
+      cell: {
+        format: formatDate
+      },
+      props: {
+        width: 120
+      },
+    }, {
+      property: 'endDate',
+      header: {
+        label: 'End date'
+      },
+      cell: {
+        format: formatDate
+      },
+      props: {
+        width: 120
+      },
+    }, {
+      property: 'rangeMaster',
+      header: {
+        label: 'Masters'
+      },
+      cell: {
+        property: 'rangeMaster',
+        format: (v, {rowData}) => (<div>
+          <div>rangeMaster: {rowData.rangeMaster || 'N/A'}</div>
+          <div>statMaster: {rowData.statMaster || 'N/A'}</div>
+          <div>matchDirector: {rowData.matchDirector || 'N/A'}</div>
+        </div>)
+      }
+    }, {
+      property: 'tournamentId__name',
+      header: {
+        label: 'Tournament'
+      },
+      props: {
+        width: 200
+      },
+    }]
+  }
+
+  filterSchema() {
+    return this.applyFilterSchemaDefaults({
+      name: null
+    })
+  }
+
+
   render() {
     const {
       dispatch,
@@ -42,99 +145,8 @@ export default class MatchListContainer extends OsnovaListContainer {
             }}
           />
       }}
-      columns={[{
-        property: 'id',
-        header: {
-          label: 'id'
-        },
-        props: {
-          width: 20
-        }
-      }, {
-        property: 'country',
-        header: {
-          label: 'Country'
-        },
-        cell: {
-          format: formatCountry
-        },
-        props: {
-          width: 200
-        },
-      }, {
-        property: 'name',
-        header: {
-          label: 'name'
-        },
-        props: {
-          width: 200
-        },
-      }, {
-        property: 'discipline',
-        header: {
-          label: 'discipline'
-        },
-        cell: {
-          format: formatEnum(MatchSchema)
-        },
-        props: {
-          width: 200
-        },
-      }, {
-        property: 'type',
-        header: {
-          label: 'type'
-        },
-        cell: {
-          format: formatEnum(MatchSchema)
-        },
-        props: {
-          width: 150
-        },
-      }, {
-        property: 'startDate',
-        header: {
-          label: 'Start date'
-        },
-        cell: {
-          format: formatDate
-        },
-        props: {
-          width: 120
-        },
-      }, {
-        property: 'endDate',
-        header: {
-          label: 'End date'
-        },
-        cell: {
-          format: formatDate
-        },
-        props: {
-          width: 120
-        },
-      }, {
-        property: 'rangeMaster',
-        header: {
-          label: 'Masters'
-        },
-        cell: {
-          property: 'rangeMaster',
-          format: (v, {rowData}) => (<div>
-            <div>rangeMaster: {rowData.rangeMaster || 'N/A'}</div>
-            <div>statMaster: {rowData.statMaster || 'N/A'}</div>
-            <div>matchDirector: {rowData.matchDirector || 'N/A'}</div>
-          </div>)
-        }
-      }, {
-        property: 'tournamentId__name',
-        header: {
-          label: 'Tournament'
-        },
-        props: {
-          width: 200
-        },
-      }]}
+      columns={this.columns()}
+      filterSchema={this.filterSchema()}
       {...this.props}
       {...(this.addProps())}
     />)
