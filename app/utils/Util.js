@@ -418,3 +418,11 @@ export function countryName(alpha2) {
 export function newRecord(schema) {
   return mapValues(schema.properties, prop => prop.defaultValue)
 }
+
+export function applyFilterSchemaDefaults(filterSchema) {
+  return mapValues(filterSchema, (v, k) => (Object.assign({
+    label: k,
+    type: 'string',
+    operators: ['ilike', 'notilike', '=', '<>']
+  }, v || {})))
+}

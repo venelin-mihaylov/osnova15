@@ -1,8 +1,9 @@
 import React from 'react'
-import {Grid, Button, Modal, Menu, Dropdown} from 'semantic-ui-react'
+import {Grid, Button, Modal, Menu, Icon, Dropdown} from 'semantic-ui-react'
 import cx from 'classnames'
 import FilterBar from 'components/FilterBar'
 import ActiveFiltersList from 'components/ActiveFiltersList'
+import isEmpty from 'lodash/isEmpty'
 
 
 class ListToolbar extends React.Component {
@@ -72,6 +73,8 @@ class ListToolbar extends React.Component {
       filter,
     } = this.props
 
+    const isFilterApplied = !isEmpty(filter)
+
     return (<div>
 
       {this.state.isVisibleModalDelete && <Modal dimmer='blurring' size='small' open onClose={() => this.hideModalDelete()}>
@@ -100,11 +103,11 @@ class ListToolbar extends React.Component {
           <Menu.Item icon='add' content='Add' onClick={onAddClick} />
           <Menu.Item icon='edit' className={cx({disabled: !selectedId})} content='Edit' onClick={onEditClick} />
           <Menu.Item icon='erase' className={cx({disabled: !selectedId})} content='Erase' onClick={() => this.showModalDelete()} />
-          {filterSchema && <Menu.Item icon='search' content='Search' onClick={() => this.toggleSearchPanel()} />}
           {appendButtons && appendButtons}
         </Menu.Menu>
 
         <Menu.Menu position='right'>
+          {filterSchema && <Menu.Item icon={<Icon name='filter' color={isFilterApplied ? 'red' : 'black'} />} onClick={() => this.toggleSearchPanel()} />}
           <Dropdown as={Menu.Item} icon='toggle down'>
             <Dropdown.Menu>
               {[2, 5, 10, 100, 1000].map(v => (<Dropdown.Item onClick={() => onLimitChange(null, v)}>{v}</Dropdown.Item>))}

@@ -1,7 +1,7 @@
 import React from 'react'
 import {autobind} from 'core-decorators'
 import CRUDAct from 'constants/CRUDAct'
-import {calcNextPath} from 'utils/Util'
+import {calcNextPath, applyFilterSchemaDefaults} from 'utils/Util'
 import {push} from 'react-router-redux'
 import ListSort from 'utils/ListSort'
 import curry from 'lodash/curry'
@@ -110,6 +110,14 @@ export default class OsnovaListContainer extends React.Component {
     } = this.props
 
     return curry(ListSort.sortable)(act, orderBy, orderDirection)
+  }
+
+  /**
+   * shorthand
+   * @param filterSchema
+   */
+  applyFilterSchemaDefaults(filterSchema) {
+    return applyFilterSchemaDefaults(filterSchema)
   }
 
   baseFilter() {

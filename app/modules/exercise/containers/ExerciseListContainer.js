@@ -199,6 +199,12 @@ export default class ExerciseListContainer extends OsnovaListContainer {
     return columns
   }
 
+  filterSchema() {
+    return this.applyFilterSchemaDefaults({
+      name: null // defaults
+    })
+  }
+
   render() {
     return (<EntityList
       toolbarTitle='Exercises'
@@ -206,6 +212,7 @@ export default class ExerciseListContainer extends OsnovaListContainer {
         appendButtons: this.appendButtons()
       }}
       columns={this.columns()}
+      filterSchema={this.filterSchema()}
       {...this.props}
       {...(this.addProps())}
     />)
