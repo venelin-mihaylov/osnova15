@@ -1,5 +1,5 @@
 import React from 'react'
-import {Flag, Search, Icon, Button} from 'semantic-ui-react'
+import {Flag, Search, Button} from 'semantic-ui-react'
 import {countries} from 'country-data'
 import {autobind} from 'core-decorators'
 import isFunction from 'lodash/isFunction'

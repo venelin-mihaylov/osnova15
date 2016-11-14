@@ -29,8 +29,8 @@ const ItoNFieldSet = ({
 
   return (<fieldset style={{borderTop: '1px solid green', padding: '10px', width: '100%'}}>
     <legend>
-      <Button icon='add' onClick={onAdd} />
-      <Button icon='minus' onClick={onDeleteLast} />
+      <Button basic icon='add' onClick={onAdd} />
+      <Button basic icon='minus' onClick={onDeleteLast} />
       <h2 style={{paddingRight: '20px', display: 'inline'}}>{relTitle}</h2>
     </legend>
     {relData && relData.map((row, idx) => renderRecord({

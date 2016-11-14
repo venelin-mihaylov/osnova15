@@ -3,6 +3,7 @@ import {autobind} from 'core-decorators'
 import {connect} from 'react-redux'
 import EntityList from 'components/EntityList'
 import OsnovaListContainer from 'components/OsnovaListContainer'
+import {Icon} from 'semantic-ui-react'
 import {mapAct, mapListStateToProps, formatCountry} from 'utils/Util'
 
 const entity = 'matchCompetitor'
@@ -40,7 +41,7 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
           format: ({country}) => formatCountry(country)
         },
         props: {
-          width: 200
+          width: 100
         }
       }, {
         property: 'competitor',
@@ -49,6 +50,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         },
         cell: {
           format: ({firstName, lastName}) => `${firstName} ${lastName}`
+        },
+        props: {
+          width: 150
         }
       }, {
         property: 'competitor',
@@ -57,6 +61,9 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
         },
         cell: {
           format: ({email}) => `${email}`
+        },
+        props: {
+          width: 150
         }
       }, {
         property: 'squad',
@@ -64,34 +71,32 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
           label: 'Squad'
         },
         props: {
-          width: 20
+          width: 50
         }
       }, {
         property: 'gun',
         header: {
           label: 'Gun'
         },
-
+        props: {
+          width: 100
+        }
       }, {
         property: 'caliber',
         header: {
           label: 'Caliber'
         },
         props: {
-          width: 50
+          width: 80
         }
       }, {
         property: 'team',
         header: {
           label: 'Team'
         },
-
-      }, {
-        property: 'notes',
-        header: {
-          label: 'Notes'
-        },
-
+        props: {
+          width: 50
+        }
       }, {
         property: 'disqualified',
         header: {
@@ -109,7 +114,7 @@ export default class MatchCompetitorListContainer extends OsnovaListContainer {
           label: 'Fee'
         },
         cell: {
-          format: (v) => (v ? 'Yes' : 'No')
+          format: (v) => (v ? <Icon name='money' /> : null)
         },
         props: {
           width: 50

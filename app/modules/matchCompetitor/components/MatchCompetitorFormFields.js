@@ -28,7 +28,7 @@ const MatchCompetitorFormFields = ({
             }
           }
         },
-        buttons: <Button className='icon' onClick={onClickAddCompetitor}><Icon name='add user' /></Button>
+        buttons: <Button basic className='icon' onClick={onClickAddCompetitor}><Icon name='add user' /></Button>
       }
     }}
   />

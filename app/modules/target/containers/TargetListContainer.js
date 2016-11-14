@@ -74,7 +74,7 @@ export default class TargetListContainer extends OsnovaListContainer {
           label: 'Zones'
         },
         cell: {
-          format: (zones) => zones && zones.map(z => <div>{z.name} - {z.width} - {z.height}</div>)
+          format: (zones) => zones && zones.map(z => <div>{z.name} - width: {z.width} - height: {z.height}</div>)
         },
         props: {
           width: 200
