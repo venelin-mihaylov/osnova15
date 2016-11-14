@@ -14,7 +14,7 @@ tv4coerce.tv4.addFormat(formats)
 tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error, baseSchema) {
   const t = toArray(type)
   if (t.indexOf('null') !== -1 && data === null) {
-    return data
+    return null
   }
 
   if (t.indexOf('number') !== -1) {
@@ -27,7 +27,7 @@ tv4coerce.addFix(tv4coerce.errorCodes.INVALID_TYPE, function (data, type, error,
     if (typeof data === 'number') {
       return '' + data
     }
-    if (!data) { // for a string, it's ok to return cast null to ''
+    if (!data) { // for a string, it's ok to cast null to ''
       return ''
     }
   } else if (t.indexOf('boolean') !== -1) {
