@@ -59,13 +59,8 @@ export default class ExerciseService extends CRUDService {
     return await this.model.query().insertWithRelated(record)
   }
 
-  async createExerciseTargetZone({id: exerciseId}) {
-    if (!exerciseId) {
-      return
-    }
-
-    await this.model.raw(`delete from exercise_target_zone where "exerciseTargetId" IN (SELECT et.id from exercise_target et where et."exerciseId" = ${exerciseId})`)
-    await this.model.raw(`insert into exercise_target_zone
+  static queryInsertIntoExerciseTargetZone(exerciseId) {
+    return `insert into exercise_target_zone
     ( 
     "exerciseTargetId", 
     "targetId", 
@@ -89,35 +84,55 @@ export default class ExerciseService extends CRUDService {
     inner join exercise_target on exercise.id = exercise_target."exerciseId"
     inner join target on exercise_target."targetId" = target.id
     inner join target_zone on exercise_target."targetId" = target_zone."targetId"
-    where exercise.id = ${exerciseId};`)
-    await ExerciseTargetZone.query()
+    where exercise.id = ${exerciseId};`
+  }
+
+  static queryDeleteExistingExerciseTargetZone(exerciseId) {
+    return `delete from exercise_target_zone where "exerciseTargetId" IN (SELECT et.id from exercise_target et where et."exerciseId" = ${exerciseId})`
+  }
+
+  static querySelectExerciseTargets(exerciseId) {
+    return ExerciseTargetZone.query()
       .whereIn('exerciseTargetId', b => b.select('id')
         .from('exercise_target')
         .where('exerciseId', '=', exerciseId))
-      .then(records => Promise.all(records.map(r => ExerciseTargetZone.query()
-        .patchAndFetchById(r.id, {
-          score: targetZoneScore(r.distance, r.height, r.weight)
-        }))))
+  }
+
+  static queryUpdateExerciseTargetZoneScore(records) {
+    return Promise.all(records.map(r => ExerciseTargetZone.query()
+      .patchAndFetchById(r.id, {
+        score: targetZoneScore(r.distance, r.height, r.weight)
+      })))
+  }
+
+
+  async createExerciseTargetZone({id: exerciseId}) {
+    if (!exerciseId) {
+      return new Promise()
+    }
+
+    return await this.model.raw(ExerciseService.queryDeleteExistingExerciseTargetZone(exerciseId))
+      .then(this.model.raw(ExerciseService.queryInsertIntoExerciseTargetZone(exerciseId)))
+      .then(ExerciseService.querySelectExerciseTargets(exerciseId))
+      .then(ExerciseService.queryUpdateExerciseTargetZoneScore)
   }
 
   async doUpdate(id, {record}) {
-    await ItoN.updateParentAndRelations({
+    return await ItoN.updateParentAndRelations({
       id,
       input: record,
       ...(this.itonParams())
-    })
-    // return updated, the easy way
-    return await this.model.query()
+    }).then(this.model.query()
       .findById(id)
-      .eager(...ItoN.eagerRelation(this.itonParams()))
+      .eager(...ItoN.eagerRelation(this.itonParams())))
   }
 
   async afterUpdate(id, input, response) {
-    await this.createExerciseTargetZone(response)
+    return await this.createExerciseTargetZone(response)
   }
 
   async afterCreate(input, response) {
-    await this.createExerciseTargetZone(response)
+    return await this.createExerciseTargetZone(response)
   }
 
   /**
