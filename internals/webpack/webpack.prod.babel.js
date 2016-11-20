@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
+var failPlugin = require('webpack-fail-plugin');
+
 
 // PostCSS plugins
 const cssnext = require('postcss-cssnext');
@@ -40,6 +42,8 @@ module.exports = require('./webpack.base.babel')({
     }),
   ],
   plugins: [
+    // fail properly
+    failPlugin,
 
     // OccurrenceOrderPlugin is needed for long-term caching to work properly.
     // See http://mxs.is/googmv
