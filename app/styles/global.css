@@ -1,0 +1,8 @@
+label {
+  min-width: 250px !important;
+}
+
+div.ui.input {
+  display: block;
+  min-width: 500px !important;
+}

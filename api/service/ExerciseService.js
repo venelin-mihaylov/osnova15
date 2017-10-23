@@ -99,6 +99,9 @@ export default class ExerciseService extends CRUDService {
   }
 
   static queryUpdateExerciseTargetZoneScore(records) {
+    if (!records) {
+      return new Promise(() => {}, () => {})
+    }
     return Promise.all(records.map(r => ExerciseTargetZone.query()
       .patchAndFetchById(r.id, {
         score: targetZoneScore(r.distance, r.height, r.weight)
@@ -108,7 +111,7 @@ export default class ExerciseService extends CRUDService {
 
   async createExerciseTargetZone({id: exerciseId}) {
     if (!exerciseId) {
-      return new Promise()
+      return new Promise(() => {}, () => {})
     }
 
     return await this.model.raw(ExerciseService.queryDeleteExistingExerciseTargetZone(exerciseId))
@@ -128,7 +131,7 @@ export default class ExerciseService extends CRUDService {
   }
 
   async afterUpdate(id, input, response) {
-    return await this.createExerciseTargetZone(response)
+    return await this.createExerciseTargetZone({id})
   }
 
   async afterCreate(input, response) {

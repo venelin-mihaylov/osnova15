@@ -1,6 +1,6 @@
-create user tcs with password 'tcs';
-create database tcs;
-grant all privileges on database tcs to tcs;
+#create user tcs with password 'tcs';
+#create database tcs;
+#grant all privileges on database tcs to tcs;
 
 drop table users;
 create table users (id serial PRIMARY KEY, email varchar(255), password varchar(32));

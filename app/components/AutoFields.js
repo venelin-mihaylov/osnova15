@@ -36,6 +36,7 @@ export default class AutoFields extends React.Component {
   }
 
   static mapPropsDateField = {
+    inline: true,
     ...controls.text,
     selected: ({modelValue}) => (modelValue ? moment(modelValue) : null),
     onChange: ({onChange}) => (v) => onChange(v ? v.format() : null),
@@ -47,15 +48,18 @@ export default class AutoFields extends React.Component {
     value: ({viewValue, defaultValue}) => viewValue || defaultValue,
     onChange: ({onChange}) => (e, {value}) => onChange(value),
     error: ({fieldValue: {valid}}) => !valid,
+    inline: true,
   }
 
   static mapPropsCheckbox = {
     ...controls.checkbox,
+    inline: true,
     error: ({fieldValue: {valid}}) => !valid
   }
 
   static mapPropsText = {
     ...controls.text,
+    inline: true,
     error: ({fieldValue: {valid}}) => !valid
   }
 
