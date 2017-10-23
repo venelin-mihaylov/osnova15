@@ -7,7 +7,6 @@
   "plugins": [
     "transform-runtime",
     "transform-decorators-legacy",
-    "transform-react-display-name",
     "transform-es2015-parameters",
     "transform-es2015-destructuring"
   ],
@@ -19,7 +18,6 @@
       "plugins": [
         "transform-react-remove-prop-types",
         "transform-react-constant-elements",
-        "transform-react-inline-elements",
         "jsx-control-statements"
       ]
     }
