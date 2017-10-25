@@ -1,10 +1,8 @@
 # About #
 postgres + node/js + react full-stack prototype based on react-boilerplate
 ## Features ##
- * Backend
   * Generic CRUD REST endpoints for the app db models (CrudRest)
   * docx template generation
- * Frontend
   * Generic UI pattern for CRUD for models, with ability to customize only specific fields
   * Generic UI patterns for handling 1:N N:M entity relations
   * Custom filters for lists
